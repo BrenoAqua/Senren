@@ -1,29 +1,25 @@
 # Senren
-My personal Notetype for Anki
+Senren is a customizable Anki note type for Japanese, offering pitch accent styling, word frequency, NSFW image blurring, a dark mode toggle, and support for multiple dictionaries with easy switching between definitions.
 
-## Anki Addons
+![Exemple](https://github.com/BrenoAqua/Senren/raw/main/images/example.gif)
 
-### **Must Have**  
-- [AnkiConnect](https://ankiweb.net/shared/info/2055492159) `2055492159`  
+## Festures
 
-### **Recommended**  
-- [Review Heatmap](https://ankiweb.net/shared/info/1771074083) `1771074083`  
-- [Advanced Browser](https://ankiweb.net/shared/info/874215009) `874215009`  
-- [Adjust Sound Volume](https://ankiweb.net/shared/info/2123044452) `2123044452`  
-- [AutoReorder](https://ankiweb.net/shared/info/757527607) `757527607`  
-- [Local Audio Server for Yomichan](https://ankiweb.net/shared/info/1045800357) `1045800357`  
-- [AnkiWebView Inspector](https://ankiweb.net/shared/info/31746032) `31746032`  
-- [Auto-refresh browser](https://ankiweb.net/shared/info/746398558) `746398558`  
-- [Batch Editing](https://ankiweb.net/shared/info/291119185) `291119185`  
-- [Edit Field During Review](https://ankiweb.net/shared/info/1020366288) `1020366288`  
-- [Kanji Grid Kuuube](https://ankiweb.net/shared/info/1610304449) `1610304449`  
-- [Speed Focus Mode](https://ankiweb.net/shared/info/1046608507) `1046608507`  
+### Automatic Colors for Every Pitch Accent
+- **Heiban** - blue
+- **Atamadaka** - red
+- **Nakadaka** - orange
+- **Odaka** - green
+- **Kifuku** - purple
 
-### **Aaesthetics**  
-- [Colorful Tags (+ Hierarchical Tags)](https://ankiweb.net/shared/info/594329229) `594329229`  
-- [Large and Colorful Buttons](https://ankiweb.net/shared/info/1829090218) `1829090218`  
-- [Pass/Fail 2 (Remove Easy/Hard)](https://ankiweb.net/shared/info/876946123) `876946123`  
-- [True Retention](https://ankiweb.net/shared/info/613684242) `613684242`  
+### Dark Mode
+A button that changes the default background to black. It remembers the last mode used.
+
+### NSFW Blurring Tag
+Simply add the tag `NSFW` to cards with images that need to be blurred.
+
+### Definition Toggle Buttons
+Switch between definitions by pressing the left or right button beside the displayed definition.
 
 ## Yomitan
 
@@ -46,7 +42,7 @@ My personal Notetype for Anki
 | freqSort      | `{frequency-harmonic-rank}`   |            |
 
 ### Handlebars
-It's not necessary, this notetype works perfectly fine without them, but it's here in case you want to use it.
+It's not necessary, this note type works perfectly fine without them, but it's here in case you want to use it.
 
 <details>
 <summary>Clique para expandir o código</summary>
@@ -536,4 +532,28 @@ It's not necessary, this notetype works perfectly fine without them, but it's he
 </details>
 
 ### Result Display
-Group term-reading pairs or Group related terms is necessary in order to use `{glossary-brief}` in the glossary field 
+Group term-reading pairs or Group related terms is necessary in order to use `{glossary-brief}` in the glossary field.
+![Result Display](images/Result%20Display.png)
+## Anki Addons
+
+### **Must Have**  
+- [AnkiConnect](https://ankiweb.net/shared/info/2055492159) `2055492159`  
+
+### **Recommended**  
+- [Review Heatmap](https://ankiweb.net/shared/info/1771074083) `1771074083`  
+- [Advanced Browser](https://ankiweb.net/shared/info/874215009) `874215009`  
+- [Adjust Sound Volume](https://ankiweb.net/shared/info/2123044452) `2123044452`  
+- [AutoReorder](https://ankiweb.net/shared/info/757527607) `757527607`  
+- [Local Audio Server for Yomichan](https://ankiweb.net/shared/info/1045800357) `1045800357`  
+- [AnkiWebView Inspector](https://ankiweb.net/shared/info/31746032) `31746032`  
+- [Auto-refresh browser](https://ankiweb.net/shared/info/746398558) `746398558`  
+- [Batch Editing](https://ankiweb.net/shared/info/291119185) `291119185`  
+- [Edit Field During Review](https://ankiweb.net/shared/info/1020366288) `1020366288`  
+- [Kanji Grid Kuuube](https://ankiweb.net/shared/info/1610304449) `1610304449`  
+- [Speed Focus Mode](https://ankiweb.net/shared/info/1046608507) `1046608507`  
+
+### **Aesthetics**  
+- [Colorful Tags (+ Hierarchical Tags)](https://ankiweb.net/shared/info/594329229) `594329229`  
+- [Large and Colorful Buttons](https://ankiweb.net/shared/info/1829090218) `1829090218`  
+- [Pass/Fail 2 (Remove Easy/Hard)](https://ankiweb.net/shared/info/876946123) `876946123`  
+- [True Retention](https://ankiweb.net/shared/info/613684242) `613684242`  
