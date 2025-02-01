@@ -58,7 +58,7 @@ Switch between definitions by pressing the left or right button on either side o
 It's not necessary, this note type works perfectly fine without them, but it's here in case you want to use it.
 
 <details>
-<summary>Clique para expandir o código</summary>
+<summary>Click here to expand</summary>
 
 ```handlebars
 {{#*inline "glossary-single"}}
