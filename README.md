@@ -551,9 +551,9 @@ Group term-reading pairs or Group related terms is necessary in order to use `{g
 - [Edit Field During Review](https://ankiweb.net/shared/info/1020366288) `1020366288`  
 - [Kanji Grid Kuuube](https://ankiweb.net/shared/info/1610304449) `1610304449`  
 - [Speed Focus Mode](https://ankiweb.net/shared/info/1046608507) `1046608507`  
+- [Pass/Fail 2 (Remove Easy/Hard)](https://ankiweb.net/shared/info/876946123) `876946123`  
 
 ### **Aesthetics**  
 - [Colorful Tags (+ Hierarchical Tags)](https://ankiweb.net/shared/info/594329229) `594329229`  
 - [Large and Colorful Buttons](https://ankiweb.net/shared/info/1829090218) `1829090218`  
-- [Pass/Fail 2 (Remove Easy/Hard)](https://ankiweb.net/shared/info/876946123) `876946123`  
 - [True Retention](https://ankiweb.net/shared/info/613684242) `613684242`  
