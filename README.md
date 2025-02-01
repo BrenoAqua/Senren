@@ -1,1 +1,1 @@
-"# Senren" 
+My personal Notetype for Anki
