@@ -13,13 +13,13 @@
 - **Kifuku** - purple
 
 ### Dark Mode
-A button that changes the default background to black. It remembers the last mode used.
+Easily toggle between default and dark mode. The note type remembers your last selection.
 
-### NSFW Blurring Tag
-Simply add the tag `NSFW` to cards with images that need to be blurred.
+### NSFW Image Blurring
+Simply add the `NSFW` tag to any card to automatically blur its image.
 
-### Definition Toggle Buttons
-Switch between definitions by pressing the left or right button beside the displayed definition.
+### Definition Toggle
+Switch between definitions by pressing the left or right button on either side of the displayed definition.
 
 ## Yomitan
 
