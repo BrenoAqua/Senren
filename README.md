@@ -21,6 +21,19 @@ Simply add the `NSFW` tag to any card to automatically blur its image.
 ### Definition Toggle
 Switch between definitions by pressing the left or right button on either side of the displayed definition.
 
+### Stylization Changes for Jitendex
+- **Example Sentences**:
+  - Adjusted font size and added hover effects for smooth transitions.
+  - Translation fades in on hover.
+- **Glossary**:
+  - Flex layout with `|` separators between items.
+- **Keywords**:
+  - Highlighted in `#FCFF61` for better visibility.
+- **Attribution & Forms**:
+  - Hidden.
+- **JavaScript**:
+  - Replaced `color-mix` with `#FCFF61` for consistent keyword colors.
+
 ## Yomitan
 
 ### Fields
