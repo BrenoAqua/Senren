@@ -3,7 +3,7 @@
 
 ![Exemple](https://github.com/BrenoAqua/Senren/raw/main/images/example.gif)
 
-## Festures
+## Features
 
 ### Automatic Colors for Every Pitch Accent
 - **Heiban** - blue
