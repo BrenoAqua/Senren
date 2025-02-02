@@ -545,7 +545,8 @@ It's not necessary, this note type works perfectly fine without them, but it's h
 </details>
 
 ### Result Display
-Group term-reading pairs or Group related terms is necessary in order to use `{glossary-brief}` in the glossary field.
+**Group term-reading pairs** or **Group related terms** is necessary in order to use the `glossary` field. Otherwise, you will only get the main definition.
+
 ![Result Display](images/Result%20Display.png)
 ## Anki Addons
 
