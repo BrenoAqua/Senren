@@ -30,8 +30,6 @@ View images in a larger and more focused view by clicking on them. Close by clic
   - Translation and furigana fades in and out on hover.
 - **Glossary**:
   - Flex layout with `|` separators between items.
-- **Keywords**:
-  - Highlighted in `#FCFF61` for better visibility.
 - **Attribution & Forms**:
   - Hidden.
 
