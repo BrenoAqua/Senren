@@ -31,8 +31,6 @@ Switch between definitions by pressing the left or right button on either side o
   - Highlighted in `#FCFF61` for better visibility.
 - **Attribution & Forms**:
   - Hidden.
-- **JavaScript**:
-  - Replaced `color-mix` with `#FCFF61` for consistent keyword colors.
 
 ## Yomitan
 
