@@ -6,11 +6,11 @@
 ## Features
 
 ### Automatic Colors for Every Pitch Accent
-- **Heiban** - blue
-- **Atamadaka** - red
-- **Nakadaka** - orange
-- **Odaka** - green
-- **Kifuku** - purple
+- 🔵 **Heiban** 
+- 🔴 **Atamadaka**
+- 🟠 **Nakadaka**
+- 🟢 **Odaka**
+- 🟣 **Kifuku**
 
 ### Dark Mode
 Easily toggle between default and dark mode.
@@ -19,18 +19,24 @@ Easily toggle between default and dark mode.
 Simply add the `NSFW` tag to any card to automatically blur its image.
 
 ### Definition Toggle
-Switch between definitions by pressing the left or right button on either side of the displayed definition.
+Switch between definitions by pressing the left or right button on either side of the displayed definition. (This will be hidden if there is only one definition.)
+
+### Picture Lightbox
+View images in a larger and more focused view by clicking on them. Close by clicking anywhere, or pressing ESC.
 
 ### Stylization Changes for Jitendex
 - **Example Sentences**:
   - Adjusted font size and added hover effects for smooth transitions.
-  - Translation fades in on hover.
+  - Translation and furigana fades in and out on hover.
 - **Glossary**:
   - Flex layout with `|` separators between items.
 - **Keywords**:
   - Highlighted in `#FCFF61` for better visibility.
 - **Attribution & Forms**:
   - Hidden.
+
+### Sentence meanings with hover, support for frequency sorting, a frequency button to see all frequencies, etc. Everything is easily customizable.
+Download it from here: [v1.4](https://github.com/BrenoAqua/Senren/releases/tag/v1.4)
 
 ## Yomitan
 
