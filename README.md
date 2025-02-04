@@ -13,7 +13,7 @@
 - **Kifuku** - purple
 
 ### Dark Mode
-Easily toggle between default and dark mode. The note type remembers your last selection.
+Easily toggle between default and dark mode.
 
 ### Image Blurring
 Simply add the `NSFW` tag to any card to automatically blur its image.
