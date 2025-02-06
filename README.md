@@ -22,7 +22,12 @@ Simply add the `NSFW` tag to any card to automatically blur its image.
 Switch between definitions by pressing the left or right button on either side of the displayed definition. (This will be hidden if there is only one definition.)
 
 ### Picture Lightbox
-View images in a larger and more focused view by clicking on them. Close by clicking anywhere, or pressing ESC.
+View images in a larger and more focused view by clicking on them. Close by clicking outside, or pressing ESC.
+- **Zoom**
+  - The zoom will follow the cursor. You can grab the image to move it.
+- **Support for multiples images**
+  - Only the first one will appear in the default picture container.
+  - Switch between images by pressing the left arrow or right arrow (there is no button).
 
 ### Stylization Changes for Jitendex
 - **Example Sentences**:
@@ -34,7 +39,7 @@ View images in a larger and more focused view by clicking on them. Close by clic
   - Hidden.
 
 ### Sentence meanings with hover, support for frequency sorting, a frequency button to see all frequencies, etc. Everything is easily customizable.
-Download it from here: [v1.4](https://github.com/BrenoAqua/Senren/releases/tag/v1.4)
+Download it from here: [v1.6](https://github.com/BrenoAqua/Senren/releases/tag/v1.6)
 
 ## Yomitan
 
