@@ -43,7 +43,7 @@
   - Hidden.
 
 ### Sentence meanings with hover, support for frequency sorting, a frequency button to see all frequencies, etc. Everything is easily customizable.
-Download it from here: [v1.6](https://github.com/BrenoAqua/Senren/releases/tag/v1.6)
+Download it from here: [v1.6](https://github.com/BrenoAqua/Senren/releases/download/v1.6/Senren.apkg)
 
 ## Yomitan
 
