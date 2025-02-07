@@ -1,7 +1,7 @@
 # Senren
 [Senren](https://github.com/BrenoAqua/Senren/releases/tag/v1.0) is a customizable [Anki](https://apps.ankiweb.net/) note type for Japanese, offering pitch accent styling, word frequency, image blurring, a dark mode toggle, and support for multiple dictionaries with easy switching between definitions.
 
-![Exemple](https://github.com/BrenoAqua/Senren/blob/main/images/example%20v1.5.gif)
+![Example](https://github.com/BrenoAqua/Senren/blob/main/images/example%20v1.5.gif)
 
 ## Features
 
@@ -13,21 +13,25 @@
 - 🟣 **Kifuku**
 
 ### Dark Mode
-Easily toggle between default and dark mode.
+- Easily toggle between default and dark mode.
 
 ### Image Blurring
-Simply add the `NSFW` tag to any card to automatically blur its image.
+- Simply add the `NSFW` tag to any card to automatically blur its image.
 
 ### Definition Toggle
-Switch between definitions by pressing the left or right button on either side of the displayed definition. (This will be hidden if there is only one definition.)
+- Switch between definitions by pressing the left or right button on either side of the displayed definition. (This will be hidden if there is only one definition.)
+
+![Example](https://github.com/BrenoAqua/Senren/blob/main/images/v1.6.gif)
 
 ### Picture Lightbox
-View images in a larger and more focused view by clicking on them. Close by clicking outside, or pressing ESC.
-- **Zoom**
+  - View images in a larger and more focused view by clicking on them. Close by clicking outside, or pressing ESC.
+- Zoom
   - The zoom will follow the cursor. You can grab the image to move it.
-- **Support for multiples images**
+- Support for multiples images
   - Only the first one will appear in the default picture container.
   - Switch between images by pressing the left arrow or right arrow (there is no button).
+
+![Example](https://github.com/BrenoAqua/Senren/blob/main/images/v1.6%20lightbox.gif)
 
 ### Stylization Changes for Jitendex
 - **Example Sentences**:
