@@ -580,5 +580,4 @@ It's not necessary, this note type works perfectly fine without them, but it's h
 
 ### **Aesthetics**  
 - [Colorful Tags (+ Hierarchical Tags)](https://ankiweb.net/shared/info/594329229) `594329229`  
-- [Large and Colorful Buttons](https://ankiweb.net/shared/info/1829090218) `1829090218`  
 - [True Retention](https://ankiweb.net/shared/info/613684242) `613684242`  
