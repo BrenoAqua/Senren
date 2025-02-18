@@ -12,6 +12,8 @@
 - 🟢 **Odaka**
 - 🟣 **Kifuku**
 
+### Pitch Position with Pitch colors
+
 ### Dark Mode
 - Easily toggle between default and dark mode.
 
@@ -19,7 +21,7 @@
 - Simply add the `NSFW` tag to any card to automatically blur its image.
 
 ### Definition Toggle
-- Switch between definitions by pressing the left or right button on either side of the displayed definition. (This will be hidden if there is only one definition.)
+- Switch between definitions by pressing the left or right button on either side of the displayed definition (this option will be hidden if there is only one definition). You can also switch using the left and right arrow keys.
 
 ![Example](https://github.com/BrenoAqua/Senren/blob/main/images/v1.6.gif)
 
@@ -29,7 +31,7 @@
   - The zoom will follow the cursor. You can grab the image to move it.
 - Support for multiples images
   - Only the first one will appear in the default picture container.
-  - Switch between images by pressing the left arrow or right arrow (there is no button).
+  - Switch between images by pressing the left or right arrow keys (there is no button).
 
 ![Example](https://github.com/BrenoAqua/Senren/blob/main/images/v1.6%20lightbox.gif)
 
@@ -575,9 +577,3 @@ It's not necessary, this note type works perfectly fine without them, but it's h
 - [Batch Editing](https://ankiweb.net/shared/info/291119185) `291119185`  
 - [Edit Field During Review](https://ankiweb.net/shared/info/1020366288) `1020366288`  
 - [Kanji Grid Kuuube](https://ankiweb.net/shared/info/1610304449) `1610304449`  
-- [Speed Focus Mode](https://ankiweb.net/shared/info/1046608507) `1046608507`  
-- [Pass/Fail 2 (Remove Easy/Hard)](https://ankiweb.net/shared/info/876946123) `876946123`  
-
-### **Aesthetics**  
-- [Colorful Tags (+ Hierarchical Tags)](https://ankiweb.net/shared/info/594329229) `594329229`  
-- [True Retention](https://ankiweb.net/shared/info/613684242) `613684242`  
