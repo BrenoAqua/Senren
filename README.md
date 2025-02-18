@@ -15,7 +15,8 @@
 ### Pitch Position with Pitch colors
 
 ### Dark Mode
-- Easily toggle between default and dark mode.
+This differs from Anki's default theme.
+- Easily toggle between the default theme (light or original dark mode) and dark mode with a black background.
 
 ### Image Blurring
 - Simply add the `NSFW` tag to any card to automatically blur its image.
@@ -44,7 +45,10 @@
 - **Attribution & Forms**:
   - Hidden.
 
-### Sentence meanings with hover, support for frequency sorting, a frequency button to see all frequencies, etc. Everything is easily customizable.
+### Others
+- A collapsible list for showing frequency of words.
+- English translations appear when hovering over Japanese sentences (only when available), with smooth transitions.
+
 Download it from here: [v1.8](https://github.com/BrenoAqua/Senren/releases/download/v1.8/Senren.apkg)
 
 ## Yomitan
