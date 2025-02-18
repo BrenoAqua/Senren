@@ -48,6 +48,7 @@ This differs from Anki's default theme.
 ### Others
 - A collapsible list for showing frequency of words.
 - English translations appear when hovering over Japanese sentences (only when available), with smooth transitions.
+- ETC
 
 Download it from here: [v1.8](https://github.com/BrenoAqua/Senren/releases/download/v1.8/Senren.apkg)
 
