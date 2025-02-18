@@ -50,7 +50,7 @@ This differs from Anki's default theme.
 - English translations appear when hovering over Japanese sentences (only when available), with smooth transitions.
 - ETC
 
-Download it from here: [v1.8](https://github.com/BrenoAqua/Senren/releases/download/v1.9/Senren.apkg)
+Download it from here: [v1.9](https://github.com/BrenoAqua/Senren/releases/download/v1.9/Senren.apkg)
 
 ## Yomitan
 
