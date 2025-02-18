@@ -59,6 +59,7 @@ Download it from here: [v1.8](https://github.com/BrenoAqua/Senren/releases/downl
 |---------------|-------------------------------|------------|
 | word          | `{expression}`                |            |
 | sentence      | `{cloze-prefix}<span class="highlight">{cloze-body}</span>{cloze-suffix}` |            |
+| sentenceFurigana      |                       |            |
 | sentenceEng   |                               | Leave it empty. |
 | reading       | `{pitch-accents}`             | Change to `{reading}` if you don't want pitch accents. |
 | definition    | `{single-glossary-jitendexorg-2025-01-27-brief}` | It's where you put your main dictionary, but it depends on its version. |
@@ -70,6 +71,7 @@ Download it from here: [v1.8](https://github.com/BrenoAqua/Senren/releases/downl
 | pitch         | `{pitch-accent-categories}`   |            |
 | frequency     | `{frequencies}`               |            |
 | freqSort      | `{frequency-harmonic-rank}`   |            |
+| miscInfo      |                               |            |
 
 ### Handlebars
 It's not necessary, this note type works perfectly fine without them, but it's here in case you want to use it.
