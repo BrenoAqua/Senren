@@ -583,6 +583,7 @@ Paste this into [AutoReorders](https://ankiweb.net/shared/info/757527607)'s sett
 }
 ```
 Make sure the option "Sort by this field in the browser" is checked for the `freqSort` field.
+
 ![Senren_note type](https://github.com/user-attachments/assets/86a862fd-56b4-4069-9d12-c5d2410b45f0)
 
 ### Addons
