@@ -48,6 +48,7 @@ This differs from Anki's default theme.
 ### Others
 - A collapsible list for showing frequency of words.
 - English translations appear when hovering over Japanese sentences (only when available), with smooth transitions.
+- Support for frequency sort.
 - ETC
 
 Download it from here: [v1.9](https://github.com/BrenoAqua/Senren/releases/download/v1.9/Senren.apkg)
@@ -72,10 +73,10 @@ Download it from here: [v1.9](https://github.com/BrenoAqua/Senren/releases/downl
 | pitch         | `{pitch-accent-categories}`   |            |
 | frequency     | `{frequencies}`               |            |
 | freqSort      | `{frequency-harmonic-rank}`   |            |
-| miscInfo      |                               |            |
+| miscInfo      | `{document-title}`            | Leave it empty if you use MPVacious or another tool with this function. |
 
 ### Handlebars
-It's not necessary, this note type works perfectly fine without them, but it's here in case you want to use it.
+It's not necessary, as this note type works perfectly fine without them, but I recommend it.
 
 <details>
 <summary>Click here to expand</summary>
@@ -568,19 +569,36 @@ It's not necessary, this note type works perfectly fine without them, but it's h
 **Group term-reading pairs** or **Group related terms** is necessary in order to use the `glossary` field. Otherwise, you will only get the main definition.
 
 ![Result Display](images/Result%20Display.png)
-## Anki Addons
+## Anki
 
-### **Must Have**  
+### Frequency Sorting
+
+Paste this into [AutoReorders](https://ankiweb.net/shared/info/757527607)'s settings to automatically sort your new cards by frequency using the `freqSort` field. It will reorder them every time Anki is opened.
+```AutoReorder
+{
+    "search_to_sort": "deck:Senren is:new",
+    "shift_existing": true,
+    "sort_field": "freqSort",
+    "sort_reverse": false
+}
+```
+Make sure the option "Sort by this field in the browser" is checked for the `freqSort` field.
+![Senren_note type](https://github.com/user-attachments/assets/86a862fd-56b4-4069-9d12-c5d2410b45f0)
+
+### Addons
+
+**Must Have**  
 - [AnkiConnect](https://ankiweb.net/shared/info/2055492159) `2055492159`  
 
-### **Recommended**  
-- [Review Heatmap](https://ankiweb.net/shared/info/1771074083) `1771074083`  
-- [Advanced Browser](https://ankiweb.net/shared/info/874215009) `874215009`  
-- [Adjust Sound Volume](https://ankiweb.net/shared/info/2123044452) `2123044452`  
-- [AutoReorder](https://ankiweb.net/shared/info/757527607) `757527607`  
-- [Local Audio Server for Yomichan](https://ankiweb.net/shared/info/1045800357) `1045800357`  
-- [AnkiWebView Inspector](https://ankiweb.net/shared/info/31746032) `31746032`  
-- [Auto-refresh browser](https://ankiweb.net/shared/info/746398558) `746398558`  
-- [Batch Editing](https://ankiweb.net/shared/info/291119185) `291119185`  
-- [Edit Field During Review](https://ankiweb.net/shared/info/1020366288) `1020366288`  
-- [Kanji Grid Kuuube](https://ankiweb.net/shared/info/1610304449) `1610304449`  
+**Recommended**  
+- [AJT Japanese](https://ankiweb.net/shared/info/1344485230) `200813220` or [AJT Japanese for JP Mining Note](https://ankiweb.net/shared/info/200813220) `200813220`
+- [Local Audio Server for Yomichan](https://ankiweb.net/shared/info/1045800357) `1045800357`
+- [Edit Field During Review](https://ankiweb.net/shared/info/1020366288) `1020366288`
+- [AnkiWebView Inspector](https://ankiweb.net/shared/info/31746032) `31746032`
+- [Adjust Sound Volume](https://ankiweb.net/shared/info/2123044452) `2123044452`
+- [Auto-refresh browser](https://ankiweb.net/shared/info/746398558) `746398558`
+- [Advanced Browser](https://ankiweb.net/shared/info/874215009) `874215009`
+- [Kanji Grid Kuuube](https://ankiweb.net/shared/info/1610304449) `1610304449`
+- [Review Heatmap](https://ankiweb.net/shared/info/1771074083) `1771074083`
+- [Batch Editing](https://ankiweb.net/shared/info/291119185) `291119185`
+- [AutoReorder](https://ankiweb.net/shared/info/757527607) `757527607`
