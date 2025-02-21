@@ -13,7 +13,6 @@
 - 🟣 **Kifuku**
 
 ### Dark Mode
-This differs from Anki's default theme.
 - Easily toggle between the default theme (light or original dark mode) and dark mode with a black background.
 
 ### Image Blurring
