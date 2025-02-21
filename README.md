@@ -46,7 +46,7 @@ This differs from Anki's default theme.
 ### Others
 - A collapsible list for showing frequency of words.
 - English translations appear when hovering over Japanese sentences (only when available).
-- Support for frequency sort.
+- Support for sorting by frequency.
 - Hovering over the Pitch Accent "Position" displays the name of the associated pitch accent category.
 
 Download it from here: [v2.0](https://github.com/BrenoAqua/Senren/releases/download/v2.0/Senren.apkg)
