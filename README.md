@@ -5,14 +5,12 @@
 
 ## Features
 
-### Automatic Colors for Every Pitch Accent
+### Automatic Colors for Every Pitch Accent + Pitch Position
 - 🔵 **Heiban** 
 - 🔴 **Atamadaka**
 - 🟠 **Nakadaka**
 - 🟢 **Odaka**
 - 🟣 **Kifuku**
-
-### Pitch Position with Pitch colors
 
 ### Dark Mode
 This differs from Anki's default theme.
