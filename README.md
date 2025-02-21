@@ -49,7 +49,7 @@ This differs from Anki's default theme.
 - Support for frequency sort.
 - ETC
 
-Download it from here: [v1.9](https://github.com/BrenoAqua/Senren/releases/download/v1.9/Senren.apkg)
+Download it from here: [v2.0](https://github.com/BrenoAqua/Senren/releases/download/v2.0/Senren.apkg)
 
 ## Yomitan
 
