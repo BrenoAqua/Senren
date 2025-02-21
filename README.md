@@ -59,7 +59,7 @@ Download it from here: [v2.0](https://github.com/BrenoAqua/Senren/releases/downl
 |---------------|-------------------------------|------------|
 | word          | `{expression}`                |            |
 | sentence      | `{cloze-prefix}<span class="highlight">{cloze-body}</span>{cloze-suffix}` |            |
-| sentenceFurigana      |                       |            |
+| sentenceFurigana      |                       | I recommend using it with [AJT Japanese](https://ankiweb.net/shared/info/1344485230) `200813220` or [AJT Japanese for JP Mining Note](https://ankiweb.net/shared/info/200813220) `200813220` |
 | sentenceEng   |                               | Leave it empty. |
 | reading       | `{pitch-accents}`             | Change to `{reading}` if you don't want pitch accents. |
 | definition    | `{single-glossary-jitendexorg-2025-01-27-brief}` | It's where you put your main dictionary, but it depends on its version. |
