@@ -16,37 +16,38 @@
 - Easily toggle between the default theme (light or original dark mode) and dark mode with a black background.
 
 ### Image Blurring
-- Simply add the `NSFW` tag to any card to automatically blur its image.
+- Add the `NSFW` tag to any card to automatically blur its image.
 
 ### Definition Toggle
-- Switch between definitions by pressing the left or right button on either side of the displayed definition (this option will be hidden if there is only one definition). You can also switch using the left and right arrow keys.
+- Switch between definitions by pressing the left or right button on either side of the displayed definition (this option is hidden if only one definition is available). You can also switch using the left and right arrow keys.
 
 ![Example](https://github.com/BrenoAqua/Senren/blob/main/images/v1.6.gif)
 
 ### Picture Lightbox
-  - View images in a larger and more focused view by clicking on them. Close by clicking outside, or pressing ESC.
+  - Click the image to view it in a larger, more focused display. Close it by clicking outside or pressing ESC.
 - Zoom
-  - The zoom will follow the cursor. You can grab the image to move it.
-- Support for multiples images
-  - Only the first one will appear in the default picture container.
-  - Switch between images by pressing the left or right arrow keys (there is no button).
+  - The zoom follows the cursor. You can click and drag to move the image.
+- Support for multiple images
+  - Only the first image appears in the default picture container.
+  - Switch between images using the left and right arrow keys (no buttons available).
 
 ![Example](https://github.com/BrenoAqua/Senren/blob/main/images/v1.6%20lightbox.gif)
 
 ### Stylization Changes for Jitendex
 - **Example Sentences**:
   - Adjusted font size and added hover effects for smooth transitions.
-  - Translation and furigana fades in and out on hover.
+  - Translation and furigana fade in and out on hover.
 - **Glossary**:
   - Flex layout with `|` separators between items.
 - **Attribution & Forms**:
   - Hidden.
 
 ### Others
-- A collapsible list for showing frequency of words.
-- English translations appear when hovering over Japanese sentences (only when available).
-- Support for sorting by frequency.
-- Hovering over the Pitch Accent "Position" displays the name of the associated pitch accent category.
+- A collapsible list to show **Word Frequencies**.
+- **English translations** appear when hovering over Japanese sentences (only if available).
+- Support for **Sorting by Frequency**.
+- Hovering over the **Pitch Accent "Position"** displays the name of the associated pitch accent category.
+- **Mobile support:** I haven’t tested it on AnkiMobile, but it works fine on AnkiDroid.
 
 Download it from here: [v2.0](https://github.com/BrenoAqua/Senren/releases/download/v2.0/Senren.apkg)
 
@@ -562,8 +563,20 @@ It's not necessary, as this note type works perfectly fine without them, but I r
 
 </details>
 
+Explanation:
+```
+{{#*inline "pitch-accents"}}
+    {{#if (op ">" pitchCount 0)}}
+        {{~> pitch-accent-list format='text'~}}
+    {{else}}
+        {{~definition.reading~}}
+    {{/if}}
+{{/inline}}
+```
+This Handlebar template checks for Pitch Accents in a word. If present, it displays them. If not, it shows the word's reading to ensure it's available even without Pitch Accents.
+
 ### Result Display
-**Group term-reading pairs** or **Group related terms** is necessary in order to use the `glossary` field. Otherwise, you will only get the main definition.
+**Group term-reading pairs** or **Group related terms** is necessary to use the `glossary` field. Otherwise, only the main definition will be shown.
 
 ![Result Display](images/Result%20Display.png)
 ## Anki
