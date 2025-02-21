@@ -25,9 +25,9 @@
 
 ### Picture Lightbox
   - Click the image to view it in a larger, more focused display. Close it by clicking outside or pressing ESC.
-- Zoom
+- **Zoom**
   - The zoom follows the cursor. You can click and drag to move the image.
-- Support for multiple images
+- **Support for multiple images**
   - Only the first image appears in the default picture container.
   - Switch between images using the left and right arrow keys (no buttons available).
 
