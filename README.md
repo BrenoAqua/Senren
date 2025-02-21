@@ -47,7 +47,7 @@
 - **English translations** appear when hovering over Japanese sentences (only if available).
 - Support for **Sorting by Frequency**.
 - Hovering over the **Pitch Accent "Position"** displays the name of the associated pitch accent category.
-- **Mobile support:** I haven’t tested it on AnkiMobile, but it works fine on AnkiDroid.
+- **Mobile support:** It has not been tested on AnkiMobile, but it works well on AnkiDroid.
 
 Download it from here: [v2.0](https://github.com/BrenoAqua/Senren/releases/download/v2.0/Senren.apkg)
 
