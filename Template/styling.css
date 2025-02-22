@@ -1,0 +1,849 @@
+/* Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Klee+One:wght@400;600&family=Noto+Sans+JP:wght@100..900&family=Noto+Serif+JP:wght@200..900&display=swap");
+
+@font-face {
+  font-family: klee;
+  src: url("_KleeOne-SemiBold.ttf");
+}
+
+@font-face {
+  font-family: notosansjp;
+  src: url("_NotoSansJP.ttf");
+}
+
+@font-face {
+  font-family: notoserifjp;
+  src: url("_NotoSerifJP.ttf");
+}
+
+/* Main settings */
+:root {
+  font-size: 25px;
+  --red: #fd5c5c;
+  --blue: #89daff;
+  --orange: #fca311;
+  --green: #4e937a;
+  --purple: #afa2ff;
+  --darkbold: #FCFF61;
+  --lightbold: #E20033;
+}
+
+.front, .back {
+  position: relative;
+  padding: 20px;
+  border-radius: 12px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.front {
+  top: 114px;
+}
+
+.back {
+  top: 26px;
+}
+
+.front::before, .back::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.4;
+  border-radius: 12px;
+  z-index: -1;
+}
+
+.card.nightMode .front::before, .card.nightMode .back::before {
+  background-color: black;
+}
+
+.win, .mac, .linux:not(.android) {
+  text-align: center;
+  display: block;
+  width: 100%;
+  margin: auto;
+}
+
+.card {
+  font-family: hiragino kaku gothic proN, notosansjp, noto sans jp;
+  color: black;
+  font-size: 50px;
+  display: inline-block;
+  text-align: center;
+  position: relative;
+}
+
+.card-a rt li {
+  display: inline;
+  font-size: 25px;
+  font-weight: normal;
+}
+
+.card-b {
+  margin: 10px 0;
+  font-size: 20px;
+}
+
+.card-b li {
+  list-style: none !important;
+}
+
+a {
+  color: currentColor;
+  text-decoration: none;
+}
+
+b, strong {
+	color: var(--lightbold);
+	font-weight: normal;
+}
+
+.custom-dark-mode b, strong, .card.nightMode b, strong {
+	color: var(--darkbold);
+}
+
+ul, ol{
+	list-style: none;
+	padding-left: 0px;
+	display: inline;
+}
+
+/* Dark mode */
+.custom-dark-mode {
+  background-color: black !important;
+  color: white !important;
+}
+
+.toggle-custom-dark-mode {
+  position: fixed;
+  top: 24px;
+  left: 34px;
+  padding: 10px 10px;
+  color: rgba(105, 105, 105, 0.3);
+  cursor: pointer;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: box-shadow 0.3s ease, background-color 0.3s, color 0.3s ease;
+}
+
+.toggle-custom-dark-mode:hover {
+  box-shadow: 0 0 5px 2.5px rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 1);
+  color: rgba(255, 255, 255, 1);
+}
+
+.custom-dark-mode .toggle-custom-dark-mode, .card.nightMode .toggle-custom-dark-mode {
+  background-color: rgba(0, 0, 0, 0.1); 
+}
+
+.card.nightMode .toggle-custom-dark-mode:hover {
+  box-shadow: 0 0 5px 2.5px rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 1);
+  color: rgba(255, 255, 255, 1);
+}
+
+.custom-dark-mode .toggle-custom-dark-mode.dark-mode:hover {
+  box-shadow: 0 0 5px 2.5px rgba(255, 255, 255, 0.3);
+  background-color: rgba(255, 255, 255, 1);
+  color: rgba(0, 0, 0);
+}
+
+/* Word + grid settings */
+#word li:not(:first-child){
+	display: none;
+}
+
+#word {
+  position: relative;
+  font-family: klee, Klee One SemiBold, notoserifjp, Noto Serif JP;
+  font-size: 2.5rem;
+  text-align: center;
+}
+
+#word ruby rt {
+  font-family: hiragino kaku gothic proN, notosansjp, noto sans jp;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  align-items: stretch;
+}
+
+.background-box {
+  position: relative;
+  overflow: hidden;
+  padding: 10px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card.nightMode .background-box {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+/* Picture */
+img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 5px;
+}
+
+.lightbox img {
+  max-width: 80%;
+  max-height: 80%;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease;
+}
+
+.lightbox.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.lightbox {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  z-index: 1000;
+}
+
+.picture-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.picture-container img {
+  display: none;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  cursor: pointer;
+}
+
+.picture-container img:first-of-type {
+  display: block;
+}
+
+/* Image blurring */
+.NSFW {
+  overflow: hidden;
+  border-radius: 10px; 
+}
+
+.NSFW img {
+  filter: blur(20px);
+  transition: filter 0.3s ease;
+}
+
+.NSFW img:hover {
+  filter: blur(0px);
+}
+
+/* Sentence */
+.sentence-container {
+  margin: 20px 0;
+}
+
+.front #sentence {
+  font-size: 1.3rem;
+  margin: 11px;
+}
+
+#sentence {
+ 	font-size: 1.3rem;
+}
+
+#sentence rt {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+#sentence ruby:hover rt {
+  opacity: 1;
+}
+
+#sentenceEng {
+ 	font-size: 20px;
+  will-change: max-height;
+}
+
+.highlight {
+  color: var(--lightbold);
+  padding: 8px 3px 4px 3px;
+  margin: 0 3px;
+  border-radius: 5px;
+}
+
+.custom-dark-mode .highlight, .card.nightMode .highlight {
+  color: var(--darkbold);
+}
+
+.accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+/* Definition + glossary */
+#glossary {
+	display: grid;
+	place-items: left;
+	text-align: center;
+	line-height: 1.5;
+}
+
+#definition, #glossary {
+  position: relative;
+  display: none;
+}
+
+#definition.show, #glossary.show {
+  display: block;
+}
+
+.glossary-box, .definition-box {
+  padding: 15px; 
+  border-radius: 5px;
+  position: relative;
+  will-change: transform;
+}
+
+.card.nightMode .glossary-box, .card.nightMode .definition-box {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+/* Toggle definition-glossary */
+.toggle-area {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 2;
+  opacity: 0;
+  cursor: pointer;
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.custom-dark-mode .toggle-area, .card.nightMode .toggle-area {
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+.toggle-area.left,
+.toggle-area.right {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 20px;
+  z-index: 2;
+  opacity: 0;
+  border-radius: 5px;
+}
+
+.toggle-area.left {
+  left: -20px;
+}
+
+.toggle-area.right {
+  right: -20px;
+}
+
+.toggle-area.left-larger {
+  opacity: 0;
+  left: -20px;
+  width: 80px;
+  -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,1), rgba(0,0,0,0));
+  -webkit-mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: left top;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.toggle-area.right-larger {
+  opacity: 0;
+  right: -20px;
+  width: 80px;
+  -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,1), rgba(0,0,0,0));
+  -webkit-mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.toggle-area.left-larger:hover,
+.toggle-area.right-larger:hover {
+  opacity: 0.1;
+}
+
+.toggle-area.left-larger:hover ~ .toggle-area.left:not(.left-larger):not(.right-larger) {
+  opacity: 1;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+}
+
+.custom-dark-mode .toggle-area.left-larger:hover ~ .toggle-area.left:not(.left-larger):not(.right-larger),
+.card.nightMode .toggle-area.left-larger:hover ~ .toggle-area.left:not(.left-larger):not(.right-larger) {
+  opacity: 1;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+}
+
+.toggle-area.right-larger:hover ~ .toggle-area.right:not(.left-larger):not(.right-larger) {
+  opacity: 1;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+}
+
+.custom-dark-mode .toggle-area.right-larger:hover ~ .toggle-area.right:not(.left-larger):not(.right-larger), 
+.card.nightMode .toggle-area.right-larger:hover ~ .toggle-area.right:not(.left-larger):not(.right-larger) {
+  opacity: 1;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+}
+
+.toggle-area:hover {
+  opacity: 1;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+}
+
+.custom-dark-mode .toggle-area:hover,
+.card.nightMode .toggle-area:hover {
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+}
+
+/* Audios */
+.audio, .sentenceaudio, .playImage path {
+  position: fixed;
+  width: 20px;
+  height: 20px;
+  top: 74px;
+  left: 34px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  padding: 8px 15px;
+  cursor: pointer;
+  transition: box-shadow 0.3s ease, background-color 0.3s ease, fill 0.3s ease;
+}
+
+.custom-dark-mode .audio, .card.nightMode .audio, 
+.custom-dark-mode .sentenceaudio, .card.nightMode .sentenceaudio {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.sentenceaudio {
+  top: 124px;
+}
+
+.audio:hover, 
+.sentenceaudio:hover, 
+.audio:hover .playImage path, 
+.sentenceaudio:hover .playImage path {
+  box-shadow: 0 0 5px 2.5px rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 1) !important;
+  fill: rgba(255, 255, 255, 1) !important;
+}
+
+.audio.dark-mode:hover,
+.sentenceaudio.dark-mode:hover,
+.audio.dark-mode:hover .playImage path,
+.sentenceaudio.dark-mode:hover .playImage path {
+  box-shadow: 0 0 5px 2.5px rgba(255, 255, 255, 0.3);
+  background-color: rgba(255, 255, 255, 1) !important;
+  fill: rgba(0, 0, 0, 1) !important;
+}
+
+.audio circle, .sentenceaudio circle {
+	display: none;
+}
+
+.playImage path {
+ fill: rgba(105, 105, 105, 0.3) !important;
+}
+
+/* Pitch accent colors */
+.pitch .heiban span[style*="border-color:currentColor"] {
+  color: var(--blue);
+}
+
+.pitch .atamadaka span[style*="border-color:currentColor"] {
+  color: var(--red);
+}
+
+.pitch .nakadaka span[style*="border-color:currentColor"] {
+  color: var(--orange);
+}
+
+.pitch .odaka span[style*="border-color:currentColor"] {
+  color: var(--green);
+}
+
+.pitch .kifuku span[style*="border-color:currentColor"] {
+  color: var(--purple);
+}
+
+.pitch .heiban #position {
+  background-color: rgba(137, 218, 255, 0.5);
+}
+
+.pitch .atamadaka #position { 
+  background-color: rgba(253, 92, 92, 0.5);
+}
+
+.pitch .nakadaka #position { 
+  background-color: rgba(252, 163, 17, 0.5);
+}
+
+.pitch .odaka #position { 
+  background-color: rgba(78, 147, 122, 0.5);
+}
+
+.pitch .kifuku #position { 
+  background-color: rgba(175, 162, 255, 0.5);
+}
+
+/* Pitch accent "position" */
+#position {
+  font-family: hiragino kaku gothic proN, notosansjp, noto sans jp;
+  position: absolute;
+  top: 0;
+  left: 100%;
+  margin-left: 8px;
+  font-size: 12px;
+  padding: 0px 2px;
+  border-radius: 4px;
+  color: rgba(0, 0, 0, 0.5);
+  z-index: 10;
+  text-align: center;
+  line-height: 16px;
+}
+
+.custom-dark-mode #position, .card.nightMode #position {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+#position:empty {
+  display: none;
+}
+
+#position ol li:first-child span span {
+  display: none;
+}
+
+#position ol li:first-child span span:nth-child(2) {
+  display: inline;
+}
+
+#position > span > span:nth-child(1) {
+  display: none;
+}
+
+#position > span > span:nth-child(3) {
+  display: none;
+}
+
+/* Pitch accent "categories" */
+#categories {
+  font-family: hiragino kaku gothic proN, notosansjp, noto sans jp;
+  position: absolute;
+  top: 0;
+  left: 100%;
+  margin-left: 8px;
+  font-size: 12px;
+  padding: 0px 2px;
+  border-radius: 4px;
+  color: rgba(0, 0, 0, 0.5);
+  z-index: 10;
+  text-align: center;
+  line-height: 16px;
+  opacity: 0;
+  visibility: hidden;
+  transform: scaleX(0);
+  transform-origin: left;
+  overflow: hidden;
+  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+}
+
+#position:hover + #categories,
+#categories:hover {
+  background-color: rgba(0, 0, 0, 1);
+  color: rgba(255, 255, 255, 1);
+  opacity: 1;
+  visibility: visible;
+  transform: scaleX(1);
+}
+
+.custom-dark-mode #position:hover + #categories,
+.card.nightMode #position:hover + #categories,
+.custom-dark-mode #categories:hover,
+.card.nightMode #categories:hover {
+  background-color: rgba(255, 255, 255, 1);
+  color: rgba(0, 0, 0, 1);
+  opacity: 1;
+  visibility: visible;
+  transform: scaleX(1);
+}
+
+/* Jitendex settings */
+[data-sc-content="example-sentence-a"], [data-sc-content="example-sentence-b"] {
+  font-size: 1em !important;
+}
+
+[data-sc-content="example-sentence-a"] span,
+[data-sc-content="example-sentence-b"] span {
+  color: var(--lightbold) !important;
+}
+
+.card.nightMode [data-sc-content="example-sentence-a"] span,
+.card.nightMode [data-sc-content="example-sentence-b"] span,
+.custom-dark-mode [data-sc-content="example-sentence-a"] span,
+.custom-dark-mode [data-sc-content="example-sentence-b"] span {
+  color: var(--darkbold) !important;
+}
+
+[data-sc-content="glossary"] {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0px;
+  margin: 0px; 
+}
+
+[data-sc-content="glossary"] li:not(:last-child)::after {
+  content: "|";
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0 8px;
+}
+
+[data-sc-content="example-sentence"] rt {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+[data-sc-content="example-sentence"]:hover rt {
+  opacity: 1;
+}
+
+span[data-sc-content="example-keyword"] {
+  color: var(--lightbold) !important;
+  text-decoration: none !important;
+}
+
+.custom-dark-mode span[data-sc-content="example-keyword"], .card.nightMode span[data-sc-content="example-keyword"] {
+	color: var(--darkbold) !important;
+}
+
+div[data-sc-content="attribution"] {
+  display: none;
+}
+
+[data-sc-content="forms"]{
+  opacity: 0;
+  display: none;
+  transition: opacity 0.3s ease;
+}
+[data-sc-content|="forms"]:hover {
+  opacity: 1;
+  display: none;
+}
+
+/* Other dictionaries */
+#glossary.yomitan-glossary .example a {
+  color: var(--lightbold);
+  text-decoration: none;
+}
+
+.custom-dark-mode #glossary.yomitan-glossary .example a, .card.nightMode #glossary.yomitan-glossary .example a {
+	color: var(--darkbold);
+}
+
+#glossary.yomitan-glossary .yomitan-word {
+  font-weight: bold;
+  color: #333;
+}
+
+#glossary.yomitan-glossary .accent {
+  font-size: 0.7em;
+  vertical-align: super;
+  margin-left: 0.25em;
+  margin-right: 0.25em;
+}
+
+#glossary.yomitan-glossary a {
+  color: var(--lightbold);
+}
+
+.custom-dark-mode #glossary.yomitan-glossary a, .card.nightMode #glossary.yomitan-glossary a {
+	color: var(--darkbold);
+}
+
+#glossary.yomitan-glossary img {
+  max-width: 100%;
+  height: auto;
+  vertical-align: middle;
+  border: none;
+  outline: none;
+}
+
+#glossary.yomitan-glossary .example {
+  margin-left: 1.5em;
+  font-size: 0.9em;
+  color: #555;
+}
+
+#glossary.yomitan-glossary rt {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+#glossary.yomitan-glossary ruby:hover rt {
+  opacity: 1;
+}
+
+/* Frequencies */
+#frequency {
+  position: fixed;
+  top: 70px;
+  right: 20px;
+  font-family: hiragino kaku gothic proN, notosansjp, noto sans jp;
+  z-index: 1;
+}
+
+.freqbt {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  font-size: 20px;
+  padding: 10px 10px;
+  color: rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.freqbt:hover {
+  color: rgba(0, 0, 0, 1);
+  text-shadow: 0 0 5px rgba(255, 255, 255, 1);
+}
+
+.custom-dark-mode .freqbt:hover, 
+.card.nightMode .freqbt:hover {
+  color: rgba(255, 255, 255, 1);
+  text-shadow: 0 0 5px rgba(0, 0, 0, 1);
+}
+
+.custom-dark-mode .freqbt, .card.nightMode .freqbt {
+  color: rgba(255, 255, 255, 0.2);
+}
+
+.freq-toggle {
+  display: none;
+}
+
+.frequency-content {
+  opacity: 0;
+  max-height: 0;
+  padding: 0 15px;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 5px;
+  color: white;
+  font-size: 14px;
+  overflow: hidden;
+  transition: opacity 0.3s ease, max-height 0.3s ease, padding 0.3s ease;
+  will-change: opacity, max-height, padding;
+}
+
+.freqbt:hover + .frequency-content {
+  opacity: 1;
+  max-height: 200px;
+  padding: 15px;
+  background-color: rgba(0, 0, 0, 1);
+}
+
+.freqbt:active + .frequency-content,
+.freqbt:focus + .frequency-content {
+  opacity: 1;
+  max-height: 500px;
+  padding: 15px;
+}
+
+/* Misc info */
+.misc-info {
+  font-family: hiragino kaku gothic proN, notosansjp, noto sans jp;
+  font-size: 15px;
+  font-weight: bold;
+  width: 100%;
+  z-index: 10;
+  padding: 0 10px;
+  box-sizing: border-box;
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transition: max-height 0.3s ease, opacity 0.3s ease-in-out;
+}
+
+/* Small screens */
+.mobile .card, .mobile #content {
+  margin: 0.5em 0em;
+}
+
+@media (max-width: 1200px) {
+  .toggle-custom-dark-mode,
+  .audio, .sentenceaudio,
+  #frequency {
+    display: none;
+  }
+
+  .glossary-box, .definition-box {
+    padding: 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .front, .back {
+    top: 0;
+  }
+
+  .glossary-box, .definition-box {
+    padding: 10px;
+  }
+
+  .toggle-custom-dark-mode,
+  .audio, .sentenceaudio,
+  #frequency {
+    display: none;
+  }
+
+  #lightbox {
+    display: none !important;
+  }
+
+  .picture-container img {
+    pointer-events: none;
+  }
+}
+
+@media (max-width: 585px) {
+  .grid-container {
+    grid-template-columns: 1fr;
+  }
+}
