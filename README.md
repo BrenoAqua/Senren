@@ -563,7 +563,7 @@ It's not necessary, as this note type works perfectly fine without them, but I r
 
 </details>
 
-Explanation:
+**Explanation:**
 ```
 {{#*inline "pitch-accents"}}
     {{#if (op ">" pitchCount 0)}}
