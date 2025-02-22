@@ -20,23 +20,24 @@
 
 ### Definition Toggle
 
-- Switch between definitions by pressing the left or right button on either side of the displayed definition (this option is hidden if only one definition is available). You can also switch using the left and right arrow keys.
+- Switch between definitions by pressing the left or right button on either side of the displayed definition (this option is hidden if only one definition is available). You can also switch using the left and right arrow keys.  
+  <details style="display: inline;">
+    <summary><strong>Preview</strong></summary>
 
-<details>
-<summary>Preview</summary>
-  
-### Light Mode
-<img src="https://github.com/user-attachments/assets/145b21a6-29bb-48fe-828d-d4454d2baf95" width="500">
-<br>
+  ### Light Mode
+  <img src="https://github.com/user-attachments/assets/145b21a6-29bb-48fe-828d-d4454d2baf95" width="500">
+  <br>
 
-### Dark Mode
-<img src="https://github.com/user-attachments/assets/a4bc4087-2dfe-487f-bfe1-f54a6005f0d0" width="500">
-<br>
+  ### Dark Mode
+  <img src="https://github.com/user-attachments/assets/a4bc4087-2dfe-487f-bfe1-f54a6005f0d0" width="500">
+  <br>
 
-### Custom Dark Mode
-<img src="https://github.com/user-attachments/assets/13adf4cd-efc5-4744-b38b-e417b07499e5" width="500">
+  ### Custom Dark Mode
+  <img src="https://github.com/user-attachments/assets/13adf4cd-efc5-4744-b38b-e417b07499e5" width="500">
 
 </details>
+
+
 
 ### Picture Lightbox
   - Click the image to view it in a larger, more focused display. Close it by clicking outside or pressing ESC.
@@ -44,14 +45,14 @@
   - The zoom follows the cursor. You can click and drag to move the image.
 - **Support for multiple images**
   - Only the first image appears in the default picture container.
-  - Switch between images using the left and right arrow keys (no buttons available).
+  - Switch between images using the left and right arrow keys (no buttons available).  
+  <br>
+  <details style="display: inline;">
+    <summary><strong>Preview</strong></summary>
+    
+    ![Example](https://github.com/BrenoAqua/Senren/blob/main/images/v1.6%20lightbox.gif)
 
-<details>
-<summary>Preview</summary>
-
-![Example](https://github.com/BrenoAqua/Senren/blob/main/images/v1.6%20lightbox.gif)
-
-</details>
+  </details>
 
 ### Stylization Changes for Jitendex
 - **Example Sentences**:
@@ -67,13 +68,15 @@
 - **English translations** appear when hovering over Japanese sentences (only if available).
 - Support for **Sorting by Frequency**.
 - Hovering over the **Pitch Accent "Position"** displays the name of the associated pitch accent category.
-<details>
-<summary>Preview</summary>
-<img src="https://github.com/user-attachments/assets/aaa2f796-b5f5-478f-adc5-12c27a5e54a1" width="500">
-<br>
-<img src="https://github.com/user-attachments/assets/09a30ed1-f735-4f9e-9fb8-4ad43706aa8c" width="500">
-<br>
-<img src="https://github.com/user-attachments/assets/0a38f4ae-3510-44a0-81da-c2a06aa6d889" width="500">
+  <details style="display: inline;">
+    <summary><strong>Preview</strong></summary>
+
+  <img src="https://github.com/user-attachments/assets/aaa2f796-b5f5-478f-adc5-12c27a5e54a1" width="500">
+  <br>
+  <img src="https://github.com/user-attachments/assets/09a30ed1-f735-4f9e-9fb8-4ad43706aa8c" width="500">
+  <br>
+  <img src="https://github.com/user-attachments/assets/0a38f4ae-3510-44a0-81da-c2a06aa6d889" width="500">
+  
 </details>
 
 - **Mobile support:** It has not been tested on AnkiMobile, but it works well on AnkiDroid.
