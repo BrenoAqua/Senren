@@ -19,9 +19,24 @@
 - Add the `NSFW` tag to any card to automatically blur its image.
 
 ### Definition Toggle
+
 - Switch between definitions by pressing the left or right button on either side of the displayed definition (this option is hidden if only one definition is available). You can also switch using the left and right arrow keys.
 
-![Example](https://github.com/BrenoAqua/Senren/blob/main/images/v1.6.gif)
+<details>
+<summary>Preview</summary>
+  
+### Light Mode
+<img src="https://github.com/user-attachments/assets/145b21a6-29bb-48fe-828d-d4454d2baf95" width="500">
+<br>
+
+### Dark Mode
+<img src="https://github.com/user-attachments/assets/a4bc4087-2dfe-487f-bfe1-f54a6005f0d0" width="500">
+<br>
+
+### Custom Dark Mode
+<img src="https://github.com/user-attachments/assets/13adf4cd-efc5-4744-b38b-e417b07499e5" width="500">
+
+</details>
 
 ### Picture Lightbox
   - Click the image to view it in a larger, more focused display. Close it by clicking outside or pressing ESC.
@@ -31,7 +46,12 @@
   - Only the first image appears in the default picture container.
   - Switch between images using the left and right arrow keys (no buttons available).
 
+<details>
+<summary>Preview</summary>
+
 ![Example](https://github.com/BrenoAqua/Senren/blob/main/images/v1.6%20lightbox.gif)
+
+</details>
 
 ### Stylization Changes for Jitendex
 - **Example Sentences**:
