@@ -69,7 +69,7 @@
 - Hovering over the **Pitch Accent "Position"** displays the name of the associated pitch accent category.
 - **Mobile support:** It has not been tested on AnkiMobile, but it works well on AnkiDroid.
 
-Download it from here: [v2.0](https://github.com/BrenoAqua/Senren/releases/download/v2.0/Senren.apkg)
+Download it from here: [v2.1](https://github.com/BrenoAqua/Senren/releases/download/v2.1/Senren.apkg)
 
 ## Yomitan
 
