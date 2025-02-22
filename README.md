@@ -12,7 +12,7 @@
 - 🟢 **Odaka**
 - 🟣 **Kifuku**
 
-### Dark Mode
+### Custom Dark Mode
 - Easily toggle between the default theme (light or original dark mode) and dark mode with a black background.
 
 ### Image Blurring
