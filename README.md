@@ -1,7 +1,7 @@
 # Senren
 [Senren](https://github.com/BrenoAqua/Senren/releases) is a customizable [Anki](https://apps.ankiweb.net/) Note Type for Japanese that offers pitch accent styling, word frequencies, image blurring, a toggleable custom dark mode, support for multiple dictionaries with easy definition switching, and much more.
 
-<img src="https://github.com/BrenoAqua/Senren/blob/main/Images/Senren%20Preview.gif" width="800">
+<img src="https://github.com/BrenoAqua/Senren/blob/main/Images/Senren%20v2.1%20Preview.gif" width="800">
 
 ## Features
 
