@@ -615,7 +615,7 @@ This Handlebar template checks for Pitch Accents in a word. If present, it displ
 ### Result Display
 **Group term-reading pairs** or **Group related terms** is necessary to use the `glossary` field. Otherwise, only the main definition will be shown.
 
-![Result Display](images/Result%20Display.png)
+![Result Display](https://github.com/BrenoAqua/Senren/blob/main/Images/Result%20Display.png)
 ## Anki
 
 ### Frequency Sorting
