@@ -50,7 +50,7 @@
   <details style="display: inline;">
     <summary><strong>Preview</strong></summary>
     
-    ![Example](https://github.com/BrenoAqua/Senren/blob/main/images/v1.6%20lightbox.gif)
+    ![Preview](https://github.com/BrenoAqua/Senren/blob/main/Images/Lightbox%20Preview.gif)
 
   </details>
 
