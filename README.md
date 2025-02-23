@@ -652,7 +652,7 @@ Make sure the option "Sort by this field in the browser" is checked for the `fre
 - [AutoReorder](https://ankiweb.net/shared/info/757527607) `757527607`
 
 # Additional Resource - Kaishi Template
-These are the settings I use for Kaishi. When I finished Kaishi, I merged it with my mining deck (while keeping its original note type). Since then, I’ve made a lot of edits to make it look more like my [mining deck](https://github.com/BrenoAqua/Senren).
+These are the settings I use for Kaishi. When I finished Kaishi, I merged it with my mining deck (while keeping its original note type). Since then, I’ve made a lot of edits to make it look more like Senren.
 
 ### Installation Instructions
 1. Go to **Browse** in Anki.
@@ -663,7 +663,7 @@ These are the settings I use for Kaishi. When I finished Kaishi, I merged it wit
    - [`back.html`](https://github.com/BrenoAqua/Senren/blob/main/Template/kaishi/front.html)
    - [`styling.css`](https://github.com/BrenoAqua/Senren/blob/main/Template/kaishi/styling.css)
 
-This template shares some features with [Senren](https://github.com/BrenoAqua/Senren), but not all of them. These include: 
+This template shares some features with Senren, but not all of them. These include: 
 
 ### The overall appearance is the same, but instead of a grid with two rows for Word and Picture, it uses just one row, like in the original Kaishi note type.
 
