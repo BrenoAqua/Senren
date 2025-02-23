@@ -1,0 +1,256 @@
+@import url("https://fonts.googleapis.com/css2?family=Klee+One:wght@400;600&family=Noto+Sans+JP:wght@100..900&family=Noto+Serif+JP:wght@200..900&display=swap");
+
+@font-face {
+  font-family: klee;
+  src: url("_KleeOne-SemiBold.ttf");
+}
+
+@font-face {
+  font-family: notosansjp;
+  src: url("_NotoSansJP.ttf");
+}
+
+@font-face {
+  font-family: notoserifjp;
+  src: url("_NotoSerifJP.ttf");
+}
+
+/* Custom Dark mode */
+.custom-dark-mode {
+  background-color: black !important;
+  color: white !important;
+}
+
+.toggle-custom-dark-mode {
+  position: fixed;
+  top: 24px;
+  left: 34px;
+  padding: 10px 10px;
+  color: rgba(105, 105, 105, 0.3);
+  background-color: rgba(0, 0, 0, 0.1); 
+  cursor: pointer;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: box-shadow 0.3s ease, background-color 0.3s, color 0.3s ease;
+}
+
+.toggle-custom-dark-mode:hover {
+  box-shadow: 0 0 5px 2.5px rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 1);
+  color: rgba(255, 255, 255, 1);
+}
+
+.toggle-custom-dark-mode.dark-mode {
+  transition: box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+.toggle-custom-dark-mode.dark-mode:hover {
+  box-shadow: 0 0 5px 2.5px rgba(255, 255, 255, 0.3);
+  background-color: rgba(255, 255, 255, 1);
+  color: rgba(0, 0, 0);
+}
+
+body.custom-dark-mode {
+  will-change: background-color;
+}
+
+@media (max-width: 1100px) {
+  .toggle-custom-dark-mode {
+    display: none;
+  }
+}
+
+/* Audios */
+.audio, .sentenceaudio, .playImage path {
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.1);
+  color: rgba(255, 255, 255, 0.5);
+  width: 20px;
+  height: 20px;
+  top: 74px;
+  left: 34px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  padding: 8px 15px;
+  cursor: pointer;
+  transition: box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+.sentenceaudio {
+  top: 124px;
+}
+
+.audio:hover, 
+.sentenceaudio:hover, 
+.audio:hover .playImage path, 
+.sentenceaudio:hover .playImage path {
+  box-shadow: 0 0 5px 2.5px rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 1);
+  fill: rgba(255, 255, 255, 1) !important;
+}
+
+.audio.dark-mode, .sentenceaudio.dark-mode {
+  transition: box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+.audio.dark-mode:hover,
+.sentenceaudio.dark-mode:hover,
+.audio.dark-mode:hover .playImage path,
+.sentenceaudio.dark-mode:hover .playImage path {
+  box-shadow: 0 0 5px 2.5px rgba(255, 255, 255, 0.3);
+  background-color: rgba(255, 255, 255, 1);
+  fill: rgba(0, 0, 0, 1) !important;
+}
+
+.audio circle, .sentenceaudio circle {
+	display: none;
+}
+
+.playImage path {
+ fill: rgba(105, 105, 105, 0.3) !important;
+
+}
+
+@media (max-width: 1100px) {
+  .audio, .sentenceaudio {
+    display: none;
+  }
+}
+
+.side1 {
+  position: relative;
+  top: -27px; /* Adjust this value as needed */
+}
+
+.front {
+  top: 133px; /* Adjust this value as needed */
+}
+
+.back {
+  top: 62px; /* Adjust this value as needed */
+}
+
+.front, .back {
+  position: relative; /* Estabelece um bloco de contenção para ::before */
+  padding: 20px;
+  border-radius: 12px;
+  max-width: 800px;
+  margin: 0 auto;
+  z-index: 1;
+}
+
+.front::before, .back::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.5;
+  border-radius: 12px;
+  z-index: -1;
+}
+
+.card.nightMode .front::before, .card.nightMode .back::before {
+  background-color: black;
+}
+
+@media (max-width: 768px) {
+  .front, .back {
+    top: 0 !important;  /* Adicionando !important para forçar a aplicação */
+  }
+}
+
+:root {
+	--red: #fd5c5c;
+	--blue: #89daff;
+	--orange: #fca311;
+	--green: #4e937a;
+	--purple: #afa2ff;
+}
+
+.card {
+  font-family: hiragino kaku gothic proN, notosansjp, noto sans jp;
+  font-size: 50px;
+  text-align: center;
+}
+
+#word {
+  font-family: klee, Klee One SemiBold, notoserifjp, Noto Serif JP;
+  font-size: 50px;
+  text-align: center;
+}
+
+/* Sentence */
+#sentence {
+  font-size: 35px; 
+}
+
+#sentence-meaning {
+  font-size: 25px; 
+}
+
+.accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+#sentence rt {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+#sentence ruby:hover rt {
+  opacity: 1;
+}
+
+/* PITCH ACCENT */
+#pitch {
+  font-size: 30px;
+  text-align: center;
+}
+.pitch.heiban span[style*="border-color:currentColor"] {
+  color: var(--blue);
+}
+.pitch.atamadaka span[style*="border-color:currentColor"] {
+  color: var(--red); /* Atamadaka pitch accent color */
+}
+.pitch.nakadaka span[style*="border-color:currentColor"] {
+  color: var(--orange); /* Nakadaka pitch accent color */
+}
+.pitch.odaka span[style*="border-color:currentColor"] {
+  color: var(--green); /* Odaka pitch accent color */
+}
+.pitch.kifuku span[style*="border-color:currentColor"] {
+  color: var(--purple); /* Kifuku pitch accent color */
+}
+
+img {
+  max-width: 300px;
+  max-height: 250px;
+}
+
+.mobile img {
+  max-width: 50vw;
+}
+
+b {
+  font-weight: normal;
+  color: #E20033;
+}
+
+.card.nightMode b, .custom-dark-mode b {
+  color: #FCFF61;
+}
+
+hr {
+ margin: 0px;
+}
