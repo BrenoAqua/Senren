@@ -1,0 +1,57 @@
+<div class="side1">
+
+<div class="front">
+
+<span class="toggle-custom-dark-mode">
+  <i class="fas fa-sun sun-icon"></i>
+  <i class="fas fa-moon moon-icon"></i>
+</span>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+<div id="word">
+    {{Word}}
+</div>
+<div style='font-size: 30px;'>{{Sentence}}</div>
+
+<script>
+function darkMode() {
+  const button = document.querySelector(".toggle-custom-dark-mode");
+  const body = document.body;
+  const sunIcon = document.querySelector(".sun-icon");
+  const moonIcon = document.querySelector(".moon-icon");
+  const audioButtons = document.querySelectorAll(".audio, .sentenceaudio");
+  const playImagePaths = document.querySelectorAll(".playImage path");
+
+  const applyDarkMode = () => {
+    const isDarkMode = localStorage.getItem("darkMode") === "enabled";
+    body.classList.toggle("custom-dark-mode", isDarkMode);
+    button.classList.toggle("dark-mode", isDarkMode);
+
+    audioButtons.forEach(btn => {
+      btn.classList.toggle("dark-mode", isDarkMode);
+    });
+
+    playImagePaths.forEach(path => {
+      path.classList.toggle("dark-mode", isDarkMode);
+    });
+
+    sunIcon.style.display = isDarkMode ? "inline" : "none";
+    moonIcon.style.display = isDarkMode ? "none" : "inline";
+  };
+
+  requestAnimationFrame(applyDarkMode);
+
+  button.addEventListener("click", () => {
+    const isCurrentlyDark = body.classList.contains("custom-dark-mode");
+    localStorage.setItem("darkMode", isCurrentlyDark ? "disabled" : "enabled");
+    requestAnimationFrame(applyDarkMode);
+  });
+}
+
+function init() {
+  darkMode();
+}
+
+init();
+</script>
