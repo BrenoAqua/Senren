@@ -618,7 +618,7 @@ This Handlebar template checks for Pitch Accents in a word. If present, it displ
 
 ### Frequency Sorting
 
-Paste this into [AutoReorders](https://ankiweb.net/shared/info/757527607)'s settings to automatically sort your new cards by frequency using the `freqSort` field. It will reorder them every time Anki is opened.
+Paste this into [AutoReorder](https://ankiweb.net/shared/info/757527607)'s settings to automatically sort your new cards by frequency using the `freqSort` field. It will reorder them every time Anki is opened.
 ```AutoReorder
 {
     "search_to_sort": "deck:Senren is:new",
