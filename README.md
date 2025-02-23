@@ -37,8 +37,6 @@
 
 </details>
 
-
-
 ### Picture Lightbox
   - Click the image to view it in a larger, more focused display. Close it by clicking outside or pressing ESC.
 - **Zoom**
@@ -653,6 +651,8 @@ Make sure the option "Sort by this field in the browser" is checked for the `fre
 
 # Additional Resource - Kaishi Template
 These are the settings I use for Kaishi. When I finished Kaishi, I merged it with my mining deck (while keeping its original note type). Since then, I’ve made a lot of edits to make it look more like Senren.
+
+<img src="https://github.com/BrenoAqua/Senren/blob/main/Template/kaishi/Kaishi%20Template%20Preview.gif" width="800">
 
 ### Installation Instructions
 1. Go to **Browse** in Anki.
