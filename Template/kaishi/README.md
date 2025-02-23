@@ -1,10 +1,16 @@
 # Kaishi Template
-These are the settings I use for Kaishi. When I finished Kaishi, I merged it with my mining deck (while keeping its original note type). Since then, I’ve made a lot of edits to make it look more like my [mining deck](https://github.com/BrenoAqua/Senren).
+These are the settings I use for Kaishi. When I finished Kaishi, I merged it with my mining deck (while keeping its original note type). Since then, I’ve made a lot of edits to make it look more like Senren.
 
-To install it, go to Browse > Select the Kaishi 1.5k Note Type> Click on **Cards**.
-Then, copy and paste the contents of [`front.html`](https://github.com/BrenoAqua/Senren/blob/main/Template/kaishi/front.html) into the Front Template section, [`back.html`](https://github.com/BrenoAqua/Senren/blob/main/Template/kaishi/front.html) into the Back Template section and [`styling.css`](https://github.com/BrenoAqua/Senren/blob/main/Template/kaishi/styling.css) into the Styling section.
+### Installation Instructions
+1. Go to **Browse** in Anki.
+2. Select the **Kaishi 1.5k** Note Type.
+3. Click on **Cards**.
+4. Replace the contents of the **Front Template**, **Back Template**, and **Styling** sections with the provided files:
+   - [`front.html`](https://github.com/BrenoAqua/Senren/blob/main/Template/kaishi/front.html)
+   - [`back.html`](https://github.com/BrenoAqua/Senren/blob/main/Template/kaishi/front.html)
+   - [`styling.css`](https://github.com/BrenoAqua/Senren/blob/main/Template/kaishi/styling.css)
 
-This template shares some features with [Senren](https://github.com/BrenoAqua/Senren), but not all of them. These include: 
+This template shares some features with Senren, but not all of them. These include: 
 
 ### The overall appearance is the same, but instead of a grid with two rows for Word and Picture, it uses just one row, like in the original Kaishi note type.
 
@@ -18,9 +24,9 @@ This template shares some features with [Senren](https://github.com/BrenoAqua/Se
 
 ### Custom Dark Mode
 - Easily toggle between the default theme (light or original dark mode) and custom dark mode with a black background.
-> It works the same way, and it also supports light mode.
+> It works the same way as Senren, and it also supports light mode.
 
-### English translations appear when hovering over Japanese sentences.
-> This uses the same hover effect as [Senren](https://github.com/BrenoAqua/Senren).
-
-### Sentence Furigana appears when hovering over Japanese sentences.
+### English Translations and Furigana Hover Effects
+- English translations appear when hovering over Japanese sentences.
+- Sentence Furigana appears when hovering over Japanese sentences.
+> These hover effects use the same styling as Senren.
