@@ -1,6 +1,8 @@
 # Kaishi Template
 These are the settings I use for Kaishi. When I finished Kaishi, I merged it with my mining deck (while keeping its original note type). Since then, I’ve made a lot of edits to make it look more like Senren.
 
+<img src="https://github.com/BrenoAqua/Senren/blob/main/Template/kaishi/Kaishi%20Template%20Preview.gif" width="800">
+
 ### Installation Instructions
 1. Go to **Browse** in Anki.
 2. Select the **Kaishi 1.5k** Note Type.
