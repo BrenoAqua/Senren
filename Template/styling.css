@@ -16,18 +16,23 @@
   src: url("_NotoSerifJP.ttf");
 }
 
-/* Main settings */
+/* Variables */
 :root {
   font-size: 25px;
+
+/* Pitch */
   --red: #fd5c5c;
   --blue: #89daff;
   --orange: #fca311;
   --green: #4e937a;
   --purple: #afa2ff;
-  --darkbold: #FCFF61;
-  --lightbold: #E20033;
+
+/* Highlight word */
+  --dark-mode-highlight: #FCFF61;
+  --light-mode-highlight: #E20033;
 }
 
+/* Card */
 .front, .back {
   position: relative;
   padding: 20px;
@@ -83,7 +88,6 @@
 }
 
 .card-b {
-  margin: 10px 0;
   font-size: 20px;
 }
 
@@ -91,20 +95,34 @@
   list-style: none !important;
 }
 
+/* Hyperlinks */
 a {
   color: currentColor;
   text-decoration: none;
 }
 
+/* Highlight word */
 b, strong {
-	color: var(--lightbold);
+	color: var(--light-mode-highlight);
 	font-weight: normal;
 }
 
 .custom-dark-mode b, strong, .card.nightMode b, strong {
-	color: var(--darkbold);
+	color: var(--dark-mode-highlight);
 }
 
+.highlight {
+  color: var(--light-mode-highlight);
+  padding: 8px 3px 4px 3px;
+  margin: 0 3px;
+  border-radius: 5px;
+}
+
+.custom-dark-mode .highlight, .card.nightMode .highlight {
+  color: var(--dark-mode-highlight);
+}
+
+/* List style */
 ul, ol{
 	list-style: none;
 	padding-left: 0px;
@@ -288,17 +306,6 @@ img {
 #sentenceEng {
  	font-size: 20px;
   will-change: max-height;
-}
-
-.highlight {
-  color: var(--lightbold);
-  padding: 8px 3px 4px 3px;
-  margin: 0 3px;
-  border-radius: 5px;
-}
-
-.custom-dark-mode .highlight, .card.nightMode .highlight {
-  color: var(--darkbold);
 }
 
 .accordion-content {
@@ -612,14 +619,14 @@ img {
 
 [data-sc-content="example-sentence-a"] span,
 [data-sc-content="example-sentence-b"] span {
-  color: var(--lightbold) !important;
+  color: var(--light-mode-highlight) !important;
 }
 
 .card.nightMode [data-sc-content="example-sentence-a"] span,
 .card.nightMode [data-sc-content="example-sentence-b"] span,
 .custom-dark-mode [data-sc-content="example-sentence-a"] span,
 .custom-dark-mode [data-sc-content="example-sentence-b"] span {
-  color: var(--darkbold) !important;
+  color: var(--dark-mode-highlight) !important;
 }
 
 [data-sc-content="glossary"] {
@@ -645,12 +652,12 @@ img {
 }
 
 span[data-sc-content="example-keyword"] {
-  color: var(--lightbold) !important;
+  color: var(--light-mode-highlight) !important;
   text-decoration: none !important;
 }
 
 .custom-dark-mode span[data-sc-content="example-keyword"], .card.nightMode span[data-sc-content="example-keyword"] {
-	color: var(--darkbold) !important;
+	color: var(--dark-mode-highlight) !important;
 }
 
 div[data-sc-content="attribution"] {
@@ -669,12 +676,12 @@ div[data-sc-content="attribution"] {
 
 /* Other dictionaries */
 #glossary.yomitan-glossary .example a {
-  color: var(--lightbold);
+  color: var(--light-mode-highlight);
   text-decoration: none;
 }
 
 .custom-dark-mode #glossary.yomitan-glossary .example a, .card.nightMode #glossary.yomitan-glossary .example a {
-	color: var(--darkbold);
+	color: var(--dark-mode-highlight);
 }
 
 #glossary.yomitan-glossary .yomitan-word {
@@ -690,11 +697,11 @@ div[data-sc-content="attribution"] {
 }
 
 #glossary.yomitan-glossary a {
-  color: var(--lightbold);
+  color: var(--light-mode-highlight);
 }
 
 .custom-dark-mode #glossary.yomitan-glossary a, .card.nightMode #glossary.yomitan-glossary a {
-	color: var(--darkbold);
+	color: var(--dark-mode-highlight);
 }
 
 #glossary.yomitan-glossary img {
