@@ -1,7 +1,6 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
 <div class="back">
-
   <span class="toggle-custom-dark-mode">
     <i class="fas fa-sun sun-icon"></i>
     <i class="fas fa-moon moon-icon"></i>
@@ -47,8 +46,8 @@
 
   <div class="sentence-container">
     <div id="sentence" class="accordion" onmouseenter="showSentenceEng()" onmouseleave="hideSentenceEng()">
-      {{#sentenceFurigana}} {{furigana:sentenceFurigana}} {{/sentenceFurigana}}
-      {{^sentenceFurigana}} {{furigana:sentence}} {{/sentenceFurigana}}
+      {{furigana:sentenceFurigana}} {{^sentenceFurigana}} 
+      {{sentence}} {{/sentenceFurigana}}
     </div>
     <div id="sentenceEng" class="accordion accordion-content" onmouseenter="showSentenceEng()" onmouseleave="hideSentenceEng()">
       {{edit:sentenceEng}}
