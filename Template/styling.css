@@ -305,12 +305,9 @@ img {
 
 #sentenceEng {
  	font-size: 20px;
-  will-change: max-height;
-}
-
-.accordion-content {
   max-height: 0;
   overflow: hidden;
+  will-change: max-height, visibility;
   transition: max-height 0.3s ease;
 }
 
@@ -332,9 +329,9 @@ img {
 }
 
 .glossary-box, .definition-box {
+  position: relative;
   padding: 15px; 
   border-radius: 5px;
-  position: relative;
   will-change: transform;
 }
 
@@ -387,7 +384,6 @@ img {
   -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,1), rgba(0,0,0,0));
   -webkit-mask-size: 100% 100%;
   -webkit-mask-repeat: no-repeat;
-  -webkit-mask-position: left top;
   transition: opacity 0.3s ease-in-out;
 }
 
@@ -613,27 +609,42 @@ img {
 }
 
 /* Jitendex settings */
+
+[data-sc-code] {
+  display: inline-block;
+  padding: 0.3em 0.3em !important;
+  line-height: 1;
+}
+
 [data-sc-content="example-sentence-a"], [data-sc-content="example-sentence-b"] {
   font-size: 1em !important;
 }
 
-[data-sc-content="example-sentence-a"] span,
-[data-sc-content="example-sentence-b"] span {
+[data-sc-content="example-sentence"] span {
+  background-color: unset !important;
   color: var(--light-mode-highlight) !important;
+  font-size: unset !important;
 }
 
-.card.nightMode [data-sc-content="example-sentence-a"] span,
-.card.nightMode [data-sc-content="example-sentence-b"] span,
-.custom-dark-mode [data-sc-content="example-sentence-a"] span,
-.custom-dark-mode [data-sc-content="example-sentence-b"] span {
+.card.nightMode [data-sc-content="example-sentence"] span,
+.custom-dark-mode [data-sc-content="example-sentence"] span {
   color: var(--dark-mode-highlight) !important;
+}
+
+.card.nightMode [data-sc-content="example-sentence"] {
+  border-color: rgba(252, 252, 252, 0.5) !important;
+  transition: border-color 0.3s ease;
+}
+
+.card.nightMode [data-sc-content="example-sentence"]:hover {
+  border-color: rgba(252, 252, 252, 0.8) !important;
 }
 
 [data-sc-content="glossary"] {
   display: flex;
   flex-wrap: wrap;
   padding: 0px;
-  margin: 0px; 
+  margin: 0px;
 }
 
 [data-sc-content="glossary"] li:not(:last-child)::after {
@@ -669,6 +680,7 @@ div[data-sc-content="attribution"] {
   display: none;
   transition: opacity 0.3s ease;
 }
+
 [data-sc-content|="forms"]:hover {
   opacity: 1;
   display: none;
@@ -800,12 +812,11 @@ div[data-sc-content="attribution"] {
   font-weight: bold;
   width: 100%;
   z-index: 10;
-  padding: 0 10px;
   box-sizing: border-box;
   overflow: hidden;
   max-height: 0;
-  opacity: 0;
-  transition: max-height 0.3s ease, opacity 0.3s ease-in-out;
+  padding-bottom: 0;
+  transition: max-height 0.3s ease, padding-top 0.3s ease, opacity 0.3s ease;
 }
 
 /* Small screens */
@@ -830,10 +841,6 @@ div[data-sc-content="attribution"] {
     top: 0;
   }
 
-  .glossary-box, .definition-box {
-    padding: 10px;
-  }
-
   .toggle-custom-dark-mode,
   .audio, .sentenceaudio,
   #frequency {
@@ -841,11 +848,7 @@ div[data-sc-content="attribution"] {
   }
 
   #lightbox {
-    display: none !important;
-  }
-
-  .picture-container img {
-    pointer-events: none;
+    display: none;
   }
 }
 
