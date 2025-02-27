@@ -631,12 +631,23 @@ img {
   color: var(--dark-mode-highlight) !important;
 }
 
-.card.nightMode [data-sc-content="example-sentence"] {
+[data-sc-content="example-sentence"] {
+  border-color: rgba(3, 3, 3, 0.5) !important;
+  transition: border-color 0.3s ease;
+}
+
+[data-sc-content="example-sentence"]:hover {
+  border-color: rgba(3, 3, 3, 0.8) !important;
+}
+
+.card.nightMode [data-sc-content="example-sentence"],
+.custom-dark-mode [data-sc-content="example-sentence"] {
   border-color: rgba(252, 252, 252, 0.5) !important;
   transition: border-color 0.3s ease;
 }
 
-.card.nightMode [data-sc-content="example-sentence"]:hover {
+.card.nightMode [data-sc-content="example-sentence"]:hover,
+.custom-dark-mode [data-sc-content="example-sentence"]:hover {
   border-color: rgba(252, 252, 252, 0.8) !important;
 }
 
@@ -648,6 +659,13 @@ img {
 }
 
 [data-sc-content="glossary"] li:not(:last-child)::after {
+  content: "|";
+  color: rgba(0, 0, 0, 0.5);
+  margin: 0 8px;
+}
+
+.card.nightMode [data-sc-content="glossary"] li:not(:last-child)::after,
+.custom-dark-mode [data-sc-content="glossary"] li:not(:last-child)::after {
   content: "|";
   color: rgba(255, 255, 255, 0.5);
   margin: 0 8px;
