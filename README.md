@@ -85,7 +85,7 @@
 
 - **Mobile support:** It has not been tested on AnkiMobile, but it works well on AnkiDroid.
 
-Download the latest version from here: [v2.3](https://github.com/BrenoAqua/Senren/releases/tag/v2.3)
+Download the latest version from here: [v2.3](https://github.com/BrenoAqua/Senren/releases/download/v2.3/Senren.v2.3.apkg)
 
 ## Yomitan
 
