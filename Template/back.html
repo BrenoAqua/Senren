@@ -369,14 +369,15 @@
       const sentencePairs = document.querySelectorAll('[data-sc-content="example-sentence-a"]');
       const xrefPairs = document.querySelectorAll('[data-sc-content="xref"]');
       const antonymPairs = document.querySelectorAll('[data-sc-content="antonym"]');
+      const notePairs = document.querySelectorAll('[data-sc-content="sense-note"]');
 
-      const handleHover = (elementA, elementB, parentElement, isXref = false) => {
-          if (elementA && elementB && parentElement) {
+      const handleHover = (parentElement, elementB) => {
+          if (parentElement && elementB) {
+              parentElement.style.opacity = '0.5';
+              parentElement.style.transition = 'opacity 0.3s ease';
               elementB.style.maxHeight = '0';
               elementB.style.overflow = 'hidden';
               elementB.style.transition = 'max-height 0.3s ease, opacity 0.3s ease';
-              parentElement.style.opacity = '0.5';
-              parentElement.style.transition = 'opacity 0.3s ease';
               elementB.style.display = 'block';
 
               const showContent = () => {
@@ -395,15 +396,11 @@
                   });
               };
 
-              elementA.addEventListener('mouseenter', showContent);
-              elementB.addEventListener('mouseenter', showContent);
+              elementB.addEventListener('mouseover', showContent);
+              parentElement.addEventListener('mouseover', showContent);
 
-              if (isXref) {
-                  parentElement.addEventListener('mouseleave', hideContent);
-              } else {
-                  elementA.addEventListener('mouseleave', hideContent);
-                  elementB.addEventListener('mouseleave', hideContent);
-              }
+              elementB.addEventListener('mouseout', hideContent);
+              parentElement.addEventListener('mouseout', hideContent);
           }
       };
 
@@ -415,12 +412,17 @@
 
       xrefPairs.forEach(xref => {
           const xrefGlossary = xref.querySelector('[data-sc-content="xref-glossary"]');
-          handleHover(xref, xrefGlossary, xref, true); // Pass `true` to indicate this is an xref pair
+          handleHover(xref, xrefGlossary);
       });
 
       antonymPairs.forEach(antonym => {
           const antonymGlossary = antonym.querySelector('[data-sc-content="antonym-glossary"]');
-          handleHover(antonym, antonymGlossary, antonym, true);
+          handleHover(antonym, antonymGlossary);
+      });
+
+      notePairs.forEach(note => {
+          const noteGlossary = note.querySelector('div:last-child');
+          handleHover(note, noteGlossary);
       });
   }
 
