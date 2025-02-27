@@ -61,9 +61,10 @@
 - **Attribution & Forms**:
   - Hidden.
 
-### Others
+### Additional Features
 - A collapsible list to show **Word Frequencies**.
-- **English translations** appear when hovering over Japanese sentences (only if available).
+- **English translations** appear when the Japanese sentence is hovered over, if available.
+- **Misc Info** appears when the picture is hovered over, if available.
 - Support for **Sorting by Frequency**.
 - Hovering over the **Pitch Accent "Position"** displays the name of the associated pitch accent category.
   <details style="display: inline;">
