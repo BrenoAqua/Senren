@@ -660,7 +660,7 @@ These are the settings I use for Kaishi. When I finished Kaishi, I merged it wit
 3. Click on **Cards**.
 4. Replace the contents of the **Front Template**, **Back Template**, and **Styling** sections with the provided files:
    - [`front.html`](https://github.com/BrenoAqua/Senren/blob/main/Template/kaishi/front.html)
-   - [`back.html`](https://github.com/BrenoAqua/Senren/blob/main/Template/kaishi/front.html)
+   - [`back.html`](https://github.com/BrenoAqua/Senren/blob/main/Template/kaishi/back.html)
    - [`styling.css`](https://github.com/BrenoAqua/Senren/blob/main/Template/kaishi/styling.css)
 
 This template shares some features with Senren, but not all of them. These include: 
