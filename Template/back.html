@@ -365,45 +365,63 @@
     }
   }
 
-  function showExampleSentenceB() {
-    const sentencePairs = document.querySelectorAll('[data-sc-content="example-sentence-a"]');
+  function jitendexHover() {
+      const sentencePairs = document.querySelectorAll('[data-sc-content="example-sentence-a"]');
+      const xrefPairs = document.querySelectorAll('[data-sc-content="xref"]');
+      const antonymPairs = document.querySelectorAll('[data-sc-content="antonym"]');
 
-    sentencePairs.forEach(sentenceA => {
-      const sentenceB = sentenceA.nextElementSibling;
-      const sentence = sentenceA.closest('[data-sc-content|="example-sentence"]');
+      const handleHover = (elementA, elementB, parentElement, isXref = false) => {
+          if (elementA && elementB && parentElement) {
+              elementB.style.maxHeight = '0';
+              elementB.style.overflow = 'hidden';
+              elementB.style.transition = 'max-height 0.3s ease, opacity 0.3s ease';
+              parentElement.style.opacity = '0.5';
+              parentElement.style.transition = 'opacity 0.3s ease';
+              elementB.style.display = 'block';
 
-      if (sentenceA && sentenceB && sentence) {
-        sentenceB.style.maxHeight = '0';
-        sentenceB.style.overflow = 'hidden';
-        sentenceB.style.transition = 'max-height 0.3s ease, opacity 0.3s ease';
-      
-        sentence.style.opacity = '0.5';
-        sentence.style.transition = 'opacity 0.3s ease';
-        sentenceB.style.display = 'block';
+              const showContent = () => {
+                  requestAnimationFrame(() => {
+                      parentElement.style.opacity = '1';
+                      elementB.style.maxHeight = elementB.scrollHeight + 'px';
+                      elementB.style.opacity = '1';
+                  });
+              };
 
-        const showContent = () => {
-          requestAnimationFrame(() => {
-            sentence.style.opacity = '1';
-            sentenceB.style.maxHeight = sentenceB.scrollHeight + 'px';
-            sentenceB.style.opacity = '1';
-          });
-        };
+              const hideContent = () => {
+                  requestAnimationFrame(() => {
+                      parentElement.style.opacity = '0.5';
+                      elementB.style.maxHeight = '0';
+                      elementB.style.opacity = '0';
+                  });
+              };
 
-        const hideContent = () => {
-          requestAnimationFrame(() => {
-            sentence.style.opacity = '0.5';
-            sentenceB.style.maxHeight = '0';
-            sentenceB.style.opacity = '0.5';
-          });
-        };
+              elementA.addEventListener('mouseenter', showContent);
+              elementB.addEventListener('mouseenter', showContent);
 
-        sentenceA.addEventListener('mouseenter', showContent);
-        sentenceB.addEventListener('mouseenter', showContent);
+              if (isXref) {
+                  parentElement.addEventListener('mouseleave', hideContent);
+              } else {
+                  elementA.addEventListener('mouseleave', hideContent);
+                  elementB.addEventListener('mouseleave', hideContent);
+              }
+          }
+      };
 
-        sentenceA.addEventListener('mouseleave', hideContent);
-        sentenceB.addEventListener('mouseleave', hideContent);
-      }
-    });
+      sentencePairs.forEach(sentenceA => {
+          const sentenceB = sentenceA.nextElementSibling;
+          const sentence = sentenceA.closest('[data-sc-content|="example-sentence"]');
+          handleHover(sentenceA, sentenceB, sentence);
+      });
+
+      xrefPairs.forEach(xref => {
+          const xrefGlossary = xref.querySelector('[data-sc-content="xref-glossary"]');
+          handleHover(xref, xrefGlossary, xref, true); // Pass `true` to indicate this is an xref pair
+      });
+
+      antonymPairs.forEach(antonym => {
+          const antonymGlossary = antonym.querySelector('[data-sc-content="antonym-glossary"]');
+          handleHover(antonym, antonymGlossary, antonym, true);
+      });
   }
 
   function enableHover() {
@@ -452,7 +470,7 @@
     hideElementIfEmpty();
     darkMode();
     pitchCategoriesFirst();
-    showExampleSentenceB();
+    jitendexHover();
     enableHover();
   }
 
