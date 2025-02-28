@@ -62,7 +62,7 @@
 - **Glossary (Word List)**
   - Words are displayed in a flexible, easy-to-read list.
   - Glossary items are organized with `|` symbols between them for better readability. 
-- *Hidden Sections*
+- **Hidden Sections**
   - Attribution and forms are completely hidden.
 
 ### Additional Features
