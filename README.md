@@ -53,13 +53,17 @@
   </details>
 
 ### Stylization Changes for Jitendex
-- **Example Sentences**:
-  - Adjusted font size and added hover effects for smooth transitions.
-  - Translation and furigana fade in and out on hover.
-- **Glossary**:
-  - Flex layout with `|` separators between items.
-- **Attribution & Forms**:
-  - Hidden.
+- **Hover Effects**
+  - Example sentences, antonyms, cross-references, and notes smoothly expand on hover and collapse when the mouse leaves.
+    - Related content (translations, explanations) slides open smoothly.
+  - Furigana appear smoothly when hovering over example sentences.
+- **Highlighted Keywords**
+  - Target words in example sentences match the bold color style of the note type.
+- **Glossary (Word List)**
+  - Words are displayed in a flexible, easy-to-read list.
+  - Glossary items are organized with `|` symbols between them for better readability. 
+- *Hidden Sections*
+  - Attribution and forms are completely hidden.
 
 ### Additional Features
 - A collapsible list to show **Word Frequencies**.
