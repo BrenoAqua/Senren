@@ -57,6 +57,13 @@
   - Example sentences, antonyms, cross-references, and notes smoothly expand on hover and collapse when the mouse leaves.
     - Related content (translations, explanations) slides open smoothly.
   - Furigana appear smoothly when hovering over example sentences.
+  <br>
+  <details style="display: inline;">
+    <summary><strong>Preview</strong></summary>
+    
+    ![Preview](https://github.com/user-attachments/assets/2ef17782-593c-4fda-87c0-f8f6ffdcba45)
+
+  </details>
 - **Highlighted Keywords**
   - Target words in example sentences match the bold color style of the note type.
 - **Glossary (Word List)**
