@@ -1,5 +1,4 @@
 /* Fonts */
-
 @import url("https://fonts.googleapis.com/css2?family=Klee+One:wght@400;600&family=Noto+Sans+JP:wght@100..900&family=Noto+Serif+JP:wght@200..900&display=swap");
 
 @font-face {
@@ -610,7 +609,6 @@ img {
 }
 
 /* Jitendex settings */
-
 [data-sc-content="extra-info"] {
   /*display: none;*/
 }
