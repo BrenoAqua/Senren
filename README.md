@@ -43,7 +43,7 @@
   - The zoom follows the cursor. You can click and drag to move the image.
 - **Support for multiple images**
   - Only the first image appears in the default picture container.
-  - Switch between images using the left and right arrow keys (no buttons available).  
+  - Switch between images using the left and right arrow keys or by pressing the buttons on either side of the screen (or on the image itself, if the Lightbox is not open). 
   <br>
   <details style="display: inline;">
     <summary><strong>Preview</strong></summary>
@@ -96,7 +96,7 @@
 
 - **Mobile support:** It has not been tested on AnkiMobile, but it works well on AnkiDroid.
 
-Download the latest version from here: [v2.3](https://github.com/BrenoAqua/Senren/releases/download/v2.3/Senren.v2.3.apkg)
+Download the latest version from here: [v2.4](https://github.com/BrenoAqua/Senren/releases/download/v2.4/Senren.v2.4.apkg)
 
 ## Yomitan
 
