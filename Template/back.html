@@ -392,6 +392,7 @@
       const xrefPairs = document.querySelectorAll('[data-sc-content="xref"]');
       const antonymPairs = document.querySelectorAll('[data-sc-content="antonym"]');
       const notePairs = document.querySelectorAll('[data-sc-content="sense-note"]');
+      const explanationPairs = document.querySelectorAll('[data-sc-content="info-gloss"]');
 
       const handleHover = (parentElement, elementB) => {
           if (parentElement && elementB) {
@@ -445,6 +446,11 @@
       notePairs.forEach(note => {
           const noteGlossary = note.querySelector('div:last-child');
           handleHover(note, noteGlossary);
+      });
+
+      explanationPairs.forEach(explanation => {
+          const infoGloss = explanation.querySelector('div:last-child');
+          handleHover(explanation, infoGloss);
       });
   }
 
