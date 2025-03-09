@@ -33,12 +33,16 @@
 
     <div class="picture-container {{Tags}} clickable-image">
       {{picture}}
+      <div class="nav-arrow left"></div>
+      <div class="nav-arrow right"></div>
     </div>
   </div>
 
   <div class="lightbox" id="lightbox">
     <img id="lightbox-img" alt="Imagem ampliada">
     <a href="#" class="close"></a>
+    <div class="lightbox-nav left"></div>
+    <div class="lightbox-nav right"></div>
   </div>
 
   <span class="audio">{{wordAudio}}</span>
@@ -90,6 +94,16 @@
 
     const lightbox = document.getElementById("lightbox");
     const lightboxImg = document.getElementById("lightbox-img");
+    const leftButton = document.querySelector(".lightbox-nav.left");
+    const rightButton = document.querySelector(".lightbox-nav.right");
+
+    if (images.length <= 1) {
+      leftButton.classList.add("hidden");
+      rightButton.classList.add("hidden");
+    } else {
+      leftButton.classList.remove("hidden");
+      rightButton.classList.remove("hidden");
+    }
 
     const showImage = (index) => {
       lightboxImg.src = images[index].src;
@@ -171,6 +185,14 @@
 
     lightbox.addEventListener("click", (e) => {
       if (e.target === lightbox) lightbox.classList.remove("active");
+    });
+
+    leftButton.addEventListener("click", () => {
+      showImage(currentIndex = (currentIndex > 0) ? currentIndex - 1 : images.length - 1);
+    });
+
+    rightButton.addEventListener("click", () => {
+      showImage(currentIndex = (currentIndex < images.length - 1) ? currentIndex + 1 : 0);
     });
   }
 
@@ -465,6 +487,45 @@
     applyHoverEffect(".picture-container", ".misc-info", 20);
   }
 
+  function enableImageSwitching() {
+    let currentImageIndex = 0;
+
+    function switchImage(direction, event) {
+      if (event) event.preventDefault();
+
+      const images = document.querySelectorAll('.picture-container img');
+      if (images.length === 0) return;
+
+      images[currentImageIndex].style.display = 'none';
+
+      currentImageIndex += direction;
+
+      if (currentImageIndex >= images.length) {
+        currentImageIndex = 0;
+      } else if (currentImageIndex < 0) {
+        currentImageIndex = images.length - 1;
+      }
+
+      images[currentImageIndex].style.display = 'block';
+    }
+
+    const arrows = document.querySelectorAll('.nav-arrow');
+    const images = document.querySelectorAll('.picture-container img');
+
+    if (images.length <= 1) {
+      arrows.forEach(arrow => arrow.classList.add('hidden'));
+    } else {
+      arrows.forEach(arrow => arrow.classList.remove('hidden'));
+    }
+
+    arrows.forEach(arrow => {
+      arrow.addEventListener('click', (event) => {
+        const direction = arrow.classList.contains('left') ? -1 : 1;
+        switchImage(direction, event);
+      });
+    });
+  }
+
   function init() {
     enableLightbox();
     removeFirstGlossaryItem();
@@ -474,6 +535,7 @@
     pitchCategoriesFirst();
     jitendexHover();
     enableHover();
+    enableImageSwitching();
   }
 
   init();
