@@ -7,10 +7,10 @@
 
    - If you're using the default `mpv` settings location:  
      ```
-     C:/Users/Username/AppData/Roaming/mpv/script-opts/subs2srs.conf
+     C:/Users/Username/AppData/Roaming/mpv/script-opts
      ```
 
    - If `script-opts` is inside your `mpv` folder:  
      ```
-     MPV/script-opts/subs2srs.conf
+     MPV/script-opts
      ```
