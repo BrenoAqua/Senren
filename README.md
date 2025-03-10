@@ -643,6 +643,20 @@ Make sure the option "Sort by this field in the browser" is checked for the `fre
 
 ![Senren_note type](https://github.com/user-attachments/assets/86a862fd-56b4-4069-9d12-c5d2410b45f0)
 
+### Fonts
+If you want to load the fonts locally, follow these steps:
+
+1. Go to the [Fonts](https://github.com/BrenoAqua/Senren/tree/main/Fonts).
+2. Download the font files.
+   - _Hiragino Kaku Gothic ProN W3.otf
+   - _KleeOne-SemiBold.ttf
+   - _NotoSansJP.ttf
+   - _NotoSerifJP.ttf
+3. Navigate to the following directory on your computer:
+ `C:\Users\Administrator\AppData\Roaming\Anki2\YourAnkiProfileName\collection.media`
+    - Replace **YourAnkiProfileName** with the actual name of your Anki profile.
+4. Place the downloaded font files inside this folder.
+
 ### Addons
 
 **Must Have**  
