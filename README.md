@@ -47,21 +47,20 @@ A customizable Anki note type for studying Japanese, with many features, respons
 ### Definition Toggle
 
 - Switch between definitions by pressing the left or right button on either side of the displayed definition (this option is hidden if only one definition is available). You can also switch using the left and right arrow keys.  
-  <details style="display: inline;">
-    <summary><strong>Preview</strong></summary>
 
-  ### Light Mode
+  - Light Mode
+
   <img src="https://github.com/user-attachments/assets/145b21a6-29bb-48fe-828d-d4454d2baf95" width="500">
   <br>
 
-  ### Dark Mode
+  - Dark Mode
+
   <img src="https://github.com/user-attachments/assets/a4bc4087-2dfe-487f-bfe1-f54a6005f0d0" width="500">
   <br>
 
-  ### Custom Dark Mode
+  - Custom Dark Mode
   <img src="https://github.com/user-attachments/assets/13adf4cd-efc5-4744-b38b-e417b07499e5" width="500">
 
-</details>
 
 ### Picture Lightbox
   - Click the image to view it in a larger, more focused display. Close it by clicking outside or pressing ESC.
@@ -70,26 +69,17 @@ A customizable Anki note type for studying Japanese, with many features, respons
 - **Support for multiple images**
   - Only the first image appears in the default picture container.
   - Switch between images using the left and right arrow keys or by pressing the buttons on either side of the screen (or on the image itself, if the Lightbox is not open). 
-  <br>
-  <details style="display: inline;">
-    <summary><strong>Preview</strong></summary>
-    
-    ![Preview](https://github.com/BrenoAqua/Senren/blob/main/Images/Lightbox%20Preview.gif)
 
-  </details>
+    ![Preview](https://github.com/BrenoAqua/Senren/blob/main/Images/Lightbox%20Preview.gif)
 
 ### Stylization Changes for Jitendex
 - **Hover Effects**
   - Example sentences, antonyms, cross-references, and notes smoothly expand on hover and collapse when the mouse leaves.
     - Related content (translations, explanations) slides open smoothly.
   - Furigana appear smoothly when hovering over example sentences.
-  <br>
-  <details style="display: inline;">
-    <summary><strong>Preview</strong></summary>
-    
+
     ![Preview](https://github.com/user-attachments/assets/2ef17782-593c-4fda-87c0-f8f6ffdcba45)
 
-  </details>
 - **Highlighted Keywords**
   - Target words in example sentences match the bold color style of the note type.
 - **Glossary (Word List)**
@@ -104,18 +94,16 @@ A customizable Anki note type for studying Japanese, with many features, respons
 - **Misc Info** appears when the picture is hovered over, if available.
 - Support for **Sorting by Frequency**.
 - Hovering over the **Pitch Accent "Position"** displays the name of the associated pitch accent category.
-  <details style="display: inline;">
-    <summary><strong>Preview</strong></summary>
 
-  ### Light Mode
+  - Light Mode
   <img src="https://github.com/user-attachments/assets/aaa2f796-b5f5-478f-adc5-12c27a5e54a1" width="500">
   <br>
 
-  ### Dark Mode
+  - Dark Mode
   <img src="https://github.com/user-attachments/assets/09a30ed1-f735-4f9e-9fb8-4ad43706aa8c" width="500">
   <br>
 
-  ### Custom Dark Mode
+  - Custom Dark Mode
   <img src="https://github.com/user-attachments/assets/0a38f4ae-3510-44a0-81da-c2a06aa6d889" width="500">
   
 </details>
