@@ -20,11 +20,8 @@ If you want ShareX to record audio, follow these steps:
 
 ## ShareX Hotkeys
 
-### Important: Remember to use the Hotkeys **AFTER** creating the card.
 - **Alt + C**: Takes a screenshot, saves it to your Anki media folder, and adds it to your last created card.
 - **Alt + N**: Takes a screenshot, saves it to your Anki media folder, adds it to your last created card, and adds the NSFW tag.
 - **Alt + V**: Records audio, saves it to your Anki media folder, and adds it to your last created card.
 - **PrtSc**: Takes a normal screenshot, saves it to your ShareX Screenshot Folder, and copies it to the clipboard.
-
-
-
+> Remember to use the Hotkeys **AFTER** creating the card.
