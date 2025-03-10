@@ -1,7 +1,33 @@
 # Senren
-[Senren](https://github.com/BrenoAqua/Senren/releases) is a customizable [Anki](https://apps.ankiweb.net/) Note Type for Japanese that offers pitch accent styling, word frequencies, image blurring, a toggleable custom dark mode, support for multiple dictionaries with easy definition switching, and much more.
+A customizable Anki note type for studying Japanese, with many features, responsive, a smooth design, and compatibility with most tools.
 
 <img src="https://github.com/BrenoAqua/Senren/blob/main/Images/Senren%20v2.1%20Preview.gif" width="800">
+
+### Contents
+- [Features](#features)
+  - [Automatic Colors for Every Pitch Accent + Pitch Position](#automatic-colors-for-every-pitch-accent--pitch-position)
+  - [Custom Dark Mode](#custom-dark-mode)
+  - [Image Blurring](#image-blurring)
+  - [Definition Toggle](#definition-toggle)
+  - [Picture Lightbox](#picture-lightbox)
+  - [Stylization Changes for Jitendex](#stylization-changes-for-jitendex)
+  - [Additional Features](#additional-features)
+- [Yomitan](#yomitan)
+  - [Fields](#fields)
+  - [Handlebars](#handlebars)
+  - [Result Display](#result-display)
+- [Anki](#anki)
+  - [Frequency Sorting](#frequency-sorting)
+  - [Fonts](#fonts)
+  - [Addons](#addons)
+- [Additional Resources](#additional-resources)
+  - [Setting Up ShareX](#setting-up-sharex)
+  - [Audio Settings](#audio-settings)
+  - [ShareX Hotkeys](#sharex-hotkeys)
+- [Kaishi Template](#kaishi-template)
+  - [Installation Instructions](#installation-instructions)
+  - [Kaishi Template Features](#kaishi-template-featurese)
+
 
 ## Features
 
@@ -719,11 +745,9 @@ These are the settings I use for Kaishi. When I finished Kaishi, I merged it wit
    - [`back.html`](https://github.com/BrenoAqua/Senren/blob/main/Template/kaishi/back.html)
    - [`styling.css`](https://github.com/BrenoAqua/Senren/blob/main/Template/kaishi/styling.css)
 
-This template shares some features with Senren, but not all of them. These include: 
+### Kaishi Template Features
 
-### The overall appearance is the same, but instead of a grid with two rows for Word and Picture, it uses just one row, like in the original Kaishi note type.
-
-### Colors for Every Pitch Accent
+**Colors for Every Pitch Accent**
 - 🔵 **Heiban** 
 - 🔴 **Atamadaka**
 - 🟠 **Nakadaka**
@@ -731,11 +755,11 @@ This template shares some features with Senren, but not all of them. These inclu
 - 🟣 **Kifuku**
 > This isn't automatic, as the color will only be applied if you tag the card. For example, if the pitch is heiban, you need to add the `heiban` tag to the card for its corresponding color to be applied.
 
-### Custom Dark Mode
+**Custom Dark Mode**
 - Easily toggle between the default theme (light or original dark mode) and custom dark mode with a black background.
 > It works the same way as Senren, and it also supports light mode.
 
-### English Translations and Furigana Hover Effects
+**Hover Effects**
 - English translations appear when hovering over Japanese sentences.
 - Sentence Furigana appears when hovering over Japanese sentences.
 > These hover effects use the same styling as Senren.
