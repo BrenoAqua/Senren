@@ -25,6 +25,7 @@ A customizable Anki note type for studying Japanese, with many features, a respo
    - [Setting Up ShareX](#setting-up-sharex)
      - [Audio Settings](#audio-settings)
      - [ShareX Hotkeys](#sharex-hotkeys)
+   - [Setting Up mpvacious](#setting-up-mpvacious)
    - [Kaishi Template](#kaishi-template)
      - [Installation Instructions](#installation-instructions)
      - [Kaishi Template Features](#kaishi-template-features)
@@ -720,6 +721,23 @@ If you want ShareX to record audio, follow these steps:
 - **Alt + V**: Records audio, saves it to your Anki media folder, and adds it to your last created card.
 - **PrtSc**: Takes a normal screenshot, saves it to your ShareX Screenshot Folder, and copies it to the clipboard.
 > Remember to use the Hotkeys **AFTER** creating the card.
+
+## Setting Up mpvacious
+
+1. Download the configuration file from the following link:  
+   [subs2srs.conf](https://github.com/BrenoAqua/Senren/blob/main/mpvacious/subs2srs.conf)
+
+2. Move the file to the script-opts directory:
+
+   - If you're using the default `mpv` settings location:  
+     ```
+     C:/Users/Username/AppData/Roaming/mpv/script-opts/subs2srs.conf
+     ```
+
+   - If `script-opts` is inside your `mpv` folder:  
+     ```
+     MPV/script-opts/subs2srs.conf
+     ```
 
 ## Kaishi Template
 These are the settings I use for Kaishi. When I finished Kaishi, I merged it with my mining deck (while keeping its original note type). Since then, I’ve made a lot of edits to make it look more like Senren.
