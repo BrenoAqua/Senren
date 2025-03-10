@@ -1,5 +1,5 @@
 # Senren
-A customizable Anki note type for studying Japanese, with many features, a responsive layout, and a smooth design, designed to work effortlessly with most tools.
+A customizable Anki note type for studying Japanese, with many features, a responsive layout, and a smooth design, optimized for compatibility with most tools.
 
 <img src="https://github.com/BrenoAqua/Senren/blob/main/Images/Senren%20v2.1%20Preview.gif" width="800">
 
