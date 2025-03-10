@@ -71,6 +71,7 @@ A customizable Anki note type for studying Japanese, with many features, respons
   - Switch between images using the left and right arrow keys or by pressing the buttons on either side of the screen (or on the image itself, if the Lightbox is not open). 
 
     ![Preview](https://github.com/BrenoAqua/Senren/blob/main/Images/Lightbox%20Preview.gif)
+    <img src="https://github.com/BrenoAqua/Senren/blob/main/Images/Lightbox%20Preview%202.gif" width="800">
 
 ### Stylization Changes for Jitendex
 - **Hover Effects**
