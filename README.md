@@ -667,6 +667,7 @@ If you want to load the fonts locally, follow these steps:
    - _KleeOne-SemiBold.ttf
    - _NotoSansJP.ttf
    - _NotoSerifJP.ttf
+> Noto Sans JP is used as a fallback for Hiragino. If you prefer to use Noto Sans JP, you can ignore Hiragino and skip downloading it. Similarly, Noto Serif JP serves as a fallback for Klee One. However, if you don’t want to use Klee One, you’ll need to adjust the styling in the CSS.
 3. Navigate to the following directory on your computer:
  `C:\Users\Administrator\AppData\Roaming\Anki2\YourAnkiProfileName\collection.media`
     - Replace **YourAnkiProfileName** with the actual name of your Anki profile.
