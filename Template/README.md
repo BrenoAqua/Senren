@@ -6,5 +6,4 @@
    - [`front.html`](https://github.com/BrenoAqua/Senren/blob/main/Template/front.html)
    - [`back.html`](https://github.com/BrenoAqua/Senren/blob/main/Template/back.html)
    - [`styling.css`](https://github.com/BrenoAqua/Senren/blob/main/Template/styling.css)
-
-Click **Save** after making the changes.
+5. Click on **Save** after making the changes.
