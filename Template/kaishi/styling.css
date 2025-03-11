@@ -15,6 +15,28 @@
   src: url("_NotoSerifJP.ttf");
 }
 
+#definition {
+  font-size: 30px;
+  padding-bottom:20px;
+}
+
+#notes {
+  font-size: 20px; 
+  padding-top: 20px;
+}
+
+#pitchNotes {
+  font-size: 20px;
+  width: fit-content; 
+  max-width: 40vw; 
+  margin: auto;
+}
+
+#picture {
+  padding-top: 30px;
+  line-height: 0;
+}
+
 /* Custom Dark mode */
 .custom-dark-mode {
   background-color: black !important;
@@ -124,21 +146,16 @@ body.custom-dark-mode {
   }
 }
 
-.side1 {
-  position: relative;
-  top: -27px; /* Adjust this value as needed */
-}
-
 .front {
-  top: 133px; /* Adjust this value as needed */
+  top: 106px;
 }
 
 .back {
-  top: 62px; /* Adjust this value as needed */
+  top: 62px;
 }
 
 .front, .back {
-  position: relative; /* Estabelece um bloco de contenção para ::before */
+  position: relative;
   padding: 20px;
   border-radius: 12px;
   max-width: 800px;
@@ -164,7 +181,7 @@ body.custom-dark-mode {
 
 @media (max-width: 768px) {
   .front, .back {
-    top: 0 !important;  /* Adicionando !important para forçar a aplicação */
+    top: 0 !important;
   }
 }
 
@@ -178,7 +195,6 @@ body.custom-dark-mode {
 
 .card {
   font-family: hiragino kaku gothic proN, notosansjp, noto sans jp;
-  font-size: 50px;
   text-align: center;
 }
 
@@ -217,21 +233,12 @@ body.custom-dark-mode {
   font-size: 30px;
   text-align: center;
 }
-.pitch.heiban span[style*="border-color:currentColor"] {
-  color: var(--blue);
-}
-.pitch.atamadaka span[style*="border-color:currentColor"] {
-  color: var(--red); /* Atamadaka pitch accent color */
-}
-.pitch.nakadaka span[style*="border-color:currentColor"] {
-  color: var(--orange); /* Nakadaka pitch accent color */
-}
-.pitch.odaka span[style*="border-color:currentColor"] {
-  color: var(--green); /* Odaka pitch accent color */
-}
-.pitch.kifuku span[style*="border-color:currentColor"] {
-  color: var(--purple); /* Kifuku pitch accent color */
-}
+
+.pitch.heiban span[style*="border-color:currentColor"] { color: var(--blue); }
+.pitch.atamadaka span[style*="border-color:currentColor"] { color: var(--red); }
+.pitch.nakadaka span[style*="border-color:currentColor"] { color: var(--orange); }
+.pitch.odaka span[style*="border-color:currentColor"] { color: var(--green); }
+.pitch.kifuku span[style*="border-color:currentColor"] { color: var(--purple); }
 
 img {
   max-width: 300px;
