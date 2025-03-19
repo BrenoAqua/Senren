@@ -18,16 +18,25 @@
 
 /* Variables */
 :root {
-  font-size: 25px;
+  /* Font */
+  font-size: clamp(20px, 4vw, 25px);
+  --sans: hiragino kaku gothic proN, notosansjp, Noto Sans JP;
+  --serif: klee, Klee One SemiBold, notoserifjp, Noto Serif JP;
+
   /* Pitch */
   --red: #fd5c5c;
   --blue: #89daff;
   --orange: #fca311;
   --green: #4e937a;
   --purple: #afa2ff;
+
   /* Highlight word */
   --dark-mode-highlight: #FCFF61;
   --light-mode-highlight: #E20033;
+
+  /* Card bg */
+  --card-bg: rgba(0,0,0,0.4);
+  --buttons-bg: rgba(0,0,0,0.1);
 }
 
 /* Card */
@@ -46,16 +55,15 @@
   content: "";
   position: absolute;
   inset: 0;
-  opacity: 0.4;
   border-radius: 12px;
   z-index: -1;
 }
 
 .card.nightMode .front::before, .card.nightMode .back::before {
-  background-color: black;
+  background-color: var(--card-bg);
 }
 
-.win, .mac, .linux:not(.android) {
+.win, .mac, .linux, .mobile {
   text-align: center;
   display: block;
   width: 100%;
@@ -63,7 +71,7 @@
 }
 
 .card {
-  font-family: hiragino kaku gothic proN, notosansjp, noto sans jp;
+  font-family: var(--sans);
   display: inline-block;
   text-align: center;
   position: relative;
@@ -71,12 +79,12 @@
 
 .card-a rt li {
   display: inline;
-  font-size: 25px;
+  font-size: 1rem;
   font-weight: normal;
 }
 
 .card-b {
-  font-size: 20px;
+  font-size: 0.8rem;
 }
 
 .card-b li {
@@ -146,7 +154,7 @@ ul, ol {
 }
 
 .custom-dark-mode .toggle-custom-dark-mode, .card.nightMode .toggle-custom-dark-mode {
-  background-color: rgba(0, 0, 0, 0.1); 
+  background: var(--buttons-bg); 
 }
 
 .card.nightMode .toggle-custom-dark-mode:hover {
@@ -168,18 +176,23 @@ ul, ol {
 
 #word {
   position: relative;
-  font-family: klee, Klee One SemiBold, notoserifjp, Noto Serif JP;
+  font-family: var(--serif);
   font-size: 2.5rem;
   text-align: center;
 }
 
+#word.length-6 { font-size: 2.2rem; }
+#word.length-7 { font-size: 1.9rem; }
+#word.length-8 { font-size: 1.8rem; }
+#word.length-9 { font-size: 1.7rem; }
+
 #word ruby rt {
-  font-family: hiragino kaku gothic proN, notosansjp, noto sans jp;
+  font-family: var(--sans);
 }
 
 .grid-container {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: minmax(390px, 1fr) auto;
   gap: 20px;
   align-items: stretch;
 }
@@ -192,10 +205,12 @@ ul, ol {
   display: flex;
   justify-content: center;
   align-items: center;
+  white-space: nowrap;
+  min-width: min-content;
 }
 
 .card.nightMode .background-box {
-  background-color: rgba(0, 0, 0, 0.4);
+  background: var(--card-bg);
 }
 
 /* Picture */
@@ -235,7 +250,7 @@ img {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: black; 
+  background: var(--card-bg);
   border-radius: 5px;
   overflow: hidden;
 }
@@ -322,7 +337,7 @@ img {
   transition: filter 0.3s ease;
 }
 
-.NSFW img:hover {
+.NSFW img.clicked {
   filter: blur(0);
 }
 
@@ -332,7 +347,6 @@ img {
 }
 
 .front #sentence {
-  font-size: 1.3rem;
   margin: 11px;
 }
 
@@ -382,7 +396,7 @@ img {
 }
 
 .card.nightMode .glossary-box, .card.nightMode .definition-box {
-  background-color: rgba(0, 0, 0, 0.4);
+  background: var(--card-bg);
 }
 
 /* Toggle definition-glossary */
@@ -479,7 +493,7 @@ img {
 
 .custom-dark-mode .audio, .card.nightMode .audio, 
 .custom-dark-mode .sentenceaudio, .card.nightMode .sentenceaudio {
-  background-color: rgba(0, 0, 0, 0.1);
+  background: var(--buttons-bg);
 }
 
 .sentenceaudio {
@@ -527,12 +541,12 @@ img {
 
 /* Pitch accent "position" */
 #position {
-  font-family: hiragino kaku gothic proN, notosansjp, noto sans jp;
+  font-family: var(--sans);
   position: absolute;
   top: 0;
   left: 100%;
   margin-left: 8px;
-  font-size: 12px;
+  font-size: 0.48rem;
   padding: 0 2px;
   border-radius: 4px;
   color: rgba(0, 0, 0, 0.5);
@@ -565,7 +579,7 @@ img {
 
 /* Pitch accent "categories" */
 #categories {
-  font-family: hiragino kaku gothic proN, notosansjp, noto sans jp;
+  font-family: var(--sans);
   position: absolute;
   top: 0;
   left: 100%;
@@ -790,7 +804,7 @@ div[data-sc-content="attribution"] {
   position: fixed;
   top: 70px;
   right: 20px;
-  font-family: hiragino kaku gothic proN, notosansjp, noto sans jp;
+  font-family: var(--sans);
   z-index: 1;
 }
 
@@ -853,7 +867,7 @@ div[data-sc-content="attribution"] {
 
 /* Misc info */
 .misc-info {
-  font-family: hiragino kaku gothic proN, notosansjp, noto sans jp;
+  font-family: var(--sans);
   font-size: 15px;
   font-weight: bold;
   width: 100%;
@@ -871,6 +885,10 @@ div[data-sc-content="attribution"] {
 }
 
 @media (max-width: 1200px) {
+  .grid-container {
+  grid-template-columns: repeat(2, 1fr);
+  }
+
   .toggle-custom-dark-mode,
   .audio, .sentenceaudio,
   #frequency {
@@ -895,7 +913,13 @@ div[data-sc-content="attribution"] {
 }
 
 @media (max-width: 624px) {
-  .back { top: 0px;}
+  .card {
+    display: unset !important;
+  }
+
+  .front { top: 0px; }
+  .back { top: 0px; }
+
   .grid-container {
     grid-template-columns: repeat(1, 1fr);
   }
