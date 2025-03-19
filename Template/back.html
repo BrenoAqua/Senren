@@ -23,7 +23,7 @@
       <div id="word" class="pitch card-a">
         {{#word}}
           <span class="{{pitch}} {{Tags}}">
-            <ruby>{{edit:word}}<rt>{{reading}}</rt></ruby>
+            <ruby>{{word}}<rt>{{reading}}</rt></ruby>
             <div id="position">{{pitchPosition}}</div>
             <div id="categories">{{pitch}}</div>
           </span>
@@ -45,8 +45,13 @@
     <div class="lightbox-nav right"></div>
   </div>
 
-  <span class="audio">{{wordAudio}}</span>
-  <span class="sentenceaudio">{{sentenceAudio}}</span>
+  {{#wordAudio}}
+    <div class="{{Tags}}"><span class="audio">{{wordAudio}}</span></div>
+  {{/wordAudio}}
+
+  {{#sentenceAudio}}
+    <div class="{{Tags}}"><span class="sentenceaudio">{{sentenceAudio}}</span></div>
+  {{/sentenceAudio}}
 
   <div class="sentence-container">
     <div id="sentence">
@@ -54,7 +59,7 @@
       {{sentence}} {{/sentenceFurigana}}
     </div>
     <div id="sentenceEng">
-      {{edit:sentenceEng}}
+      {{sentenceEng}}
     </div>
   </div>
 
@@ -84,130 +89,74 @@
 </div>
 
 <script>
-  function enableLightbox() {
-    const images = document.querySelectorAll(".picture-container img");
-    if (!images.length) return;
+  function darkMode() {
+    const button = document.querySelector(".toggle-custom-dark-mode");
+    const body = document.body;
+    const sunIcon = document.querySelector(".sun-icon");
+    const moonIcon = document.querySelector(".moon-icon");
+    const audioButtons = document.querySelectorAll(".audio, .sentenceaudio");
+    const playImagePaths = document.querySelectorAll(".playImage path");
 
-    let currentIndex = 0;
-    let scale = 1, translateX = 0, translateY = 0;
-    let isPanning = false, startX = 0, startY = 0;
+    const applyDarkMode = () => {
+      const isDarkMode = localStorage.getItem("darkMode") === "enabled";
+      body.classList.toggle("custom-dark-mode", isDarkMode);
+      button.classList.toggle("dark-mode", isDarkMode);
 
-    const lightbox = document.getElementById("lightbox");
-    const lightboxImg = document.getElementById("lightbox-img");
-    const leftButton = document.querySelector(".lightbox-nav.left");
-    const rightButton = document.querySelector(".lightbox-nav.right");
+      audioButtons.forEach(btn => {
+        btn.classList.toggle("dark-mode", isDarkMode);
+      });
 
-    if (images.length <= 1) {
-      leftButton.classList.add("hidden");
-      rightButton.classList.add("hidden");
-    } else {
-      leftButton.classList.remove("hidden");
-      rightButton.classList.remove("hidden");
-    }
+      playImagePaths.forEach(path => {
+        path.classList.toggle("dark-mode", isDarkMode);
+      });
 
-    const showImage = (index) => {
-      lightboxImg.src = images[index].src;
-      resetTransform();
-      lightbox.classList.add("active");
+      sunIcon.style.display = isDarkMode ? "inline" : "none";
+      moonIcon.style.display = isDarkMode ? "none" : "inline";
     };
 
-    const resetTransform = () => {
-      scale = 1;
-      translateX = 0;
-      translateY = 0;
-      updateTransform();
-    };
+    requestAnimationFrame(applyDarkMode);
 
-    const updateTransform = () => {
-      lightboxImg.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
-    };
-
-    images.forEach((img, index) => {
-      img.addEventListener("click", () => showImage(currentIndex = index));
-    });
-
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") {
-        lightbox.classList.remove("active");
-      }
-
-      if (lightbox.classList.contains("active")) {
-        if (e.key === "ArrowLeft") {
-          showImage(currentIndex = (currentIndex > 0) ? currentIndex - 1 : images.length - 1);
-        }
-        if (e.key === "ArrowRight") {
-          showImage(currentIndex = (currentIndex < images.length - 1) ? currentIndex + 1 : 0);
-        }
-      }
-    });
-
-    lightboxImg.addEventListener("wheel", (e) => {
-      e.preventDefault();
-      const prevScale = scale;
-      scale = Math.min(Math.max(1, scale + e.deltaY * -0.001), 3);
-
-      if (scale === 1) {
-        resetTransform();
-      } else {
-        const rect = lightboxImg.getBoundingClientRect();
-        const offsetX = (e.clientX - rect.left) / rect.width;
-        const offsetY = (e.clientY - rect.top) / rect.height;
-        translateX -= (offsetX - 0.5) * (scale - prevScale) * rect.width;
-        translateY -= (offsetY - 0.5) * (scale - prevScale) * rect.height;
-        updateTransform();
-      }
-    });
-
-    lightboxImg.addEventListener("mousedown", (e) => {
-      if (scale === 1) return;
-      e.preventDefault();
-      isPanning = true;
-      startX = e.clientX - translateX;
-      startY = e.clientY - translateY;
-      lightboxImg.style.cursor = "grabbing";
-    });
-
-    const moveImage = (e) => {
-      if (!isPanning) return;
-      translateX = e.clientX - startX;
-      translateY = e.clientY - startY;
-      updateTransform();
-    };
-
-    document.addEventListener("mousemove", (e) => {
-      if (isPanning) requestAnimationFrame(() => moveImage(e));
-    });
-
-    document.addEventListener("mouseup", () => {
-      isPanning = false;
-      lightboxImg.style.cursor = "grab";
-    });
-
-    lightbox.addEventListener("click", (e) => {
-      if (e.target === lightbox) lightbox.classList.remove("active");
-    });
-
-    leftButton.addEventListener("click", () => {
-      showImage(currentIndex = (currentIndex > 0) ? currentIndex - 1 : images.length - 1);
-    });
-
-    rightButton.addEventListener("click", () => {
-      showImage(currentIndex = (currentIndex < images.length - 1) ? currentIndex + 1 : 0);
+    button.addEventListener("click", () => {
+      const isCurrentlyDark = body.classList.contains("custom-dark-mode");
+      localStorage.setItem("darkMode", isCurrentlyDark ? "disabled" : "enabled");
+      requestAnimationFrame(applyDarkMode);
     });
   }
 
-  function removeFirstGlossaryItem() {
-    const glossary = document.querySelector('#glossary');
-    if (!glossary) return;
+  function hideElementIfEmpty(styleProperty = 'display') {
+    const elementIds = ['definition', 'position', 'glossary', 'sentenceEng'];
 
-    const ol = glossary.querySelector('ol');
-    if (!ol) return;
+    elementIds.forEach(id => {
+      const element = document.getElementById(id);
+      if (element && !element.innerText.trim()) {
+        element.style[styleProperty] = 'none';
+        if (id === 'definition') {
+          document.getElementById('glossary')?.classList.add('show');
+        }
+      } else {
+        element.style[styleProperty] = '';
+      }
+    });
 
-    const firstItem = ol.querySelector('li');
+    const glossaryItems = document.querySelectorAll("#glossary > div > span .yomitan-glossary");
+    let isGlossaryEmpty = true;
 
-    if (firstItem && firstItem.getAttribute('data-dictionary')?.includes('Jitendex.org')) {
-      firstItem.remove();
-    }
+    glossaryItems.forEach(glossary => {
+      if (!glossary.querySelector("ol li")) {
+        glossary.style[styleProperty] = 'none';
+        glossary.classList.add('ignore');
+      } else {
+        glossary.classList.remove('ignore');
+        isGlossaryEmpty = false;
+      }
+    });
+
+    const toggleAreas = document.querySelectorAll('.toggle-area');
+    const shouldHide = isGlossaryEmpty;
+
+    toggleAreas.forEach(area => {
+      area.style[styleProperty] = shouldHide ? 'none' : '';
+    });
   }
 
   function toggleDefinitionGlossary() {
@@ -290,74 +239,18 @@
     });
   }
 
-  function hideElementIfEmpty(styleProperty = 'display') {
-    const elementIds = ['definition', 'position', 'glossary', 'sentenceEng'];
+  function removeFirstGlossaryItem() {
+    const glossary = document.querySelector('#glossary');
+    if (!glossary) return;
 
-    elementIds.forEach(id => {
-      const element = document.getElementById(id);
-      if (element && !element.innerText.trim()) {
-        element.style[styleProperty] = 'none';
-        if (id === 'definition') {
-          document.getElementById('glossary')?.classList.add('show');
-        }
-      } else {
-        element.style[styleProperty] = '';
-      }
-    });
+    const ol = glossary.querySelector('ol');
+    if (!ol) return;
 
-    const glossaryItems = document.querySelectorAll("#glossary > div > span .yomitan-glossary");
-    let isGlossaryEmpty = true;
+    const firstItem = ol.querySelector('li');
 
-    glossaryItems.forEach(glossary => {
-      if (!glossary.querySelector("ol li")) {
-        glossary.style[styleProperty] = 'none';
-        glossary.classList.add('ignore');
-      } else {
-        glossary.classList.remove('ignore');
-        isGlossaryEmpty = false;
-      }
-    });
-
-    const toggleAreas = document.querySelectorAll('.toggle-area');
-    const shouldHide = isGlossaryEmpty;
-
-    toggleAreas.forEach(area => {
-      area.style[styleProperty] = shouldHide ? 'none' : '';
-    });
-  }
-
-  function darkMode() {
-    const button = document.querySelector(".toggle-custom-dark-mode");
-    const body = document.body;
-    const sunIcon = document.querySelector(".sun-icon");
-    const moonIcon = document.querySelector(".moon-icon");
-    const audioButtons = document.querySelectorAll(".audio, .sentenceaudio");
-    const playImagePaths = document.querySelectorAll(".playImage path");
-
-    const applyDarkMode = () => {
-      const isDarkMode = localStorage.getItem("darkMode") === "enabled";
-      body.classList.toggle("custom-dark-mode", isDarkMode);
-      button.classList.toggle("dark-mode", isDarkMode);
-
-      audioButtons.forEach(btn => {
-        btn.classList.toggle("dark-mode", isDarkMode);
-      });
-
-      playImagePaths.forEach(path => {
-        path.classList.toggle("dark-mode", isDarkMode);
-      });
-
-      sunIcon.style.display = isDarkMode ? "inline" : "none";
-      moonIcon.style.display = isDarkMode ? "none" : "inline";
-    };
-
-    requestAnimationFrame(applyDarkMode);
-
-    button.addEventListener("click", () => {
-      const isCurrentlyDark = body.classList.contains("custom-dark-mode");
-      localStorage.setItem("darkMode", isCurrentlyDark ? "disabled" : "enabled");
-      requestAnimationFrame(applyDarkMode);
-    });
+    if (firstItem && firstItem.getAttribute('data-dictionary')?.includes('Jitendex.org')) {
+      firstItem.remove();
+    }
   }
 
   function pitchCategoriesFirst() {
@@ -393,6 +286,7 @@
       const antonymPairs = document.querySelectorAll('[data-sc-content="antonym"]');
       const notePairs = document.querySelectorAll('[data-sc-content="sense-note"]');
       const explanationPairs = document.querySelectorAll('[data-sc-content="info-gloss"]');
+      const langPairs = document.querySelectorAll('[data-sc-content="lang-source"]');
 
       const handleHover = (parentElement, elementB) => {
           if (parentElement && elementB) {
@@ -451,6 +345,11 @@
       explanationPairs.forEach(explanation => {
           const infoGloss = explanation.querySelector('div:last-child');
           handleHover(explanation, infoGloss);
+      });
+
+      langPairs.forEach(lang => {
+          const langSource = lang.querySelector('div:last-child');
+          handleHover(lang, langSource);
       });
   }
 
@@ -532,16 +431,179 @@
     });
   }
 
+  function enableLightbox() {
+    const images = document.querySelectorAll(".picture-container img");
+    if (!images.length) return;
+
+    let currentIndex = 0;
+    let scale = 1, translateX = 0, translateY = 0;
+    let isPanning = false, startX = 0, startY = 0;
+
+    const lightbox = document.getElementById("lightbox");
+    const lightboxImg = document.getElementById("lightbox-img");
+    const leftButton = document.querySelector(".lightbox-nav.left");
+    const rightButton = document.querySelector(".lightbox-nav.right");
+
+    if (images.length <= 1) {
+      leftButton.classList.add("hidden");
+      rightButton.classList.add("hidden");
+    } else {
+      leftButton.classList.remove("hidden");
+      rightButton.classList.remove("hidden");
+    }
+
+    const showImage = (index) => {
+      lightboxImg.src = images[index].src;
+      resetTransform();
+      lightbox.classList.add("active");
+    };
+
+    const resetTransform = () => {
+      scale = 1;
+      translateX = 0;
+      translateY = 0;
+      updateTransform();
+    };
+
+    const updateTransform = () => {
+      lightboxImg.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+    };
+
+    images.forEach((img, index) => {
+      let isDoubleClick = false;
+
+      const container = img.closest('.picture-container');
+      const tags = container.classList;
+
+      if (tags.contains("NSFW")) {
+        img.addEventListener("dblclick", (e) => {
+          showImage(currentIndex = index);
+          isDoubleClick = true;
+        });
+      } else {
+        img.addEventListener("click", (e) => {
+          if (!isDoubleClick) {
+            showImage(currentIndex = index);
+          }
+          isDoubleClick = false;
+        });
+      }
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        lightbox.classList.remove("active");
+      }
+
+      if (lightbox.classList.contains("active")) {
+        if (e.key === "ArrowLeft") {
+          showImage(currentIndex = (currentIndex > 0) ? currentIndex - 1 : images.length - 1);
+        }
+        if (e.key === "ArrowRight") {
+          showImage(currentIndex = (currentIndex < images.length - 1) ? currentIndex + 1 : 0);
+        }
+      }
+    });
+
+    lightboxImg.addEventListener("wheel", (e) => {
+      e.preventDefault();
+      const prevScale = scale;
+      scale = Math.min(Math.max(1, scale + e.deltaY * -0.001), 3);
+
+      if (scale === 1) {
+        resetTransform();
+      } else {
+        const rect = lightboxImg.getBoundingClientRect();
+        const offsetX = (e.clientX - rect.left) / rect.width;
+        const offsetY = (e.clientY - rect.top) / rect.height;
+        translateX -= (offsetX - 0.5) * (scale - prevScale) * rect.width;
+        translateY -= (offsetY - 0.5) * (scale - prevScale) * rect.height;
+        updateTransform();
+      }
+    });
+
+    lightboxImg.addEventListener("mousedown", (e) => {
+      if (scale === 1) return;
+      e.preventDefault();
+      isPanning = true;
+      startX = e.clientX - translateX;
+      startY = e.clientY - translateY;
+      lightboxImg.style.cursor = "grabbing";
+    });
+
+    const moveImage = (e) => {
+      if (!isPanning) return;
+      translateX = e.clientX - startX;
+      translateY = e.clientY - startY;
+      updateTransform();
+    };
+
+    document.addEventListener("mousemove", (e) => {
+      if (isPanning) requestAnimationFrame(() => moveImage(e));
+    });
+
+    document.addEventListener("mouseup", () => {
+      isPanning = false;
+      lightboxImg.style.cursor = "grab";
+    });
+
+    lightbox.addEventListener("click", (e) => {
+      if (e.target === lightbox) lightbox.classList.remove("active");
+    });
+
+    leftButton.addEventListener("click", () => {
+      showImage(currentIndex = (currentIndex > 0) ? currentIndex - 1 : images.length - 1);
+    });
+
+    rightButton.addEventListener("click", () => {
+      showImage(currentIndex = (currentIndex < images.length - 1) ? currentIndex + 1 : 0);
+    });
+  }
+
+  function dynamicWordSize() {
+    const wordContainer = document.querySelector('div[data-field="word"]');
+    if (wordContainer) {
+      const wordSpan = wordContainer.querySelector('span');
+      const content = wordSpan ? wordSpan.textContent.trim() : wordContainer.textContent.trim();
+      const contentLength = content.length;
+
+      const wordElement = document.querySelector("#word");
+      if (wordElement) {
+
+        if (contentLength >= 1 && contentLength <= 9) {
+          wordElement.classList.add(`length-${contentLength}`);
+        } else {
+          wordElement.classList.add('length-default');
+        }
+      }
+    }
+  }
+
+  function nsfw() {
+    var elem = document.querySelector(".NSFW .soundLink, .NSFW .replaybutton");
+    if (elem) {
+      elem.click();
+    }
+
+    document.querySelectorAll('.NSFW img').forEach(img => {
+      img.addEventListener('click', () => {
+        img.classList.toggle('clicked');
+      });
+    });
+  }
+
   function init() {
-    enableLightbox();
-    removeFirstGlossaryItem();
-    toggleDefinitionGlossary();
-    hideElementIfEmpty();
     darkMode();
+    hideElementIfEmpty();
+    toggleDefinitionGlossary();
+    removeFirstGlossaryItem();
     pitchCategoriesFirst();
     jitendexHover();
     enableHover();
     enableImageSwitching();
+    enableLightbox();
+    dynamicWordSize();
+    nsfw();
   }
 
   init();
