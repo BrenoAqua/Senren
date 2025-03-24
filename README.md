@@ -154,6 +154,7 @@ Download the latest version from here: [Senren v3.0](https://github.com/BrenoAqu
 | frequency     | `{frequencies}`               |            |
 | freqSort      | `{frequency-harmonic-rank}`   |            |
 | miscInfo      | `{document-title}`            | Leave it empty if you use MPVacious or another tool with this function. |
+| dictionaryPreference | `glossary`             | Leave it empty if you want to see the Jitendex dictionary first. You need to enter "glossary" into the new `dictionaryPreference` field for all your cards to display the glossary first instead of the definition (which is the default when empty). You can use the [Batch Editing](https://ankiweb.net/shared/info/291119185) to do this. |
 
 ### Handlebars
 It's not necessary, as this note type works perfectly fine without them, but I recommend it.
