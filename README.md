@@ -659,7 +659,7 @@ It's not necessary, as this note type works perfectly fine without them, but I r
 This Handlebar template checks for Pitch Accents in a word. If present, it displays them. If not, it shows the word's reading to ensure it's available even without Pitch Accents.
 
 ### Result Display
-**Group term-reading pairs** or **Group related terms** is necessary to use the `glossary` field. Otherwise, only the main definition will be shown.
+**Group term-reading pairs** or **Group related terms** is necessary to use the `glossary` field. Otherwise, only the definition will be shown.
 
 ![Result Display](https://github.com/BrenoAqua/Senren/blob/main/Images/Result%20Display.png)
 ## Anki
