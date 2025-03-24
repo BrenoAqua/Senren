@@ -44,24 +44,31 @@ A customizable Anki note type for studying Japanese, with many features, a respo
 
 ### Image Blurring
 - Add the `NSFW` tag to any card to automatically blur its image.
+- Images remain unblurred after being clicked once.
 
 ### Definition Toggle
+- Switch between definitions by pressing the left or right button on either side of the displayed definition (this option is hidden if only one definition is available). You can also switch using the left and right arrow keys.
+  - Store your dictionary viewing preference while reviewing (glossary or definition first).
+    - You need to enter "glossary" into the new `dictionaryPreference` field for all your cards to display the glossary first instead of the definition (which is the default when empty). You can use the [Batch Editing](https://ankiweb.net/shared/info/291119185) to do this.
+    
+         ![dictionaryPreference](https://github.com/user-attachments/assets/13d38364-d6bd-43d3-b343-5b457504c231)
+  - Remember the last dictionary selected until Anki is restarted.
 
-- Switch between definitions by pressing the left or right button on either side of the displayed definition (this option is hidden if only one definition is available). You can also switch using the left and right arrow keys.  
+    <img src="https://github.com/user-attachments/assets/6e98466a-644f-467e-bd6a-e4cd004b442c" width="800">
+    <details>
+      <summary>Light Mode</summary>
+      <img src="https://github.com/user-attachments/assets/145b21a6-29bb-48fe-828d-d4454d2baf95" width="500">
+    </details>
 
-  - Light Mode
+    <details>
+      <summary>Dark Mode</summary>
+      <img src="https://github.com/user-attachments/assets/a4bc4087-2dfe-487f-bfe1-f54a6005f0d0" width="500">
+    </details>
 
-  <img src="https://github.com/user-attachments/assets/145b21a6-29bb-48fe-828d-d4454d2baf95" width="500">
-  <br>
-
-  - Dark Mode
-
-  <img src="https://github.com/user-attachments/assets/a4bc4087-2dfe-487f-bfe1-f54a6005f0d0" width="500">
-  <br>
-
-  - Custom Dark Mode
-  <img src="https://github.com/user-attachments/assets/13adf4cd-efc5-4744-b38b-e417b07499e5" width="500">
-
+    <details>
+      <summary>Custom Dark Mode</summary>
+      <img src="https://github.com/user-attachments/assets/13adf4cd-efc5-4744-b38b-e417b07499e5" width="500">
+    </details>
 
 ### Picture Lightbox
   - Click the image to view it in a larger, more focused display. Close it by clicking outside or pressing ESC.
@@ -73,6 +80,14 @@ A customizable Anki note type for studying Japanese, with many features, a respo
 
     ![Preview](https://github.com/BrenoAqua/Senren/blob/main/Images/Lightbox%20Preview.gif)
     <img src="https://github.com/BrenoAqua/Senren/blob/main/Images/Lightbox%20Preview%202.gif" width="800">
+
+  - Display images from glossary dictionaries in the picture container.
+
+    <img src="https://github.com/user-attachments/assets/dc1ea0b7-0875-499d-b3ef-3494ccf15368" width="400">
+
+  - Dynamically adjust the grid layout if no image is available on the card.
+
+    <img src="https://github.com/user-attachments/assets/5c758d1c-0973-4957-9dd8-94f886bd46ee" width="400">
 
 ### Stylization Changes for Jitendex
 - **Hover Effects**
@@ -97,19 +112,23 @@ A customizable Anki note type for studying Japanese, with many features, a respo
 - Support for **Sorting by Frequency**.
 - Hovering over the **Pitch Accent "Position"** displays the name of the associated pitch accent category.
 
-  - Light Mode
-  <img src="https://github.com/user-attachments/assets/aaa2f796-b5f5-478f-adc5-12c27a5e54a1" width="500">
-  <br>
+    <details>
+      <summary>Light Mode</summary>
+      <img src="https://github.com/user-attachments/assets/aaa2f796-b5f5-478f-adc5-12c27a5e54a1" width="500">
+    </details>
 
-  - Dark Mode
+    <details>
+      <summary>Dark Mode</summary>
   <img src="https://github.com/user-attachments/assets/09a30ed1-f735-4f9e-9fb8-4ad43706aa8c" width="500">
-  <br>
+    </details>
 
-  - Custom Dark Mode
-  <img src="https://github.com/user-attachments/assets/0a38f4ae-3510-44a0-81da-c2a06aa6d889" width="500">
-  
-</details>
-
+    <details>
+      <summary>Custom Dark Mode</summary>
+      <img src="https://github.com/user-attachments/assets/0a38f4ae-3510-44a0-81da-c2a06aa6d889" width="500">
+    </details>
+- Cards extremely responsive to different screen sizes.
+- Enhanced customization options through CSS variables.
+- **Tags** displayed below the definition/glossary.
 - **Mobile support:** It has not been tested on AnkiMobile, but it works well on AnkiDroid.
 
 Download the latest version from here: [Senren v3.0](https://github.com/BrenoAqua/Senren/releases/download/v3.0/Senren.v3.0.apkg)
