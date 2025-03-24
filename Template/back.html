@@ -6,19 +6,18 @@
     <i class="fas fa-moon moon-icon"></i>
   </span>
 
-  <div class="grid-container">
-    <div id="frequency">
-      <div class="frequency-box">
-        <input type="checkbox" id="freq-toggle" class="freq-toggle">
-        <label for="freq-toggle" class="freqbt">
-          {{freqSort}} <i class="fas fa-chevron-down arrow"></i>
-        </label>
-        <div class="frequency-content">
-          {{frequency}}
-        </div>
+  <div id="frequency">
+    <div class="frequency-box">
+      <label class="freqbt">
+        {{freqSort}} <i class="fas fa-chevron-down arrow"></i>
+      </label>
+      <div class="frequency-content">
+        {{frequency}}
       </div>
     </div>
+  </div>
 
+  <div class="grid-container">
     <div class="background-box">
       <div id="word" class="pitch card-a">
         {{#word}}
@@ -83,12 +82,21 @@
     </div>
   </div>
 
+  <div class="tags-container">
+    {{#Tags}}
+      <div class="tags">{{Tags}}</div>
+    {{/Tags}}
+  </div>
+
   <div class="misc-info">
     {{miscInfo}}
   </div>
+
+  <div id="dictionaryPreference" style="display: none;">{{dictionaryPreference}}</div>
 </div>
 
 <script>
+  /* Handles Custom Dark Mode toggle functionality and applies it */
   function darkMode() {
     const button = document.querySelector(".toggle-custom-dark-mode");
     const body = document.body;
@@ -123,8 +131,9 @@
     });
   }
 
+  /* Prevents empty elements from affecting the layout */
   function hideElementIfEmpty(styleProperty = 'display') {
-    const elementIds = ['definition', 'position', 'glossary', 'sentenceEng'];
+    const elementIds = ['definition', 'position', 'glossary', 'sentenceEng', 'frequency'];
 
     elementIds.forEach(id => {
       const element = document.getElementById(id);
@@ -137,6 +146,12 @@
         element.style[styleProperty] = '';
       }
     });
+
+    const frequencyContent = document.querySelector('.frequency-content');
+    if (frequencyContent) {
+      const hasContent = frequencyContent.innerText.trim() !== '';
+      frequencyContent.style[styleProperty] = hasContent ? '' : 'none';
+    }
 
     const glossaryItems = document.querySelectorAll("#glossary > div > span .yomitan-glossary");
     let isGlossaryEmpty = true;
@@ -159,11 +174,46 @@
     });
   }
 
+  /* Collects images from glossary dictionaries and adds them to the Pictures container */
+  function collectGlossaryImages() {
+    const glossaryItems = document.querySelectorAll("#glossary img");
+    const pictureContainer = document.querySelector(".picture-container");
+
+    if (!glossaryItems.length || !pictureContainer) return;
+
+    glossaryItems.forEach(img => {
+      const parentLink = img.closest('span[data-sc-pixiv="read-more-link"] a');
+      if (parentLink) {
+
+        return;
+      }
+
+      if (!img.src || img.src === window.location.href || 
+          (img.naturalHeight > 0 && img.naturalHeight < 180)) {
+        return;
+      }
+
+      const newImg = new Image();
+      newImg.src = img.src;
+
+      newImg.onload = () => {
+        if (newImg.naturalWidth < 100 || newImg.naturalHeight < 100) {
+          newImg.remove();
+        }
+      };
+
+      pictureContainer.appendChild(newImg);
+    });
+  }
+
+
+  /* Manages cycling between definition and glossary dictionaries */
   function toggleDefinitionGlossary() {
     const toggleAreas = document.querySelectorAll('.toggle-area');
     const definition = document.getElementById('definition');
     const glossary = document.getElementById('glossary');
     const glossaryChildren = Array.from(document.querySelectorAll("#glossary > div > span > div"));
+    const dictionaryPreference = document.getElementById('dictionaryPreference')?.textContent.trim() || '';
 
     glossaryChildren.forEach(child => (child.style.display = 'none'));
 
@@ -171,52 +221,150 @@
       return glossaryChildren.filter(child => !child.classList.contains('ignore'));
     }
 
-    if (definition.textContent.trim()) {
-      definition.classList.add('show');
-      glossary.classList.remove('show');
+    function getDictionaryMap() {
+      const map = new Map();
+      glossaryChildren.forEach(child => {
+        const dictionaryName = getDictionaryName(child);
+        if (dictionaryName) {
+          map.set(dictionaryName, child);
+        }
+      });
+      return map;
+    }
+
+    function getDictionaryName(element) {
+      const liElement = element.querySelector('li[data-dictionary]');
+      return liElement ? liElement.getAttribute('data-dictionary') : null;
+    }
+
+    const permanentLastSelected = localStorage.getItem("lastSelectedDictionary");
+    const permanentDictionaryName = localStorage.getItem("lastDictionaryName");
+    
+    const visibleGlossaryItems = getVisibleGlossaryItems();
+    const dictionaryMap = getDictionaryMap();
+    
+    const shouldShowGlossaryFirst = dictionaryPreference.toLowerCase() === 'glossary';
+    const hasGlossary = visibleGlossaryItems.length > 0;
+    const hasDefinition = definition.textContent.trim() !== '';
+
+    if (permanentLastSelected) {
+      if (permanentLastSelected === "definition" && hasDefinition) {
+        definition.classList.add('show');
+        glossary.classList.remove('show');
+      } else if (permanentLastSelected === "glossary" && hasGlossary) {
+        definition.classList.remove('show');
+        glossary.classList.add('show');
+        
+        let foundDictionary = false;
+        if (permanentDictionaryName && dictionaryMap.has(permanentDictionaryName)) {
+          const dictionaryElement = dictionaryMap.get(permanentDictionaryName);
+          dictionaryElement.style.display = 'block';
+          foundDictionary = true;
+        }
+        
+        if (!foundDictionary && visibleGlossaryItems.length > 0) {
+          visibleGlossaryItems[0].style.display = 'block';
+        }
+      } else {
+        useCardPreference();
+      }
     } else {
-      definition.classList.remove('show');
-      glossary.classList.add('show');
-      const visibleGlossaryItems = getVisibleGlossaryItems();
-      if (visibleGlossaryItems.length) visibleGlossaryItems[0].style.display = 'block';
+      useCardPreference();
+    }
+    
+    function useCardPreference() {
+      if (shouldShowGlossaryFirst && hasGlossary) {
+        definition.classList.remove('show');
+        glossary.classList.add('show');
+        visibleGlossaryItems[0].style.display = 'block';
+      } else if (hasDefinition) {
+        definition.classList.add('show');
+        glossary.classList.remove('show');
+      } else if (hasGlossary) {
+        definition.classList.remove('show');
+        glossary.classList.add('show');
+        visibleGlossaryItems[0].style.display = 'block';
+      }
+    }
+
+    if (!definition.classList.contains('show') && !glossary.classList.contains('show')) {
+      if (hasDefinition) {
+        definition.classList.add('show');
+        glossary.classList.remove('show');
+      } else if (hasGlossary) {
+        definition.classList.remove('show');
+        glossary.classList.add('show');
+        visibleGlossaryItems[0].style.display = 'block';
+      }
     }
 
     const handleToggle = (direction) => {
       const visibleGlossaryItems = getVisibleGlossaryItems();
-      if (!visibleGlossaryItems.length) return;
-
+      if (!visibleGlossaryItems.length && !hasDefinition) return;
+      
       const isDefinitionVisible = definition.classList.contains('show');
 
       if (direction === 'right') {
         if (isDefinitionVisible) {
-          definition.classList.remove('show');
-          glossary.classList.add('show');
-          visibleGlossaryItems[0].style.display = 'block';
+          if (visibleGlossaryItems.length > 0) {
+            definition.classList.remove('show');
+            glossary.classList.add('show');
+            visibleGlossaryItems[0].style.display = 'block';
+            
+            localStorage.setItem("lastSelectedDictionary", "glossary");
+            const dictionaryName = getDictionaryName(visibleGlossaryItems[0]);
+            if (dictionaryName) {
+              localStorage.setItem("lastDictionaryName", dictionaryName);
+            }
+          }
         } else {
           const currentIndex = visibleGlossaryItems.findIndex(child => child.style.display === 'block');
           visibleGlossaryItems[currentIndex].style.display = 'none';
 
-          if (currentIndex === visibleGlossaryItems.length - 1 && definition.textContent.trim()) {
+          if (currentIndex === visibleGlossaryItems.length - 1 && hasDefinition) {
             glossary.classList.remove('show');
             definition.classList.add('show');
+            localStorage.setItem("lastSelectedDictionary", "definition");
           } else {
-            visibleGlossaryItems[(currentIndex + 1) % visibleGlossaryItems.length].style.display = 'block';
+            const nextIndex = (currentIndex + 1) % visibleGlossaryItems.length;
+            visibleGlossaryItems[nextIndex].style.display = 'block';
+            
+            const dictionaryName = getDictionaryName(visibleGlossaryItems[nextIndex]);
+            if (dictionaryName) {
+              localStorage.setItem("lastDictionaryName", dictionaryName);
+            }
           }
         }
       } else if (direction === 'left') {
         if (isDefinitionVisible) {
-          definition.classList.remove('show');
-          glossary.classList.add('show');
-          visibleGlossaryItems[visibleGlossaryItems.length - 1].style.display = 'block';
+          if (visibleGlossaryItems.length > 0) {
+            definition.classList.remove('show');
+            glossary.classList.add('show');
+            const lastIndex = visibleGlossaryItems.length - 1;
+            visibleGlossaryItems[lastIndex].style.display = 'block';
+            
+            localStorage.setItem("lastSelectedDictionary", "glossary");
+            const dictionaryName = getDictionaryName(visibleGlossaryItems[lastIndex]);
+            if (dictionaryName) {
+              localStorage.setItem("lastDictionaryName", dictionaryName);
+            }
+          }
         } else {
           const currentIndex = visibleGlossaryItems.findIndex(child => child.style.display === 'block');
           visibleGlossaryItems[currentIndex].style.display = 'none';
 
-          if (currentIndex === 0 && definition.textContent.trim()) {
+          if (currentIndex === 0 && hasDefinition) {
             glossary.classList.remove('show');
             definition.classList.add('show');
+            localStorage.setItem("lastSelectedDictionary", "definition");
           } else {
-            visibleGlossaryItems[(currentIndex - 1 + visibleGlossaryItems.length) % visibleGlossaryItems.length].style.display = 'block';
+            const prevIndex = (currentIndex - 1 + visibleGlossaryItems.length) % visibleGlossaryItems.length;
+            visibleGlossaryItems[prevIndex].style.display = 'block';
+            
+            const dictionaryName = getDictionaryName(visibleGlossaryItems[prevIndex]);
+            if (dictionaryName) {
+              localStorage.setItem("lastDictionaryName", dictionaryName);
+            }
           }
         }
       }
@@ -239,6 +387,7 @@
     });
   }
 
+  /* Removes the first glossary dictionary if it is Jitendex */
   function removeFirstGlossaryItem() {
     const glossary = document.querySelector('#glossary');
     if (!glossary) return;
@@ -253,6 +402,7 @@
     }
   }
 
+  /* Displays only the first Pitch Accent Category and hides the rest */
   function pitchCategoriesFirst() {
     const pitchElements = document.querySelectorAll("span");
     pitchElements.forEach(element => {
@@ -280,6 +430,7 @@
     }
   }
 
+  /* Adds hover effects to Jitendex dictionary content */
   function jitendexHover() {
       const sentencePairs = document.querySelectorAll('[data-sc-content="example-sentence-a"]');
       const xrefPairs = document.querySelectorAll('[data-sc-content="xref"]');
@@ -353,6 +504,7 @@
       });
   }
 
+  /* Enables hover effects for sentenceEng and miscInfo */
   function enableHover() {
     function applyHoverEffect(containerSelector, targetSelector, extraPadding = 0) {
       const container = document.querySelector(containerSelector);
@@ -392,6 +544,7 @@
     applyHoverEffect(".picture-container", ".misc-info", 20);
   }
 
+  /* Allows cycling through images */
   function enableImageSwitching() {
     let currentImageIndex = 0;
 
@@ -431,6 +584,7 @@
     });
   }
 
+  /* Creates lightbox/modal for image viewing */
   function enableLightbox() {
     const images = document.querySelectorAll(".picture-container img");
     if (!images.length) return;
@@ -560,17 +714,21 @@
     });
   }
 
+  /* Adjusts word size based on character length */
   function dynamicWordSize() {
-    const wordContainer = document.querySelector('div[data-field="word"]');
-    if (wordContainer) {
-      const wordSpan = wordContainer.querySelector('span');
-      const content = wordSpan ? wordSpan.textContent.trim() : wordContainer.textContent.trim();
-      const contentLength = content.length;
+    const wordElement = document.querySelector("#word");
+    if (wordElement) {
+      const wordSpan = wordElement.querySelector('span');
+      if (wordSpan) {
+        const rubyElement = wordSpan.querySelector('ruby');
+        const content = rubyElement ? rubyElement.firstChild.textContent.trim() : wordSpan.textContent.trim();
+        const contentLength = content.length;
 
-      const wordElement = document.querySelector("#word");
-      if (wordElement) {
-
-        if (contentLength >= 1 && contentLength <= 9) {
+        if (contentLength >= 1 && contentLength <= 5) {
+          wordElement.classList.add(`length-${contentLength}`);
+        } else if (contentLength >= 9) {
+          wordElement.classList.add('length-9');
+        } else if (contentLength >= 6) {
           wordElement.classList.add(`length-${contentLength}`);
         } else {
           wordElement.classList.add('length-default');
@@ -579,6 +737,7 @@
     }
   }
 
+  /* Handles NSFW content behavior and blur toggling */
   function nsfw() {
     var elem = document.querySelector(".NSFW .soundLink, .NSFW .replaybutton");
     if (elem) {
@@ -587,16 +746,62 @@
 
     document.querySelectorAll('.NSFW img').forEach(img => {
       img.addEventListener('click', () => {
-        img.classList.toggle('clicked');
+        img.classList.add('clicked');
       });
     });
   }
 
+  /* Adds Dictionary Titles to glossary dictionaries */
+  function dictionaryName() {
+    let processedDictionaries = new Set();
+
+    document.querySelectorAll('.yomitan-glossary li').forEach(li => {
+        let dictionaryName = li.getAttribute('data-dictionary');
+        if (dictionaryName && !processedDictionaries.has(dictionaryName)) {
+            let titleElement = document.createElement('div');
+            titleElement.textContent = dictionaryName;
+            titleElement.classList.add('dictionary-title');
+            li.prepend(titleElement);
+            processedDictionaries.add(dictionaryName);
+        }
+    });
+  }
+
+  /* Adjusts the grid layout dynamically based on image presence */
+  function updateGridLayout() {
+    const gridContainer = document.querySelector(".grid-container");
+    const pictureContainer = document.querySelector(".picture-container");
+
+    if (pictureContainer && pictureContainer.querySelector("img") === null) {
+      gridContainer.style.gridTemplateColumns = "repeat(1, 1fr)";
+    } else {
+      gridContainer.style.gridTemplateColumns = "repeat(2, 1fr)";
+    }
+  }
+
+  /* Splits tags into separate elements */
+  function splitTags() {
+    const tagsContainer = document.querySelector(".tags-container");
+    if (tagsContainer) {
+      tagsContainer.innerHTML = "";
+      const tags = `{{Tags}}`.split(" ");
+      tags.forEach(tag => {
+        const tagElem = document.createElement("div");
+        tagElem.className = "tags";
+        tagElem.innerText = tag;
+        tagsContainer.appendChild(tagElem);
+      });
+    }
+  }
+
+  /* Initializes all functions when the page loads */
   function init() {
     darkMode();
     hideElementIfEmpty();
-    toggleDefinitionGlossary();
     removeFirstGlossaryItem();
+    dictionaryName();
+    collectGlossaryImages();
+    updateGridLayout();
     pitchCategoriesFirst();
     jitendexHover();
     enableHover();
@@ -604,6 +809,8 @@
     enableLightbox();
     dynamicWordSize();
     nsfw();
+    splitTags();
+    toggleDefinitionGlossary();
   }
 
   init();
