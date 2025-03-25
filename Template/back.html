@@ -624,23 +624,18 @@
     };
 
     images.forEach((img, index) => {
-      let isDoubleClick = false;
 
       const container = img.closest('.picture-container');
-      const tags = container.classList;
+      const isNSFW = container.classList.contains("NSFW");
 
-      if (tags.contains("NSFW")) {
-        img.addEventListener("dblclick", (e) => {
-          showImage(currentIndex = index);
-          isDoubleClick = true;
+      if (isNSFW) {
+        img.addEventListener("click", (e) => {
+          if (img.classList.contains('clicked')) {
+            showImage(index);
+          }
         });
       } else {
-        img.addEventListener("click", (e) => {
-          if (!isDoubleClick) {
-            showImage(currentIndex = index);
-          }
-          isDoubleClick = false;
-        });
+        img.addEventListener("click", () => showImage(index));
       }
     });
 
