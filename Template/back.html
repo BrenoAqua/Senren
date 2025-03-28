@@ -42,6 +42,7 @@
     <a href="#" class="close"></a>
     <div class="lightbox-nav left"></div>
     <div class="lightbox-nav right"></div>
+    <button id="show-all" class="lightbox-grid-toggle">Show All</button>
   </div>
 
   {{#wordAudio}}
@@ -182,14 +183,11 @@
     if (!glossaryItems.length || !pictureContainer) return;
 
     glossaryItems.forEach(img => {
-      const parentLink = img.closest('span[data-sc-pixiv="read-more-link"] a');
-      if (parentLink) {
-
-        return;
-      }
-
       if (!img.src || img.src === window.location.href || 
-          (img.naturalHeight > 0 && img.naturalHeight < 180)) {
+      img.src.toLowerCase().endsWith('.svg') ||
+      img.closest('span[data-sc-pixiv="read-more-link"] a') ||
+      (img.naturalHeight > 0 && (img.naturalWidth / img.naturalHeight < 0.25)) ||
+      (img.naturalHeight > 0 && img.naturalHeight < 180)) {
         return;
       }
 
@@ -205,7 +203,6 @@
       pictureContainer.appendChild(newImg);
     });
   }
-
 
   /* Manages cycling between definition and glossary dictionaries */
   function toggleDefinitionGlossary() {
@@ -592,23 +589,73 @@
     let currentIndex = 0;
     let scale = 1, translateX = 0, translateY = 0;
     let isPanning = false, startX = 0, startY = 0;
+    let isGridView = false;
 
     const lightbox = document.getElementById("lightbox");
     const lightboxImg = document.getElementById("lightbox-img");
     const leftButton = document.querySelector(".lightbox-nav.left");
     const rightButton = document.querySelector(".lightbox-nav.right");
+    const showAll = document.getElementById("show-all");
 
     if (images.length <= 1) {
       leftButton.classList.add("hidden");
       rightButton.classList.add("hidden");
+      showAll.remove();
     } else {
       leftButton.classList.remove("hidden");
       rightButton.classList.remove("hidden");
     }
 
+    function showGridView() {
+      isGridView = true;
+      const gridContainer = document.createElement("div");
+      gridContainer.className = "lightbox-grid";
+      
+      images.forEach((img, index) => {
+        const gridImg = document.createElement("img");
+        gridImg.src = img.src;
+        gridImg.alt = `Image ${index + 1}`;
+        gridImg.addEventListener("click", () => {
+          showImage(index);
+          hideGridView();
+        });
+        gridContainer.appendChild(gridImg);
+      });
+
+      const imgCount = images.length;
+      if (imgCount <= 4) {
+        gridContainer.style.gridTemplateColumns = `repeat(${imgCount}, 1fr)`;
+      } else if (imgCount <= 9) {
+        gridContainer.style.gridTemplateColumns = "repeat(3, 1fr)";
+      } else {
+        gridContainer.style.gridTemplateColumns = "repeat(4, 1fr)";
+      }
+
+      lightbox.appendChild(gridContainer);
+      lightboxImg.style.display = "none";
+      leftButton.style.display = "none";
+      rightButton.style.display = "none";
+      showAll.textContent = "Back";
+    }
+
+    function hideGridView() {
+      isGridView = false;
+      const grid = document.querySelector(".lightbox-grid");
+      if (grid) {
+        grid.remove();
+      }
+      lightboxImg.style.display = "block";
+      leftButton.style.display = "";
+      rightButton.style.display = "";
+      showAll.textContent = "Show All";
+    }
+
     const showImage = (index) => {
+      if (isGridView) hideGridView();
+      currentIndex = index;
       lightboxImg.src = images[index].src;
       resetTransform();
+      showAll.style.display = "block";
       lightbox.classList.add("active");
     };
 
@@ -639,12 +686,25 @@
       }
     });
 
+    showAll.addEventListener("click", (e) => {
+      e.stopPropagation();
+      if (isGridView) {
+        hideGridView();
+      } else {
+        showGridView();
+      }
+    });
+
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape") {
-        lightbox.classList.remove("active");
+        if (isGridView) {
+          hideGridView();
+        } else {
+          lightbox.classList.remove("active");
+        }
       }
 
-      if (lightbox.classList.contains("active")) {
+      if (lightbox.classList.contains("active") && !isGridView) {
         if (e.key === "ArrowLeft") {
           showImage(currentIndex = (currentIndex > 0) ? currentIndex - 1 : images.length - 1);
         }
@@ -661,6 +721,7 @@
 
       if (scale === 1) {
         resetTransform();
+        showAll.style.display = "block";
       } else {
         const rect = lightboxImg.getBoundingClientRect();
         const offsetX = (e.clientX - rect.left) / rect.width;
@@ -668,6 +729,7 @@
         translateX -= (offsetX - 0.5) * (scale - prevScale) * rect.width;
         translateY -= (offsetY - 0.5) * (scale - prevScale) * rect.height;
         updateTransform();
+        showAll.style.display = "none";
       }
     });
 
@@ -697,7 +759,14 @@
     });
 
     lightbox.addEventListener("click", (e) => {
-      if (e.target === lightbox) lightbox.classList.remove("active");
+      if (e.target === lightbox || 
+          (isGridView && !e.target.closest('.lightbox-grid img') && e.target !== showAll)) {
+        if (isGridView) {
+          lightbox.classList.remove("active");
+        } else {
+          lightbox.classList.remove("active");
+        }
+      }
     });
 
     leftButton.addEventListener("click", () => {
@@ -762,18 +831,6 @@
     });
   }
 
-  /* Adjusts the grid layout dynamically based on image presence */
-  function updateGridLayout() {
-    const gridContainer = document.querySelector(".grid-container");
-    const pictureContainer = document.querySelector(".picture-container");
-
-    if (pictureContainer && pictureContainer.querySelector("img") === null) {
-      gridContainer.style.gridTemplateColumns = "repeat(1, 1fr)";
-    } else {
-      gridContainer.style.gridTemplateColumns = "repeat(2, 1fr)";
-    }
-  }
-
   /* Splits tags into separate elements */
   function splitTags() {
     const tagsContainer = document.querySelector(".tags-container");
@@ -796,7 +853,6 @@
     removeFirstGlossaryItem();
     dictionaryName();
     collectGlossaryImages();
-    updateGridLayout();
     pitchCategoriesFirst();
     jitendexHover();
     enableHover();
