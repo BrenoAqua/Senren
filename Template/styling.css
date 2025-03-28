@@ -42,7 +42,10 @@
   --pitch-orange: #fca311;
   --pitch-green: #4e937a;
   --pitch-purple: #afa2ff;
-  
+
+  /* Devoiced Mora Color */
+  --devoiced-color: royalblue;
+
   /* Highlight Colors */
   --dark-mode-highlight: #FCFF61;
   --light-mode-highlight: #E20033;
@@ -343,9 +346,13 @@ ul, ol {
 
 .grid-container {
   display: grid;
-  grid-template-columns: minmax(var(--grid-column-min-width), 1fr) auto !important;
+  grid-template-columns: minmax(var(--grid-column-min-width), 1fr) auto;
   gap: var(--grid-gap);
   align-items: stretch;
+}
+
+.grid-container:not(:has(> .picture-container > img)) {
+  grid-template-columns: repeat(1, 1fr);
 }
 
 .background-box {
@@ -480,6 +487,54 @@ img {
   -webkit-mask-image: linear-gradient(to left, rgba(255,255,255,1), rgba(0,0,0,0));
 }
 
+/* Lightbox Grid Toggle */
+.lightbox-grid-toggle {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px 20px;
+  background: rgba(0,0,0,0.2);
+  color: rgba(255,255,255,0.4);
+  border: none;
+  cursor: pointer;
+  z-index: 1001;
+  transition: background var(--base-transition), color var(--base-transition);
+}
+
+.lightbox-grid-toggle:hover {
+  color: white;
+  background: rgba(0,0,0,0.7);
+  border: none;
+}
+
+/* Lightbox Grid View */
+.lightbox-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+  padding: 20px;
+  width: 90%;
+  height: 80%;
+  margin: 0 auto;
+  place-items: center;
+  overflow: hidden;
+}
+
+.lightbox-grid img {
+  max-width: 100%;
+  max-height: 150px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.lightbox-grid img:hover {
+  transform: scale(1.05);
+}
+
 /* NSFW Content */
 .NSFW {
   overflow: hidden;
@@ -501,6 +556,8 @@ img {
   text-align: center; 
   direction: rtl; 
   unicode-bidi: bidi-override; 
+  margin-left: 5px;
+  margin-right: 5px;
 }
 
 #sentence {
@@ -653,7 +710,7 @@ img {
 .audio:hover .playImage path, 
 .sentenceaudio:hover .playImage path {
   box-shadow: var(--button-shadow);
-  background: var(--dark-bg); !important;
+  background: var(--dark-bg) !important;
   fill: var(--dark-text) !important;
 }
 
@@ -661,7 +718,7 @@ img {
 .card.nightMode .sentenceaudio:hover, 
 .card.nightMode .audio:hover .playImage path, 
 .card.nightMode .sentenceaudio:hover .playImage path {
-  background: var(--buttons-bg-hover); !important;
+  background: var(--buttons-bg-hover) !important;
 }
 
 .audio.dark-mode:hover,
@@ -693,6 +750,16 @@ img {
 .pitch .nakadaka #position { background-color: rgba(252, 163, 17, 0.5); }
 .pitch .odaka #position { background-color: rgba(78, 147, 122, 0.5); }
 .pitch .kifuku #position { background-color: rgba(175, 162, 255, 0.5); }
+
+/* Hide ALL Dotted Circles */
+span[style*="border:1.5px dotted #c83c28"] {
+    display: none !important;
+}
+
+/* Paint the devoiced mora */
+span[style*="display:inline-block;position:relative;"] > span[style*="display:inline"]:has(+ span[style*="border:1.5px dotted #c83c28"]) {
+    color: var(--devoiced-color) !important;
+}
 
 /* Pitch Position */
 #position {
@@ -976,6 +1043,12 @@ div[data-sc-content="attribution"] {
   opacity: 1;
 }
 
+/* Hide Yomitan links that don't work in Anki */
+#glossary.yomitan-glossary ul a[href="#"],
+#glossary.yomitan-glossary div:has(> a[href="#"]) {
+  display: none !important;
+}
+
 /* Frequencies */
 #frequency {
   position: fixed;
@@ -1064,6 +1137,10 @@ div[data-sc-content="attribution"] {
   width: 100%;
 }
 
+.tags:empty {
+  display: none;
+}
+
 .card.nightMode .tags, 
 .custom-dark-mode .tags {
   background: var(--tag-bg);
@@ -1110,7 +1187,7 @@ div[data-sc-content="attribution"] {
 
 @media (max-width: 1200px) {
   .grid-container {
-    grid-template-columns: var(--grid-columns-large) !important;
+    grid-template-columns: var(--grid-columns-large);
   }
 
   .toggle-custom-dark-mode,
@@ -1163,7 +1240,7 @@ div[data-sc-content="attribution"] {
   }
 
   .grid-container {
-    grid-template-columns: var(--grid-columns-medium) !important;
+    grid-template-columns: var(--grid-columns-medium);
   }
 
   #frequency, .freqbt {
@@ -1178,7 +1255,7 @@ div[data-sc-content="attribution"] {
   }
 
   .grid-container {
-    grid-template-columns: var(--grid-columns-small) !important;
+    grid-template-columns: var(--grid-columns-small);
   }
 
   #frequency, .freqbt {
