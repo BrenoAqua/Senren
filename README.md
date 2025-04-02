@@ -710,7 +710,7 @@ Make sure the option "Sort by this field in the browser" is checked for the `fre
 
 Now you should be able to generate sentences with furigana automatically through Yomitan. You can also add it manually using the `AJT Japanese: Bulk-Generate` option or by clicking in the sentence field.
 
-To use the bulk option, open the Browse window, select all the fields where you want to add furigana (Ctrl + A to select all), then go to `Edit` > `AJT Japanese: Bulk-Generate`.
+To use the bulk option, open the Browse window, select the cards you want to generate furigana for (Ctrl + A to select all), then go to `Edit` > `AJT Japanese: Bulk-Generate`.
 
 ### Fonts
 If you want to load the fonts locally, follow these steps:
