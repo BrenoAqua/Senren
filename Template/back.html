@@ -25,7 +25,7 @@
             <ruby>{{word}}<rt>{{reading}}</rt></ruby>
             <div id="position">{{pitchPosition}}</div>
             <div id="categories">{{pitch}}</div>
-          </span>
+          </span> 
         {{/word}}
       </div>
     </div>
@@ -94,6 +94,8 @@
   </div>
 
   <div id="dictionaryPreference" style="display: none;">{{dictionaryPreference}}</div>
+
+  <div id="kanji-tooltip"></div>
 </div>
 
 <script>
@@ -203,6 +205,7 @@
       pictureContainer.appendChild(newImg);
     });
   }
+
 
   /* Manages cycling between definition and glossary dictionaries */
   function toggleDefinitionGlossary() {
@@ -831,6 +834,18 @@
     });
   }
 
+  /* Adjusts the grid layout dynamically based on image presence */
+  function updateGridLayout() {
+    const gridContainer = document.querySelector(".grid-container");
+    const pictureContainer = document.querySelector(".picture-container");
+
+    if (pictureContainer && pictureContainer.querySelector("img") === null) {
+      gridContainer.style.gridTemplateColumns = "repeat(1, 1fr)";
+    } else {
+      gridContainer.style.gridTemplateColumns = "repeat(2, 1fr)";
+    }
+  }
+
   /* Splits tags into separate elements */
   function splitTags() {
     const tagsContainer = document.querySelector(".tags-container");
@@ -846,7 +861,310 @@
     }
   }
 
-  /* Initializes all functions when the page loads */
+  /* Kanji Hover */
+  var ankiConnectUrl = "http://localhost:8765";
+  var tooltipElement = document.getElementById("kanji-tooltip");
+  var hideTooltipTimeout;
+  var preloadedKanjiData = {};
+
+  function isKanji(char) {
+    return /[一-龯㐀-䶿]/.test(char);
+  }
+
+  async function ankiConnectRequest(action, params = {}) {
+    if (!tooltipElement) {
+        console.error("Tooltip element not found for error display.");
+        return null;
+    }
+    try {
+      const response = await fetch(ankiConnectUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ action, version: 6, params }),
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      if (data.error) {
+        throw new Error(`AnkiConnect error: ${data.error}`);
+      }
+      return data.result;
+    } catch (error) {
+      console.error("AnkiConnect request failed:", error);
+      tooltipElement.innerHTML = `Error: ${error.message}. Is AnkiConnect running?`;
+      tooltipElement.style.display = "block";
+      positionTooltipNearElement(tooltipElement);
+      return null;
+    }
+  }
+
+  async function wrapKanjiInWordField() {
+    const wordContainer = document.getElementById("word");
+    if (!wordContainer) return;
+
+    const mainSpan = wordContainer.querySelector(':scope > span');
+    if (!mainSpan) return;
+
+    const rubyElement = mainSpan.querySelector('ruby');
+    if (!rubyElement) return;
+
+    let wordText = '';
+    let readingText = '';
+    for (const node of rubyElement.childNodes) {
+      if (node.nodeName.toLowerCase() === 'rt') {
+        readingText = node.textContent.trim();
+        const wordContainer = node.previousSibling;
+        if (wordContainer) {
+          wordText = wordContainer.textContent.trim();
+          break;
+        }
+      }
+    }
+
+    if (!wordText) return;
+
+    const uniqueKanji = new Set();
+    for (const char of wordText) {
+      if (isKanji(char)) {
+        uniqueKanji.add(char);
+      }
+    }
+
+    for (const kanji of uniqueKanji) {
+      if (preloadedKanjiData[kanji]) continue;
+
+      const query = `note:Senren "word:*${kanji}*"`;
+      const noteIds = await ankiConnectRequest("findNotes", { query });
+      
+      if (!noteIds || noteIds.length === 0) continue;
+
+      const notesInfo = await ankiConnectRequest("notesInfo", { notes: noteIds });
+      if (!notesInfo) continue;
+
+      const relatedWords = [];
+      const uniqueWords = new Set();
+
+      for (const note of notesInfo) {
+        const fields = note.fields;
+        if (fields && fields.word && fields.word.value) {
+          const wordValue = fields.word.value;
+          if (wordValue !== wordText && !uniqueWords.has(wordValue)) {
+            const readingValueFull = fields.reading ? fields.reading.value : '';
+            const sentenceValue = fields.sentence ? fields.sentence.value : '';
+            let readingHtml = '';
+
+            if (readingValueFull && readingValueFull.includes('<li')) {
+              try {
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = readingValueFull;
+                const firstLi = tempDiv.querySelector('li');
+                if (firstLi) {
+                  readingHtml = firstLi.innerHTML;
+                }
+              } catch (e) {
+                readingHtml = readingValueFull.split(/[,、・]/)[0].trim();
+              }
+            } else {
+              readingHtml = readingValueFull.split(/[,、・]/)[0].trim();
+            }
+
+            const pitchValue = fields.pitch ? fields.pitch.value : '';
+            const tagsValue = fields.Tags ? fields.Tags.value : '';
+
+            relatedWords.push({
+              word: wordValue,
+              reading: readingHtml,
+              sentence: sentenceValue,
+              pitch: pitchValue,
+              tags: tagsValue
+            });
+
+            uniqueWords.add(wordValue);
+          }
+        }
+      }
+
+      preloadedKanjiData[kanji] = relatedWords;
+    }
+
+    const textContent = wordText;
+    const fragment = document.createDocumentFragment();
+    let lastIndex = 0;
+
+    for (let i = 0; i < textContent.length; i++) {
+      if (isKanji(textContent[i])) {
+        if (lastIndex < i) {
+          fragment.appendChild(document.createTextNode(textContent.slice(lastIndex, i)));
+        }
+        const span = document.createElement("span");
+        span.textContent = textContent[i];
+        span.className = "kanji";
+        span.addEventListener("mouseover", () => {
+          showKanjiInfo(span);
+        });
+        span.addEventListener("mouseout", () => {
+          hideKanjiInfo();
+        });
+        fragment.appendChild(span);
+        lastIndex = i + 1;
+      }
+    }
+
+    if (lastIndex < textContent.length) {
+      fragment.appendChild(document.createTextNode(textContent.slice(lastIndex)));
+    }
+
+    const rtElement = rubyElement.querySelector('rt');
+    while (rubyElement.firstChild) {
+      rubyElement.removeChild(rubyElement.firstChild);
+    }
+    
+    rubyElement.appendChild(fragment);
+    if (rtElement) {
+      rubyElement.appendChild(rtElement);
+    }
+  }
+
+  function hideKanjiInfo(force = false) {
+    if (tooltipElement) {
+      clearTimeout(hideTooltipTimeout);
+      hideTooltipTimeout = setTimeout(() => {
+        const isOverKanji = document.querySelector('.kanji:hover');
+        const isOverTooltip = tooltipElement.matches(':hover');
+
+        if (!isOverKanji && !isOverTooltip) {
+          tooltipElement.classList.remove('active');
+          tooltipElement.style.display = 'none';
+        }
+      }, force ? 0 : 100);
+    }
+  }
+
+  async function showKanjiInfo(element) {
+    if (!tooltipElement) return;
+    clearTimeout(hideTooltipTimeout);
+    const kanji = element.textContent;
+
+    tooltipElement.innerHTML = ""; 
+
+    if (preloadedKanjiData[kanji]) {
+      const relatedWords = preloadedKanjiData[kanji];
+      let relatedWordsHtml = "<ul class=\"kanji-tooltip-list\">";
+      let count = 0;
+      const maxInitialWords = 5;
+
+      const kanjiHighlightRegex = new RegExp(kanji.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'), 'g');
+      const highlightSpan = `<span class="kanji-highlight">${kanji}</span>`;
+
+      for (const wordInfo of relatedWords) {
+        const wordHtml = wordInfo.word.replace(kanjiHighlightRegex, highlightSpan);
+
+        const itemHtml = `
+          <li style="${count >= maxInitialWords ? 'display: none;' : ''}">
+            <div class="related-word-container pitch card-a">
+              <span class="pitch-info ${wordInfo.pitch || ''} ${wordInfo.tags || ''}">
+                <ruby>
+                  <span class="related-word">${wordHtml}</span>
+                  ${wordInfo.reading ? `<rt>${wordInfo.reading}</rt>` : ''}
+                </ruby>
+              </span>
+            </div>
+            ${wordInfo.sentence ? `<div class="related-sentence">「${wordInfo.sentence}」</div>` : ''}
+          </li>
+        `;
+
+        relatedWordsHtml += itemHtml;
+        count++;
+      }
+      relatedWordsHtml += "</ul>";
+
+      if (relatedWords.length > maxInitialWords) {
+        relatedWordsHtml += `<button class="show-more-btn">Show More (${relatedWords.length - maxInitialWords})</button>`;
+      }
+
+      tooltipElement.innerHTML = count === 0 ? "No words found." : relatedWordsHtml;
+      tooltipElement.classList.add('active');
+      tooltipElement.style.display = 'block';
+      positionTooltipNearElement(tooltipElement, element);
+
+      const showMoreBtn = tooltipElement.querySelector('.show-more-btn');
+      if (showMoreBtn) {
+        showMoreBtn.addEventListener('click', () => {
+          const hiddenItems = tooltipElement.querySelectorAll('li[style="display: none;"]');
+          hiddenItems.forEach(item => item.style.display = '');
+          showMoreBtn.remove();
+        });
+      }
+
+      tooltipElement.addEventListener('mouseover', () => clearTimeout(hideTooltipTimeout));
+      tooltipElement.addEventListener('mouseout', () => hideKanjiInfo());
+    }
+  }
+
+  function positionTooltipNearElement(element, targetElement) {
+      if (!element || !targetElement) return;
+
+      const parent = element.offsetParent;
+      if (!parent) return;
+
+      const targetRect = targetElement.getBoundingClientRect();
+      const parentRect = parent.getBoundingClientRect();
+
+      const arrowSize = 7;
+      const defaultArrowLeft = 15;
+
+      const relativeTop = targetRect.top - parentRect.top;
+      const relativeLeft = targetRect.left - parentRect.left;
+
+      element.style.left = `${relativeLeft}px`;
+      element.style.top = `${relativeTop + targetRect.height}px`;
+      element.classList.remove('tooltip-above');
+
+      element.style.setProperty('--tooltip-arrow-left', `${targetRect.width / 2}px`);
+
+      const tooltipRect = element.getBoundingClientRect();
+
+      if (tooltipRect.right > window.innerWidth) {
+          element.style.left = `${relativeLeft + (window.innerWidth - tooltipRect.right - 10)}px`;
+      }
+      const finalLeft = parseFloat(element.style.left || '0');
+      if (finalLeft + parentRect.left < 0) {
+           element.style.left = `${-parentRect.left + 10}px`;
+      }
+      const bottomBuffer = 10;
+      if (tooltipRect.bottom > window.innerHeight - bottomBuffer) {
+          const potentialTopAbove = relativeTop - tooltipRect.height - arrowSize;
+          if (potentialTopAbove + parentRect.top > 0) {
+             element.style.top = `${potentialTopAbove}px`;
+             element.classList.add('tooltip-above');
+          } else {
+
+              element.classList.remove('tooltip-above');
+          }
+      } else {
+          element.classList.remove('tooltip-above');
+      }
+      
+      const finalTop = parseFloat(element.style.top || '0');
+      if (element.classList.contains('tooltip-above') && (finalTop + parentRect.top < 0)) { 
+           element.style.top = `${-parentRect.top + 10}px`;
+      }
+
+      const finalTooltipLeftRelative = parseFloat(element.style.left || '0');
+      let newArrowLeft = defaultArrowLeft;
+
+      const targetCenterRelativeX = relativeLeft + (targetRect.width / 2);
+      newArrowLeft = targetCenterRelativeX - finalTooltipLeftRelative;
+
+      const tooltipWidth = element.offsetWidth;
+      newArrowLeft = Math.max(arrowSize, Math.min(newArrowLeft, tooltipWidth - arrowSize));
+      element.style.setProperty('--tooltip-arrow-left', `${newArrowLeft}px`);
+  }
+
+  /* Initializes all functions when the card loads */
   function init() {
     darkMode();
     hideElementIfEmpty();
@@ -862,6 +1180,7 @@
     nsfw();
     splitTags();
     toggleDefinitionGlossary();
+    wrapKanjiInWordField();
   }
 
   init();
