@@ -55,8 +55,7 @@
 
   <div class="sentence-container">
     <div id="sentence">
-      {{furigana:sentenceFurigana}} {{^sentenceFurigana}} 
-      {{sentence}} {{/sentenceFurigana}}
+      <span id="formattedSentence"></span>
     </div>
     <div id="sentenceEng">
       {{sentenceEng}}
@@ -818,19 +817,19 @@
     });
   }
 
-  /* Adds Dictionary Titles to glossary dictionaries */
+  /* Adds Titles to glossary dictionaries */
   function dictionaryName() {
     let processedDictionaries = new Set();
 
     document.querySelectorAll('.yomitan-glossary li').forEach(li => {
-        let dictionaryName = li.getAttribute('data-dictionary');
-        if (dictionaryName && !processedDictionaries.has(dictionaryName)) {
-            let titleElement = document.createElement('div');
-            titleElement.textContent = dictionaryName;
-            titleElement.classList.add('dictionary-title');
-            li.prepend(titleElement);
-            processedDictionaries.add(dictionaryName);
-        }
+      let dictionaryName = li.getAttribute('data-dictionary');
+      if (dictionaryName && !processedDictionaries.has(dictionaryName)) {
+        let titleElement = document.createElement('div');
+        titleElement.textContent = dictionaryName;
+        titleElement.classList.add('dictionary-title');
+        li.prepend(titleElement);
+        processedDictionaries.add(dictionaryName);
+      }
     });
   }
 
@@ -1105,72 +1104,160 @@
   }
 
   function positionTooltipNearElement(element, targetElement) {
-      if (!element || !targetElement) return;
+    if (!element || !targetElement) return;
 
-      const parent = element.offsetParent;
-      if (!parent) return;
+    const parent = element.offsetParent;
+    if (!parent) return;
 
-      const targetRect = targetElement.getBoundingClientRect();
-      const parentRect = parent.getBoundingClientRect();
+    const targetRect = targetElement.getBoundingClientRect();
+    const parentRect = parent.getBoundingClientRect();
 
-      const arrowSize = 7;
-      const defaultArrowLeft = 15;
+    const arrowSize = 7;
+    const defaultArrowLeft = 15;
 
-      const relativeTop = targetRect.top - parentRect.top;
-      const relativeLeft = targetRect.left - parentRect.left;
+    const relativeTop = targetRect.top - parentRect.top;
+    const relativeLeft = targetRect.left - parentRect.left;
 
-      element.style.left = `${relativeLeft}px`;
-      element.style.top = `${relativeTop + targetRect.height}px`;
-      element.classList.remove('tooltip-above');
+    element.style.left = `${relativeLeft}px`;
+    element.style.top = `${relativeTop + targetRect.height}px`;
+    element.classList.remove('tooltip-above');
 
-      element.style.setProperty('--tooltip-arrow-left', `${targetRect.width / 2}px`);
+    element.style.setProperty('--tooltip-arrow-left', `${targetRect.width / 2}px`);
 
-      const tooltipRect = element.getBoundingClientRect();
+    const tooltipRect = element.getBoundingClientRect();
 
-      if (tooltipRect.right > window.innerWidth) {
-          element.style.left = `${relativeLeft + (window.innerWidth - tooltipRect.right - 10)}px`;
-      }
-      const finalLeft = parseFloat(element.style.left || '0');
-      if (finalLeft + parentRect.left < 0) {
-           element.style.left = `${-parentRect.left + 10}px`;
-      }
+    if (tooltipRect.right > window.innerWidth) {
+      element.style.left = `${relativeLeft + (window.innerWidth - tooltipRect.right - 10)}px`;
+    }
+
+    const finalLeft = parseFloat(element.style.left || '0');
+    if (finalLeft + parentRect.left < 0) {
+      element.style.left = `${-parentRect.left + 10}px`;
+    }
+
       const bottomBuffer = 10;
       if (tooltipRect.bottom > window.innerHeight - bottomBuffer) {
-          const potentialTopAbove = relativeTop - tooltipRect.height - arrowSize;
-          if (potentialTopAbove + parentRect.top > 0) {
-             element.style.top = `${potentialTopAbove}px`;
-             element.classList.add('tooltip-above');
-          } else {
+        const potentialTopAbove = relativeTop - tooltipRect.height - arrowSize;
+        if (potentialTopAbove + parentRect.top > 0) {
+          element.style.top = `${potentialTopAbove}px`;
+          element.classList.add('tooltip-above');
+        } else {
 
-              element.classList.remove('tooltip-above');
-          }
-      } else {
-          element.classList.remove('tooltip-above');
+        element.classList.remove('tooltip-above');
       }
+    } else {
+      element.classList.remove('tooltip-above');
+    }
       
-      const finalTop = parseFloat(element.style.top || '0');
-      if (element.classList.contains('tooltip-above') && (finalTop + parentRect.top < 0)) { 
-           element.style.top = `${-parentRect.top + 10}px`;
+    const finalTop = parseFloat(element.style.top || '0');
+    if (element.classList.contains('tooltip-above') && (finalTop + parentRect.top < 0)) { 
+      element.style.top = `${-parentRect.top + 10}px`;
+    }
+
+    const finalTooltipLeftRelative = parseFloat(element.style.left || '0');
+    let newArrowLeft = defaultArrowLeft;
+
+    const targetCenterRelativeX = relativeLeft + (targetRect.width / 2);
+    newArrowLeft = targetCenterRelativeX - finalTooltipLeftRelative;
+
+    const tooltipWidth = element.offsetWidth;
+    newArrowLeft = Math.max(arrowSize, Math.min(newArrowLeft, tooltipWidth - arrowSize));
+    element.style.setProperty('--tooltip-arrow-left', `${newArrowLeft}px`);
+  }
+
+  /* Format pitch accent positions and categories */
+  function cleanPitchPositions() {
+    const positionElements = document.querySelectorAll('#position');
+    const wordElement = document.querySelector("#word > span > ruby > rt > ol > li:nth-child(1) > span");
+    const characterCount = wordElement ? wordElement.textContent.length : 0;
+
+    positionElements.forEach(element => {
+      if (element.dataset.cleaned || !element.innerHTML.trim()) return;
+      
+      const content = element.innerHTML.trim();
+      
+      const numbers = Array.from(content.matchAll(/\d+/g))
+        .map(match => parseInt(match[0], 10))
+        .filter((num, index, arr) => arr.indexOf(num) === index);
+      
+      if (numbers.length === 0) return;
+      
+      const categoriesElement = element.closest('.pitch').querySelector('#categories');
+      const pitchTypes = categoriesElement.textContent.split(',');
+      
+      categoriesElement.dataset.fullCategories = pitchTypes.map(t => t.trim()).join('<br>');
+      categoriesElement.innerHTML = pitchTypes[0].trim();
+      
+      let newContent = numbers.map((num, index) => {
+        let pitchType = pitchTypes[index] || getPitchType(num, characterCount);
+        return `<span class="pitch-number ${pitchType.split(',')[0].trim()}">${num}</span>`;
+      }).join('・');
+      
+      element.innerHTML = newContent;
+      element.dataset.cleaned = 'true';
+    });
+
+    function getPitchType(number, charCount) {
+      if (number === 0) return 'heiban';
+      if (number === 1) return 'atamadaka';
+      if (number > charCount) return 'odaka';
+      if (number > 1 && number < charCount) return 'nakadaka';
+      return 'kifuku';
+    }
+
+    const positions = document.querySelectorAll('#position');
+ 
+    positions.forEach(pos => {
+      const cat = pos.closest('.pitch')?.querySelector('#categories');
+      if (cat?.dataset.fullCategories) {
+        pos.addEventListener('mouseenter', () => {
+          cat.innerHTML = cat.dataset.fullCategories;
+        });
       }
+    });
+  }
 
-      const finalTooltipLeftRelative = parseFloat(element.style.left || '0');
-      let newArrowLeft = defaultArrowLeft;
+  /* Paint the target word inside the sentence with furigana */
+  function highlightFurigana() {
+    let sentence = `{{sentence}}`;
+    let sentenceFurigana = `{{furigana:sentenceFurigana}}`;
 
-      const targetCenterRelativeX = relativeLeft + (targetRect.width / 2);
-      newArrowLeft = targetCenterRelativeX - finalTooltipLeftRelative;
+    if (!sentenceFurigana.trim()) {
+      document.getElementById("formattedSentence").innerHTML = sentence;
+      return;
+    }
 
-      const tooltipWidth = element.offsetWidth;
-      newArrowLeft = Math.max(arrowSize, Math.min(newArrowLeft, tooltipWidth - arrowSize));
-      element.style.setProperty('--tooltip-arrow-left', `${newArrowLeft}px`);
+    let highlightRegex = /<span class="highlight">(.*?)<\/span>/g;
+    let highlightedWords = [];
+    let match;
+    let formattedFurigana = sentenceFurigana;
+
+    while ((match = highlightRegex.exec(sentence)) !== null) {
+      highlightedWords.push(match[1]);
+    }
+
+    formattedFurigana = formattedFurigana.replace(/<ruby>([。、！？])<rt>.*?<\/rt><\/ruby>/g, "$1");
+
+    highlightedWords.forEach(kanji => {
+      let rubyRegex1 = new RegExp(`<ruby><rb>(${kanji})</rb><rt>(.*?)</rt></ruby>`, "g");
+      let rubyRegex2 = new RegExp(`<ruby>(${kanji})<rt>(.*?)</rt></ruby>`, "g");
+      
+      formattedFurigana = formattedFurigana.replace(rubyRegex1, `<span class="highlight"><ruby><rb>$1</rb><rt>$2</rt></ruby></span>`);
+      formattedFurigana = formattedFurigana.replace(rubyRegex2, `<span class="highlight"><ruby>$1<rt>$2</rt></ruby></span>`);
+    });
+
+    document.getElementById("formattedSentence").innerHTML = formattedFurigana;
   }
 
   /* Initializes all functions when the card loads */
   function init() {
     darkMode();
+    highlightFurigana();
     hideElementIfEmpty();
     removeFirstGlossaryItem();
     dictionaryName();
     collectGlossaryImages();
+    cleanPitchPositions();
     pitchCategoriesFirst();
     jitendexHover();
     enableHover();
