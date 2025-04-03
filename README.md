@@ -126,7 +126,7 @@ A highly customizable Anki note type for studying Japanese, featuring a responsi
 - **Tags** displayed below the definition/glossary.
 - **Mobile support:** It has not been tested on AnkiMobile, but it works well on AnkiDroid.
 
-Download the latest version from here: [Senren v3.2](https://github.com/BrenoAqua/Senren/releases/download/v3.2/Senren.v3.2.apkg)
+Download the latest version from here: [Senren v3.3](https://github.com/BrenoAqua/Senren/releases/download/v3.3/Senren.v3.3.apkg)
 
 ## Yomitan
 
