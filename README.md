@@ -57,28 +57,15 @@ A highly customizable Anki note type for studying Japanese, featuring a responsi
 - Images remain unblurred after being clicked once.
 
 ### Definition Toggle
-- Switch between definitions by pressing the left or right button on either side of the displayed definition (this option is hidden if only one definition is available). You can also switch using the left and right arrow keys.
-  - Store your dictionary viewing preference while reviewing (glossary or definition first).
-    - You need to enter "glossary" into the new `dictionaryPreference` field for all your cards to display the glossary first instead of the definition (which is the default when empty). You can use the [Batch Editing](https://ankiweb.net/shared/info/291119185) to do this.
+- Switch between definitions using the left and right buttons or the arrow keys. You can also switch using the left and right arrow keys.
+  - Save your dictionary viewing preference while reviewing (glossary or definition first).
+    - You need to enter "glossary" into the `dictionaryPreference` field for all your cards to display the glossary first instead of the definition (which is the default when empty).
+      
+       ![dictionaryPreference](https://github.com/user-attachments/assets/13d38364-d6bd-43d3-b343-5b457504c231)
+    - You can update all your cards at once using the [Batch Editing](https://ankiweb.net/shared/info/291119185) add-on.
     
-         ![dictionaryPreference](https://github.com/user-attachments/assets/13d38364-d6bd-43d3-b343-5b457504c231)
+
   - Remember the last dictionary selected until Anki is restarted.
-
-    <img src="https://github.com/user-attachments/assets/6e98466a-644f-467e-bd6a-e4cd004b442c" width="800">
-    <details>
-      <summary>Light Mode</summary>
-      <img src="https://github.com/user-attachments/assets/145b21a6-29bb-48fe-828d-d4454d2baf95" width="500">
-    </details>
-
-    <details>
-      <summary>Dark Mode</summary>
-      <img src="https://github.com/user-attachments/assets/a4bc4087-2dfe-487f-bfe1-f54a6005f0d0" width="500">
-    </details>
-
-    <details>
-      <summary>Custom Dark Mode</summary>
-      <img src="https://github.com/user-attachments/assets/13adf4cd-efc5-4744-b38b-e417b07499e5" width="500">
-    </details>
 
 ### Picture Lightbox
   - Click the image to view it in a larger, more focused display. Close it by clicking outside or pressing ESC.
@@ -136,8 +123,6 @@ A highly customizable Anki note type for studying Japanese, featuring a responsi
       <summary>Custom Dark Mode</summary>
       <img src="https://github.com/user-attachments/assets/0a38f4ae-3510-44a0-81da-c2a06aa6d889" width="500">
     </details>
-- Cards extremely responsive to different screen sizes.
-- Enhanced customization options through CSS variables.
 - **Tags** displayed below the definition/glossary.
 - **Mobile support:** It has not been tested on AnkiMobile, but it works well on AnkiDroid.
 
