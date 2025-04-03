@@ -136,7 +136,7 @@ Download the latest version from here: [Senren v3.2](https://github.com/BrenoAqu
 |---------------|-------------------------------|------------|
 | word          | `{expression}`                |            |
 | sentence      | `{cloze-prefix}<span class="highlight">{cloze-body}</span>{cloze-suffix}` |            |
-| sentenceFurigana      |                       | Leave it empty. Otherwise, the target word in the sentence generated won't be highlighted. I recommend using the [AJT Japanese Addon](https://ankiweb.net/shared/info/1344485230) `200813220` to generate the furigana in this field, as it preserves bold formatting. See [Setting Up Sentence Furigana](#setting-up-sentence-furigana) for how to set it up. |
+| sentenceFurigana | `{sentence-furigana}` or `{sentence-furigana-plain}` |            |
 | sentenceEng   |                               | Leave it empty. |
 | reading       | `{pitch-accents}`             | Change to `{reading}` if you don't want pitch accents. |
 | definition    | `{single-glossary-jitendexorg-2025-01-27-brief}` | It's where you put your main dictionary. |
@@ -673,30 +673,6 @@ Make sure the option "Sort by this field in the browser" is checked for the `fre
 
 ![Senren_note type](https://github.com/user-attachments/assets/86a862fd-56b4-4069-9d12-c5d2410b45f0)
 
-
-### Setting Up Sentence Furigana
-
-**Install the [AJT Japanese Addon](https://ankiweb.net/shared/info/1344485230)**
-1. Open Anki.
-2. Navigate to `Tools` > `Add-ons`.
-3. Click on `Get Add-ons...`.
-4. Enter the following code: `1344485230`
-5. Click `OK` to install the addon.
-6. Restart Anki to apply the changes.
-
-**Access the AJT Japanese Options**
-1. Locate the new menu option labeled `AJT` in the menu bar.
-2. Click on `AJT` > `Japanese Options...`.
-
-**Configure the Addon**
-- Ensure that the settings match those shown in the screenshot.
-
-  <img src="https://github.com/user-attachments/assets/40abb9e9-0e7c-4852-bad2-03557b01f2cf" width="800">
-
-Now you should be able to generate sentences with furigana automatically through Yomitan. You can also add it manually using the `AJT Japanese: Bulk-Generate` option or by clicking in the sentence field.
-
-To use the bulk option, open the Browse window, select the cards you want to generate furigana for (Ctrl + A to select all), then go to `Edit` > `AJT Japanese: Bulk-Generate`.
-
 ### Fonts
 If you want to load the fonts locally, follow these steps:
 
@@ -728,7 +704,6 @@ If you want to load the fonts locally, follow these steps:
 - [Kanji Grid Kuuube](https://ankiweb.net/shared/info/1610304449) `1610304449`
 - [Review Heatmap](https://ankiweb.net/shared/info/1771074083) `1771074083`
 - [Batch Editing](https://ankiweb.net/shared/info/291119185) `291119185`
-- [AJT Japanese](https://ankiweb.net/shared/info/1344485230) `200813220`
 - [AutoReorder](https://ankiweb.net/shared/info/757527607) `757527607`
 
 # Additional Resources
