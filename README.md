@@ -4,7 +4,7 @@ A highly customizable Anki note type for studying Japanese, featuring a responsi
 <img src="https://github.com/BrenoAqua/Senren/blob/main/Images/Senren_v3.2_Preview.gif" width="1000">
 
 ### Contents
-- [Senren](#senren)
+- [Senren・洗練](#senren・洗練)
    - [Features](#features)
      - [Automatic Colors for Every Pitch Accent + Pitch Position](#automatic-colors-for-every-pitch-accent--pitch-position)
      - [Kanji Hover](#kanji-hover)
@@ -44,10 +44,8 @@ A highly customizable Anki note type for studying Japanese, featuring a responsi
 ### Kanji Hover
 - Each kanji in the word can be hovered over. It will fetch all the cards within the note type and list all the words containing the same kanji.
 
-  <img src="https://github.com/user-attachments/assets/315c209b-9ecc-485d-bf87-765e2b44244c" width="500">
+  <img src="https://github.com/user-attachments/assets/aca60447-6b26-413e-af77-3d45c5ddb18f" width="300">
 - Up to 5 words will be shown. If there are more, a "Show More" option will be available to display the others.
-  
-  <img src="https://github.com/user-attachments/assets/37435574-8779-4882-a068-a64caf0c46c8" width="400">
 
 ### Custom Dark Mode
 - Easily toggle between the default theme (light or original dark mode) and dark mode with a black background.
