@@ -10,6 +10,7 @@ A highly customizable Anki note type for studying Japanese, featuring a responsi
      - [Kanji Hover](#kanji-hover)
      - [Custom Dark Mode](#custom-dark-mode)
      - [Image Blurring](#image-blurring)
+     - [External Links](#external-links)
      - [Definition Toggle](#definition-toggle)
      - [Picture Lightbox](#picture-lightbox)
      - [Stylization Changes for Jitendex](#stylization-changes-for-jitendex)
@@ -20,7 +21,6 @@ A highly customizable Anki note type for studying Japanese, featuring a responsi
      - [Result Display](#result-display)
    - [Anki](#anki)
      - [Frequency Sorting](#frequency-sorting)
-     - [Setting Up Sentence Furigana](#setting-up-sentence-furigana)
      - [Fonts](#fonts)
      - [Addons](#addons)
 - [Additional Resources](#additional-resources)
@@ -55,6 +55,16 @@ A highly customizable Anki note type for studying Japanese, featuring a responsi
 ### Image Blurring
 - Add the `NSFW` tag to any card to automatically blur its image.
 - Images remain unblurred after being clicked once.
+
+### External Links
+- Supported Sites:
+  - JPDB
+  - Jisho
+  - Google Images
+  - Nadeshiko
+  - Immersion Kit  
+ > Clicking any of these buttons will redirect you to the respective site and search for the target word automatically.
+![image](https://github.com/user-attachments/assets/8fee6dd1-b55e-4cbb-95dc-53911953b9c1)
 
 ### Definition Toggle
 - Switch between definitions using the left and right buttons or the arrow keys. You can also switch using the left and right arrow keys.
