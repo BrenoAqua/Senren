@@ -82,10 +82,64 @@
     </div>
   </div>
 
-  <div class="tags-container">
-    {{#Tags}}
-      <div class="tags">{{Tags}}</div>
-    {{/Tags}}
+  <div class="tags-and-links-wrapper">
+    <div class="tags-container">
+      {{#Tags}}
+        <div class="tags">{{Tags}}</div>
+      {{/Tags}}
+    </div>
+
+    <div class="external-links external-links--float">
+      <!-- Jpdb Link -->
+      <a data-details="jpdb.io" data-suppress-link-hover="true" href="https://jpdb.io/search?q={{text:word}}">
+        <img data-do-not-convert="do-not-convert"
+          class="show-on-light-mode-only"
+          src="_icon_jpdb_lightmode.png">
+        <img data-do-not-convert="do-not-convert"
+          class="show-on-dark-mode-only"
+          src="_icon_jpdb_darkmode.png">
+      </a>
+
+      <!-- Jisho Link -->
+      <a data-details="jisho.org" data-suppress-link-hover="true" href="https://jisho.org/search/{{text:word}}">
+        <img data-do-not-convert="do-not-convert"
+          class="show-on-light-mode-only"
+          src="_icon_jisho_lightmode.png">
+        <img data-do-not-convert="do-not-convert"
+          class="show-on-dark-mode-only"
+          src="_icon_jisho_darkmode.png">
+      </a>
+
+      <!-- Google Images Link -->
+      <a data-details="image_search" data-suppress-link-hover="true" href="https://www.google.co.jp/search?q={{text:word}}&amp;tbm=isch">
+        <img data-do-not-convert="do-not-convert"
+          class="show-on-light-mode-only"
+          src="_icon_image_black.svg">
+        <img data-do-not-convert="do-not-convert"
+          class="show-on-dark-mode-only"
+          src="_icon_image_white.svg">
+      </a>
+
+      <!-- Nadeshiko Link -->
+      <a data-details="nadeshiko.co" data-suppress-link-hover="true" href="https://nadeshiko.co/search/sentence?query={{text:word}}">
+        <img data-do-not-convert="do-not-convert" 
+          class="show-on-light-mode-only" 
+          src="_icon_nadeshiko.ico">
+        <img data-do-not-convert="do-not-convert" 
+          class="show-on-dark-mode-only" 
+          src="_icon_nadeshiko.ico"> 
+      </a>
+
+      <!-- Immersion Kit Link -->
+      <a data-details="immersionkit.com" data-suppress-link-hover="true" href="https://v2.immersionkit.com/search?keyword={{text:word}}">
+        <img data-do-not-convert="do-not-convert" 
+          class="show-on-light-mode-only" 
+          src="_icon_immersion_kit.ico">
+        <img data-do-not-convert="do-not-convert" 
+          class="show-on-dark-mode-only" 
+          src="_icon_immersion_kit.ico"> 
+      </a>
+    </div>
   </div>
 
   <div class="misc-info">
@@ -93,7 +147,6 @@
   </div>
 
   <div id="dictionaryPreference" style="display: none;">{{dictionaryPreference}}</div>
-
   <div id="kanji-tooltip"></div>
 </div>
 
@@ -871,10 +924,6 @@
   }
 
   async function ankiConnectRequest(action, params = {}) {
-    if (!tooltipElement) {
-        console.error("Tooltip element not found for error display.");
-        return null;
-    }
     try {
       const response = await fetch(ankiConnectUrl, {
         method: "POST",
@@ -892,10 +941,6 @@
       }
       return data.result;
     } catch (error) {
-      console.error("AnkiConnect request failed:", error);
-      tooltipElement.innerHTML = `Error: ${error.message}. Is AnkiConnect running?`;
-      tooltipElement.style.display = "block";
-      positionTooltipNearElement(tooltipElement);
       return null;
     }
   }
@@ -949,8 +994,13 @@
       for (const note of notesInfo) {
         const fields = note.fields;
         if (fields && fields.word && fields.word.value) {
-          const wordValue = fields.word.value;
-          if (wordValue !== wordText && !uniqueWords.has(wordValue)) {
+          const wordValueRaw = fields.word.value;
+
+          const tempDiv = document.createElement('div');
+          tempDiv.innerHTML = wordValueRaw;
+          const wordValue = tempDiv.textContent || tempDiv.innerText || "";
+
+          if (wordValue.trim() !== wordText && !uniqueWords.has(wordValue.trim())) {
             const readingValueFull = fields.reading ? fields.reading.value : '';
             const sentenceValue = fields.sentence ? fields.sentence.value : '';
             let readingHtml = '';
@@ -971,6 +1021,7 @@
             }
 
             const pitchValue = fields.pitch ? fields.pitch.value : '';
+            const pitchPositionValue = fields.pitchPosition ? fields.pitchPosition.value : '';
             const tagsValue = fields.Tags ? fields.Tags.value : '';
 
             relatedWords.push({
@@ -978,10 +1029,11 @@
               reading: readingHtml,
               sentence: sentenceValue,
               pitch: pitchValue,
+              pitchPosition: pitchPositionValue,
               tags: tagsValue
             });
 
-            uniqueWords.add(wordValue);
+            uniqueWords.add(wordValue.trim());
           }
         }
       }
@@ -1060,15 +1112,49 @@
 
       for (const wordInfo of relatedWords) {
         const wordHtml = wordInfo.word.replace(kanjiHighlightRegex, highlightSpan);
-
+        
+        let formattedPositionHtml = '';
+        if (wordInfo.pitchPosition) {
+          const tempDiv = document.createElement('div');
+          tempDiv.innerHTML = wordInfo.word;
+          const charCount = tempDiv.textContent.length;
+          
+          const numbers = Array.from(wordInfo.pitchPosition.matchAll(/\d+/g))
+            .map(match => parseInt(match[0], 10))
+            .filter((num, index, arr) => arr.indexOf(num) === index);
+            
+          if (numbers.length > 0) {
+            const pitchTypesRaw = wordInfo.pitch ? wordInfo.pitch.split(',') : [];
+            const relevantPitchTypes = [];
+            
+            formattedPositionHtml = numbers.map((num, index) => {
+              let pitchType = pitchTypesRaw[index]?.trim() || getPitchType(num, charCount);
+              pitchType = pitchType.split(',')[0].trim(); 
+              relevantPitchTypes.push(pitchType);
+              return `<span class="pitch-number ${pitchType}">${num}</span>`;
+            }).join('・');
+            
+            firstPitchCategory = relevantPitchTypes[0] || '';
+            fullCategoriesHtml = relevantPitchTypes.join('<br>');
+          } else {
+              firstPitchCategory = wordInfo.pitch ? wordInfo.pitch.split(',')[0].trim() : '';
+              fullCategoriesHtml = wordInfo.pitch ? wordInfo.pitch.replace(/,/g, '<br>') : '';
+          }
+        } else {
+           firstPitchCategory = wordInfo.pitch ? wordInfo.pitch.split(',')[0].trim() : '';
+           fullCategoriesHtml = wordInfo.pitch ? wordInfo.pitch.replace(/,/g, '<br>') : '';
+        }
+        
         const itemHtml = `
           <li style="${count >= maxInitialWords ? 'display: none;' : ''}">
             <div class="related-word-container pitch card-a">
-              <span class="pitch-info ${wordInfo.pitch || ''} ${wordInfo.tags || ''}">
+              <span class="pitch-info ${firstPitchCategory || ''} ${wordInfo.tags || ''}">
                 <ruby>
                   <span class="related-word">${wordHtml}</span>
                   ${wordInfo.reading ? `<rt>${wordInfo.reading}</rt>` : ''}
                 </ruby>
+                ${formattedPositionHtml ? `<div class="position">${formattedPositionHtml}</div>` : ''}
+                ${firstPitchCategory ? `<div class="categories" data-first-category="${firstPitchCategory}" data-full-categories="${fullCategoriesHtml}">${firstPitchCategory}</div>` : ''}
               </span>
             </div>
             ${wordInfo.sentence ? `<div class="related-sentence">「${wordInfo.sentence}」</div>` : ''}
@@ -1100,6 +1186,18 @@
 
       tooltipElement.addEventListener('mouseover', () => clearTimeout(hideTooltipTimeout));
       tooltipElement.addEventListener('mouseout', () => hideKanjiInfo());
+
+      tooltipElement.addEventListener('mouseover', (event) => {
+        const positionElement = event.target.closest('.position');
+        if (positionElement) { 
+          const categoriesElement = positionElement.nextElementSibling;
+          if (categoriesElement && categoriesElement.classList.contains('categories') && categoriesElement.dataset.fullCategories) {
+            if (categoriesElement.innerHTML !== categoriesElement.dataset.fullCategories) {
+                 categoriesElement.innerHTML = categoriesElement.dataset.fullCategories;
+            }
+          }
+        }
+      });
     }
   }
 
@@ -1165,11 +1263,33 @@
     element.style.setProperty('--tooltip-arrow-left', `${newArrowLeft}px`);
   }
 
+  /* Helper function to determine pitch type */
+  function getPitchType(number, charCount) {
+    if (number === 0) return 'heiban';
+    if (number === 1) return 'atamadaka';
+    if (number > charCount) return 'odaka';
+    if (number > 1 && number <= charCount) return 'nakadaka';
+    return 'unknown';
+  }
+
   /* Format pitch accent positions and categories */
   function cleanPitchPositions() {
     const positionElements = document.querySelectorAll('#position');
-    const wordElement = document.querySelector("#word > span > ruby > rt > ol > li:nth-child(1) > span");
-    const characterCount = wordElement ? wordElement.textContent.length : 0;
+    const rubyElement = document.querySelector("#word > span > ruby");
+    
+    let characterCount = 0;
+    if (rubyElement) {
+      const rubyClone = rubyElement.cloneNode(true);
+      const rtElement = rubyClone.querySelector('rt');
+      if (rtElement) {
+        rtElement.remove();
+      }
+      characterCount = rubyClone.textContent.trim().length; 
+    }
+    
+    const mainWordSpan = document.querySelector("#word > span"); 
+    let potentialFallbackClass = null;
+    let runFallbackCheck = false;
 
     positionElements.forEach(element => {
       if (element.dataset.cleaned || !element.innerHTML.trim()) return;
@@ -1181,45 +1301,68 @@
         .filter((num, index, arr) => arr.indexOf(num) === index);
       
       if (numbers.length === 0) return;
+
+      if (!runFallbackCheck && mainWordSpan && characterCount > 0) { 
+        const hasPitchClass = ['heiban', 'atamadaka', 'nakadaka', 'odaka'].some(cls => mainWordSpan.classList.contains(cls));
+        
+        if (!hasPitchClass) {
+          const firstNumber = numbers[0];
+          const calculatedClass = getPitchType(firstNumber, characterCount);
+          if (calculatedClass && calculatedClass !== 'unknown') {
+            potentialFallbackClass = calculatedClass;
+            runFallbackCheck = true;
+          }
+        }
+      }
       
       const categoriesElement = element.closest('.pitch').querySelector('#categories');
       const pitchTypes = categoriesElement.textContent.split(',');
       
-      categoriesElement.dataset.fullCategories = pitchTypes.map(t => t.trim()).join('<br>');
-      categoriesElement.innerHTML = pitchTypes[0].trim();
+      const resolvedPitchTypes = [];
       
       let newContent = numbers.map((num, index) => {
-        let pitchType = pitchTypes[index] || getPitchType(num, characterCount);
-        return `<span class="pitch-number ${pitchType.split(',')[0].trim()}">${num}</span>`;
+        let pitchType = pitchTypes[index]?.trim() || getPitchType(num, characterCount);
+        let cleanPitchType = pitchType.split(',')[0].trim();
+        resolvedPitchTypes.push(cleanPitchType);
+        return `<span class="pitch-number ${cleanPitchType}">${num}</span>`;
       }).join('・');
+
+      if (resolvedPitchTypes.length > 0) {
+        categoriesElement.dataset.fullCategories = resolvedPitchTypes.join('<br>');
+        categoriesElement.innerHTML = resolvedPitchTypes[0];
+      } else {
+        categoriesElement.dataset.fullCategories = '';
+        categoriesElement.innerHTML = '';
+      }
       
       element.innerHTML = newContent;
       element.dataset.cleaned = 'true';
     });
-
-    function getPitchType(number, charCount) {
-      if (number === 0) return 'heiban';
-      if (number === 1) return 'atamadaka';
-      if (number > charCount) return 'odaka';
-      if (number > 1 && number < charCount) return 'nakadaka';
-      return 'kifuku';
+    
+    if (runFallbackCheck && potentialFallbackClass) {
+        const hasPitchClassNow = ['heiban', 'atamadaka', 'nakadaka', 'odaka'].some(cls => mainWordSpan.classList.contains(cls));
+        if (!hasPitchClassNow) {
+            mainWordSpan.classList.add(potentialFallbackClass);
+        }
     }
 
-    const positions = document.querySelectorAll('#position');
- 
-    positions.forEach(pos => {
-      const cat = pos.closest('.pitch')?.querySelector('#categories');
-      if (cat?.dataset.fullCategories) {
-        pos.addEventListener('mouseenter', () => {
-          cat.innerHTML = cat.dataset.fullCategories;
-        });
-      }
+    positionElements.forEach(pos => {
+        const cat = pos.closest('.pitch')?.querySelector('#categories');
+        if (cat?.dataset.fullCategories && cat.dataset.fullCategories.includes('<br>')) {
+            const initialCategory = cat.innerHTML;
+            pos.addEventListener('mouseenter', () => {
+                cat.innerHTML = cat.dataset.fullCategories;
+            });
+            pos.addEventListener('mouseleave', () => {
+                cat.innerHTML = initialCategory;
+            });
+        }
     });
   }
 
   /* Paint the target word inside the sentence with furigana */
   function highlightFurigana() {
-    let sentence = `{{sentence}}`;
+    const sentence = `{{sentence}}`;
     let sentenceFurigana = `{{furigana:sentenceFurigana}}`;
 
     if (!sentenceFurigana.trim()) {
@@ -1227,48 +1370,81 @@
       return;
     }
 
-    let highlightRegex = /<span class="highlight">(.*?)<\/span>/g;
-    let highlightedWords = [];
+    sentenceFurigana = sentenceFurigana.replace(
+      /<ruby>([^<]+?)<rt>(.*?)<\/rt><\/ruby>/g,
+      '<ruby><rb>$1</rb><rt>$2</rt></ruby>'
+    );
+
+    const highlightRegex = /<span class="highlight">(.*?)<\/span>/g;
+    const highlightedWords = [];
     let match;
-    let formattedFurigana = sentenceFurigana;
 
     while ((match = highlightRegex.exec(sentence)) !== null) {
       highlightedWords.push(match[1]);
     }
 
-    formattedFurigana = formattedFurigana.replace(/<ruby>([。、！？])<rt>.*?<\/rt><\/ruby>/g, "$1");
+    let cleanedFurigana = sentenceFurigana
+      .replace(/<ruby><rb>([。、！？！？])<\/rb><rt>.*?<\/rt><\/ruby>/g, '$1')
+      .replace(/<ruby>([。、！？！？])<rt>.*?<\/rt><\/ruby>/g, '$1');
 
-    highlightedWords.forEach(kanji => {
-      let rubyRegex1 = new RegExp(`<ruby><rb>(${kanji})</rb><rt>(.*?)</rt></ruby>`, "g");
-      let rubyRegex2 = new RegExp(`<ruby>(${kanji})<rt>(.*?)</rt></ruby>`, "g");
-      
-      formattedFurigana = formattedFurigana.replace(rubyRegex1, `<span class="highlight"><ruby><rb>$1</rb><rt>$2</rt></ruby></span>`);
-      formattedFurigana = formattedFurigana.replace(rubyRegex2, `<span class="highlight"><ruby>$1<rt>$2</rt></ruby></span>`);
+    const plain = cleanedFurigana
+      .replace(/<ruby><rb>(.*?)<\/rb><rt>.*?<\/rt><\/ruby>/g, '$1')
+      .replace(/<ruby>(.*?)<rt>.*?<\/rt><\/ruby>/g, '$1');
+
+    let output = cleanedFurigana;
+
+    highlightedWords.forEach(word => {
+      const idx = plain.indexOf(word);
+      if (idx === -1) return;
+
+      let current = 0;
+      const chunks = [];
+      const regex = /<ruby><rb>(.*?)<\/rb><rt>(.*?)<\/rt><\/ruby>|<ruby>(.*?)<rt>(.*?)<\/rt><\/ruby>|./g;
+      let m;
+
+      while ((m = regex.exec(cleanedFurigana)) !== null) {
+        const visible = m[1] || m[3] || m[0];
+        const len = visible.length;
+
+        if (current + len > idx && current < idx + word.length) {
+          chunks.push(m[0]);
+        }
+        current += len;
+      }
+
+      const fullMatch = chunks.join('');
+      const wrapped = `<span class="highlight">${fullMatch}</span>`;
+      output = output.replace(fullMatch, wrapped);
     });
 
-    document.getElementById("formattedSentence").innerHTML = formattedFurigana;
+    document.getElementById("formattedSentence").innerHTML = output;
   }
 
-  /* Initializes all functions when the card loads */
+  /* Initialize immediate functions */
   function init() {
     darkMode();
-    highlightFurigana();
     hideElementIfEmpty();
-    removeFirstGlossaryItem();
+    highlightFurigana();
     dictionaryName();
     collectGlossaryImages();
     cleanPitchPositions();
-    pitchCategoriesFirst();
     jitendexHover();
+    dynamicWordSize();
+    splitTags();
+    toggleDefinitionGlossary();
+  }
+
+  /* Initialize deferred functions */
+  function initDeferred() {
+    removeFirstGlossaryItem();
+    pitchCategoriesFirst();
     enableHover();
     enableImageSwitching();
     enableLightbox();
-    dynamicWordSize();
     nsfw();
-    splitTags();
-    toggleDefinitionGlossary();
     wrapKanjiInWordField();
   }
 
   init();
+  setTimeout(initDeferred, 0);
 </script>
