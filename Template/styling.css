@@ -38,10 +38,10 @@
   --dark-text: white;
   
   /* Pitch Accent Colors */
-  --pitch-red: #fd5c5c;
-  --pitch-blue: #89daff;
+  --pitch-red: #F5436D;
+  --pitch-blue: #39C1FF;
   --pitch-orange: #fca311;
-  --pitch-green: #4e937a;
+  --pitch-green: #40D4A6;
   --pitch-purple: #afa2ff;
 
   /* Devoiced Mora Color */
@@ -611,17 +611,17 @@ img {
 }
 
 /* NSFW Content */
-.NSFW {
+[class*=" nsfw" i] {
   overflow: hidden;
   border-radius: var(--border-radius-md); 
 }
 
-.NSFW img {
+[class*=" nsfw" i] img {
   filter: blur(20px);
   transition: filter var(--base-transition);
 }
 
-.NSFW img.clicked {
+[class*=" nsfw" i] img.clicked {
   filter: blur(0);
 }
 
