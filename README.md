@@ -4,7 +4,7 @@ A highly customizable Anki note type for studying Japanese, featuring a responsi
 <img src="https://github.com/BrenoAqua/Senren/blob/main/Images/Senren_v3.2_Preview.gif" width="1000">
 
 ### Contents
-- [Senren・洗練](#senren・洗練)
+- [Senren・洗練](#senren洗練)
    - [Features](#features)
      - [Automatic Colors for Every Pitch Accent + Pitch Position](#automatic-colors-for-every-pitch-accent--pitch-position)
      - [Kanji Hover](#kanji-hover)
