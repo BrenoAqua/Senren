@@ -484,76 +484,76 @@
 
   /* Adds hover effects to Jitendex dictionary content */
   function jitendexHover() {
-      const sentencePairs = document.querySelectorAll('[data-sc-content="example-sentence-a"]');
-      const xrefPairs = document.querySelectorAll('[data-sc-content="xref"]');
-      const antonymPairs = document.querySelectorAll('[data-sc-content="antonym"]');
-      const notePairs = document.querySelectorAll('[data-sc-content="sense-note"]');
-      const explanationPairs = document.querySelectorAll('[data-sc-content="info-gloss"]');
-      const langPairs = document.querySelectorAll('[data-sc-content="lang-source"]');
+    const sentencePairs = document.querySelectorAll('[data-sc-content="example-sentence-a"]');
+    const xrefPairs = document.querySelectorAll('[data-sc-content="xref"]');
+    const antonymPairs = document.querySelectorAll('[data-sc-content="antonym"]');
+    const notePairs = document.querySelectorAll('[data-sc-content="sense-note"]');
+    const explanationPairs = document.querySelectorAll('[data-sc-content="info-gloss"]');
+    const langPairs = document.querySelectorAll('[data-sc-content="lang-source"]');
 
-      const handleHover = (parentElement, elementB) => {
-          if (parentElement && elementB) {
-              parentElement.style.opacity = '0.5';
-              parentElement.style.transition = 'opacity 0.3s ease';
-              elementB.style.maxHeight = '0';
-              elementB.style.overflow = 'hidden';
-              elementB.style.transition = 'max-height 0.3s ease, opacity 0.3s ease';
-              elementB.style.display = 'block';
+    const handleHover = (parentElement, elementB) => {
+      if (parentElement && elementB) {
+        parentElement.style.opacity = '0.5';
+        parentElement.style.transition = 'opacity 0.3s ease';
+        elementB.style.maxHeight = '0';
+        elementB.style.overflow = 'hidden';
+        elementB.style.transition = 'max-height 0.3s ease, opacity 0.3s ease';
+        elementB.style.display = 'block';
 
-              const showContent = () => {
-                  requestAnimationFrame(() => {
-                      parentElement.style.opacity = '1';
-                      elementB.style.maxHeight = elementB.scrollHeight + 'px';
-                      elementB.style.opacity = '1';
-                  });
-              };
+        const showContent = () => {
+          requestAnimationFrame(() => {
+            parentElement.style.opacity = '1';
+            elementB.style.maxHeight = elementB.scrollHeight + 'px';
+            elementB.style.opacity = '1';
+          });
+        };
 
-              const hideContent = () => {
-                  requestAnimationFrame(() => {
-                      parentElement.style.opacity = '0.5';
-                      elementB.style.maxHeight = '0';
-                      elementB.style.opacity = '0';
-                  });
-              };
+        const hideContent = () => {
+          requestAnimationFrame(() => {
+            parentElement.style.opacity = '0.5';
+            elementB.style.maxHeight = '0';
+            elementB.style.opacity = '0';
+          });
+        };
 
-              elementB.addEventListener('mouseover', showContent);
-              parentElement.addEventListener('mouseover', showContent);
+        elementB.addEventListener('mouseover', showContent);
+        parentElement.addEventListener('mouseover', showContent);
 
-              elementB.addEventListener('mouseout', hideContent);
-              parentElement.addEventListener('mouseout', hideContent);
-          }
-      };
+        elementB.addEventListener('mouseout', hideContent);
+        parentElement.addEventListener('mouseout', hideContent);
+      }
+    };
 
-      sentencePairs.forEach(sentenceA => {
-          const sentenceB = sentenceA.nextElementSibling;
-          const sentence = sentenceA.closest('[data-sc-content|="example-sentence"]');
-          handleHover(sentenceA, sentenceB, sentence);
-      });
+    sentencePairs.forEach(sentenceA => {
+      const sentenceB = sentenceA.nextElementSibling;
+      const sentence = sentenceA.closest('[data-sc-content|="example-sentence"]');
+      handleHover(sentenceA, sentenceB, sentence);
+    });
 
-      xrefPairs.forEach(xref => {
-          const xrefGlossary = xref.querySelector('[data-sc-content="xref-glossary"]');
-          handleHover(xref, xrefGlossary);
-      });
+    xrefPairs.forEach(xref => {
+      const xrefGlossary = xref.querySelector('[data-sc-content="xref-glossary"]');
+      handleHover(xref, xrefGlossary);
+    });
 
-      antonymPairs.forEach(antonym => {
-          const antonymGlossary = antonym.querySelector('[data-sc-content="antonym-glossary"]');
-          handleHover(antonym, antonymGlossary);
-      });
+    antonymPairs.forEach(antonym => {
+      const antonymGlossary = antonym.querySelector('[data-sc-content="antonym-glossary"]');
+      handleHover(antonym, antonymGlossary);
+    });
 
-      notePairs.forEach(note => {
-          const noteGlossary = note.querySelector('div:last-child');
-          handleHover(note, noteGlossary);
-      });
+    notePairs.forEach(note => {
+      const noteGlossary = note.querySelector('div:last-child');
+      handleHover(note, noteGlossary);
+    });
 
-      explanationPairs.forEach(explanation => {
-          const infoGloss = explanation.querySelector('div:last-child');
-          handleHover(explanation, infoGloss);
-      });
+    explanationPairs.forEach(explanation => {
+      const infoGloss = explanation.querySelector('div:last-child');
+      handleHover(explanation, infoGloss);
+    });
 
-      langPairs.forEach(lang => {
-          const langSource = lang.querySelector('div:last-child');
-          handleHover(lang, langSource);
-      });
+    langPairs.forEach(lang => {
+      const langSource = lang.querySelector('div:last-child');
+      handleHover(lang, langSource);
+    });
   }
 
   /* Enables hover effects for sentenceEng and miscInfo */
@@ -726,14 +726,15 @@
     };
 
     images.forEach((img, index) => {
-
       const container = img.closest('.picture-container');
-      const isNSFW = container.classList.contains("NSFW");
+      const isNSFW = container && container.className.toLowerCase().includes('nsfw');
 
       if (isNSFW) {
         img.addEventListener("click", (e) => {
           if (img.classList.contains('clicked')) {
             showImage(index);
+          } else {
+            img.classList.add('clicked');
           }
         });
       } else {
@@ -858,16 +859,25 @@
 
   /* Handles NSFW content behavior and blur toggling */
   function nsfw() {
-    var elem = document.querySelector(".NSFW .soundLink, .NSFW .replaybutton");
-    if (elem) {
-      elem.click();
-    }
+    const tags = `{{Tags}}`.toLowerCase();
+    const isNsfwCard = tags.includes('nsfw');
 
-    document.querySelectorAll('.NSFW img').forEach(img => {
-      img.addEventListener('click', () => {
-        img.classList.add('clicked');
+    if (isNsfwCard) {
+      const wordAudioButton = document.querySelector(".audio .soundLink, .audio .replaybutton");
+      if (wordAudioButton) {
+        wordAudioButton.click();
+      }
+
+      document.querySelectorAll('.picture-container').forEach(container => {
+        if (container.className.toLowerCase().includes('nsfw')) {
+          container.querySelectorAll('img').forEach(img => {
+            img.addEventListener('click', () => {
+              img.classList.add('clicked');
+            });
+          });
+        }
       });
-    });
+    }
   }
 
   /* Adds Titles to glossary dictionaries */
@@ -1340,23 +1350,23 @@
     });
     
     if (runFallbackCheck && potentialFallbackClass) {
-        const hasPitchClassNow = ['heiban', 'atamadaka', 'nakadaka', 'odaka'].some(cls => mainWordSpan.classList.contains(cls));
-        if (!hasPitchClassNow) {
-            mainWordSpan.classList.add(potentialFallbackClass);
-        }
+      const hasPitchClassNow = ['heiban', 'atamadaka', 'nakadaka', 'odaka'].some(cls => mainWordSpan.classList.contains(cls));
+      if (!hasPitchClassNow) {
+        mainWordSpan.classList.add(potentialFallbackClass);
+      }
     }
 
     positionElements.forEach(pos => {
-        const cat = pos.closest('.pitch')?.querySelector('#categories');
-        if (cat?.dataset.fullCategories && cat.dataset.fullCategories.includes('<br>')) {
-            const initialCategory = cat.innerHTML;
-            pos.addEventListener('mouseenter', () => {
-                cat.innerHTML = cat.dataset.fullCategories;
-            });
-            pos.addEventListener('mouseleave', () => {
-                cat.innerHTML = initialCategory;
-            });
-        }
+      const cat = pos.closest('.pitch')?.querySelector('#categories');
+      if (cat?.dataset.fullCategories && cat.dataset.fullCategories.includes('<br>')) {
+        const initialCategory = cat.innerHTML;
+        pos.addEventListener('mouseenter', () => {
+          cat.innerHTML = cat.dataset.fullCategories;
+        });
+        pos.addEventListener('mouseleave', () => {
+          cat.innerHTML = initialCategory;
+        });
+      }
     });
   }
 
