@@ -42,10 +42,11 @@ A highly customizable Anki note type for studying Japanese, featuring a responsi
 - 🟣 **Kifuku**
 
 ### Kanji Hover
-- Each kanji in the word can be hovered over. It will fetch all the cards within the note type and list all the words containing the same kanji.
+- You can hover over each kanji in a word to see all cards in the note type that contain the same kanji.
 
   <img src="https://github.com/user-attachments/assets/aca60447-6b26-413e-af77-3d45c5ddb18f" width="300">
-- Up to 5 words will be shown. If there are more, a "Show More" option will be available to display the others.
+- Up to 5 words will be shown. If there are more, a "Show More" option will appear to display the others.
+> Only works on PC.
 
 ### Custom Dark Mode
 - Easily toggle between the default theme (light or original dark mode) and dark mode with a black background.
@@ -157,7 +158,7 @@ Download the latest version from here: [Senren v3.4](https://github.com/BrenoAqu
 | frequency     | `{frequencies}`               |            |
 | freqSort      | `{frequency-harmonic-rank}`   |            |
 | miscInfo      | `{document-title}`            | Leave it empty if you use MPVacious or another tool with this function. |
-| dictionaryPreference | `glossary`             | Leave it empty if you want to see the Jitendex dictionary first. You need to enter "glossary" into the `dictionaryPreference` field for all your cards to display the glossary first instead of the definition (which is the default when empty). You can use the [Batch Editing](https://ankiweb.net/shared/info/291119185) to do this. |
+| dictionaryPreference | `glossary`             | Leave it empty if you want to see the dictionary in `definition` first. You need to enter "glossary" into the `dictionaryPreference` field for all your cards to display the glossary first instead of the definition (which is the default when empty). You can use the [Batch Editing](https://ankiweb.net/shared/info/291119185) to do this. |
 
 ### Handlebars
 It's not necessary, as this note type works perfectly fine without them, but I recommend it.
