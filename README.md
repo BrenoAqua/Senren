@@ -109,6 +109,10 @@ A highly customizable Anki note type for studying Japanese, featuring a responsi
   - Attribution and forms are completely hidden.
 
 ### Additional Features
+- 3 Front Card Types:**
+  - **Default:** Displays only the **Word** initially.
+  - **Sentence Card:** Displays only the **Sentence** initially.
+  - **Audio Card:** Plays the **Audio**, both **Word** and **Sentence** are hidden.
 - A collapsible list to show **Word Frequencies**.
 - **English translations** appear when the Japanese sentence is hovered over, if available.
 - **Misc Info** appears when the picture is hovered over, if available.
@@ -132,7 +136,7 @@ A highly customizable Anki note type for studying Japanese, featuring a responsi
 - **Tags** displayed below the definition/glossary.
 - **Mobile support:** It has not been tested on AnkiMobile, but it works well on AnkiDroid.
 
-Download the latest version from here: [Senren v3.4](https://github.com/BrenoAqua/Senren/releases/download/v3.4/Senren.v3.4.apkg)
+Download the latest version from here: [Senren v3.5](https://github.com/BrenoAqua/Senren/releases/download/v3.5/Senren.v3.5.apkg)
 
 ## Yomitan
 
