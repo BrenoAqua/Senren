@@ -592,7 +592,7 @@
       }
     }
 
-    applyHoverEffect(".sentence-container", "#sentenceEng");
+    applyHoverEffect(".sentence-container #formattedSentence", "#sentenceEng");
     applyHoverEffect(".picture-container", ".misc-info", 20);
   }
 
@@ -1358,13 +1358,9 @@
 
     positionElements.forEach(pos => {
       const cat = pos.closest('.pitch')?.querySelector('#categories');
-      if (cat?.dataset.fullCategories && cat.dataset.fullCategories.includes('<br>')) {
-        const initialCategory = cat.innerHTML;
+      if (cat?.dataset.fullCategories) {
         pos.addEventListener('mouseenter', () => {
           cat.innerHTML = cat.dataset.fullCategories;
-        });
-        pos.addEventListener('mouseleave', () => {
-          cat.innerHTML = initialCategory;
         });
       }
     });

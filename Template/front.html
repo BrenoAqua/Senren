@@ -6,16 +6,78 @@
     <i class="fas fa-moon moon-icon"></i>
   </span>
 
-  <div id="word" class="pitch card-a">
-    {{word}}
-  </div>
+  {{#audioCard}}
 
-  <div id="sentence">
-    {{sentence}}
-  </div>
+    <!-- Audio Card -->
+    {{#wordAudio}}
+      <div id="wordAudio">
+        {{wordAudio}}
+      </div>
+    {{/wordAudio}}
+
+    {{#sentenceAudio}}
+      <div id="sentenceAudio">
+        {{sentenceAudio}}
+      </div>
+    {{/sentenceAudio}}
+
+  {{/audioCard}}
+
+  {{^audioCard}}
+  {{#sentenceCard}}
+
+    <!-- Sentence Card -->
+    <div id="word-wrapper">
+      <div id="word">
+        {{word}}
+      </div>
+    </div>
+
+    <div id="sentence" class="toggle-trigger" onclick="toggleVisibility('word-wrapper', 'word')">
+      {{sentence}}
+    </div>
+
+  {{/sentenceCard}}
+  {{^sentenceCard}}
+
+    <!-- Word Card (Default) -->
+    <div id="word" class="toggle-trigger" onclick="toggleVisibility('sentence-wrapper', 'sentence')">
+      {{word}}
+    </div>
+
+    <div id="sentence-wrapper">
+      <div id="sentence">
+        {{sentence}}
+      </div>
+    </div>
+
+  {{/sentenceCard}}
+  {{/audioCard}}
 </div>
 
 <script>
+  /* Toggles visibility of word/sentence */
+  function toggleVisibility(wrapperId, innerElementId) {
+    const wrapper = document.getElementById(wrapperId);
+    const innerElement = document.getElementById(innerElementId);
+
+    if (wrapper && innerElement) {
+      const isExpanded = wrapper.classList.contains('expanded');
+
+      if (!isExpanded) {
+        const scrollHeight = innerElement.scrollHeight + 'px';
+        wrapper.style.maxHeight = scrollHeight;
+        wrapper.classList.add('expanded');
+      } else {
+        wrapper.style.maxHeight = wrapper.scrollHeight + 'px';
+        requestAnimationFrame(() => {
+          wrapper.classList.remove('expanded');
+          wrapper.style.maxHeight = '0px';
+        });
+      }
+    }
+  }
+
   /* Handles Custom Dark Mode toggle functionality and applies it */
   function darkMode() {
     const button = document.querySelector(".toggle-custom-dark-mode");

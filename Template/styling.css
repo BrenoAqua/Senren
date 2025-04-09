@@ -264,6 +264,114 @@
   background: var(--card-bg);
 }
 
+/* ===== FRONT ===== */
+/* Word - Sentence */
+#word-wrapper,
+#sentence-wrapper {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  margin: 0;
+  padding: 0;
+  transition: max-height 0.3s ease,
+              opacity 0.3s ease,
+              margin 0.3s ease,
+              padding 0.3s ease;
+  box-sizing: content-box;
+}
+
+#word-wrapper.expanded,
+#sentence-wrapper.expanded {
+  opacity: 1;
+  pointer-events: auto;
+  margin: revert;
+  padding: revert;
+}
+
+.front > #word {
+  line-height: 0;
+  margin-top: 2px;
+  margin-bottom: 12px;
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+
+.toggle-trigger {
+  cursor: pointer;
+}
+
+/* Audio */
+.front:has(#wordAudio), 
+.front:has(#sentenceAudio) {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+#wordAudio {
+  margin-right: 10px;
+}
+
+#wordAudio, #sentenceAudio, .playImage path {
+  width: var(--button-size);
+  height: var(--button-size);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: var(--border-radius-ms);
+  padding: var(--spacing-ms) var(--spacing-lg);
+  cursor: pointer;
+  transition: box-shadow var(--fast-transition), 
+              background var(--fast-transition), 
+              fill var(--fast-transition);
+}
+
+#wordAudio, #sentenceAudio {
+  background: rgba(0,0,0,0.04);
+}
+
+.custom-dark-mode #wordAudio, 
+.card.nightMode #wordAudio, 
+.custom-dark-mode #sentenceAudio, 
+.card.nightMode #sentenceAudio {
+  background: rgba(0,0,0,0.4);
+}
+
+#wordAudio:hover, 
+#sentenceAudio:hover, 
+#wordAudio:hover .playImage path, 
+#sentenceAudio:hover .playImage path {
+  box-shadow: var(--button-shadow);
+  background: var(--buttons-bg-hover);
+  fill: var(--dark-text) !important;
+}
+
+.card.nightMode #wordAudio:hover, 
+.card.nightMode #sentenceAudio:hover, 
+.card.nightMode #wordAudio:hover .playImage path, 
+.card.nightMode #sentenceAudio:hover .playImage path {
+  background: var(--buttons-bg-hover);
+}
+
+.custom-dark-mode #wordAudio:hover,
+.custom-dark-mode #sentenceAudio:hover,
+.custom-dark-mode #wordAudio:hover .playImage path,
+.custom-dark-mode #sentenceAudio:hover .playImage path {
+  box-shadow: var(--button-shadow-dark);
+  background: var(--light-bg) !important;
+  fill: var(--light-text) !important;
+}
+
+#wordAudio circle, #sentenceAudio circle {
+  display: none;
+}
+
+.front .playImage path {
+  fill: rgba(105, 105, 105, 0.6) !important;
+}
+
+/* ===== BACK ===== */
 /* Platform Specific */
 .win, .mac, .linux, .mobile {
   text-align: center;
@@ -838,6 +946,19 @@ img {
 
 .playImage path {
   fill: var(--text-color-muted) !important;
+}
+
+#wordAudio,
+#sentenceAudio,
+.audio,
+.sentenceaudio,
+.playImage,
+.soundLink,
+.replaybutton,
+.soundplaying,
+.playing {
+  outline: 2px solid transparent !important;
+  outline-offset: -2px;
 }
 
 /* Pitch Accent Colors */
