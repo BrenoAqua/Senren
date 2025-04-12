@@ -1,10 +1,21 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
 <div class="back">
-  <span class="toggle-custom-dark-mode">
-    <i class="fas fa-sun sun-icon"></i>
-    <i class="fas fa-moon moon-icon"></i>
-  </span>
+
+  <div class="header">
+    <span class="toggle-custom-dark-mode">
+      <i class="fas fa-sun sun-icon"></i>
+      <i class="fas fa-moon moon-icon"></i>
+    </span>
+
+    {{#wordAudio}}
+      <div class="{{Tags}}"><span class="audio">{{wordAudio}}</span></div>
+    {{/wordAudio}}
+
+    {{#sentenceAudio}}
+      <div class="{{Tags}}"><span class="sentenceaudio">{{sentenceAudio}}</span></div>
+    {{/sentenceAudio}}
+  </div>
 
   <div id="frequency">
     <div class="frequency-box">
@@ -44,14 +55,6 @@
     <div class="lightbox-nav right"></div>
     <button id="show-all" class="lightbox-grid-toggle">Show All</button>
   </div>
-
-  {{#wordAudio}}
-    <div class="{{Tags}}"><span class="audio">{{wordAudio}}</span></div>
-  {{/wordAudio}}
-
-  {{#sentenceAudio}}
-    <div class="{{Tags}}"><span class="sentenceaudio">{{sentenceAudio}}</span></div>
-  {{/sentenceAudio}}
 
   <div class="sentence-container">
     <div id="sentence">
@@ -556,44 +559,89 @@
     });
   }
 
-  /* Enables hover effects for sentenceEng and miscInfo */
-  function enableHover() {
-    function applyHoverEffect(containerSelector, targetSelector, extraPadding = 0) {
-      const container = document.querySelector(containerSelector);
+  /* Enables click/hover effects for sentenceEng and miscInfo */
+  function enableInteractions() {
+  
+    function applyClickToggleEffect(triggerSelector, targetSelector, extraPadding = 0) {
+      const trigger = document.querySelector(triggerSelector);
       const target = document.querySelector(targetSelector);
-
-      if (container && target) {
-        container.addEventListener("mouseenter", () => {
+  
+      if (trigger && target) {
+        const clickableClassName = 'is-clickable';
+  
+        if (target.textContent.trim() !== "") {
+          trigger.classList.add(clickableClassName);
+        } else {
+          trigger.classList.remove(clickableClassName);
+        }
+  
+        trigger.addEventListener("click", () => {
+           if (!trigger.classList.contains(clickableClassName)) {
+               return;
+           }
+  
           requestAnimationFrame(() => {
-            if (target.textContent.trim() !== "") {
+            const isCollapsed = !target.style.maxHeight || target.style.maxHeight === "0px";
+  
+            if (isCollapsed) {
               target.style.maxHeight = target.scrollHeight + extraPadding + "px";
-
               if (extraPadding) {
                 target.style.opacity = "1";
                 target.style.paddingTop = extraPadding + "px";
               }
             } else {
               target.style.maxHeight = "0";
-              target.style.opacity = "0";
-              target.style.paddingTop = "0px";
-            }
-          });
-        });
-
-        container.addEventListener("mouseleave", () => {
-          requestAnimationFrame(() => {
-            target.style.maxHeight = "0";
-            if (extraPadding) {
-              target.style.opacity = "0";
-              target.style.paddingTop = "0px";
+              if (extraPadding) {
+                target.style.opacity = "0";
+                target.style.paddingTop = "0px";
+              }
             }
           });
         });
       }
     }
-
-    applyHoverEffect(".sentence-container #formattedSentence", "#sentenceEng");
-    applyHoverEffect(".picture-container", ".misc-info", 20);
+  
+    function applyHoverEffect(containerSelector, targetSelector, extraPadding = 0) {
+      const container = document.querySelector(containerSelector);
+      const target = document.querySelector(targetSelector);
+  
+      if (container && target) {
+          container.addEventListener("mouseenter", () => {
+              requestAnimationFrame(() => {
+                if (target.textContent.trim() !== "") {
+                  target.style.maxHeight = target.scrollHeight + extraPadding + "px";
+                  if (extraPadding) {
+                    target.style.opacity = "1";
+                    target.style.paddingTop = extraPadding + "px";
+                  }
+                } else {
+                   target.style.maxHeight = "0";
+                   if (extraPadding) {
+                      target.style.opacity = "0";
+                      target.style.paddingTop = "0px";
+                   }
+                }
+              });
+            });
+  
+            container.addEventListener("mouseleave", () => {
+              requestAnimationFrame(() => {
+                target.style.maxHeight = "0";
+                if (extraPadding) {
+                  target.style.opacity = "0";
+                  target.style.paddingTop = "0px";
+                }
+              });
+            });
+      }
+    }
+  
+    applyClickToggleEffect(".sentence-container #formattedSentence", "#sentenceEng");
+  
+    const isTouchDevice = window.matchMedia("(pointer: coarse)").matches;
+    const pictureHoverTriggerSelector = isTouchDevice ? ".background-box" : ".picture-container";
+    applyHoverEffect(pictureHoverTriggerSelector, ".misc-info", 20);
+  
   }
 
   /* Allows cycling through images */
@@ -796,6 +844,74 @@
       startX = e.clientX - translateX;
       startY = e.clientY - translateY;
       lightboxImg.style.cursor = "grabbing";
+    });
+
+    let initialDistance = null;
+
+    lightboxImg.addEventListener('touchstart', (e) => {
+        if (e.touches.length === 2) {
+            initialDistance = Math.hypot(
+                e.touches[0].pageX - e.touches[1].pageX,
+                e.touches[0].pageY - e.touches[1].pageY
+            );
+            isPanning = false;
+        } else if (e.touches.length === 1 && scale > 1) {
+            isPanning = true;
+            startX = e.touches[0].pageX - translateX;
+            startY = e.touches[0].pageY - translateY;
+            initialDistance = null;
+        } else {
+            isPanning = false;
+            initialDistance = null;
+        }
+    });
+
+    lightboxImg.addEventListener('touchmove', (e) => {
+        if (e.touches.length === 2 && initialDistance !== null) {
+            e.preventDefault();
+            const newDistance = Math.hypot(
+                e.touches[0].pageX - e.touches[1].pageX,
+                e.touches[0].pageY - e.touches[1].pageY
+            );
+            const newScale = scale * (newDistance / initialDistance);
+            const prevScale = scale;
+
+            scale = Math.min(Math.max(1, newScale), 3);
+
+            if (scale > 1) {
+                const rect = lightboxImg.getBoundingClientRect();
+                const touchCenterX = (e.touches[0].pageX + e.touches[1].pageX) / 2;
+                const touchCenterY = (e.touches[0].pageY + e.touches[1].pageY) / 2;
+
+                const offsetX = (touchCenterX - rect.left) / rect.width;
+                const offsetY = (touchCenterY - rect.top) / rect.height;
+
+                translateX -= (offsetX - 0.5) * (scale - prevScale) * rect.width;
+                translateY -= (offsetY - 0.5) * (scale - prevScale) * rect.height;
+
+                updateTransform();
+                showAll.style.display = "none";
+            } else {
+                resetTransform();
+                showAll.style.display = "block";
+            }
+            initialDistance = newDistance;
+
+        } else if (e.touches.length === 1 && isPanning) {
+            e.preventDefault();
+            translateX = e.touches[0].pageX - startX;
+            translateY = e.touches[0].pageY - startY;
+            updateTransform();
+        }
+    });
+
+     lightboxImg.addEventListener('touchend', (e) => {
+        if (e.touches.length < 2) {
+            initialDistance = null;
+        }
+        if (e.touches.length < 1) {
+            isPanning = false;
+        }
     });
 
     const moveImage = (e) => {
@@ -1444,7 +1560,7 @@
   function initDeferred() {
     removeFirstGlossaryItem();
     pitchCategoriesFirst();
-    enableHover();
+    enableInteractions();
     enableImageSwitching();
     enableLightbox();
     nsfw();
