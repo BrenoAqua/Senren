@@ -88,6 +88,17 @@ A highly customizable Anki note type for studying Japanese, featuring a responsi
   - Display images from glossary dictionaries in the picture container.
 
     <img src="https://github.com/user-attachments/assets/dc1ea0b7-0875-499d-b3ef-3494ccf15368" width="400">
+- **Lightbox Grid View**
+
+   <details>
+    <summary>Default View:</summary>
+    <img src="https://github.com/user-attachments/assets/b8752a8e-e275-47e3-b106-9c392aa67575" width="500">
+   </details>
+   
+   <details>
+    <summary>Grid View:</summary>
+    <img src="https://github.com/user-attachments/assets/0a354d91-2811-491c-ba39-2401f4b65a1a" width="500">
+   </details>
 
 ### Stylization Changes for Jitendex
 - **Hover Effects**
