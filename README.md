@@ -108,8 +108,35 @@ A highly customizable Anki note type for studying Japanese, featuring a responsi
 - **Hidden Sections**
   - Attribution and forms are completely hidden.
 
+### Different layouts for different screen sizes
+- **Default**: Width greater than **1050px** (2-column layout).
+  <details>
+    <summary>Preview</summary>
+    <img src="https://github.com/user-attachments/assets/73ed4a9b-ddaf-4b89-b39e-582f40548193" width="500">
+  </details>
+
+- **Large**: Width less than or equal to **1050px** (2-column layout).
+  <details>
+    <summary>Preview</summary>
+    <img src="https://github.com/user-attachments/assets/0f4a32cc-6c40-4d8f-bea6-0d113079e875" width="500">
+  </details>
+
+- **Medium**: Width less than or equal to **768px** (2-column layout, not different from **Large**).
+  
+- **Small**: Width less than or equal to **624px** (switches to a single-column layout).
+  <details>
+    <summary>Preview</summary>
+    <img src="https://github.com/user-attachments/assets/37e1d42d-bc74-44da-aeb6-6bf4c3929475" width="500">
+  </details>
+  
+  **All layouts are fully customizable. You can:**
+    - Switch between 1-column and 2-column layouts.
+    - Flip the content direction (e.g. picture left, word right).
+    - Hide individual sections of the Header and Footer.
+    - Remove the Header and Footer entirely.
+
 ### Additional Features
-- 3 Front Card Types:**
+- **3 Front Card Types:**
   - **Default:** Displays only the **Word** initially.
   - **Sentence Card:** Displays only the **Sentence** initially.
   - **Audio Card:** Plays the **Audio**, both **Word** and **Sentence** are hidden.
