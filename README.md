@@ -89,10 +89,6 @@ A highly customizable Anki note type for studying Japanese, featuring a responsi
 
     <img src="https://github.com/user-attachments/assets/dc1ea0b7-0875-499d-b3ef-3494ccf15368" width="400">
 
-  - Dynamically adjust the grid layout if no image is available on the card.
-
-    <img src="https://github.com/user-attachments/assets/5c758d1c-0973-4957-9dd8-94f886bd46ee" width="400">
-
 ### Stylization Changes for Jitendex
 - **Hover Effects**
   - Example sentences, antonyms, cross-references, and notes smoothly expand on hover and collapse when the mouse leaves.
