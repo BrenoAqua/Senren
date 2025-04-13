@@ -142,7 +142,7 @@ A highly customizable Anki note type for studying Japanese, featuring a responsi
   - **Sentence Card:** Displays only the **Sentence** initially.
   - **Audio Card:** Plays the **Audio**, both **Word** and **Sentence** are hidden.
 - A collapsible list to show **Word Frequencies**.
-- Clicking the Japanese sentence shows the **Sentence Translation**, if available in the `sentenceEng` field.
+- Clicking the Sentence shows the **Sentence Translation**, if available in the `sentenceEng` field.
 - **Misc Info** appears when the picture is hovered over, if available in the `miscInfo` field.
 - Support for **Sorting by Frequency** (need [Frequency Dictionaries](https://drive.google.com/drive/folders/1cJn4lw-a-YollDJvEkfUyRcel6QndFDN?usp=sharing)).
 - Hovering over the **Pitch Accent "Position"** displays the name of the associated pitch accent category.
