@@ -14,7 +14,7 @@ A highly customizable Anki note type for studying Japanese, featuring a responsi
      - [Definition Toggle](#definition-toggle)
      - [Picture Lightbox](#picture-lightbox)
      - [Stylization Changes for Jitendex](#stylization-changes-for-jitendex)
-     - [Different Layouts For Different Screen Sizes](different-layouts-for-different-screen-sizes)
+     - [Different Layouts For Different Screen Sizes](#different-layouts-for-different-screen-sizes)
      - [Additional Features](#additional-features)
    - [Yomitan](#yomitan)
      - [Fields](#fields)
