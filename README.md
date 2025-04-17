@@ -64,7 +64,7 @@ A highly customizable Anki note type for studying Japanese, featuring a responsi
 ![image](https://github.com/user-attachments/assets/8fee6dd1-b55e-4cbb-95dc-53911953b9c1)
 
 ### Definition Toggle
-- Switch between definitions using the left and right buttons or the arrow keys. You can also switch using the left and right arrow keys.
+- Switch between definitions using the left and right buttons or the arrow keys.
   - Save your dictionary viewing preference while reviewing (glossary or definition first).
     - You need to enter "glossary" into the `dictionaryPreference` field for all your cards to display the glossary first instead of the definition (which is the default when empty).
       
