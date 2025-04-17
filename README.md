@@ -15,7 +15,7 @@ A highly customizable Anki note type for studying Japanese, featuring a responsi
      - [Picture Lightbox](#picture-lightbox)
      - [Stylization Changes for Jitendex](#stylization-changes-for-jitendex)
      - [Different Layouts For Different Screen Sizes](#different-layouts-for-different-screen-sizes)
-     - [Additional Features](#additional-features)
+     - [Other Features](#other-features)
    - [Yomitan](#yomitan)
      - [Fields](#fields)
      - [Handlebars](#handlebars)
@@ -143,7 +143,7 @@ A highly customizable Anki note type for studying Japanese, featuring a responsi
     - Hide individual sections of the Header and Footer.
     - Remove the Header and Footer entirely.
 
-### Additional Features
+### Other Features
 - **3 Front Card Types:**
   - **Default:** Displays only the **Word** initially.
   - **Sentence Card:** Displays only the **Sentence** initially.
