@@ -1,0 +1,103 @@
+# mkdocs.yml
+site_name: Senren・洗練
+site_url: https://brenoaqua.github.io/Senren/
+site_description: A highly customizable Anki note type for studying Japanese, featuring a responsive layout, smooth animations, and extensive functionality.
+repo_url: https://github.com/BrenoAqua/Senren/
+repo_name: Senren
+edit_uri: blob/main/docs/
+
+theme:
+  name: material
+  language: en
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - header.autohide
+    - navigation.tabs
+    - navigation.sections
+    - search.suggest
+    - search.highlight 
+    - content.code.annotate
+    - content.code.copy
+    - content.tabs.link 
+    - navigation.footer
+    - navigation.top
+
+  icon:
+    repo: fontawesome/brands/github
+
+  palette:
+    # Light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: blue
+      toggle:
+        icon: material/toggle-switch
+        name: Switch to dark mode
+    # Dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: black
+      accent: blue
+      toggle:
+        icon: material/toggle-switch-off
+        name: Switch to light mode
+  font:
+    text: Roboto 
+    code: Roboto Mono
+  favicon: assets/images/logo.jpg
+  logo: assets/images/logo.jpg
+
+nav:
+  - Home: index.md
+  - Setup:
+      - Overview: setup_overview.md
+      - Yomitan Setup: yomitan.md
+      - Anki Setup: anki.md
+  - Features:
+      - Pitch Accent Automatic Colors: pitch_accent_automatic_colors.md
+      - Definition Toggle: defnition_toggle.md
+      - Lightbox Picture: lightbox.md
+      - Kanji Hover: kanji_hover.md
+      - Custom Dark Mode: Custom_Dark_Mode.md
+      - External Links: external_links.md
+      - Dictionary Styling: jitendex.md
+      - Responsive Layout: responsive_layout.md
+      - Word Frequency: frequency.md
+      - Card Types: Card_Types.md
+      - Image Blurring: Image_Blurring.md
+      - Sentence Translation: sentence_translation.md
+      - Tag Display: tags.md
+      - Misc Info: misc_info.md
+      - Mobile Support: mobile.md
+  - Additional Resources:
+      - ShareX Setup: sharex.md
+      - mpvacious Setup: mpvacious.md
+  - Download Latest: https://github.com/BrenoAqua/Senren/releases/latest
+
+# Custom CSS
+extra_css:
+  - assets/css/extra.css
+
+# Markdown extensions
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.details
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - admonition
+  - attr_list
+  - md_in_html
+  - toc:
+      permalink: true
+      toc_depth: 3
