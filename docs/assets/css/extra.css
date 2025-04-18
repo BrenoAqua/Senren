@@ -47,6 +47,6 @@ body[data-md-color-scheme="slate"] {
   color: var(--pitch-purple); 
 }
 
-.md-footer-meta md-typeset {
+.md-footer-meta__inner md-grid {
   display: none;
 }
