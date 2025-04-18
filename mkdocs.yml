@@ -1,10 +1,11 @@
 # mkdocs.yml
 site_name: Senren・洗練
-site_url: https://brenoaqua.github.io/Senren/
-site_description: A highly customizable Anki note type for studying Japanese, featuring a responsive layout, smooth animations, and extensive functionality.
-repo_url: https://github.com/BrenoAqua/Senren/
+
 repo_name: Senren
-edit_uri: blob/main/docs/
+site_url: https://brenoaqua.github.io/Senren/
+repo_url: https://github.com/BrenoAqua/Senren/
+edit_uri: edit/main/docs/
+site_description: A highly customizable Anki note type for studying Japanese, featuring a responsive layout, smooth animations, and extensive functionality.
 
 theme:
   name: material
@@ -22,6 +23,7 @@ theme:
     - content.tabs.link 
     - navigation.footer
     - navigation.top
+    - content.action.edit
 
   icon:
     repo: fontawesome/brands/github
@@ -93,8 +95,8 @@ markdown_extensions:
   - pymdownx.tabbed:
       alternate_style: true
   - pymdownx.emoji:
-      emoji_index: !!python/name:material.extensions.emoji.twemoji
-      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+      emoji_index: material.extensions.emoji.twemoji
+      emoji_generator: pymdownx.emoji.to_svg
   - admonition
   - attr_list
   - md_in_html

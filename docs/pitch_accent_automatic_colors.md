@@ -1,4 +1,4 @@
-# Automatic Colors for Every Pitch Accent + Pitch Position
+# Automatic Colors for Pitch Accent
 
 The pitch accent markers (lines and number) are automatically colored according to the pitch accent pattern type.
 
