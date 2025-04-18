@@ -49,6 +49,15 @@ theme:
   favicon: assets/images/logo.jpg
   logo: assets/images/logo.jpg
 
+plugins:
+  - search
+  - mkdocs-video:
+      css_style:
+        width: "100%"
+        height: "auto"
+      is_video: true
+      video_autoplay: false
+
 nav:
   - Home: index.md
   - Setup:
