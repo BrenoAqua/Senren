@@ -45,16 +45,8 @@ body[data-md-color-scheme="slate"] {
 .kifuku span[style*="border-color:currentColor"], 
 .t-kifuku { 
   color: var(--pitch-purple); 
-<<<<<<< HEAD
-}n
-
-.md-footer-meta {
-  display: none;
-}
-=======
 }
 
 .md-footer-meta {
   display: none;
 }
->>>>>>> 484dad56e20b0ea9e5e8fd39d88fccddc14b38e6
