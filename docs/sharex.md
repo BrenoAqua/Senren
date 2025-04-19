@@ -3,7 +3,7 @@
 Use ShareX to quickly capture screenshots and audio snippets for your Anki cards.
 
 1.  Download and install [ShareX](https://getsharex.com/).
-2.  Download the Senren ShareX settings file: [Senren-ShareX-Settings.sxb](https://raw.githubusercontent.com/BrenoAqua/Senren/main/ShareX/Senren-ShareX-Settings.sxb) (Right-click -> Save Link As...)
+2.  Download the Senren ShareX settings file: [Senren-ShareX-Settings.sxb](https://raw.githubusercontent.com/BrenoAqua/Senren/main/resources/Senren-ShareX-Settings.sxb) (Right-click -> Save Link As...)
 3.  Import the settings: In ShareX -> Application Settings -> Settings (Tab) -> Import -> select the downloaded `.sxb` file.
 4.  **Update Hotkey Paths:** You MUST update the save paths to point to *your* Anki media folder.
     *   Go to ShareX -> Hotkey settings...
