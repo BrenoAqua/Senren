@@ -1,4 +1,4 @@
-## Responsive Layout For Different Screen Sizes
+# Responsive Layout For Different Screen Sizes
 
 The layout automatically adjusts based on screen width for optimal viewing.
 
