@@ -51,12 +51,12 @@ theme:
 
 plugins:
   - search
-  - mkdocs-video:
-      css_style:
-        width: "100%"
-        height: "auto"
-      is_video: true
-      video_autoplay: false
+#  - mkdocs-video:
+#      css_style:
+#        width: "100%"
+#        height: "auto"
+#      is_video: true
+#      video_autoplay: false
 
 nav:
   - Home: index.md
