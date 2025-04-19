@@ -81,8 +81,8 @@ nav:
       - Misc Info: misc_info.md
       - Mobile Support: mobile.md
   - Resources:
-      - ShareX Setup: sharex.md
-      - mpvacious Setup: mpvacious.md
+      - ShareX: sharex.md
+      - mpvacious: mpvacious.md
   - Download Latest: https://github.com/BrenoAqua/Senren/releases/latest
 
 # Custom CSS
