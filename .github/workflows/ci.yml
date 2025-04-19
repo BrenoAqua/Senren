@@ -25,5 +25,5 @@ jobs:
           path: .cache
           restore-keys: |
             mkdocs-material-
-      - run: pip install mkdocs-material
+      - run: pip install 'mkdocs>=1.5.0' 'mkdocs-material>=9.5.0' 'pymdown-extensions>=10.0' 'mkdocs-video>=1.5.0'
       - run: mkdocs gh-deploy --force
