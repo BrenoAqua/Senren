@@ -9,7 +9,6 @@ Use ShareX to quickly capture screenshots and audio snippets for your Anki cards
     *   Go to ShareX -> Hotkey settings...
     *   For each of the **Screenshot**, **Screenshot-NSFW**, and **Audio** hotkeys:
         *   Click the task to highlight it, then click **Edit**.
-        *   Under "Actions", select the "Save image to file" (for screenshots) or "Save file" (for audio) action.
         *   Check **Override screenshots folder**.
         *   Change the path to *your* profile's `collection.media` folder (e.g., `C:\Users\Administrator\AppData\Roaming\Anki2\YourAnkiProfileName\collection.media`).
         *   Click **Ok**.
@@ -19,12 +18,10 @@ Use ShareX to quickly capture screenshots and audio snippets for your Anki cards
 To enable audio recording:
 
 1.  In ShareX -> Hotkey settings... -> Edit the **Audio** hotkey.
-2.  Under "Actions", select the "Start/Stop screen recording using active window region".
-3.  Click **Screen recording options...**.
-4.  Click **Install recorder devices** (if you haven't already). Wait for installation.
-5.  Set **Video source** to `none`.
-6.  Set **Audio source** to `virtual-audio-capturer` (or your desired system audio capture device).
-7.  Click the `X` to close the options window. Click **Ok** on the hotkey task window.
+2.  Go to Screen Recorder and Click **Screen recording options...**.
+3.  Click **Install recorder devices**.
+4.  Set **Video source** to `none`.
+5.  Set **Audio source** to `virtual-audio-capturer`.
 
 ## Default Hotkeys
 
