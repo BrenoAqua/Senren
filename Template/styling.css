@@ -113,7 +113,7 @@
   --word-size-7: 1.9rem; /* For 7-character words */
   --word-size-8: 1.6rem; /* For 8-character words */
   --word-size-9: 1.5rem; /* For 9-character words */
-  
+
   /* Sentence Sizes */
   --sentence-size: 1.3rem;
   --sentence-eng-size: 0.8rem;
@@ -126,20 +126,25 @@
   --frequency-content-size: 14px;
   --frequency-max-height: 500px;
 
+  /* Furigana Display */
+  --furigana-display: initial;          /* "none" to hide */
+
   /* Dictionary Title */
-  --definition-title-visibility: block; /* 'none' to hide */
-  --glossary-title-visibility: block; /* 'none' to hide */
+  --definition-title-visibility: block; /* "none" to hide */
+  --glossary-title-visibility:   block; /* "none" to hide */
   --dict-size: 0.5rem;
   --dict-display: inline-block;
   --light-dict-color: rgba(0, 0, 0, 0.4);
   --dict-color: rgba(255, 255, 255, 0.4);
 
   /* ===== HEADER ===== */
-  --custom-dark-mode-visibility: flex; /* 'none' to hide */
-  
+  --custom-dark-mode-visibility: flex;    /* "none"   to hide */
+  --audio-visibility:            visible; /* "hidden" to hide */
+  --freq-visibility:             visible; /* "hidden" to hide */
+
   /* ===== FOOTER ===== */
   /* Tags */
-  --tag-visibility: flex; /* 'none' to hide */
+  --tag-visibility: flex; /* "none" to hide */
   --tag-font-size: 0.7rem;
   --tag-padding: 5px 10px;
   --tag-margin-top: 5px;
@@ -150,7 +155,7 @@
   --tags-container-gap: 0 5px;
 
   /* External Links */
-  --external-links-visibility: flex; /* 'none' to hide */
+  --external-links-visibility: flex; /* "none" to hide */
   --external-links-padding: 5px 10px;
   --external-links-margin-top: 5px;
   --external-links-margin-bottom: 0;
@@ -175,10 +180,6 @@
   /* Large Screens */
   @media (max-width: 1050px) {
   :root {
-    /* Buttons Visibility */
-    --button-visibility-large: visible; /* 'hidden' to hide */
-    --freq-visibility-large: visible; /* 'hidden' to hide */
-
     /* Grid Columns */
     --grid-columns-large: repeat(2, 1fr); /* Two columns */
 
@@ -195,10 +196,6 @@
   /* Medium Screens */
   @media (max-width: 768px) {
   :root {
-    /* Buttons Visibility */
-    --button-visibility-medium: visible; /* 'hidden' to hide */
-    --freq-visibility-medium: visible; /* 'hidden' to hide */
-
     /* Grid Columns */
     --grid-columns-medium: repeat(2, 1fr); /* Two columns */
 
@@ -215,10 +212,6 @@
   /* Small Screens */
   @media (max-width: 624px) {
   :root {
-    /* Buttons Visibility */
-    --button-visibility-small: visible; /* 'hidden' to hide */
-    --freq-visibility-small: visible; /* 'hidden' to hide */
-
     /* Grid Columns */
     --grid-columns-small: repeat(1, 1fr); /* One column */
 
@@ -270,6 +263,21 @@
 
 /* ===== FRONT ===== */
 /* Word - Sentence */
+.desktop-word-layout {
+    display: block;
+}
+.mobile-word-layout {
+    display: none;
+}
+
+.desktop-word-layout > #word {
+  line-height: 0;
+  margin-top: 2px;
+  margin-bottom: 12px;
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+
 #word-wrapper,
 #sentence-wrapper {
   max-height: 0;
@@ -291,14 +299,6 @@
   pointer-events: auto;
   margin: revert;
   padding: revert;
-}
-
-.front > #word {
-  line-height: 0;
-  margin-top: 2px;
-  margin-bottom: 12px;
-  padding-top: 40px;
-  padding-bottom: 40px;
 }
 
 .toggle-trigger {
@@ -392,18 +392,15 @@
   position: relative;
 }
 
+
+
 .card-a rt li {
   display: inline;
-  font-size: 1rem;
   font-weight: normal;
 }
 
 .card-b {
   font-size: var(--definition-size);
-}
-
-.card-b li {
-  list-style: none !important;
 }
 
 /* Hyperlinks */
@@ -437,6 +434,10 @@ ul, ol {
   list-style: none;
   padding-left: 0;
   display: inline;
+}
+
+.card-b li {
+  list-style: none !important;
 }
 
 /* Custom Dark Mode */
@@ -512,8 +513,17 @@ ul, ol {
 #word.length-8 { font-size: var(--word-size-8); }
 #word.length-9 { font-size: var(--word-size-9); }
 
+#word ruby {
+  line-height: 1.4;
+}
+
+#word rt {
+  line-height: 1.5;
+}
+
 #word ruby rt {
   font-family: var(--sans);
+  font-size: 1rem;
 }
 
 .grid-container {
@@ -1080,6 +1090,8 @@ span[style*="display:inline"]:has(+ span[style*="border:1.5px dotted #c83c28"]) 
   z-index: var(--z-index-base);
   text-align: center;
   line-height: 16px;
+  opacity: 0; 
+  visibility: hidden;
   overflow: hidden;
   transform: scaleX(0);
   transform-origin: left;
@@ -1130,6 +1142,34 @@ span[style*="display:inline"]:has(+ span[style*="border:1.5px dotted #c83c28"]) 
 }
 
 /* Jitendex Settings */
+[data-sc-content="example-sentence-a"],
+[data-sc-content="xref"],
+[data-sc-content="antonym"],
+[data-sc-content="sense-note"],
+[data-sc-content="info-gloss"],
+[data-sc-content="lang-source"] {
+  opacity: 0.5;
+}
+
+[data-sc-content="example-sentence-a"]:hover {
+  opacity: 1;
+}
+
+[data-sc-content="example-sentence-a"] + *,
+[data-sc-content="xref"] [data-sc-content="xref-glossary"],
+[data-sc-content="antonym"] [data-sc-content="antonym-glossary"],
+[data-sc-content="sense-note"] > div:last-child,
+[data-sc-content="info-gloss"] > div:last-child,
+[data-sc-content="lang-source"] > div:last-child {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
 [data-sc-code] {
   display: inline-block;
   line-height: 1.2 !important;
@@ -1188,7 +1228,8 @@ span[style*="display:inline"]:has(+ span[style*="border:1.5px dotted #c83c28"]) 
 
 [data-sc-content="example-sentence"] {
   border-color: rgba(3, 3, 3, 0.5) !important;
-  transition: border-color var(--base-transition);
+  transition: border-color var(--base-transition), 
+              opacity var(--base-transition);
 }
 
 [data-sc-content="example-sentence"]:hover {
@@ -1198,12 +1239,20 @@ span[style*="display:inline"]:has(+ span[style*="border:1.5px dotted #c83c28"]) 
 .card.nightMode [data-sc-content="example-sentence"],
 .custom-dark-mode [data-sc-content="example-sentence"] {
   border-color: rgba(252, 252, 252, 0.5) !important;
-  transition: border-color var(--base-transition);
 }
 
 .card.nightMode [data-sc-content="example-sentence"]:hover,
 .custom-dark-mode [data-sc-content="example-sentence"]:hover {
   border-color: rgba(252, 252, 252, 0.8) !important;
+}
+
+[data-sc-content="example-sentence"].sentence-active {
+  border-color: var(--light-highlight) !important;
+}
+
+.card.nightMode [data-sc-content="example-sentence"].sentence-active,
+.custom-dark-mode [data-sc-content="example-sentence"].sentence-active {
+  border-color: var(--dark-highlight) !important;
 }
 
 [data-sc-content="glossary"] {
@@ -1340,9 +1389,18 @@ div[data-sc-content="attribution"] {
   opacity: 1;
 }
 
+[style="font-weight: bold; color: red;"] {
+  color: var(--light-highlight) !important;
+}
+
+.card.nightMode [style="font-weight: bold; color: red;"],
+.custom-dark-mode [style="font-weight: bold; color: red;"] {
+  color: var(--dark-highlight) !important;
+  font-weight: normal !important;
+}
+
 /* Hide Yomitan links that don't work in Anki */
-#glossary.yomitan-glossary ul a[href="#"],
-#glossary.yomitan-glossary div:has(> a[href="#"]) {
+#glossary.yomitan-glossary ul a[href="#"] {
   display: none !important;
 }
 
@@ -1785,14 +1843,6 @@ div[data-sc-content="attribution"] {
   margin: 0;
 }
 
-.mobile .back::before {
-  border-radius: 0 0 var(--border-radius-lg) var(--border-radius-lg) !important;
-}
-
-.mobile .grid-container {
-  gap: 10px;
-}
-
 .mobile {
   overflow-x: hidden;
   user-select: none;
@@ -1805,7 +1855,19 @@ div[data-sc-content="attribution"] {
 }
 
 @media (max-width: 1050px) {
-  .front { top: 119px; }
+  .front:not(:has(#wordAudio)) .toggle-custom-dark-mode { 
+    position: unset;
+  }
+
+  .front:has(#wordAudio) .toggle-custom-dark-mode { 
+    position: absolute;
+  }
+
+  .front:has(#sentence-wrapper) .toggle-custom-dark-mode { 
+    position: absolute;
+  }
+
+  .front { top: 0; }
   .back { top: 0; }
 
   .grid-container {
@@ -1820,6 +1882,7 @@ div[data-sc-content="attribution"] {
   }
 
   .toggle-custom-dark-mode {
+    position: absolute;
     display: var(--custom-dark-mode-visibility);
     left: 20px;
     top: 20px;
@@ -1830,10 +1893,12 @@ div[data-sc-content="attribution"] {
   }
 
   .back .audio {
+    visibility: var(--audio-visibility);
     position: unset;
   }
 
   .back .sentenceaudio {
+    visibility: var(--audio-visibility);
     position: unset;
   }
 
@@ -1844,11 +1909,11 @@ div[data-sc-content="attribution"] {
   }
 
   #frequency {
+    visibility: var(--freq-visibility);
     position: unset;
   }
 
   .freqbt {
-    visibility: var(--freq-visibility-large);
     display: flex;
     gap: 5px;
     align-items: center;
@@ -1859,7 +1924,6 @@ div[data-sc-content="attribution"] {
   }
 
   .frequency-content {
-    visibility: var(--freq-visibility-large);
     align-items: center;
     position: absolute;
     top: 61px;
@@ -1873,20 +1937,31 @@ div[data-sc-content="attribution"] {
 }
 
 @media (max-width: 768px) {
-  .front { top: 0; }
-  .back { top: 0; }
-
   .grid-container {
     grid-template-columns: var(--grid-columns-medium);
   }
 
-  #frequency, .freqbt {
-    visibility: var(--freq-visibility-medium);
+  .front::before,
+  .back::before {
+    border-radius: 0 0 var(--border-radius-lg) var(--border-radius-lg) !important;
   }
 }
 
 @media (max-width: 624px) {
-  .mobile .front { top: 58px; }
+  .front:not(:has(#wordAudio)) .toggle-custom-dark-mode { 
+    position: unset;
+  }
+
+  .front > .header {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    margin-bottom: 5px;
+  }
+
+  .sentence-front {
+    padding-top: 10px;
+  }
 
   .grid-container {
     grid-template-columns: var(--grid-columns-small);
@@ -1907,6 +1982,22 @@ div[data-sc-content="attribution"] {
   .front, .back {
     width: 100%;
     box-sizing: border-box;
+  }
+
+  .mobile .grid-container {
+    gap: 10px;
+  }
+
+  .desktop-word-layout {
+    display: none;
+  }
+  .mobile-word-layout {
+    display: block;
+  }
+
+  .mobile-word-layout > .background-box {
+    padding-top: 24px;
+    padding-bottom: 28px;
   }
 
   .mobile #word.length-6 #position,
