@@ -48,7 +48,7 @@ This Handlebars template displays the **Reading (kana)** as fallback for words l
 
 ??? note "Click to expand Handlebars code"
 
-    ```
+    ```handlebars
     {{#*inline "glossary-single"}}
         {{~#unless brief~}}
             {{~#scope~}}
