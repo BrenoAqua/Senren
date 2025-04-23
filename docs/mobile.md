@@ -1,6 +1,6 @@
 # Mobile Support
 
-*   Tested and functional on AnkiDroid (AnkiMobile not tested).
+*   Fully tested and functional on both AnkiDroid and AnkiMobile.
 
     === "Light Theme"
         ![light](assets/images/Mobile_Layout_1.jpg){ width="300" }
