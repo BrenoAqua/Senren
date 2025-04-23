@@ -538,7 +538,8 @@ This Handlebars template displays the **Reading (kana)** as fallback for words l
     {{/inline}}
     {{~> (lookup . "marker") ~}}
     ```
-  ## CSS Template (Optional) 
+
+## CSS Template (Optional) 
 
 * Go to Yomitan Settings -> Appearance -> Configure Custom CSS...
 * Select all existing content in the template editor.
