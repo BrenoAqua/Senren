@@ -538,3 +538,530 @@ This Handlebars template displays the **Reading (kana)** as fallback for words l
     {{/inline}}
     {{~> (lookup . "marker") ~}}
     ```
+  ## CSS Template (Optional) 
+
+* Go to Yomitan Settings -> Appearance -> Configure Custom CSS...
+* Select all existing content in the template editor.
+* Replace it with the following code:
+
+??? note "Click to expand CSS code"
+
+    ```
+    :root[data-theme="dark"] {
+      --dict-color-opacity: 100%;
+      --dict-color: var(--tag-dictionary-background-color);
+      --dict-bg-opacity: 0;
+      --tag-text-color: white;
+      --tag-border-color: transparent --tag-default-background-color: #88C0D0;
+      --tag-name-background-color: #88C0D0;
+      --tag-expression-background-color: #88C0D0;
+      --tag-popular-background-color: #88C0D0;
+      --tag-frequent-background-color: #88C0D0;
+      --tag-archaism-background-color: #88C0D0;
+      --tag-dictionary-background-color: #8FBCBB;
+      --tag-frequency-background-color: #81A1C1;
+      --tag-part-of-speech-background-color: #88C0D0;
+      --tag-search-background-color: #88C0D0;
+      --tag-pitch-accent-dictionary-background-color: #5E81AC;
+      --accent-color: #FCFF61;
+      --text-color: white;
+      --pitch-accent-annotation-color: #ebffff;
+      --input-background-color: #3B4252;
+      --reason-text-color: #5E81AC;
+      --notification-text-color: #ebffff;
+      --notification-background-color: #3B4252;
+      --progress-bar-track-color: #D8DEE9;
+      --sidebar-background-color: #2E3440;
+      --sidebar-button-background-color: transparent;
+      --sidebar-button-background-color-hover: #81A1C1;
+      --sidebar-button-background-color-active: #6d88a3;
+      --sidebar-button-danger-background-color: transparent;
+      --sidebar-button-danger-background-color-hover: #BF616A;
+      --sidebar-button-danger-background-color-active: #8a373f;
+      --sidebar-button-icon-color: #ebffff;
+      --sidebar-button-disabled-icon-color: #808c8c;
+      --sidebar-button-danger-icon-color: #ebffff;
+      --toggle-track-color: #cccccc;
+    }
+
+    /* Base Settings */
+    body {
+      font-family: "Noto Sans JP", sans-serif;
+    }
+
+    .source-text {
+      font-family: klee one;
+      font-size: 1.5rem;
+    }
+
+    .source-text rt {
+      font-family: Noto Sans JP;
+      font-size: 1.5rem;
+    }
+
+    ul, ol, li {
+      list-style: none !important;
+    }
+
+    ul, ol {
+      display: inline;
+    }
+
+    .definition-list {
+      padding: 0;
+    }
+
+    .entry-current-indicator {
+      display: none;
+    }
+
+    .toggle>input[type=checkbox]:checked+.toggle-body>.toggle-track {
+      background: var(--toggle-track-color);
+    }
+
+    /* Disable furigana on search page */
+    rt.query-parser-segment-reading {
+      display: none;
+    }
+
+    /* Dictionary Colorizer */
+    .definition-item {
+      background-color: color-mix(in srgb,
+        var(--dict-color) calc(var(--dict-bg-opacity) * var(--dict-color-opacity)),
+        var(--background-color));
+      --tag-dictionary-background-color: var(--dict-color);
+    }
+
+    .definition-item[data-dictionary^="旺文社国語辞典"] {
+      --dict-color: rgb(187, 255, 255);
+      --dict-bg-opacity: 0.06;
+      --tag-text-color: black;
+    }
+
+    .definition-item[data-dictionary^="明鏡国語辞典"] {
+      --dict-color: rgb(51, 51, 221);
+      --dict-bg-opacity: 0.03;
+    }
+
+    .definition-item[data-dictionary^="岩波国語辞"] {
+      --dict-color: rgb(51, 85, 51);
+      --dict-bg-opacity: 0.05;
+    }
+
+    .definition-item[data-dictionary*="新明解"] {
+      --dict-color: rgb(255, 0, 0);
+      --dict-bg-opacity: 0.025;
+    }
+
+    .definition-item[data-dictionary^="大辞林"] {
+      --dict-color: rgb(85, 34, 85);
+      --dict-bg-opacity: 0.03;
+    }
+
+    .definition-item[data-dictionary="デジタル大辞泉"] {
+      --dict-color: rgb(170, 0, 0);
+      --dict-bg-opacity: 0.04;
+    }
+
+    .definition-item[data-dictionary="精選版　日本国語大辞典"] {
+      --dict-color: rgb(238, 238, 204);
+      --dict-bg-opacity: 0.05;
+      --tag-text-color: black;
+    }
+
+    .definition-item[data-dictionary="ハイブリッド新辞林"] {
+      --dict-color: rgb(221, 221, 238);
+      --dict-bg-opacity: 0.15;
+      --tag-text-color: black;
+    }
+
+    .definition-item[data-dictionary^="広辞苑"] {
+      --dict-color: rgb(51, 51, 51);
+      --dict-bg-opacity: 0.05;
+    }
+
+    .definition-item[data-dictionary$="辞典オンライン"],
+    .definition-item[data-dictionary="故事・ことわざ・慣用句オンライン"] {
+      --dict-color: rgb(255, 227, 124);
+      --dict-bg-opacity: 0.05;
+      --tag-text-color: black;
+    }
+
+    .definition-item[data-dictionary="実用日本語表現辞典"] {
+      --dict-color: rgb(99, 108, 141);
+      --dict-bg-opacity: 0.05;
+    }
+
+    .definition-item[data-dictionary^="三省堂国語辞典"] {
+      --dict-color: rgb(229, 107, 57);
+      --dict-bg-opacity: 0.03;
+    }
+
+    .definition-item[data-dictionary^="JMdict"],
+    .definition-item[data-dictionary^="JMDict"],
+    .definition-item[data-dictionary^="JMnedict"],
+    .definition-item[data-dictionary^="Jitendex"] {
+      --dict-color: rgb(0, 132, 255);
+      --dict-bg-opacity: 0.02;
+    }
+
+    .definition-item[data-dictionary="NEW斎藤和英大辞典"] {
+      --dict-color: rgb(244, 225, 254);
+      --dict-bg-opacity: 0.15;
+      --tag-text-color: black;
+    }
+
+    .definition-item[data-dictionary="新和英"] {
+      --dict-color: rgb(21, 70, 51);
+      --dict-bg-opacity: 0.03;
+    }
+
+    .definition-item[data-dictionary^="Pixiv"] {
+      --dict-color: rgb(0, 151, 250);
+      --dict-bg-opacity: 0.03;
+    }
+
+    .definition-item[data-dictionary="漢字源"] {
+      --dict-color: rgb(201, 149, 93);
+      --dict-bg-opacity: 0.05;
+    }
+
+    .definition-item[data-dictionary="日本語俗語辞書"] {
+      --dict-color: rgb(176, 4, 157);
+      --dict-bg-opacity: 0.05;
+    }
+
+    .definition-item[data-dictionary="weblio古語辞典"] {
+      --dict-color: rgb(193, 123, 148);
+      --dict-bg-opacity: 0.05;
+    }
+
+    .definition-item[data-dictionary="語源由来辞典"] {
+      --dict-color: rgb(206, 169, 47);
+      --dict-bg-opacity: 0.05;
+    }
+
+    .definition-item[data-dictionary="学研 四字熟語辞典"] {
+      --dict-color: rgb(180, 192, 152);
+      --dict-bg-opacity: 0.08;
+      --tag-text-color: black;
+    }
+
+    .definition-item[data-dictionary="故事ことわざの辞典"] {
+      --dict-color: rgb(117, 87, 85);
+      --dict-bg-opacity: 0.05;
+    }
+
+    .definition-item[data-dictionary^="日本語文法辞典"] {
+      --dict-color: rgb(23, 59, 173);
+      --dict-bg-opacity: 0.05;
+    }
+
+    .definition-item[data-dictionary="絵でわかる日本語"] {
+      --dict-color: rgb(207, 76, 110);
+      --dict-bg-opacity: 0.05;
+    }
+
+    .definition-item[data-dictionary="JLPT文法解説まとめ"] {
+      --dict-color: rgb(244, 66, 54);
+      --dict-bg-opacity: 0.05;
+    }
+
+    .definition-item[data-dictionary="どんなときどう使う 日本語表現文型辞典"] {
+      --dict-color: rgb(126, 168, 232);
+      --dict-bg-opacity: 0.08;
+    }
+
+    .definition-item[data-dictionary="毎日のんびり日本語教師"] {
+      --dict-color: rgb(255, 216, 228);
+      --dict-bg-opacity: 0.12;
+      --tag-text-color: black;
+    }
+
+    .definition-item[data-dictionary^="新選国語辞典"] {
+      --dict-color: #0073c4;
+      --dict-bg-opacity: 0.03;
+    }
+
+    .definition-item[data-dictionary="使い方の分かる 類語例解辞典"],
+    .definition-item[data-dictionary="全国方言辞典"] {
+      --dict-color: #9c4836;
+      --dict-bg-opacity: 0.03;
+    }
+
+    .definition-item[data-dictionary="新語時事用語辞典"] {
+      --dict-color: #6e9ac6;
+      --dict-bg-opacity: 0.07;
+    }
+
+    .definition-item[data-dictionary="漢字ペディア同訓異義"] {
+      --dict-color: #b7b7b7;
+      --dict-bg-opacity: 0.12;
+    }
+
+    .definition-item[data-dictionary*="Wikipedia"] {
+      --dict-color: #447ff5;
+      --dict-bg-opacity: 0.03;
+    }
+
+    .definition-item[data-dictionary^="漢検漢字辞典"] {
+      --dict-color: #e7a93a;
+      --dict-bg-opacity: 0.08;
+    }
+
+    .definition-item[data-dictionary^="例解学習国語辞典"] {
+      --dict-color: #faa72f;
+      --dict-bg-opacity: 0.05;
+    }
+
+    .definition-item[data-dictionary^="現代国語例解辞典"] {
+      --dict-color: #e3323a;
+      --dict-bg-opacity: 0.04;
+    }
+
+    .tag[data-category="dictionary"][data-details="漢字辞典オンライン"] {
+      --tag-color: rgb(255, 227, 124);
+      --tag-text-color: black;
+    }
+
+    .tag[data-category="dictionary"][data-details="JPDB Kanji"] {
+      --tag-color: #ff3e3d;
+    }
+
+    .tag[data-category="dictionary"][data-details="TheKanjiMap Kanji Radicals/Composition"] {
+      --tag-color: #2a94c9;
+    }
+
+    .tag[data-category="dictionary"][data-details*="Wiktionary"] {
+      --tag-color: #447ff5;
+    }
+
+    .tag[data-category="dictionary"][data-details^="KANJIDIC"] {
+      --tag-color: rgb(0, 132, 255);
+    }
+
+    /* Pitch Accent */
+    .tag[data-category="pronunciation-dictionary"][data-details="NHK"] {
+      --tag-color: #0076d0;
+    }
+
+    .tag[data-category="pronunciation-dictionary"][data-details^="大辞泉"] {
+      --tag-color: rgb(170, 0, 0);
+    }
+
+    .tag[data-category="pronunciation-dictionary"][data-details^="大辞林"] {
+      --tag-color: rgb(85, 34, 85);
+    }
+
+    /* Frequency Dicts (Also Kanji Dicts) */
+    .frequency-group-item[data-details^="JPDB"] {
+      --tag-frequency-background-color: #ff3e3d;
+    }
+
+    .frequency-group-item[data-details^="Innocent"] {
+      --tag-frequency-background-color: #e82c9c;
+    }
+
+    .frequency-group-item[data-details="Novels"] {
+      --tag-frequency-background-color: #e537fa;
+    }
+
+    .frequency-group-item[data-details^="BCCWJ"] {
+      --tag-frequency-background-color: #8f27e3;
+    }
+
+    .frequency-group-item[data-details="CC100"] {
+      --tag-frequency-background-color: #6238fa;
+    }
+
+    .frequency-group-item[data-details="Conversation Corpus"] {
+      --tag-frequency-background-color: #273ce3;
+    }
+
+    .frequency-group-item[data-details^="青空文庫"] {
+      --tag-frequency-background-color: #3d93ff;
+    }
+
+    .frequency-group-item[data-details="Youtube"] {
+      --tag-frequency-background-color: #fd0101;
+    }
+
+    .frequency-group-item[data-details^="Wikipedia"] {
+      --tag-frequency-background-color: #447ff5;
+    }
+
+    /* End Dictionary Colorizer */
+
+    /* Hide ALL Dotted Circles */
+    span[style*="border:1.5px dotted #c83c28"] {
+      display: none !important;
+    }
+
+    /* Paint the devoiced mora */
+    span[style*="display:inline-block;position:relative;"]>span[style*="display:inline"]:has(+ span[style*="border:1.5px dotted #c83c28"]) {
+      color: var(--devoiced-color) !important;
+    }
+
+    /* Collapse lists of links */
+    .definition-item:not([data-dictionary="JMdict"]) .gloss-list:has(.gloss-content > a:only-child) {
+      list-style: none;
+      display: inline;
+      padding-left: 0;
+    }
+
+    .definition-item:not([data-dictionary="JMdict"]) .gloss-list:has(.gloss-content > a:only-child) * {
+      display: inline;
+    }
+
+    /* Collapse JMnedict entries */
+    .definition-item[data-dictionary="JMnedict"] .gloss-list {
+      list-style: none;
+      display: inline;
+      padding-left: 0;
+    }
+
+    .definition-item[data-dictionary="JMnedict"] .gloss-list * {
+      display: inline;
+    }
+
+    .definition-item[data-dictionary="JMnedict"] .gloss-list>.gloss-item:not(:last-child)::after {
+      content: " | ";
+    }
+
+    /* Only show summary for Pixiv */
+    [data-sc-pixiv="children"],
+    [data-sc-pixiv="related-tags"],
+    [data-sc-pixiv="continue-reading"],
+    [data-sc-pixiv="nav-header"] {
+      display: none;
+    }
+
+    /* Only show the first 2 frequency lists */
+    span.frequency-group-item:nth-child(n + 3) {
+      display: none;
+    }
+
+    /* Show on hover */
+    span.frequency-group-item:first-child:has(.tag-label:hover)~* {
+      display: inline-block;
+    }
+
+    /* Only show the first pitch dictionary */
+    li.pronunciation-group:first-child~* {
+      display: none;
+    }
+
+    ol.pronunciation-group-list:not([data-count="1"]) {
+      list-style: none;
+      padding: 0;
+    }
+
+    /* Show on hover */
+    li.pronunciation-group:first-child:has(.tag:hover)~* {
+      display: inline-block;
+    }
+
+    /* Hide add duplicate */
+    button.action-button[title="Add duplicate expression (Alt + E)"] {
+      display: none;
+    }
+
+    /* Changes for Jitendex */
+    .definition-item[data-dictionary*="Jitendex"] *[data-sc-content="example-sentence-a"] {
+      font-size: 1em !important;
+    }
+
+    [data-sc-content="glossary"] {
+      display: flex;
+      /* Use flexbox for layout */
+      flex-wrap: wrap;
+      padding: 0;
+      margin: 0;
+    }
+
+    [data-sc-content="glossary"] li:not(:last-child)::after {
+      content: "|";
+      color: rgba(255, 255, 255, 0.5);
+      margin: 0 8px;
+    }
+
+    /* Example Keyword */
+    span[data-sc-content="example-keyword"] {
+      color: #FCFF61 !important;
+      text-decoration: none !important;
+    }
+
+    /* Example Sentences */
+    [data-sc-content|="example-sentence"] {
+      opacity: 0.5;
+      display: block;
+      transition: opacity 0.3s ease;
+    }
+
+    [data-sc-content|="example-sentence"]:hover {
+      opacity: 1;
+    }
+
+    [data-sc-content="example-sentence-a"] {
+      transition: opacity 0.3s ease;
+    }
+
+    [data-sc-content="example-sentence-b"] {
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      max-height: 0;
+      /* Collapse height initially */
+      overflow: hidden;
+      /* Hide overflow */
+    }
+
+    [data-sc-content="example-sentence-a"]:hover+[data-sc-content="example-sentence-b"] {
+      opacity: 1;
+      max-height: 500px;
+    }
+
+    [data-sc-content="example-sentence"] rt {
+      opacity: 0;
+      transition: opacity ease 0.3s;
+    }
+
+    [data-sc-content="example-sentence"]:hover rt {
+      opacity: 1;
+    }
+
+    [data-sc-content="example-sentence"] span,
+    [data-sc-content="example-sentence"] span {
+      color: #FCFF61 !important;
+    }
+
+    /* Forms */
+    [data-sc-content="forms"] {
+      opacity: 0;
+      display: block;
+      transition: opacity 0.3s ease;
+    }
+
+    [data-sc-content|="forms"]:hover {
+      opacity: 1;
+      display: block;
+    }
+
+    /* Hidden (unnecessary) */
+    div[data-sc-content="attribution"] {
+      display: none;
+    }
+
+    /* Extra */
+    [data-sc-content="antonym"],
+    [data-sc-content="sense-note"],
+    [data-sc-content="xref"] {
+      opacity: 0.5;
+      transition: opacity 0.3s ease;
+    }
+
+    [data-sc-content="antonym"]:hover,
+    [data-sc-content="sense-note"]:hover,
+    [data-sc-content="xref"]:hover {
+      opacity: 1;
+    }
+    ```
