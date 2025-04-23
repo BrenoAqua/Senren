@@ -1,6 +1,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-<div class="front">
+<div lang="ja" class="front">
+
   <div class="header">
     <span class="toggle-custom-dark-mode">
       <i class="fas fa-sun sun-icon"></i>
@@ -35,7 +36,7 @@
     </div>
   </div>
 
-  <div id="sentence" class="toggle-trigger" onclick="toggleVisibility('word-wrapper', 'word')">
+  <div id="sentence" class="toggle-trigger tappable" onclick="toggleVisibility('word-wrapper', 'word')">
     {{sentence}}
   </div>
 
@@ -44,14 +45,14 @@
 
   <!-- Word Card (Default) -->
   <div class="desktop-word-layout">
-    <div id="word" class="toggle-trigger" onclick="toggleVisibility('sentence-wrapper', 'sentence')">
+    <div id="word" class="toggle-trigger tappable" onclick="toggleVisibility('sentence-wrapper', 'sentence')">
       {{word}}
     </div>
   </div>
 
   <div class="mobile-word-layout">
     <div class="background-box">
-      <div id="word" class="toggle-trigger" onclick="toggleVisibility('sentence-wrapper', 'sentence')">
+      <div id="word" class="toggle-trigger tappable" onclick="toggleVisibility('sentence-wrapper', 'sentence')">
         {{word}}
       </div>
     </div>
@@ -120,9 +121,8 @@
 
     button.addEventListener("click", () => {
       const isCurrentlyDark = body.classList.contains("custom-dark-mode");
-      const newState = isCurrentlyDark ? "disabled" : "enabled";
-      localStorage.setItem("darkMode", newState);
-      applyDarkMode();
+      localStorage.setItem("darkMode", isCurrentlyDark ? "disabled" : "enabled");
+      requestAnimationFrame(applyDarkMode);
     });
   }
 

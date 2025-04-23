@@ -1,9 +1,9 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-<div class="back">
+<div lang="ja" class="back">
 
   <div class="header">
-    <span class="toggle-custom-dark-mode">
+    <span class="toggle-custom-dark-mode tappable">
       <i class="fas fa-sun sun-icon"></i>
       <i class="fas fa-moon moon-icon"></i>
     </span>
@@ -18,7 +18,7 @@
   </div>
 
   <div id="frequency">
-    <div class="frequency-box">
+    <div class="frequency-box tappable">
       <label class="freqbt">
         {{freqSort}} <i class="fas fa-chevron-down arrow"></i>
       </label>
@@ -29,36 +29,36 @@
   </div>
 
   <div class="grid-container">
-    <div class="background-box">
+    <div class="background-box tappable">
       <div id="word" class="pitch card-a">
         {{#word}}
         <span class="{{pitch}} {{Tags}}">
           <ruby>{{word}}<rt>{{reading}}</rt></ruby>
           <div id="position">{{pitchPosition}}</div>
-          <div id="categories">{{pitch}}</div>
+          <div id="categories" class="tappable">{{pitch}}</div>
         </span>
         {{/word}}
       </div>
     </div>
 
-    <div class="picture-container {{Tags}} clickable-image">
+    <div class="picture-container {{Tags}} clickable-image tappable">
       {{picture}}
-      <div class="nav-arrow left"></div>
-      <div class="nav-arrow right"></div>
+      <div class="nav-arrow left tappable"></div>
+      <div class="nav-arrow right tappable"></div>
     </div>
   </div>
 
   <div class="lightbox" id="lightbox">
-    <img id="lightbox-img" alt="Imagem ampliada">
-    <a href="#" class="close"></a>
-    <div class="lightbox-nav left"></div>
-    <div class="lightbox-nav right"></div>
-    <button id="show-all" class="lightbox-grid-toggle">Show All</button>
+    <img id="lightbox-img">
+    <a href="#" class="close tappable"></a>
+    <div class="lightbox-nav left tappable"></div>
+    <div class="lightbox-nav right tappable"></div>
+    <button id="show-all" class="lightbox-grid-toggle tappable">Show All</button>
   </div>
 
   <div class="sentence-container">
     <div id="sentence">
-      <span id="formattedSentence"></span>
+      <span id="formattedSentence" class="{{pitch}} tappable"></span>
     </div>
     <div id="sentenceEng">
       {{sentenceEng}}
@@ -67,20 +67,20 @@
 
   <div id="definition" class="card-b">
     <div class="definition-box">
-      <div class="toggle-area left-larger"></div>
-      <div class="toggle-area right-larger"></div>
-      <div class="toggle-area left"></div>
-      <div class="toggle-area right"></div>
+      <div class="toggle-area left-larger tappable"></div>
+      <div class="toggle-area right-larger tappable"></div>
+      <div class="toggle-area left tappable"></div>
+      <div class="toggle-area right tappable"></div>
       <span>{{definition}}</span>
     </div>
   </div>
 
   <div id="glossary" class="card-b yomitan-glossary">
     <div class="glossary-box">
-      <div class="toggle-area left-larger"></div>
-      <div class="toggle-area right-larger"></div>
-      <div class="toggle-area left"></div>
-      <div class="toggle-area right"></div>
+      <div class="toggle-area left-larger tappable"></div>
+      <div class="toggle-area right-larger tappable"></div>
+      <div class="toggle-area left tappable"></div>
+      <div class="toggle-area right tappable"></div>
       <span>{{glossary}}</span>
     </div>
   </div>
@@ -167,9 +167,8 @@
 
     button.addEventListener("click", () => {
       const isCurrentlyDark = body.classList.contains("custom-dark-mode");
-      const newState = isCurrentlyDark ? "disabled" : "enabled";
-      localStorage.setItem("darkMode", newState);
-      applyDarkMode();
+      localStorage.setItem("darkMode", isCurrentlyDark ? "disabled" : "enabled");
+      requestAnimationFrame(applyDarkMode);
     });
   }
 
@@ -238,13 +237,14 @@
       newImg.onload = () => {
         if (newImg.naturalWidth < 100 || newImg.naturalHeight < 100) {
           newImg.remove();
+        } else {
+          newImg.classList.add('tappable');
         }
       };
 
       pictureContainer.appendChild(newImg);
     });
   }
-
 
   /* Manages cycling between definition and glossary dictionaries */
   function toggleDefinitionGlossary() {
@@ -480,6 +480,7 @@
 
     const handleHover = (parentElement, elementB) => {
       if (parentElement && elementB) {
+        parentElement.classList.add('tappable');
         parentElement.style.opacity = '0.5';
         parentElement.style.transition = 'opacity 0.3s ease';
         elementB.style.maxHeight = '0';
@@ -514,6 +515,7 @@
     sentencePairs.forEach(sentenceA => {
       const sentenceB = sentenceA.nextElementSibling;
       if (sentenceA && sentenceB) {
+        sentenceA.classList.add('tappable');
         sentenceA.style.opacity = '0.5';
         sentenceA.style.transition = 'opacity 0.3s ease';
         sentenceA.style.cursor = 'pointer';
@@ -602,16 +604,16 @@
       const target = document.querySelector(targetSelector);
 
       if (trigger && target) {
-        const clickableClassName = 'is-clickable';
+        const clickable = 'is-clickable';
 
         if (target.textContent.trim() !== "") {
-          trigger.classList.add(clickableClassName);
+          trigger.classList.add(clickable);
         } else {
-          trigger.classList.remove(clickableClassName);
+          trigger.classList.remove(clickable);
         }
 
         trigger.addEventListener("click", () => {
-          if (!trigger.classList.contains(clickableClassName)) {
+          if (!trigger.classList.contains(clickable)) {
             return;
           }
 
@@ -641,6 +643,11 @@
       const target = document.querySelector(targetSelector);
 
       if (container && target) {
+
+        if (window.matchMedia("(pointer: coarse)").matches) {
+          container.classList.add('tappable');
+        }
+
         container.addEventListener("mouseenter", () => {
           requestAnimationFrame(() => {
             if (target.textContent.trim() !== "") {
@@ -671,12 +678,11 @@
       }
     }
 
-    applyClickToggleEffect(".sentence-container #formattedSentence", "#sentenceEng");
+    applyClickToggleEffect("#formattedSentence", "#sentenceEng");
 
     const isTouchDevice = window.matchMedia("(pointer: coarse)").matches;
     const pictureHoverTriggerSelector = isTouchDevice ? ".background-box" : ".picture-container";
     applyHoverEffect(pictureHoverTriggerSelector, ".misc-info", 20);
-
   }
 
   /* Allows cycling through images */
@@ -753,6 +759,7 @@
         const gridImg = document.createElement("img");
         gridImg.src = img.src;
         gridImg.alt = `Image ${index + 1}`;
+        gridImg.classList.add('tappable');
         gridImg.addEventListener("click", () => {
           showImage(index);
           hideGridView();
@@ -966,6 +973,17 @@
     });
 
     lightbox.addEventListener("click", (e) => {
+      if (e.target === lightbox ||
+        (isGridView && !e.target.closest('.lightbox-grid img') && e.target !== showAll)) {
+        if (isGridView) {
+          lightbox.classList.remove("active");
+        } else {
+          lightbox.classList.remove("active");
+        }
+      }
+    });
+
+    lightbox.addEventListener("touchend", (e) => {
       if (e.target === lightbox ||
         (isGridView && !e.target.closest('.lightbox-grid img') && e.target !== showAll)) {
         if (isGridView) {
@@ -1609,6 +1627,37 @@
     }
   }
 
+  function alternativePitchStyle() {
+    const rootElement = document.documentElement;
+
+    const wordElement = document.getElementById('word');
+    if (wordElement) {
+        const pitchStyleValue = getComputedStyle(rootElement)
+            .getPropertyValue('--pitch-style')
+            .trim();
+
+        if (pitchStyleValue === 'alt') {
+            wordElement.classList.add('alt');
+        } else {
+            wordElement.classList.remove('alt');
+        }
+    }
+
+    const sentenceElement = document.getElementById("formattedSentence");
+    if (sentenceElement) {
+
+      const sentenceHighlightValue = getComputedStyle(rootElement)
+        .getPropertyValue('--sentence-pitch-highlight')
+        .trim();
+
+      if (sentenceHighlightValue === 'true') {
+        sentenceElement.classList.add('alt-highlight');
+      } else {
+        sentenceElement.classList.remove('alt-highlight');
+      }
+    }
+  }
+
   /* Initialize immediate functions */
   function init() {
     darkMode();
@@ -1620,6 +1669,7 @@
     splitTags();
     toggleDefinitionGlossary();
     collectGlossaryImages();
+    alternativePitchStyle();
   }
 
   /* Initialize deferred functions */

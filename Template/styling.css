@@ -38,6 +38,10 @@
   --dark-bg: black;
   --dark-text: white;
   
+  /* Pitch Accent Options */
+  --pitch-style: default;            /* "alt" to change */
+  --sentence-pitch-highlight: false; /* "true" to enable */
+
   /* Pitch Accent Colors */
   --pitch-red: #F5436D;
   --pitch-blue: #39C1FF;
@@ -47,7 +51,7 @@
 
   /* Devoiced Mora Color */
   --light-devoiced-color: RoyalBlue;
-  --dark-devoiced-color: CornflowerBlue;
+  --dark-devoiced-color: cornflowerBlue;
 
   /* Highlight Colors */
   --dark-highlight: #FCFF61;
@@ -390,9 +394,8 @@
   font-family: var(--sans);
   text-align: center;
   position: relative;
+  margin: 0;
 }
-
-
 
 .card-a rt li {
   display: inline;
@@ -585,6 +588,7 @@ img {
   opacity: 0;
   visibility: hidden;
   z-index: var(--z-index-lightbox);
+  touch-action: none;
   transition: opacity var(--base-transition), 
               visibility var(--base-transition);
 }
@@ -793,6 +797,7 @@ img {
   justify-content: center;
   direction: ltr;
   unicode-bidi: normal;
+  visibility: visible;
   text-align: left;
   transition: max-height var(--base-transition);
 }
@@ -845,21 +850,21 @@ img {
   top: 0;
   bottom: 0;
   width: var(--toggle-width-medium);
-  background: rgba(0, 0, 0, 0.8);
   z-index: var(--z-index-toggle);
-  opacity: 0;
+  opacity: 1;
   border-radius: var(--border-radius-ms);
   cursor: pointer;
-  transition: opacity var(--base-transition);
-}
-
-.custom-dark-mode .toggle-area, 
-.card.nightMode .toggle-area {
-  background: rgba(255, 255, 255, 0.8);
+  transition: background var(--base-transition);
 }
 
 .toggle-area:hover {
-  opacity: 1;
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.custom-dark-mode .toggle-area:hover, 
+.card.nightMode .toggle-area:hover {
+  background: rgba(255, 255, 255, 0.8);
+  transition: background var(--base-transition);
 }
 
 .toggle-area.left { left: -20px; }
@@ -868,7 +873,7 @@ img {
 /* Toggle Areas Larger */
 .toggle-area.left-larger,
 .toggle-area.right-larger {
-  opacity: 0;
+  opacity: 0.1;
   width: var(--toggle-width-large);
   transition: opacity var(--base-transition);
 }
@@ -877,23 +882,30 @@ img {
   left: -20px;
   -webkit-mask-image: linear-gradient(to right, 
                       rgba(0,0,0,1), rgba(0,0,0,0));
+  transition: background var(--base-transition);
 }
 
 .toggle-area.right-larger {
   right: -20px;
   -webkit-mask-image: linear-gradient(to left, 
                       rgba(0,0,0,1), rgba(0,0,0,0));
-}
-
-.toggle-area.left-larger:hover,
-.toggle-area.right-larger:hover {
-  opacity: 0.1;
+  transition: background var(--base-transition);
 }
 
 .toggle-area.left-larger:hover ~ .toggle-area.left:not(.left-larger):not(.right-larger),
 .toggle-area.right-larger:hover ~ .toggle-area.right:not(.left-larger):not(.right-larger) {
-  opacity: 1;
+  background: rgba(0, 0, 0, 0.8);
+  transition: background var(--base-transition);
 }
+
+.custom-dark-mode .toggle-area.left-larger:hover ~ .toggle-area.left:not(.left-larger):not(.right-larger),
+.custom-dark-mode .toggle-area.right-larger:hover ~ .toggle-area.right:not(.left-larger):not(.right-larger), 
+.card.nightMode .toggle-area.left-larger:hover ~ .toggle-area.left:not(.left-larger):not(.right-larger),
+.card.nightMode .toggle-area.right-larger:hover ~ .toggle-area.right:not(.left-larger):not(.right-larger) {
+  background: rgba(255, 255, 255, 0.8);
+  transition: background var(--base-transition);
+}
+
 
 /* Audio */
 .audio, .sentenceaudio, .playImage path {
@@ -1020,22 +1032,76 @@ img {
   color: var(--pitch-purple); 
 }
 
-/* Hide aLL dotted circles */
-span[style*="border:1.5px dotted #c83c28"] {
-    display: none !important;
+/* Pitch Accent Colors (Alternative) */
+#word.alt .heiban, 
+.pitch-number.heiban { 
+  color: var(--pitch-blue); 
 }
 
-/* Paint the devoiced mora */
+#word.alt .atamadaka, 
+.pitch-number.atamadaka { 
+  color: var(--pitch-red); 
+}
+
+#word.alt.nakadaka,
+.pitch-number.nakadaka { 
+  color: var(--pitch-orange); 
+}
+
+#word.alt .odaka,
+.pitch-number.odaka { 
+  color: var(--pitch-green); 
+}
+
+#word.alt .kifuku,
+.pitch-number.kifuku { 
+  color: var(--pitch-purple); 
+}
+
+/* Pitch Accent Colors (Alternative Highlight for the Sentence) */
+#formattedSentence.alt-highlight.heiban .highlight { 
+  color: var(--pitch-blue); 
+}
+
+#formattedSentence.alt-highlight.atamadaka .highlight {
+  color: var(--pitch-red);
+}
+
+#formattedSentence.alt-highlight.nakadaka .highlight { 
+  color: var(--pitch-orange); 
+}
+
+#formattedSentence.alt-highlight.odaka .highlight { 
+  color: var(--pitch-green); 
+}
+
+#formattedSentence.alt-highlight.kifuku .highlight { 
+  color: var(--pitch-purple); 
+}
+
+/* Nasal Mora */
+span[style*="border:1.5px solid #c83c28"] {
+  border: 2px solid #FF4936 !important;
+  margin: 4px 0;
+  width: 0.30rem !important;
+  height: 0.30rem !important;
+}
+
+/* Devoiced Mora */
+span[style*="border:1.5px dotted #c83c28"] {
+  display: none !important;
+}
+
 span[style*="display:inline-block;position:relative;"] > 
 span[style*="display:inline"]:has(+ span[style*="border:1.5px dotted #c83c28"]) {
-    color: var(--light-devoiced-color) !important;
+  color: var(--light-devoiced-color) !important;
 }
 
 .card.nightMode span[style*="display:inline-block;position:relative;"] > 
 span[style*="display:inline"]:has(+ span[style*="border:1.5px dotted #c83c28"]),
 .custom-dark-mode span[style*="display:inline-block;position:relative;"] > 
 span[style*="display:inline"]:has(+ span[style*="border:1.5px dotted #c83c28"]) {
-    color: var(--dark-devoiced-color) !important;
+  color: var(--dark-devoiced-color) !important;
 }
 
 /* Pitch Position */
@@ -1404,7 +1470,7 @@ div[data-sc-content="attribution"] {
   display: none !important;
 }
 
-/* Frequencies */
+/* Frequency */
 #frequency {
   position: fixed;
   right: var(--spacing-xxml);
@@ -1425,9 +1491,9 @@ div[data-sc-content="attribution"] {
               text-shadow var(--base-transition);
 }
 
-.freqbt:hover {
-  color: var(--light-text);
-  text-shadow: 0 0 5px var(--light-bg);
+.custom-dark-mode .freqbt, 
+.card.nightMode .freqbt {
+  color: var(--text-color-dark);
 }
 
 .frequency-box:hover .freqbt {
@@ -1439,17 +1505,6 @@ div[data-sc-content="attribution"] {
 .custom-dark-mode .frequency-box:hover .freqbt {
   color: var(--dark-text);
   text-shadow: 0 0 5px var(--dark-bg);
-}
-
-.custom-dark-mode .freqbt:hover, 
-.card.nightMode .freqbt:hover {
-  color: var(--dark-text);
-  text-shadow: 0 0 5px var(--dark-bg);
-}
-
-.custom-dark-mode .freqbt, 
-.card.nightMode .freqbt {
-  color: var(--text-color-dark);
 }
 
 .frequency-content {
@@ -1825,17 +1880,21 @@ div[data-sc-content="attribution"] {
   display: none;
 }
 
-#kanji-tooltip .related-word-container { /* Added positioning context */
+#kanji-tooltip .related-word-container { 
   position: relative;
-  display: inline-block; /* Ensures container wraps content snugly */
+  display: inline-block;
 }
 
 .related-word-container ruby rt {
   font-size: 0.65rem;
 }
 
-.card {
-  margin: 0;
+/* Tooltip Nasal Mora */
+#kanji-tooltip span[style*="border:1.5px solid #c83c28"] {
+  border: 1px solid #FF4936 !important;
+  margin: 1px 0 !important;
+  width: 0.20rem !important;
+  height: 0.20rem !important;
 }
 
 /* Responsive Design */
@@ -1984,7 +2043,7 @@ div[data-sc-content="attribution"] {
     box-sizing: border-box;
   }
 
-  .mobile .grid-container {
+  .grid-container {
     gap: 10px;
   }
 
@@ -2024,3 +2083,12 @@ div[data-sc-content="attribution"] {
     visibility: visible !important;
   }
 }
+
+@supports (-webkit-touch-callout: none) {
+  #sentenceEng {
+    max-height: 0.5px;
+  }
+  .frequency-content {
+    max-height: 0.5px;
+  }
+]
