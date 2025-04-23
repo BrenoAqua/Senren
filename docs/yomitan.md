@@ -547,7 +547,7 @@ This Handlebars template displays the **Reading (kana)** as fallback for words l
 
 ??? note "Click to expand CSS code"
 
-    ```
+    ```css
     :root[data-theme="dark"] {
       --dict-color-opacity: 100%;
       --dict-color: var(--tag-dictionary-background-color);
