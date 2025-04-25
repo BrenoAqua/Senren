@@ -1043,7 +1043,7 @@ img {
   color: var(--pitch-red); 
 }
 
-#word.alt.nakadaka,
+#word.alt .nakadaka,
 .pitch-number.nakadaka { 
   color: var(--pitch-orange); 
 }
