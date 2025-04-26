@@ -960,8 +960,6 @@ This Handlebars template displays the **Reading (kana)** as fallback for words l
         --tag-frequency-background-color: #447ff5;
     }
 
-    /* End Dictionary Colorizer */
-
     /* Hide ALL Dotted Circles */
     span[style*="border:1.5px dotted #c83c28"] {
         display: none !important;
