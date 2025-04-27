@@ -553,11 +553,9 @@ This Handlebars template displays the **Reading (kana)** as fallback for words l
         --dict-color: var(--tag-dictionary-background-color);
         --dict-bg-opacity: 0;
         --tag-text-color: white;
-        --tag-border-color: transparent --tag-default-background-color: #88C0D0;
+        --tag-border-color: transparent --tag-default-background-color: rgba(0, 0, 0, 0.4);
         --tag-name-background-color: #88C0D0;
         --tag-expression-background-color: #88C0D0;
-        --tag-popular-background-color: #88C0D0;
-        --tag-frequent-background-color: #88C0D0;
         --tag-archaism-background-color: #88C0D0;
         --tag-dictionary-background-color: #8FBCBB;
         --tag-frequency-background-color: #81A1C1;
@@ -566,7 +564,6 @@ This Handlebars template displays the **Reading (kana)** as fallback for words l
         --tag-pitch-accent-dictionary-background-color: #5E81AC;
         --text-color: white;
         --pitch-accent-annotation-color: #ebffff;
-        --input-background-color: #3B4252;
         --reason-text-color: #5E81AC;
         --notification-text-color: #ebffff;
         --notification-background-color: #3B4252;
@@ -581,21 +578,38 @@ This Handlebars template displays the **Reading (kana)** as fallback for words l
         --sidebar-button-icon-color: #ebffff;
         --sidebar-button-disabled-icon-color: #808c8c;
         --sidebar-button-danger-icon-color: #ebffff;
+        --list-padding1: 0;
+
+        /* Marked Mora */
+        --devoiced-color: cornflowerBlue;
+        --nasal-color: #FF4936;
+
+        /* Pitch Accent Colors */
         --pitch-red: #F5436D;
         --pitch-blue: #39C1FF;
         --pitch-orange: #fca311;
         --pitch-green: #40D4A6;
         --pitch-purple: #afa2ff;
+
+        /* Fonts */
+        --font-sans: hiragino kaku gothic proN;
+        --font-serif: klee one;
     }
 
     /* Base Settings */
     body {
-        font-family: "Noto Sans JP", sans-serif;
+        font-family: var(--font-sans);
+        line-height: 1.4;
+    }
+
+    .content-body {
+        font-size: 20px;
     }
 
     .headword {
-        font-family: klee one;
+        font-family: var(--font-serif);
         font-size: 1.2rem;
+        font-weight: bold;
     }
 
     .headword-kanji-link {
@@ -603,7 +617,8 @@ This Handlebars template displays the **Reading (kana)** as fallback for words l
     }
 
     .source-text rt {
-        font-family: Noto Sans JP;
+        font-family: var(--font-sans);
+        font-weight: normal;
     }
 
     ul,
@@ -633,11 +648,25 @@ This Handlebars template displays the **Reading (kana)** as fallback for words l
         display: none;
     }
 
+    .entry-body-section-content.pronunciation-group-list {
+        display: flex;
+        flex-wrap: wrap;
+        column-gap: 5px;
+    }
+
+    .definition-item {
+        margin-bottom: 10px;
+    }
+
+    .gloss-content structured-content {
+        margin: 0;
+    }
+
     /* Inflections */
     .inflection-rule-chains:not(:empty)::before {
-        content: 'ⓘ';
+        content: 'ℹ︎';
         cursor: help;
-        color: var(--reason-text-color);
+        color: gray;
     }
 
     .inflection-rule-chains:not(:empty) {
@@ -656,42 +685,8 @@ This Handlebars template displays the **Reading (kana)** as fallback for words l
         margin-bottom: 0.5em;
     }
 
-    /* layout */
-    @media (min-width: 600px) {
-        .entry-body-section-content.definition-list {
-            display: grid;
-            grid-template-columns: calc(50% - 1em) calc(50% - 1em);
-            gap: 1em;
-        }
-
-        .entry-body-section-content.definition-list[data-count="1"] {
-            grid-template-columns: calc(100%);
-        }
-
-        .entry-body-section-content.definition-list[data-count="1"] .definition-item {
-            margin: 0 1em;
-        }
-
-        .entry-body-section-content.definition-list {
-            margin-top: 1em;
-        }
-
-        .definition-item {
-            list-style-type: none;
-            padding: 1em;
-            border-radius: 5px;
-            box-shadow: 0 1px 12px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24);
-        }
-
-        [data-theme="dark"] .definition-item {
-            background-color: #1a1a1a;
-            border: 1px solid #333;
-        }
-
-        .content-scroll {
-            scrollbar-width: thin;
-            overflow: auto;
-        }
+    .tag-label-content {
+        font-weight: normal;
     }
 
     /* Dictionary Colorizer */
@@ -1034,6 +1029,11 @@ This Handlebars template displays the **Reading (kana)** as fallback for words l
         display: none;
     }
 
+    /* Hide add reading */
+    button.action-button[title="Add reading (Alt + R)"] {
+        display: none;
+    }
+
     /* Changes for Jitendex */
     .definition-item[data-dictionary*="Jitendex"] *[data-sc-content="example-sentence-a"] {
         font-size: 1em !important;
@@ -1106,19 +1106,11 @@ This Handlebars template displays the **Reading (kana)** as fallback for words l
         color: #FCFF61 !important;
     }
 
-    /* Forms */
+    /* Hidden */
     [data-sc-content="forms"] {
-        opacity: 0;
-        display: block;
-        transition: opacity 0.3s ease;
+        display: none;
     }
 
-    [data-sc-content|="forms"]:hover {
-        opacity: 1;
-        display: block;
-    }
-
-    /* Hidden (unnecessary) */
     div[data-sc-content="attribution"] {
         display: none;
     }
@@ -1141,6 +1133,7 @@ This Handlebars template displays the **Reading (kana)** as fallback for words l
     .headword[data-pronunciation-categories^="atamadaka"],
     .headword[data-pronunciation-categories^="atamadaka"] rt {
         --headword-text-color: var(--pitch-red);
+        --headword-current-kanji-border-color: var(--pitch-red);
         --headword-current-kanji-text-color: var(--pitch-red);
         color: var(--pitch-red);
     }
@@ -1148,6 +1141,7 @@ This Handlebars template displays the **Reading (kana)** as fallback for words l
     .headword[data-pronunciation-categories^="heiban"],
     .headword[data-pronunciation-categories^="heiban"] rt {
         --headword-text-color: var(--pitch-blue);
+        --headword-current-kanji-border-color: var(--pitch-blue);
         --headword-current-kanji-text-color: var(--pitch-blue);
         color: var(--pitch-blue);
     }
@@ -1155,6 +1149,7 @@ This Handlebars template displays the **Reading (kana)** as fallback for words l
     .headword[data-pronunciation-categories^="nakadaka"],
     .headword[data-pronunciation-categories^="nakadaka"] rt {
         --headword-text-color: var(--pitch-orange);
+        --headword-current-kanji-border-color: var(--pitch-orange);
         --headword-current-kanji-text-color: var(--pitch-orange);
         color: var(--pitch-orange);
     }
@@ -1162,6 +1157,7 @@ This Handlebars template displays the **Reading (kana)** as fallback for words l
     .headword[data-pronunciation-categories^="odaka"],
     .headword[data-pronunciation-categories^="odaka"] rt {
         --headword-text-color: var(--pitch-green);
+        --headword-current-kanji-border-color: var(--pitch-green);
         --headword-current-kanji-text-color: var(--pitch-green);
         color: var(--pitch-green);
     }
@@ -1169,6 +1165,7 @@ This Handlebars template displays the **Reading (kana)** as fallback for words l
     .headword[data-pronunciation-categories^="kifuku"],
     .headword[data-pronunciation-categories^="kifuku"] rt {
         --headword-text-color: var(--pitch-purple);
+        --headword-current-kanji-border-color: var(--pitch-purple);
         --headword-current-kanji-text-color: var(--pitch-purple);
         color: var(--pitch-purple);
     }
@@ -1193,7 +1190,61 @@ This Handlebars template displays the **Reading (kana)** as fallback for words l
         --pronunciation-annotation-color: var(--pitch-purple);
     }
 
-    .pronunciation-mora[data-pitch=high]>.pronunciation-mora-line {
-        border-top-width: 0.15em;
+    .pronunciation-mora-line {
+        border-top-width: 0.15em !important;
+        border-right-width: 0.15em !important;
+    }
+
+    .pronunciation-downstep-notation-number {
+        font-weight: bold;
+        font-family: var(--font-sans);
+        padding: 2px 5px 2px 5px;
+        border-radius: 5px;
+        background: rgba(0, 0, 0, 0.4);
+        font-size: 0.8em;
+        text-align: center;
+    }
+
+    .entry:has(.headword[data-pronunciation-categories^="atamadaka"]) .pronunciation-downstep-notation-number {
+        color: var(--pitch-red);
+    }
+
+    .entry:has(.headword[data-pronunciation-categories^="heiban"]) .pronunciation-downstep-notation-number {
+        color: var(--pitch-blue);
+    }
+
+    .entry:has(.headword[data-pronunciation-categories^="nakadaka"]) .pronunciation-downstep-notation-number {
+        color: var(--pitch-orange);
+    }
+
+    .entry:has(.headword[data-pronunciation-categories^="odaka"]) .pronunciation-downstep-notation-number {
+        color: var(--pitch-green);
+    }
+
+    .entry:has(.headword[data-pronunciation-categories^="kifuku"]) .pronunciation-downstep-notation-number {
+        color: var(--pitch-purple);
+    }
+
+    .pronunciation-downstep-notation-prefix,
+    .pronunciation-downstep-notation-suffix {
+        display: none;
+    }
+
+    /* Nasal Mora */
+    .pronunciation-nasal-indicator {
+        border: 0.115em solid var(--nasal-color);
+        width: 0.35em;
+        height: 0.35em;
+        right: -0.1em;
+        top: 0.225em;
+    }
+
+    /* Devoiced Mora */
+    .pronunciation-devoice-indicator {
+        display: none;
+    }
+
+    .pronunciation-mora[data-devoice="true"] {
+        color: var(--devoiced-color);
     }
     ```
