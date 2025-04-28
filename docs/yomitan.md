@@ -664,18 +664,15 @@ This Handlebars template displays the **Reading (kana)** as fallback for words l
     }
     
     /* Inflections Hover */
-    .inflection-rule-chains:not(:empty)::before {
-      content: 'ℹ︎';
-      cursor: help;
-      color: gray;
-    }
-    
-    .inflection-rule-chains:not(:empty) {
-      display: inline;
-    }
-    
+    .inflection-source-icon,
     .inflection-rule-chains:not(:empty) li {
       display: none;
+    }
+    
+    .inflection-rule-chains:not(:empty)::before {
+      content: '🅸';
+      cursor: help;
+      color: gray;
     }
     
     .inflection-rule-chains:not(:empty):hover li {
@@ -683,11 +680,7 @@ This Handlebars template displays the **Reading (kana)** as fallback for words l
     }
     
     .inflection-rule-chain:nth-last-of-type(1) {
-      margin-bottom: 0.5em;
-    }
-    
-    .tag-label-content {
-      font-weight: normal;
+      margin-bottom: 0.2em;
     }
     
     /* Dictionary Colorizer */
@@ -956,62 +949,30 @@ This Handlebars template displays the **Reading (kana)** as fallback for words l
       --tag-frequency-background-color: #447ff5;
     }
     
-    /* Collapse lists of links */
-    .definition-item:not([data-dictionary="JMdict"]) .gloss-list:has(.gloss-content > a:only-child) {
-      list-style: none;
-      display: inline;
-      padding-left: 0;
-    }
-    
-    .definition-item:not([data-dictionary="JMdict"]) .gloss-list:has(.gloss-content > a:only-child) * {
-      display: inline;
-    }
-    
-    /* Collapse JMnedict entries */
-    .definition-item[data-dictionary="JMnedict"] .gloss-list {
-      list-style: none;
-      display: inline;
-      padding-left: 0;
-    }
-    
-    .definition-item[data-dictionary="JMnedict"] .gloss-list * {
-      display: inline;
-    }
-    
-    .definition-item[data-dictionary="JMnedict"] .gloss-list>.gloss-item:not(:last-child)::after {
-      content: " | ";
-    }
-    
-    /* Only show summary for Pixiv */
-    [data-sc-pixiv="children"],
-    [data-sc-pixiv="related-tags"],
-    [data-sc-pixiv="continue-reading"],
-    [data-sc-pixiv="nav-header"] {
-      display: none;
-    }
-    
-    /* Only show the first 2 frequency lists */
-    span.frequency-group-item:nth-child(n + 3) {
-      display: none;
-    }
-    
-    /* Show on hover */
-    span.frequency-group-item:first-child:has(.tag-label:hover)~* {
+    /* Frequency hover (average enabled) */
+    [data-average-frequency="true"] [data-section-type="frequencies"]:hover .frequency-group-item:not([data-details="Average"]) {
       display: inline-block;
     }
     
-    /* Only show the first pitch dictionary */
+    [data-average-frequency="true"] [data-section-type="frequencies"]:hover .frequency-group-item[data-details="Average"] {
+      display: none;
+    }
+    
+    /* Frequency hover (average disabled) */
+    [data-average-frequency="false"] span.frequency-group-item:nth-child(n + 3) {
+      display: none;
+    }
+    
+    [data-average-frequency="false"] [data-section-type="frequencies"]:hover span.frequency-group-item:nth-child(n + 3):not([data-details="Average"]) {
+      display: inline-block;
+    }
+    
+    /* Pitch Accent Hover */
     li.pronunciation-group:first-child~* {
       display: none;
     }
     
-    ol.pronunciation-group-list:not([data-count="1"]) {
-      list-style: none;
-      padding: 0;
-    }
-    
-    /* Show on hover */
-    li.pronunciation-group:first-child:has(.tag:hover)~* {
+    ol.pronunciation-group-list:hover li.pronunciation-group:first-child ~ li.pronunciation-group {
       display: inline-block;
     }
     
@@ -1025,19 +986,33 @@ This Handlebars template displays the **Reading (kana)** as fallback for words l
       display: none;
     }
     
+    /* Hide tags */
+    [data-category="popular"], 
+    [data-category="frequent"] {
+      display: none;
+    }
+    
+    /* Only show summary for Pixiv */
+    [data-sc-pixiv="children"],
+    [data-sc-pixiv="related-tags"],
+    [data-sc-pixiv="continue-reading"],
+    [data-sc-pixiv="nav-header"] {
+      display: none;
+    }
+    
     /* Changes for Jitendex */
     .definition-item[data-dictionary*="Jitendex"] *[data-sc-content="example-sentence-a"] {
       font-size: 1em !important;
     }
     
-    [data-sc-content="glossary"] {
+    [data-glossary-layout-mode="default"] [data-sc-content="glossary"] {
       display: flex;
       flex-wrap: wrap;
       padding: 0;
       margin: 0;
     }
     
-    [data-sc-content="glossary"] li:not(:last-child)::after {
+    [data-glossary-layout-mode="default"] [data-sc-content="glossary"] li:not(:last-child)::after {
       content: "|";
       color: rgba(255, 255, 255, 0.5);
       margin: 0 8px;
