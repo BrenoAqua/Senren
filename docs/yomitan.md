@@ -1288,4 +1288,4 @@ This Handlebars template displays the **Reading (kana)** as fallback for words l
       color: var(--devoiced-color);
     }
     ```
-![Yomitan Css](assets/images/yomitan-css.png)
+![Yomitan CSS](assets/images/yomitan-css.png)
