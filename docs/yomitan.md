@@ -663,7 +663,7 @@ This Handlebars template displays the **Reading (kana)** as fallback for words l
       font-size: initial;
     }
     
-    /* Inflections */
+    /* Inflections Hover */
     .inflection-rule-chains:not(:empty)::before {
       content: 'ℹ︎';
       cursor: help;
@@ -956,16 +956,6 @@ This Handlebars template displays the **Reading (kana)** as fallback for words l
       --tag-frequency-background-color: #447ff5;
     }
     
-    /* Hide ALL Dotted Circles */
-    span[style*="border:1.5px dotted #c83c28"] {
-      display: none !important;
-    }
-    
-    /* Paint the devoiced mora */
-    span[style*="display:inline-block;position:relative;"]>span[style*="display:inline"]:has(+ span[style*="border:1.5px dotted #c83c28"]) {
-      color: var(--devoiced-color) !important;
-    }
-    
     /* Collapse lists of links */
     .definition-item:not([data-dictionary="JMdict"]) .gloss-list:has(.gloss-content > a:only-child) {
       list-style: none;
@@ -1042,7 +1032,6 @@ This Handlebars template displays the **Reading (kana)** as fallback for words l
     
     [data-sc-content="glossary"] {
       display: flex;
-      /* Use flexbox for layout */
       flex-wrap: wrap;
       padding: 0;
       margin: 0;
@@ -1131,7 +1120,16 @@ This Handlebars template displays the **Reading (kana)** as fallback for words l
     }
     
     /* Pitch Accent Colors */
+    .pronunciation-mora-line {
+      border-top-width: 0.15em !important;
+      border-right-width: 0.15em !important;
+    }
+    
     /* Heiban*/
+    html:has(.entry-current .headword[data-is-primary="true"][data-pronunciation-categories^="heiban"]) {
+      --accent-color: var(--pitch-blue);
+    }
+    
     .headword[data-pronunciation-categories^="heiban"],
     .headword[data-pronunciation-categories^="heiban"] rt {
       --headword-text-color: var(--pitch-blue);
@@ -1147,11 +1145,11 @@ This Handlebars template displays the **Reading (kana)** as fallback for words l
       }
     }
     
-    html:has(.entry-current .headword[data-is-primary="true"][data-pronunciation-categories^="heiban"]) {
-      --accent-color: var(--pitch-blue);
+    /* Atamadaka */
+    html:has(.entry-current .headword[data-is-primary="true"][data-pronunciation-categories^="atamadaka"]) {
+      --accent-color: var(--pitch-red);
     }
     
-    /* Atamadaka */
     .headword[data-pronunciation-categories^="atamadaka"],
     .headword[data-pronunciation-categories^="atamadaka"] rt {
       --headword-text-color: var(--pitch-red);
@@ -1167,11 +1165,11 @@ This Handlebars template displays the **Reading (kana)** as fallback for words l
       }
     }
     
-    html:has(.entry-current .headword[data-is-primary="true"][data-pronunciation-categories^="atamadaka"]) {
-      --accent-color: var(--pitch-red);
+    /* Nakadaka */
+    html:has(.entry-current .headword[data-is-primary="true"][data-pronunciation-categories^="nakadaka"]) {
+      --accent-color: var(--pitch-orange);
     }
     
-    /* Nakadaka */
     .headword[data-pronunciation-categories^="nakadaka"],
     .headword[data-pronunciation-categories^="nakadaka"] rt {
       --headword-text-color: var(--pitch-orange);
@@ -1180,27 +1178,8 @@ This Handlebars template displays the **Reading (kana)** as fallback for words l
       color: var(--pitch-orange);
     }
     
-    .pronunciation { 
-      :is(
-        /* Mora count >= 3, Number 2 */
-        &:has(.pronunciation-downstep-notation[data-downstep-position="2"]):has(.pronunciation-mora[data-position="1"]:not(:last-child)[data-pitch-next="low"]),
-        /* Mora count >= 4, Number 3 */
-        &:has(.pronunciation-downstep-notation[data-downstep-position="3"]):has(.pronunciation-mora[data-position="2"]:not(:last-child)[data-pitch-next="low"]),
-        /* Mora count >= 5, Number 4 */
-        &:has(.pronunciation-downstep-notation[data-downstep-position="4"]):has(.pronunciation-mora[data-position="3"]:not(:last-child)[data-pitch-next="low"]),
-        /* Mora count >= 6, Number 5 */
-        &:has(.pronunciation-downstep-notation[data-downstep-position="5"]):has(.pronunciation-mora[data-position="4"]:not(:last-child)[data-pitch-next="low"]),
-        /* Mora count >= 7, Number 6 */
-        &:has(.pronunciation-downstep-notation[data-downstep-position="6"]):has(.pronunciation-mora[data-position="5"]:not(:last-child)[data-pitch-next="low"]),
-        /* Mora count >= 8, Number 7 */
-        &:has(.pronunciation-downstep-notation[data-downstep-position="7"]):has(.pronunciation-mora[data-position="6"]:not(:last-child)[data-pitch-next="low"]),
-        /* Mora count >= 9, Number 8 */
-        &:has(.pronunciation-downstep-notation[data-downstep-position="8"]):has(.pronunciation-mora[data-position="7"]:not(:last-child)[data-pitch-next="low"]),
-        /* Mora count >= 10, Number 9 */
-        &:has(.pronunciation-downstep-notation[data-downstep-position="9"]):has(.pronunciation-mora[data-position="8"]:not(:last-child)[data-pitch-next="low"]),
-        /* Mora count >= 11, Number 10 */
-        &:has(.pronunciation-downstep-notation[data-downstep-position="10"]):has(.pronunciation-mora[data-position="9"]:not(:last-child)[data-pitch-next="low"])
-      ) {
+    .pronunciation {
+      &:has(.pronunciation-mora:not(:last-child)[data-pitch-next="low"]):has(.pronunciation-downstep-notation:not([data-downstep-position="1"])) {
         --pronunciation-annotation-color: var(--pitch-orange) !important;
         & .pronunciation-downstep-notation-number {
           color: var(--pitch-orange) !important;
@@ -1208,11 +1187,11 @@ This Handlebars template displays the **Reading (kana)** as fallback for words l
       }
     }
     
-    html:has(.entry-current .headword[data-is-primary="true"][data-pronunciation-categories^="nakadaka"]) {
-      --accent-color: var(--pitch-orange);
+    /* Odaka */
+    html:has(.entry-current .headword[data-is-primary="true"][data-pronunciation-categories^="odaka"]) {
+      --accent-color: var(--pitch-green);
     }
     
-    /* Odaka */
     .headword[data-pronunciation-categories^="odaka"],
     .headword[data-pronunciation-categories^="odaka"] rt {
       --headword-text-color: var(--pitch-green);
@@ -1222,36 +1201,25 @@ This Handlebars template displays the **Reading (kana)** as fallback for words l
     }
     
     .pronunciation {
-      &:has(.pronunciation-mora:last-child[data-pitch-next="low"]) {
-        &:not(:has(.pronunciation-downstep-notation[data-downstep-position="0"])):not(:has(.pronunciation-downstep-notation[data-downstep-position="1"])) {
-          --pronunciation-annotation-color: var(--pitch-green);
-          & .pronunciation-downstep-notation-number {
-            color: var(--pitch-green);
-          }
+      &:has(.pronunciation-mora:last-child[data-pitch-next="low"]):not(:has(.pronunciation-downstep-notation[data-downstep-position="1"])) {
+        --pronunciation-annotation-color: var(--pitch-green);
+        & .pronunciation-downstep-notation-number {
+          color: var(--pitch-green);
         }
       }
     }
     
-    html:has(.entry-current .headword[data-is-primary="true"][data-pronunciation-categories^="odaka"]) {
-      --accent-color: var(--pitch-green);
+    /* Kifuku */
+    html:has(.entry-current .headword[data-is-primary="true"][data-pronunciation-categories^="kifuku"]) {
+      --accent-color: var(--pitch-purple);
     }
     
-    /* Kifuku */
     .headword[data-pronunciation-categories^="kifuku"],
     .headword[data-pronunciation-categories^="kifuku"] rt {
       --headword-text-color: var(--pitch-purple);
       --headword-current-kanji-border-color: var(--pitch-purple);
       --headword-current-kanji-text-color: var(--pitch-purple);
       color: var(--pitch-purple);
-    }
-    
-    .pronunciation-mora-line {
-      border-top-width: 0.15em !important;
-      border-right-width: 0.15em !important;
-    }
-    
-    html:has(.entry-current .headword[data-is-primary="true"][data-pronunciation-categories^="kifuku"]) {
-      --accent-color: var(--pitch-purple);
     }
     
     /* Downstep Position */
