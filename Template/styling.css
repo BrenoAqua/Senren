@@ -1,6 +1,3 @@
-/* Fonts */
-@import url("https://fonts.googleapis.com/css2?family=Klee+One:wght@400;600&family=Noto+Sans+JP:wght@100..900&family=Noto+Serif+JP:wght@200..900&display=swap");
-
 @font-face {
   font-family: klee;
   src: url("_KleeOne-SemiBold.ttf");
@@ -100,7 +97,7 @@
   --button-size: 20px;
   --toggle-width-large: 60px;
   --toggle-width-medium: 20px;
-  --picture-height: 219px;
+  --picture-height: 220px;
   --lightbox-nav-width: 100px;
 
   /* Border Radius */
@@ -272,6 +269,10 @@
 }
 .mobile-word-layout {
     display: none;
+}
+
+.front #word {
+  -webkit-tap-highlight-color: transparent;
 }
 
 .desktop-word-layout > #word {
@@ -811,7 +812,48 @@ img {
   cursor: pointer;
 }
 
+/* Notes */
+.notes {
+  position: relative;
+  padding: var(--spacing-lg); 
+  border-radius: var(--border-radius-ms);
+  background: rgba(0,0,0,0.04);
+  margin-bottom: 5px;
+  max-height: 0;
+  overflow: hidden;
+  font-size: var(--definition-size);
+  display: flex;
+  justify-content: center;
+  direction: ltr;
+  unicode-bidi: normal;
+  text-align: left;
+  transition: all var(--base-transition);
+}
+
+.notes.is-collapsed {
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-bottom: 0;
+  opacity: 0;
+}
+
+.card.nightMode .notes {
+  background: var(--card-bg);
+}
+
 /* Definition + Glossary */
+#selectionText {
+  text-align: left;
+}
+
+#selectionText.show {
+  display: block;
+}
+
+#selectionText {
+  display: none;
+}
+
 #glossary {
   display: grid;
   place-items: left;
@@ -960,10 +1002,10 @@ img {
   background: var(--buttons-bg-hover);
 }
 
-.audio.dark-mode:hover,
-.sentenceaudio.dark-mode:hover,
-.audio.dark-mode:hover .playImage path,
-.sentenceaudio.dark-mode:hover .playImage path {
+.custom-dark-mode .audio:hover,
+.custom-dark-mode .sentenceaudio:hover,
+.custom-dark-mode .audio:hover .playImage path,
+.custom-dark-mode .sentenceaudio:hover .playImage path {
   box-shadow: var(--button-shadow-dark);
   background: var(--light-bg) !important;
   fill: var(--light-text) !important;
@@ -1004,6 +1046,76 @@ img {
 .playing {
   outline: 2px solid transparent !important;
   outline-offset: -2px;
+}
+
+/* Notes Toggle */
+.toggle-notes {
+  position: fixed;
+  top: 174px;
+  left: var(--spacing-xxxl);
+  cursor: pointer;
+  border: none;
+  border-radius: var(--border-radius-ms);
+  user-select: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: var(--z-index-base);
+  transition: box-shadow var(--fast-transition),
+              background var(--fast-transition),
+              filter var(--fast-transition),
+              opacity var(--fast-transition);
+}
+
+.toggle-notes .toggle-notes-svg {
+  height: var(--button-size);
+  padding: var(--spacing-ms) 16px;
+  filter: invert(42%) sepia(0%) saturate(0%) hue-rotate(40deg) brightness(96%) contrast(93%);
+  opacity: 0.3;
+  transition: filter var(--fast-transition),
+              opacity var(--fast-transition);
+}
+
+.toggle-notes:hover .toggle-notes-svg:hover {
+  filter: brightness(0) invert(1);
+  opacity: 1;
+}
+
+.toggle-notes:hover .toggle-notes {
+  filter: brightness(0) invert(1);
+  opacity: 1;
+}
+
+.custom-dark-mode .toggle-notes:hover .toggle-notes {
+  filter: brightness(0%);
+  opacity: 1;
+}
+
+.toggle-notes:hover {
+  box-shadow: var(--button-shadow);
+  background: var(--buttons-bg-hover);
+  color: var(--dark-text);
+}
+
+.toggle-notes {
+  background: rgba(0,0,0,0.04);
+}
+
+.custom-dark-mode .toggle-notes, 
+.card.nightMode .toggle-notes {
+  background: var(--buttons-bg); 
+}
+
+.card.nightMode .toggle-notes:hover {
+  box-shadow: var(--button-shadow);
+  background: var(--buttons-bg-hover);
+  color: var(--dark-text);
+}
+
+.custom-dark-mode .toggle-notes:hover {
+  box-shadow: var(--button-shadow-dark);
+  background: var(--light-bg);
+  color: var(--light-text);
 }
 
 /* Pitch Accent Colors */
@@ -1079,10 +1191,61 @@ img {
   color: var(--pitch-purple); 
 }
 
+/* ===== Pitch Accent Fallback ===== */
+.pronunciation-mora {
+  position: relative;
+  display: inline-block;
+}
+
+.pronunciation-mora[data-pitch="high"][data-pitch-next="low"] {
+  position: relative;
+  display: inline-block;
+  padding-right: 0.1em;
+  margin-right: 0.1em;
+}
+
+.pronunciation-mora-line {
+  display: block;
+  user-select: none;
+  pointer-events: none;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0.1em;
+  border-top-width: 0.1em;
+  border-top-style: solid;
+  border-color: transparent; /* Hidden by default */
+}
+
+.pronunciation-mora[data-pitch=high] > .pronunciation-mora-line {
+  border-top-color: var(--pronunciation-annotation-color);
+}
+
+.pronunciation-mora[data-pitch=high] + .pronunciation-mora[data-pitch=high] > .pronunciation-mora-line {
+  left: -0.15em;
+}
+
+.pronunciation-mora[data-pitch=high]:has(+ .pronunciation-mora[data-pitch=high]) > .pronunciation-mora-line {
+  right: -0.15em;
+}
+
+.pronunciation-mora[data-pitch=high][data-pitch-next=low] > .pronunciation-mora-line {
+  right: -0.1em;
+  height: 0.4em;
+  border-right: 0.1em solid transparent;
+  border-right-color: var(--pronunciation-annotation-color);
+  border-top-color: var(--pronunciation-annotation-color);
+}
+
+.pronunciation.heiban { --pronunciation-annotation-color: var(--pitch-blue); }
+.pronunciation.atamadaka { --pronunciation-annotation-color: var(--pitch-red); }
+.pronunciation.nakadaka { --pronunciation-annotation-color: var(--pitch-orange); }
+.pronunciation.odaka { --pronunciation-annotation-color: var(--pitch-green); }
+
 /* Nasal Mora */
 span[style*="border:1.5px solid #c83c28"] {
-  border: 2px solid #FF4936 !important;
-  margin: 4px 0;
+  border: 0.1em solid #FF4936 !important;
+  margin: 2px 0px;
   width: 0.30rem !important;
   height: 0.30rem !important;
 }
@@ -1127,17 +1290,6 @@ span[style*="display:inline"]:has(+ span[style*="border:1.5px dotted #c83c28"]) 
   background: rgba(0,0,0,0.2);
 }
 
-#word.length-6 #position,
-#word.length-7 #position,
-#word.length-8 #position,
-#word.length-9 #position {
-  left: 50% !important;
-  transform: translateX(-50%);
-  top: unset;
-  left: unset;
-  margin-left: unset;
-}
-
 #position:empty {
   display: none;
 }
@@ -1168,21 +1320,6 @@ span[style*="display:inline"]:has(+ span[style*="border:1.5px dotted #c83c28"]) 
               color var(--base-transition);
 }
 
-#word.length-4 #categories,
-#word.length-5 #categories,
-#word.length-6 #categories,
-#word.length-7 #categories,
-#word.length-8 #categories,
-#word.length-9 #categories {
-  opacity: 0; 
-  left: 50% !important;
-  transform: translateX(-50%) !important;
-  top: unset;
-  left: unset;
-  margin-left: unset;
-  visibility: hidden;
-}
-
 #position:hover + #categories,
 #categories:hover {
   opacity: 1;
@@ -1205,6 +1342,80 @@ span[style*="display:inline"]:has(+ span[style*="border:1.5px dotted #c83c28"]) 
 
 #categories:empty {
   display: none;
+}
+
+/* Dictionary Counter */
+.dictionary-counter {
+  position: absolute;
+  display: var(--dict-display);
+  top: 0;
+  right: 0;
+  font-size: var(--dict-size);
+  color: var(--light-dict-color);
+  line-height: 1;
+  padding: var(--spacing-md);
+  pointer-events: none;
+  user-select: none;
+  opacity: 0;
+  transition: opacity var(--fast-transition);
+}
+
+.card.nightMode .dictionary-counter,
+.custom-dark-mode .dictionary-counter {
+  color: var(--dict-color);
+}
+
+.back.dict-toggled-once #selectionText.show .dictionary-counter,
+.back.dict-toggled-once #definition.show .dictionary-counter,
+.back.dict-toggled-once #glossary.show .dictionary-counter {
+    opacity: 1;
+}
+
+/* Dictionary Title */
+.dictionary-title,
+.yomitan-glossary i {
+  line-height: 1;
+  font-size: var(--dict-size);
+  display: var(--dict-display);
+  color: var(--light-dict-color);
+  padding: 0 0 10px;
+  font-style: normal;
+}
+
+.card.nightMode .dictionary-title,
+.custom-dark-mode .dictionary-title,
+.card.nightMode .yomitan-glossary i,
+.custom-dark-mode .yomitan-glossary i {
+  color: var(--dict-color);
+}
+
+.definition-box .dictionary-title,
+.definition-box .yomitan-glossary i {
+  display: var(--definition-title-visibility);
+}
+
+.glossary-box .dictionary-title,
+.glossary-box .yomitan-glossary i {
+  display: var(--glossary-title-visibility);
+}
+
+.yomitan-glossary:has(.dictionary-title) i {
+  display: none;
+}
+
+.yomitan-glossary li[data-dictionary]:not(:has(> .dictionary-title))::before {
+  content: attr(data-dictionary);
+  display: block; 
+  line-height: 1;
+  font-size: var(--dict-size);
+  color: var(--light-dict-color);
+  padding: 0 0 10px;
+  font-style: normal;
+}
+
+.card.nightMode .yomitan-glossary li[data-dictionary]:not(:has(> .dictionary-title))::before,
+.custom-dark-mode .yomitan-glossary li[data-dictionary]:not(:has(> .dictionary-title))::before {
+  color: var(--dict-color)
 }
 
 /* Jitendex Settings */
@@ -1258,22 +1469,6 @@ span[style*="display:inline"]:has(+ span[style*="border:1.5px dotted #c83c28"]) 
 [data-sc-content="sense-note"],
 [data-sc-content="xref"] {
   opacity: 0.5;
-}
-
-.definition-box ol {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  margin-top: 0;
-  margin-bottom: 0;
-}
-
-.glossary-box li {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  margin-top: 0;
-  margin-bottom: 0;
 }
 
 [data-sc-content="example-sentence-a"], 
@@ -1373,34 +1568,35 @@ div[data-sc-content="attribution"] {
   display: none;
 }
 
-/* Other Dictionaries */
-.dictionary-title {
-  line-height: 1;
+/* Hide dict version date */
+/* Jitendex */
+[data-dictionary^="Jitendex"] .dictionary-title {
+  font-size: 0;
+}
+[data-dictionary^="Jitendex"] .dictionary-title::after {
+  content: "Jitendex";
   font-size: var(--dict-size);
-  padding: var(--spacing-sm);
-  display: var(--dict-display);
-  border-radius: var(--border-radius-ms);
-  color: var(--light-dict-color);
-  padding: 0;
 }
 
-.card.nightMode .dictionary-title,
-.custom-dark-mode .dictionary-title {
-  color: var(--dict-color);
+/* Pixiv */
+[data-dictionary^="Pixiv"] .dictionary-title {
+  font-size: 0;
+}
+[data-dictionary^="Pixiv"] .dictionary-title::after {
+  content: "Pixiv";
+  font-size: var(--dict-size);
 }
 
-.definition-box .dictionary-title {
-  padding: 0 0 10px;
+/* 素材辞典 */
+[data-dictionary^="素材辞典"] .dictionary-title {
+  font-size: 0;
+}
+[data-dictionary^="素材辞典"] .dictionary-title::after {
+  content: "素材辞典";
+  font-size: var(--dict-size);
 }
 
-.definition-box .dictionary-title {
-  display: var(--definition-title-visibility);
-}
-
-.glossary-box .dictionary-title {
-  display: var(--glossary-title-visibility);
-}
-
+/* Other Dictionaries */
 #glossary.yomitan-glossary .example a {
   color: var(--light-highlight);
   text-decoration: none;
@@ -1446,15 +1642,6 @@ div[data-sc-content="attribution"] {
   color: #555;
 }
 
-#glossary.yomitan-glossary rt {
-  opacity: 0;
-  transition: opacity var(--base-transition);
-}
-
-#glossary.yomitan-glossary ruby:hover rt {
-  opacity: 1;
-}
-
 [style="font-weight: bold; color: red;"] {
   color: var(--light-highlight) !important;
 }
@@ -1468,6 +1655,11 @@ div[data-sc-content="attribution"] {
 /* Hide Yomitan links that don't work in Anki */
 #glossary.yomitan-glossary ul a[href="#"] {
   display: none !important;
+}
+
+/* Hide default dictionary titles */
+[data-dictionary] i { 
+  display: none;
 }
 
 /* Frequency */
@@ -1581,21 +1773,21 @@ div[data-sc-content="attribution"] {
   flex-shrink: 0;
 }
 
-.show-on-light-mode-only {
+.light-icon {
   display: inline-block;
 }
 
-.card.nightMode .show-on-light-mode-only,
-.custom-dark-mode .show-on-light-mode-only {
+.card.nightMode .light-icon,
+.custom-dark-mode .light-icon {
   display: none;
 }
 
-.show-on-dark-mode-only {
+.dark-icon {
   display: none;
 }
 
-.card.nightMode .show-on-dark-mode-only,
-.custom-dark-mode .show-on-dark-mode-only {
+.card.nightMode .dark-icon,
+.custom-dark-mode .dark-icon {
   display: inline-block;
 }
 
@@ -1635,8 +1827,8 @@ div[data-sc-content="attribution"] {
 
 .tags-and-links-wrapper,
 .external-links,
-.show-on-light-mode-only,
-.show-on-dark-mode-only,
+.light-icon,
+.dark-icon,
 .external-links a,
 .external-links img {
   outline: 2px solid transparent !important;
@@ -1892,7 +2084,7 @@ div[data-sc-content="attribution"] {
 /* Tooltip Nasal Mora */
 #kanji-tooltip span[style*="border:1.5px solid #c83c28"] {
   border: 1px solid #FF4936 !important;
-  margin: 1px 0 !important;
+  margin: 3px 1px !important;
   width: 0.20rem !important;
   height: 0.20rem !important;
 }
@@ -1967,6 +2159,10 @@ div[data-sc-content="attribution"] {
     position: unset;
   }
 
+  .toggle-notes {
+    position: unset;
+  }
+
   #frequency {
     visibility: var(--freq-visibility);
     position: unset;
@@ -2026,10 +2222,6 @@ div[data-sc-content="attribution"] {
     grid-template-columns: var(--grid-columns-small);
   }
 
-  #frequency, .freqbt {
-    visibility: var(--freq-visibility-small);
-  }
-
   .picture-container {
     max-height: var(--picture-height-small);
   }
@@ -2050,37 +2242,19 @@ div[data-sc-content="attribution"] {
   .desktop-word-layout {
     display: none;
   }
+
   .mobile-word-layout {
     display: block;
   }
 
   .mobile-word-layout > .background-box {
-    padding-top: 24px;
-    padding-bottom: 28px;
+    padding-top: 23.5px;
+    padding-bottom: 27.5px;
   }
 
-  .mobile #word.length-6 #position,
-  .mobile #word.length-7 #position,
-  .mobile #word.length-8 #position,
-  .mobile #word.length-9 #position {
-    left: 100% !important;
-    transform: none !important;
-    top: 0 !important;
-    margin-left: var(--spacing-ms) !important;
-  }
-
-  .mobile #word.length-4 #categories,
-  .mobile #word.length-5 #categories,
-  .mobile #word.length-6 #categories,
-  .mobile #word.length-7 #categories,
-  .mobile #word.length-8 #categories,
-  .mobile #word.length-9 #categories {
-    opacity: 0;
-    left: 100% !important;
-    transform: scaleX(1) !important;
-    top: 0 !important;
-    margin-left: var(--spacing-ms) !important;
-    visibility: visible !important;
+  .chrome:not(.win):not(.linux) .mobile-word-layout > .background-box {
+    padding-top: 25px;
+    padding-bottom: 29px;
   }
 }
 
