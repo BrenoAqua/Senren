@@ -3,7 +3,7 @@
 This guide covers setting up Yomitan and Anki to work optimally with the Senren note type.
 
 ## First-time Installation
-1.  Download the [Latest Version](https://github.com/BrenoAqua/Senren/releases/latest).
+1.  Download the `.apkg` file from the [Latest Version](https://github.com/BrenoAqua/Senren/releases/latest).
 2.  Open Anki.
 3.  Click on **File -> Import** (or press **Ctrl + Shift + I**) and select the `.apkg` file you downloaded.
 
