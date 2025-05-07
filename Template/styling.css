@@ -1241,6 +1241,7 @@ img {
 .pronunciation.atamadaka { --pronunciation-annotation-color: var(--pitch-red); }
 .pronunciation.nakadaka { --pronunciation-annotation-color: var(--pitch-orange); }
 .pronunciation.odaka { --pronunciation-annotation-color: var(--pitch-green); }
+.pronunciation.kifuku { --pronunciation-annotation-color: var(--pitch-purple); }
 
 /* Nasal Mora */
 span[style*="border:1.5px solid #c83c28"] {

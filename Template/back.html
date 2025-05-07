@@ -1785,11 +1785,12 @@
     const positionElement = document.getElementById('position');
 
     const mainClasses = mainSpan.classList;
+    const isOriginallyKifuku = mainClasses.contains('kifuku');
     if (mainClasses.contains('heiban')) pitchClass = 'heiban';
     else if (mainClasses.contains('atamadaka')) pitchClass = 'atamadaka';
     else if (mainClasses.contains('nakadaka')) pitchClass = 'nakadaka';
     else if (mainClasses.contains('odaka')) pitchClass = 'odaka';
-    else if (mainClasses.contains('kifuku')) pitchClass = 'kifuku';
+    else if (isOriginallyKifuku) pitchClass = 'kifuku';
 
     if (positionElement && positionElement.textContent.trim()) {
       const firstNumMatch = positionElement.textContent.trim().match(/\d+/);
@@ -1814,7 +1815,7 @@
       else if (pitchClass === 'odaka') pitchPosition = moraCount;
     }
 
-    if (pitchPosition === -1) {
+    if (pitchPosition === -1 && !isOriginallyKifuku && pitchClass !== 'kifuku' ) {
       return;
     }
 
@@ -1832,7 +1833,10 @@
     const fragment = document.createDocumentFragment();
     const container = document.createElement('span');
     container.className = 'pronunciation';
-    if (pitchClass) {
+    if (isOriginallyKifuku) {
+      container.classList.add('kifuku');
+    }
+    else if (pitchClass) {
       container.classList.add(pitchClass);
     }
 
