@@ -1563,6 +1563,24 @@
 
   // Format pitch accent positions and categories 
   function cleanPitchPositions() {
+    const allSpans = document.querySelectorAll("span");
+    allSpans.forEach(spanElement => {
+      const classList = spanElement.classList;
+      let classToModify = "";
+      classList.forEach(cls => {
+        if (cls.includes(",")) {
+          classToModify = cls;
+        }
+      });
+
+      if (classToModify) {
+        const commaIndex = classToModify.indexOf(",");
+        const newClassValue = commaIndex !== -1 ? classToModify.substring(0, commaIndex).trim() : classToModify;
+        spanElement.classList.remove(classToModify);
+        spanElement.classList.add(newClassValue);
+      }
+    });
+
     const positionElements = document.querySelectorAll('#position');
     const rubyElement = document.querySelector("#word > span > ruby");
     const mainWordSpan = document.querySelector("#word > span");
