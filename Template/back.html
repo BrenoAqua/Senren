@@ -13,30 +13,30 @@
     </span>
 
     <script>
-    function darkMode() {
-      const button = document.querySelector(".toggle-custom-dark-mode");
-      const body = document.body;
-      const sunIcon = document.querySelector(".sun-icon");
-      const moonIcon = document.querySelector(".moon-icon");
+      function darkMode() {
+        const button = document.querySelector(".toggle-custom-dark-mode");
+        const body = document.body;
+        const sunIcon = document.querySelector(".sun-icon");
+        const moonIcon = document.querySelector(".moon-icon");
 
-      const applyDarkMode = () => {
-        const isDarkMode = localStorage.getItem("darkMode") === "enabled";
-        body.classList.toggle("custom-dark-mode", isDarkMode);
-        button.classList.toggle("dark-mode", isDarkMode);
+        const applyDarkMode = () => {
+          const isDarkMode = localStorage.getItem("darkMode") === "enabled";
+          body.classList.toggle("custom-dark-mode", isDarkMode);
+          button.classList.toggle("dark-mode", isDarkMode);
 
-        sunIcon.style.display = isDarkMode ? "inline" : "none";
-        moonIcon.style.display = isDarkMode ? "none" : "inline";
-      };
+          sunIcon.style.display = isDarkMode ? "inline" : "none";
+          moonIcon.style.display = isDarkMode ? "none" : "inline";
+        };
 
-      requestAnimationFrame(applyDarkMode);
-
-      button.addEventListener("click", () => {
-        const isCurrentlyDark = body.classList.contains("custom-dark-mode");
-        localStorage.setItem("darkMode", isCurrentlyDark ? "disabled" : "enabled");
         requestAnimationFrame(applyDarkMode);
-      });
-    }
-    darkMode();
+
+        button.addEventListener("click", () => {
+          const isCurrentlyDark = body.classList.contains("custom-dark-mode");
+          localStorage.setItem("darkMode", isCurrentlyDark ? "disabled" : "enabled");
+          requestAnimationFrame(applyDarkMode);
+        });
+      }
+      darkMode();
     </script>
 
     <!-- Audios -->
@@ -73,7 +73,7 @@
 
   <!-- GRID LAYOUT -->
   <div class="grid-container">
-    
+
     <!-- Word -->
     <div class="background-box tappable">
       <div id="word" class="pitch card-a">
@@ -117,7 +117,7 @@
   {{#notes}}
   <div class="notes is-collapsed">{{notes}}</div>
   {{/notes}}
-  
+
   <!-- Selection Text -->
   {{#selectionText}}
   <div id="selectionText" class="card-b" data-type="selectionText">
@@ -159,7 +159,7 @@
 
   <!-- FOOTER -->
   <div class="tags-and-links-wrapper">
-    
+
     <!-- Tags -->
     <div class="tags-container"></div>
 
@@ -681,7 +681,7 @@
     });
   }
 
-  // Enables click/hover effects for sentenceEng and miscInfo //
+  // Enables click/hover effects for sentenceEng and miscInfo
   function enableInteractions() {
 
     function applyClickToggleEffect(triggerSelector, targetSelector, extraPadding = 0) {
@@ -1584,6 +1584,7 @@
     const positionElements = document.querySelectorAll('#position');
     const rubyElement = document.querySelector("#word > span > ruby");
     const mainWordSpan = document.querySelector("#word > span");
+    const sentenceSpan = document.getElementById("formattedSentence");
     const rtElement = rubyElement?.querySelector('rt');
 
     let potentialFallbackClass = null;
@@ -1636,10 +1637,11 @@
     });
 
     if (runFallbackCheck && potentialFallbackClass) {
-      const hasPitchClassNow = ['heiban', 'atamadaka', 'nakadaka', 'odaka']
+      const hasPitchClassNow = ['heiban', 'atamadaka', 'nakadaka', 'odaka', 'kifuku']
         .some(cls => mainWordSpan.classList.contains(cls));
       if (!hasPitchClassNow) {
         mainWordSpan.classList.add(potentialFallbackClass);
+        sentenceSpan.classList.add(potentialFallbackClass);
       }
     }
 
@@ -1668,88 +1670,205 @@
       '<ruby><rb>$1</rb><rt>$2</rt></ruby>'
     );
 
-    const highlightRegex = /<span class="highlight">(.*?)<\/span>/g;
-    const highlightedWords = [];
-    let match;
-
-    while ((match = highlightRegex.exec(sentence)) !== null) {
-      highlightedWords.push(match[1]);
-    }
-
     let cleanedFurigana = sentenceFurigana
       .replace(/<ruby><rb>([。、！？！？])<\/rb><rt>.*?<\/rt><\/ruby>/g, '$1')
       .replace(/<ruby>([。、！？！？])<rt>.*?<\/rt><\/ruby>/g, '$1');
 
-    const plain = cleanedFurigana
-      .replace(/<ruby><rb>(.*?)<\/rb><rt>.*?<\/rt><\/ruby>/g, '$1')
-      .replace(/<ruby>(.*?)<rt>.*?<\/rt><\/ruby>/g, '$1');
+    if (cleanedFurigana.includes('<span class="highlight">')) {
+      document.getElementById("formattedSentence").innerHTML = cleanedFurigana;
+      return;
+    }
 
-    let output = cleanedFurigana;
+    const highlightRegex = /<span class="highlight">(.*?)<\/span>/g;
+    const highlightedWords = [];
+    let match;
+    while ((match = highlightRegex.exec(sentence)) !== null) {
+      highlightedWords.push(match[1]);
+    }
 
-    highlightedWords.forEach(word => {
-      const idx = plain.indexOf(word);
-      if (idx === -1) return;
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = cleanedFurigana;
 
-      let current = 0;
-      const chunks = [];
-      const regex = /<ruby><rb>(.*?)<\/rb><rt>(.*?)<\/rt><\/ruby>|<ruby>(.*?)<rt>(.*?)<\/rt><\/ruby>|./g;
-      let m;
+    const allNodes = [];
 
-      while ((m = regex.exec(cleanedFurigana)) !== null) {
-        const visible = m[1] || m[3] || m[0];
-        const len = visible.length;
-
-        if (current + len > idx && current < idx + word.length) {
-          chunks.push(m[0]);
+    function collectTextAndRubyNodes(node) {
+      if (node.nodeType === Node.TEXT_NODE) {
+        if (node.textContent.trim()) {
+          allNodes.push({ type: 'text', node: node });
         }
-        current += len;
+      } else if (node.tagName === 'RUBY') {
+        allNodes.push({ type: 'ruby', node: node });
+      } else {
+        for (let i = 0; i < node.childNodes.length; i++) {
+          collectTextAndRubyNodes(node.childNodes[i]);
+        }
+      }
+    }
+
+    collectTextAndRubyNodes(tempDiv);
+
+    let plainText = '';
+    const nodePositions = [];
+
+    allNodes.forEach(item => {
+      let text;
+      if (item.type === 'text') {
+        text = item.node.textContent;
+      } else {
+        const rb = item.node.querySelector('rb') || item.node.firstChild;
+        text = rb.textContent;
       }
 
-      const fullMatch = chunks.join('');
-      const wrapped = `<span class="highlight">${fullMatch}</span>`;
-      output = output.replace(fullMatch, wrapped);
+      nodePositions.push({
+        node: item.node,
+        type: item.type,
+        start: plainText.length,
+        end: plainText.length + text.length
+      });
+
+      plainText += text;
     });
 
-    document.getElementById("formattedSentence").innerHTML = output;
+    highlightedWords.forEach(word => {
+      const wordStart = plainText.indexOf(word);
+      if (wordStart === -1) return;
+
+      const wordEnd = wordStart + word.length;
+
+      const affectedNodes = nodePositions.filter(pos =>
+        pos.start < wordEnd && pos.end > wordStart
+      );
+
+      affectedNodes.forEach(pos => {
+        const node = pos.node;
+
+        if (pos.start >= wordStart && pos.end <= wordEnd) {
+          if (pos.type === 'ruby') {
+            const wrapper = document.createElement('span');
+            wrapper.className = 'highlight';
+
+            const parent = node.parentNode;
+            if (parent.tagName === 'SPAN' && parent.className === 'term') {
+              const rubyClone = node.cloneNode(true);
+              wrapper.appendChild(rubyClone);
+              node.parentNode.replaceChild(wrapper, node);
+            } else {
+              const rubyClone = node.cloneNode(true);
+              wrapper.appendChild(rubyClone);
+              node.parentNode.replaceChild(wrapper, node);
+            }
+          } else {
+            const wrapper = document.createElement('span');
+            wrapper.className = 'highlight';
+            wrapper.textContent = node.textContent;
+            node.parentNode.replaceChild(wrapper, node);
+          }
+        }
+        else if (pos.type === 'ruby') {
+          const ruby = node;
+          const rb = ruby.querySelector('rb') || ruby.firstChild;
+          const rt = ruby.querySelector('rt');
+
+          if (!rb || !rt) return;
+
+          const baseText = rb.textContent;
+          const rtText = rt.textContent;
+
+          const relativeStart = Math.max(0, wordStart - pos.start);
+          const relativeEnd = Math.min(baseText.length, wordEnd - pos.start);
+
+          let newHTML = '';
+
+          if (relativeStart > 0) {
+            newHTML += `<ruby><rb>${baseText.substring(0, relativeStart)}</rb>
+                      <rt>${rtText.substring(0, Math.round(rtText.length * relativeStart / baseText.length))}</rt></ruby>`;
+          }
+
+          newHTML += `<span class="highlight"><ruby><rb>${baseText.substring(relativeStart, relativeEnd)}</rb>
+                   <rt>${rtText.substring(
+            Math.round(rtText.length * relativeStart / baseText.length),
+            Math.round(rtText.length * relativeEnd / baseText.length)
+          )}</rt></ruby></span>`;
+
+          if (relativeEnd < baseText.length) {
+            newHTML += `<ruby><rb>${baseText.substring(relativeEnd)}</rb>
+                      <rt>${rtText.substring(Math.round(rtText.length * relativeEnd / baseText.length))}</rt></ruby>`;
+          }
+
+          const parent = ruby.parentNode;
+          const span = document.createElement('span');
+          span.innerHTML = newHTML;
+
+          if (parent.tagName === 'SPAN' && parent.className === 'term') {
+            const newSpan = document.createElement('span');
+            newSpan.className = 'term';
+            while (span.firstChild) {
+              newSpan.appendChild(span.firstChild);
+            }
+            parent.parentNode.replaceChild(newSpan, parent);
+          } else {
+            ruby.parentNode.replaceChild(span, ruby);
+          }
+        }
+        else {
+          const text = node.textContent;
+          const relativeStart = Math.max(0, wordStart - pos.start);
+          const relativeEnd = Math.min(text.length, wordEnd - pos.start);
+
+          const beforeText = text.substring(0, relativeStart);
+          const highlightedText = text.substring(relativeStart, relativeEnd);
+          const afterText = text.substring(relativeEnd);
+
+          const fragment = document.createDocumentFragment();
+
+          if (beforeText) {
+            fragment.appendChild(document.createTextNode(beforeText));
+          }
+
+          const highlightSpan = document.createElement('span');
+          highlightSpan.className = 'highlight';
+          highlightSpan.textContent = highlightedText;
+          fragment.appendChild(highlightSpan);
+
+          if (afterText) {
+            fragment.appendChild(document.createTextNode(afterText));
+          }
+
+          node.parentNode.replaceChild(fragment, node);
+        }
+      });
+    });
+
+    document.getElementById("formattedSentence").innerHTML = tempDiv.innerHTML;
 
     const formattedSentenceSpan = document.getElementById("formattedSentence");
     const sentenceContainer = document.querySelector(".sentence-container");
-    if (!formattedSentenceSpan || !sentenceContainer) return;
-    const furiganaDisplayValue = getComputedStyle(sentenceContainer).getPropertyValue('--furigana-display').trim().toLowerCase();
-    if (furiganaDisplayValue === 'none') {
-      formattedSentenceSpan.innerHTML = formattedSentenceSpan.innerHTML.replace(/<ruby><rb>(.*?)<\/rb><rt>.*?<\/rt><\/ruby>/gs, '$1');
+    if (formattedSentenceSpan && sentenceContainer) {
+      const furiganaDisplayValue = getComputedStyle(sentenceContainer).getPropertyValue('--furigana-display').trim().toLowerCase();
+      if (furiganaDisplayValue === 'none') {
+        formattedSentenceSpan.innerHTML = formattedSentenceSpan.innerHTML.replace(/<ruby><rb>(.*?)<\/rb><rt>.*?<\/rt><\/ruby>/gs, '$1');
+      }
     }
   }
 
   // Alternative pitch styling based on CSS variables
   function alternativePitchStyle() {
     const rootElement = document.documentElement;
+    const computedRootStyle = getComputedStyle(rootElement);
 
     const wordElement = document.getElementById('word');
     if (wordElement) {
-      const pitchStyleValue = getComputedStyle(rootElement)
-        .getPropertyValue('--pitch-style')
-        .trim();
+      const pitchStyleValue = computedRootStyle.getPropertyValue('--pitch-style').trim();
+      wordElement.classList.toggle('alt', pitchStyleValue === 'alt');
 
-      if (pitchStyleValue === 'alt') {
-        wordElement.classList.add('alt');
-      } else {
-        wordElement.classList.remove('alt');
-      }
+      const pitchColorsValue = computedRootStyle.getPropertyValue('--pitch-colors').trim();
+      wordElement.classList.toggle('colors', pitchColorsValue === 'false');
     }
 
     const sentenceElement = document.getElementById("formattedSentence");
     if (sentenceElement) {
-
-      const sentenceHighlightValue = getComputedStyle(rootElement)
-        .getPropertyValue('--sentence-pitch-highlight')
-        .trim();
-
-      if (sentenceHighlightValue === 'true') {
-        sentenceElement.classList.add('alt-highlight');
-      } else {
-        sentenceElement.classList.remove('alt-highlight');
-      }
+      const sentenceHighlightValue = computedRootStyle.getPropertyValue('--sentence-pitch-highlight').trim();
+      sentenceElement.classList.toggle('alt-highlight', sentenceHighlightValue === 'true');
     }
   }
 
@@ -1776,7 +1895,26 @@
     }
 
     const normalizedReading = readingText.normalize("NFC");
-    const morae = normalizedReading.match(/([ァ-ヺ][ャュョァィゥェォ]?)|\S/g) || [];
+    const moraRegexParts = [
+      '[きしちにひみりぎじぢびぴゔ][ゃゅょ]',
+      '[うくすつぬふむゆるぐずづぶゔ][ぁぃぅぇぉ]',
+      '[てで][ぃ]',
+      '[とど][ぅ]',
+      '[キシチニヒミリギジヂビピヴ][ャュョ]',
+      '[ウクスツヌフムユルグズヅブプヴ][ァィゥェォ]',
+      '[テデ][ィ]',
+      '[トド][ゥ]',
+      '[クグ][ヮ]',
+      '[フ][ォ]',
+      '[っッ]',
+      'ー',
+      '[んン]',
+      '[\u3041-\u3096\u30A1-\u30F6\u30FD\u30FE]',
+      '\\S'
+    ];
+    const moraRegex = new RegExp(moraRegexParts.join('|'), 'g');
+    const morae = normalizedReading.match(moraRegex) || [];
+
     const moraCount = morae.length;
     if (moraCount === 0) return;
 
@@ -1815,7 +1953,7 @@
       else if (pitchClass === 'odaka') pitchPosition = moraCount;
     }
 
-    if (pitchPosition === -1 && !isOriginallyKifuku && pitchClass !== 'kifuku' ) {
+    if (pitchPosition === -1 && !isOriginallyKifuku && pitchClass !== 'kifuku') {
       return;
     }
 
@@ -1833,6 +1971,7 @@
     const fragment = document.createDocumentFragment();
     const container = document.createElement('span');
     container.className = 'pronunciation';
+
     if (isOriginallyKifuku) {
       container.classList.add('kifuku');
     }

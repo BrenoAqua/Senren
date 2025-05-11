@@ -38,6 +38,7 @@
   /* Pitch Accent Options */
   --pitch-style: default;            /* "alt" to change */
   --sentence-pitch-highlight: false; /* "true" to enable */
+  --pitch-colors: true;              /* "false" to disable */
 
   /* Pitch Accent Colors */
   --pitch-red: #F5436D;
@@ -109,7 +110,7 @@
   /* ===== TYPOGRAPHY ===== */
   /* Word Sizes */
   --word-size-base: 2.5rem;
-  --word-size-5: 2.1rem; /* For 6-character words */
+  --word-size-5: 2.1rem; /* For 5-character words */
   --word-size-6: 2.0rem; /* For 6-character words */
   --word-size-7: 1.9rem; /* For 7-character words */
   --word-size-8: 1.6rem; /* For 8-character words */
@@ -165,7 +166,7 @@
   /* Misc Info Size */
   --misc-info-size: 15px;
   
-  /* ===== EFFECTS & ANIMATIONS ===== */
+  /* ===== SHADOWS & Z-INDEX ===== */
   /* Shadows */
   --button-shadow: 0 0 5px 2.5px rgba(0, 0, 0, 0.1);
   --button-shadow-dark: 0 0 5px 2.5px rgba(255, 255, 255, 0.1);
@@ -284,7 +285,8 @@
 }
 
 #word-wrapper,
-#sentence-wrapper {
+#sentence-wrapper, 
+#sentence-wrapper-audio {
   max-height: 0;
   overflow: hidden;
   opacity: 0;
@@ -299,7 +301,8 @@
 }
 
 #word-wrapper.expanded,
-#sentence-wrapper.expanded {
+#sentence-wrapper.expanded, 
+#sentence-wrapper-audio.expanded {
   opacity: 1;
   pointer-events: auto;
   margin: revert;
@@ -311,6 +314,28 @@
 }
 
 /* Audio */
+.front:has(#wordAudio) .highlight,
+.front:has(#sentenceAudio) b {
+  filter: blur(20px);
+  cursor: pointer;
+}
+
+.front:has(#wordAudio) > #sentence-wrapper-audio,
+.front:has(#sentenceAudio) > #sentence-wrapper-audio {
+  width: 100%;
+  text-align: center; 
+  line-height: 1.2;
+}
+
+.front:has(#wordAudio) > #sentence-wrapper-audio.expanded,
+.front:has(#sentenceAudio) > #sentence-wrapper-audio.expanded {
+  opacity: 1;
+  pointer-events: auto;
+  margin: revert;
+  padding: revert;
+  margin-top: 20px;
+}
+
 .front:has(#wordAudio), 
 .front:has(#sentenceAudio) {
   display: flex;
@@ -449,6 +474,56 @@ ul, ol {
   background: var(--dark-bg) !important;
   color: var(--dark-text) !important;
 }
+
+/* Audio Hint Toggle */
+.audio-hint {
+  position: fixed;
+  top: 74px;
+  left: var(--spacing-xxxl);
+  padding: var(--spacing-ms) 17.5px;
+  color: var(--text-color-muted);
+  cursor: pointer;
+  border: none;
+  border-radius: var(--border-radius-ms);
+  user-select: none;
+  font-size: var(--button-size);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: var(--z-index-base);
+  background: var(--buttons-bg); 
+  transition: box-shadow var(--fast-transition), 
+              background var(--fast-transition), 
+              color var(--fast-transition);
+}
+
+.audio-hint:hover {
+  box-shadow: var(--button-shadow);
+  background: var(--buttons-bg-hover);
+  color: var(--dark-text);
+}
+
+.audio-hint {
+  background: rgba(0,0,0,0.04);
+}
+
+.custom-dark-mode .audio-hint, 
+.card.nightMode .audio-hint {
+  background: var(--buttons-bg); 
+}
+
+.card.nightMode .audio-hint:hover {
+  box-shadow: var(--button-shadow);
+  background: var(--buttons-bg-hover);
+  color: var(--dark-text);
+}
+
+.custom-dark-mode .audio-hint:hover {
+  box-shadow: var(--button-shadow-dark);
+  background: var(--light-bg);
+  color: var(--light-text);
+}
+
 
 /* Dark Mode Toggle */
 .toggle-custom-dark-mode {
@@ -1120,75 +1195,60 @@ img {
 
 /* Pitch Accent Colors */
 .pitch .heiban span[style*="border-color:currentColor"],
-.pitch-number.heiban { 
+.pitch-number.heiban,
+#word.alt .heiban,
+#formattedSentence.alt-highlight.heiban .highlight,
+#formattedSentence.alt-highlight.heiban b { 
   color: var(--pitch-blue); 
 }
 
 .pitch .atamadaka span[style*="border-color:currentColor"],
-.pitch-number.atamadaka { 
+.pitch-number.atamadaka,
+#word.alt .atamadaka,
+#formattedSentence.alt-highlight.atamadaka .highlight,
+#formattedSentence.alt-highlight.atamadaka b {
   color: var(--pitch-red); 
 }
 
 .pitch .nakadaka span[style*="border-color:currentColor"],
-.pitch-number.nakadaka { 
+.pitch-number.nakadaka,
+#word.alt .nakadaka,
+#formattedSentence.alt-highlight.nakadaka .highlight,
+#formattedSentence.alt-highlight.nakadaka b { 
   color: var(--pitch-orange); 
 }
 
 .pitch .odaka span[style*="border-color:currentColor"],
-.pitch-number.odaka { 
+.pitch-number.odaka,
+#word.alt .odaka,
+#formattedSentence.alt-highlight.odaka .highlight, 
+#formattedSentence.alt-highlight.odaka b { 
   color: var(--pitch-green); 
 }
 
 .pitch .kifuku span[style*="border-color:currentColor"],
-.pitch-number.kifuku { 
-  color: var(--pitch-purple); 
-}
-
-/* Pitch Accent Colors (Alternative) */
-#word.alt .heiban, 
-.pitch-number.heiban { 
-  color: var(--pitch-blue); 
-}
-
-#word.alt .atamadaka, 
-.pitch-number.atamadaka { 
-  color: var(--pitch-red); 
-}
-
-#word.alt .nakadaka,
-.pitch-number.nakadaka { 
-  color: var(--pitch-orange); 
-}
-
-#word.alt .odaka,
-.pitch-number.odaka { 
-  color: var(--pitch-green); 
-}
-
+.pitch-number.kifuku,
 #word.alt .kifuku,
-.pitch-number.kifuku { 
+#formattedSentence.alt-highlight.kifuku .highlight,
+#formattedSentence.alt-highlight.kifuku b { 
   color: var(--pitch-purple); 
 }
 
-/* Pitch Accent Colors (Alternative Highlight for the Sentence) */
-#formattedSentence.alt-highlight.heiban .highlight { 
-  color: var(--pitch-blue); 
+/* Pitch Accent Colors (Disabled) */
+.pitch.colors :is(.heiban, .atamadaka, .nakadaka, .odaka, .kifuku) span[style*="border-color:currentColor"],
+.colors .pitch-number:is(.heiban, .atamadaka, .nakadaka, .odaka, .kifuku) {
+  color: var(--light-highlight);
 }
 
-#formattedSentence.alt-highlight.atamadaka .highlight {
-  color: var(--pitch-red);
-}
+:is(.card.nightMode, .custom-dark-mode)
+  .pitch.colors
+  :is(.heiban, .atamadaka, .nakadaka, .odaka, .kifuku)
+  span[style*="border-color:currentColor"],
 
-#formattedSentence.alt-highlight.nakadaka .highlight { 
-  color: var(--pitch-orange); 
-}
-
-#formattedSentence.alt-highlight.odaka .highlight { 
-  color: var(--pitch-green); 
-}
-
-#formattedSentence.alt-highlight.kifuku .highlight { 
-  color: var(--pitch-purple); 
+:is(.card.nightMode, .custom-dark-mode)
+  .colors
+  .pitch-number:is(.heiban, .atamadaka, .nakadaka, .odaka, .kifuku) {
+  color: var(--dark-highlight);
 }
 
 /* ===== Pitch Accent Fallback ===== */
@@ -1404,7 +1464,7 @@ span[style*="display:inline"]:has(+ span[style*="border:1.5px dotted #c83c28"]) 
   display: none;
 }
 
-.yomitan-glossary li[data-dictionary]:not(:has(> .dictionary-title))::before {
+.glossary-box .yomitan-glossary li[data-dictionary]:not(:has(> .dictionary-title))::before {
   content: attr(data-dictionary);
   display: block; 
   line-height: 1;
@@ -1416,10 +1476,16 @@ span[style*="display:inline"]:has(+ span[style*="border:1.5px dotted #c83c28"]) 
 
 .card.nightMode .yomitan-glossary li[data-dictionary]:not(:has(> .dictionary-title))::before,
 .custom-dark-mode .yomitan-glossary li[data-dictionary]:not(:has(> .dictionary-title))::before {
-  color: var(--dict-color)
+  color: var(--dict-color);
 }
 
 /* Jitendex Settings */
+ol > li:has(> span[data-sc-code] + ol) > ol > li,
+ul > li:has(> span[data-sc-code] + ol) > ol > li {
+  display: inline;
+  padding-left: 0 !important;
+}
+
 [data-sc-content="example-sentence-a"],
 [data-sc-content="xref"],
 [data-sc-content="antonym"],
@@ -1448,12 +1514,6 @@ span[style*="display:inline"]:has(+ span[style*="border:1.5px dotted #c83c28"]) 
   padding-bottom: 0;
 }
 
-[data-sc-code] {
-  display: inline-block;
-  line-height: 1.2 !important;
-  vertical-align: top !important;
-}
-
 [data-sc-content="glossary"]:last-child {
   margin-bottom: -4px !important;
 }
@@ -1463,6 +1523,15 @@ span[style*="display:inline"]:has(+ span[style*="border:1.5px dotted #c83c28"]) 
 [data-sc-content="sense-note"],
 [data-sc-content="xref"] {
   margin-bottom: 0 !important;
+}
+
+ol > li:not(:last-child) :is(
+  [data-sc-content="example-sentence"],
+  [data-sc-content="antonym"],
+  [data-sc-content="sense-note"],
+  [data-sc-content="xref"]
+) {
+  margin-bottom: 0.5rem !important;
 }
 
 [data-sc-content="example-sentence-a"],
@@ -2131,6 +2200,13 @@ div[data-sc-content="attribution"] {
     gap: 5px;
     align-items: center;
     margin-bottom: 5px;
+  }
+
+  .audio-hint {
+    position: absolute;
+    display: var(--custom-dark-mode-visibility);
+    left: 75px;
+    top: 20px;
   }
 
   .toggle-custom-dark-mode {
