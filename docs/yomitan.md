@@ -8,26 +8,26 @@ In Yomitan Settings -> Anki -> Configure Anki Flashcards:
 
 | Field                 | Value                                                                       | Note         |
 |-----------------------|-----------------------------------------------------------------------------|--------------|
-| `word`                | `{expression}`                                                              |              |
-| `sentence`            | `{cloze-prefix}<span class="highlight">{cloze-body}</span>{cloze-suffix}`   |              |
-| `sentenceFurigana`    | `{sentence-furigana-plain}`                                                 |              |
-| `sentenceEng`         |                                                                             | Leave empty. |
-| `reading`             | `{pitch-accents}`                                                           |              |
-| `sentenceCard`        |                                                                             | Leave empty. |
-| `audioCard`           |                                                                             | Leave empty. |
-| `notes`               |                                                                             | Leave empty. | 
-| `selectionText`       | `{popup-selection-text}`                                                    |              |
-| `definition`          | `{single-glossary-jitendexorg-2025-04-11}`                                  | Set your primary dictionary here. |
-| `wordAudio`           | `{audio}`                                                                   |              |
-| `sentenceAudio`       |                                                                             | Leave empty. |
-| `picture`             | `{clipboard-image}`                                                         |              |
-| `glossary`            | `{glossary}`                                                                | There are two ways to use this field. The first is by setting it to `{glossary}`, this will extract definitions from all your dictionaries. <br> The second is by setting it to specific dictionaries (e.g. `{single-glossary-新選国語辞典-第十版}{single-glossary-デジタル大辞泉}{single-glossary-漢検漢字辞典-第二版}`), which will include only the selected ones. <br><br> This requires "Group term-reading pairs" or "Group related terms" to be enabled in Result Display [(see below)](#result-display-setting). [Dictionaries I use](https://drive.google.com/drive/folders/1OgCWBif-wnN5iz8k1oi_UQdB0_niDud4?usp=sharing). |
-| `pitchPosition`       | `{pitch-accent-positions}`                                                  | Requires [pitch accent dictionaries](https://drive.google.com/drive/folders/1dMjjHX7_rnTKCHU3btnQReM9M4f2Sirr?usp=sharing). |
-| `pitch`               | `{pitch-accent-categories}`                                                 | Uses same [pitch accent dictionaries](https://drive.google.com/drive/folders/1dMjjHX7_rnTKCHU3btnQReM9M4f2Sirr?usp=sharing). |
-| `frequency`           | `{frequencies}`                                                             | Requires [frequency dictionaries](https://drive.google.com/drive/folders/1cJn4lw-a-YollDJvEkfUyRcel6QndFDN?usp=sharing). |
-| `freqSort`            | `{frequency-harmonic-rank}`                                                 | Used for sorting new cards. Uses same [frequency dictionaries](https://drive.google.com/drive/folders/1cJn4lw-a-YollDJvEkfUyRcel6QndFDN?usp=sharing). |
-| `miscInfo`            | `{document-title}`                                                          | Captures the source web page title. Leave empty if using mpvacious or similar tools that populate this. |
-| `dictionaryPreference`|                                                                             | Enter `glossary` to show the glossary field first by default. Leave empty to show the `definition` field first. Or enter a specific dictionary name to prioritize it over the others (e.g. `新選国語辞典　第十版`). <br><br> Use [Batch Editing add-on](https://ankiweb.net/shared/info/291119185) to update existing cards. |
+|  word                 | `{expression}`                                                              |              |
+|  sentence             | `{cloze-prefix}<span class="highlight">{cloze-body}</span>{cloze-suffix}`   |              |
+|  sentenceFurigana     | `{sentence-furigana-plain}`                                                 |              |
+|  sentenceEng          |                                                                             | Leave empty. |
+|  reading              | `{pitch-accents}`                                                           |              |
+|  sentenceCard         |                                                                             | Leave empty. |
+|  audioCard            |                                                                             | Leave empty. |
+|  notes                |                                                                             | Leave empty. | 
+|  selectionText        | `{popup-selection-text}`                                                    | The selected text from the search page or popup takes priority over the dictionary in the `definition` field. If no text is selected, it doesn't do anything.               |
+|  definition           | `{single-glossary-jitendexorg-2025-04-11}`                                  | Set your primary dictionary here. |
+|  wordAudio            | `{audio}`                                                                   |              |
+|  sentenceAudio        |                                                                             | Leave empty. |
+|  picture              | `{clipboard-image}`                                                         |              |
+|  glossary             | `{glossary}`                                                                | There are two ways to use this field. The first is by setting it to `{glossary}`, this will extract definitions from all your dictionaries. <br> The second is by setting it to specific dictionaries (e.g. `{single-glossary-新選国語辞典-第十版}{single-glossary-デジタル大辞泉}{single-glossary-漢検漢字辞典-第二版}`), which will include only the selected ones. <br><br> This requires "Group term-reading pairs" or "Group related terms" to be enabled in Result Display [(see below)](#result-display-setting). [Dictionaries I use](https://drive.google.com/drive/folders/1OgCWBif-wnN5iz8k1oi_UQdB0_niDud4?usp=sharing). |
+|  pitchPosition        | `{pitch-accent-positions}`                                                  | Requires [pitch accent dictionaries](https://drive.google.com/drive/folders/1dMjjHX7_rnTKCHU3btnQReM9M4f2Sirr?usp=sharing). |
+|  pitch                | `{pitch-accent-categories}`                                                 | Uses same [pitch accent dictionaries](https://drive.google.com/drive/folders/1dMjjHX7_rnTKCHU3btnQReM9M4f2Sirr?usp=sharing). |
+|  frequency            | `{frequencies}`                                                             | Requires [frequency dictionaries](https://drive.google.com/drive/folders/1cJn4lw-a-YollDJvEkfUyRcel6QndFDN?usp=sharing). |
+|  freqSort             | `{frequency-harmonic-rank}`                                                 | Used for sorting new cards. Uses same [frequency dictionaries](https://drive.google.com/drive/folders/1cJn4lw-a-YollDJvEkfUyRcel6QndFDN?usp=sharing). |
+|  miscInfo             | `{document-title}`                                                          | Captures the source web page title. Leave empty if using mpvacious or similar tools that populate this. |
+|  dictionaryPreference |                                                                             | Enter `glossary` to show the glossary field first by default. Leave empty to show the `definition` field first. Or enter a specific dictionary name to prioritize it over the others (e.g. `新選国語辞典　第十版`). <br><br> Use [Batch Editing add-on](https://ankiweb.net/shared/info/291119185) to update existing cards. |
 
 ## Result Display Setting
 
