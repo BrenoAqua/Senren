@@ -13,7 +13,7 @@
     </span>
     
     {{#audioCard}}
-    <span class="audio-hint toggle-trigger tappable" onclick="toggleVisibility('sentence-wrapper-audio', 'sentence')">
+    <span class="audio-hint toggle-trigger tappable" onclick="toggleVisibility('sentence-wrapper-audio', 'sentence-audio')">
         <i class="fas fa-lightbulb"></i>
     </span>
     {{/audioCard}}
@@ -21,7 +21,7 @@
     <script>
       function darkMode() {
         const button = document.querySelector(".toggle-custom-dark-mode");
-        const body = document.body;
+        const body = document.querySelector("html");
         const sunIcon = document.querySelector(".sun-icon");
         const moonIcon = document.querySelector(".moon-icon");
 
@@ -60,7 +60,7 @@
   {{/sentenceAudio}}{{/audioCard}}
 
   <div id="sentence-wrapper-audio">
-    <div id="sentence" class="sentence-audio">
+    <div id="sentence-audio">
       {{sentence}}
     </div>
   </div>
@@ -124,4 +124,41 @@
       }
     }
   }
+
+  // Shows or hides the audio card sentence based on CSS variables
+  function initializeAudioSentenceState() {
+    const isAudioCard = {{#audioCard}}true{{/audioCard}}{{^audioCard}}false{{/audioCard}};
+    if (!isAudioCard) {
+      return;
+    }
+
+    const wrapper = document.getElementById('sentence-wrapper-audio');
+    const innerElement = document.getElementById('sentence-audio');
+
+    if (wrapper && innerElement) {
+      const expandByDefault = getComputedStyle(document.documentElement)
+                              .getPropertyValue('--audio-sentence-default-expanded').trim();
+
+      if (expandByDefault === 'true') {
+        const originalWrapperTransition = wrapper.style.transition;
+        const originalInnerElementTransition = innerElement.style.transition;
+
+        wrapper.style.transition = 'none';
+        innerElement.style.transition = 'none';
+
+        requestAnimationFrame(() => {
+            const scrollHeight = innerElement.scrollHeight + 'px';
+            wrapper.style.maxHeight = scrollHeight;
+            wrapper.classList.add('expanded');
+
+            requestAnimationFrame(() => {
+                wrapper.style.transition = originalWrapperTransition;
+                innerElement.style.transition = originalInnerElementTransition;
+            });
+        });
+      }
+    }
+  }
+
+  initializeAudioSentenceState();
 </script>	

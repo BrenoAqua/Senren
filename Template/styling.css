@@ -70,6 +70,10 @@
   --text-color-muted-dark: rgba(255, 255, 255, 0.5);
   
   /* ===== LAYOUT & SPACING ===== */
+  /* Default States */
+  --audio-sentence-default-expanded: false; /* "true" to show sentence on audio cards immediately */
+  --notes-default-expanded:          false; /* "true" to show notes immediately */
+
   /* Spacing Scale */
   --spacing-xs: 2px;
   --spacing-sm: 3px;
@@ -110,9 +114,10 @@
   /* ===== TYPOGRAPHY ===== */
   /* Word Sizes */
   --word-size-base: 2.5rem;
-  --word-size-5: 2.1rem; /* For 5-character words */
-  --word-size-6: 2.0rem; /* For 6-character words */
-  --word-size-7: 1.9rem; /* For 7-character words */
+  --word-size-4: 2.1rem; /* For 5-character words */
+  --word-size-5: 2.0rem; /* For 5-character words */
+  --word-size-6: 1.9rem; /* For 6-character words */
+  --word-size-7: 1.8rem; /* For 7-character words */
   --word-size-8: 1.6rem; /* For 8-character words */
   --word-size-9: 1.5rem; /* For 9-character words */
 
@@ -470,9 +475,9 @@ ul, ol {
 }
 
 /* Custom Dark Mode */
-.custom-dark-mode {
-  background: var(--dark-bg) !important;
-  color: var(--dark-text) !important;
+.custom-dark-mode body {
+  background: var(--dark-bg);
+  color: var(--dark-text);
 }
 
 /* Audio Hint Toggle */
@@ -523,7 +528,6 @@ ul, ol {
   background: var(--light-bg);
   color: var(--light-text);
 }
-
 
 /* Dark Mode Toggle */
 .toggle-custom-dark-mode {
@@ -586,6 +590,7 @@ ul, ol {
   text-align: center;
 }
 
+#word.length-4 { font-size: var(--word-size-4); }
 #word.length-5 { font-size: var(--word-size-5); }
 #word.length-6 { font-size: var(--word-size-6); }
 #word.length-7 { font-size: var(--word-size-7); }
@@ -836,7 +841,8 @@ img {
   margin-right: 5px;
 }
 
-#sentence {
+#sentence, 
+#sentence-audio {
   font-size: var(--sentence-size);
   display: inline-block; 
   direction: ltr;
@@ -1234,6 +1240,11 @@ img {
   color: var(--pitch-purple); 
 }
 
+#word.alt > :is(.heiban, .atamadaka, .nakadaka, .odaka, .kifuku) .pronunciation {
+  --pronunciation-annotation-color: var(--active-pitch-color);
+  color: var(--active-pitch-color);
+}
+
 /* Pitch Accent Colors (Disabled) */
 .pitch.colors :is(.heiban, .atamadaka, .nakadaka, .odaka, .kifuku) span[style*="border-color:currentColor"],
 .colors .pitch-number:is(.heiban, .atamadaka, .nakadaka, .odaka, .kifuku) {
@@ -1249,6 +1260,26 @@ img {
   .colors
   .pitch-number:is(.heiban, .atamadaka, .nakadaka, .odaka, .kifuku) {
   color: var(--dark-highlight);
+}
+
+.colors :is(
+  .pronunciation.heiban,
+  .pronunciation.atamadaka,
+  .pronunciation.nakadaka,
+  .pronunciation.odaka,
+  .pronunciation.kifuku
+) {
+  --pronunciation-annotation-color: var(--light-highlight);
+}
+
+:is(.card.nightMode, .custom-dark-mode) .colors :is(
+  .pronunciation.heiban,
+  .pronunciation.atamadaka,
+  .pronunciation.nakadaka,
+  .pronunciation.odaka,
+  .pronunciation.kifuku
+) {
+  --pronunciation-annotation-color: var(--dark-highlight);
 }
 
 /* ===== Pitch Accent Fallback ===== */
@@ -1414,7 +1445,7 @@ span[style*="display:inline"]:has(+ span[style*="border:1.5px dotted #c83c28"]) 
   font-size: var(--dict-size);
   color: var(--light-dict-color);
   line-height: 1;
-  padding: var(--spacing-md);
+  padding: 15px;
   pointer-events: none;
   user-select: none;
   opacity: 0;
@@ -1480,6 +1511,7 @@ span[style*="display:inline"]:has(+ span[style*="border:1.5px dotted #c83c28"]) 
 }
 
 /* Jitendex Settings */
+li > span > div > span[data-sc-code] + ol > li,
 ol > li:has(> span[data-sc-code] + ol) > ol > li,
 ul > li:has(> span[data-sc-code] + ol) > ol > li {
   display: inline;
@@ -1514,7 +1546,7 @@ ul > li:has(> span[data-sc-code] + ol) > ol > li {
   padding-bottom: 0;
 }
 
-[data-sc-content="glossary"]:last-child {
+ol > li:last-child > ul[data-sc-content="glossary"]:last-child {
   margin-bottom: -4px !important;
 }
 
@@ -1722,14 +1754,162 @@ div[data-sc-content="attribution"] {
   font-weight: normal !important;
 }
 
-/* Hide Yomitan links that don't work in Anki */
-#glossary.yomitan-glossary ul a[href="#"] {
+[data-sc-iwakoku8="blksho"] {
+  margin-left: 0 !important;
+}
+
+[data-sc-iwakoku8="onkun_onlist"] li[data-sc-iwakoku8="onkun_on"] {
+  display: inline;
+}
+
+[data-sc-iwakoku8="onkun_onlist"] li[data-sc-iwakoku8="onkun_on"]:not(:last-child)::after {
+  content: " / ";
+  color: var(--dict-color);
+}
+
+[data-dictionary="YOJI-JUKUGO"] i + br {
+  display: none;
+}
+
+/* Yomitan Links */
+[data-dictionary="新選国語辞典　第十版"] a, [data-dictionary="漢検漢字辞典　第二版"] a, [data-dictionary="岩波国語辞典　第八版"] a, [data-dictionary="大辞林　第四版"] a, [data-dictionary="明鏡国語辞典　第二版"] a, [data-dictionary="現代国語例解辞典　第五版"] a {
+  color: inherit !important;
+}
+
+[style="color: rgb(229, 0, 127);"]::before {
+  content: "\A";
+  white-space: pre;
+}
+
+/* 大辞林　第四版 - 新明解国語辞典　第八版 */
+:is(
+  li[data-dictionary="大辞林　第四版"],
+  li[data-dictionary="新明解国語辞典　第八版"]
+) .consolidated-entry-separator:has(+ span > a[href="#"]),
+:is(
+  li[data-dictionary="大辞林　第四版"],
+  li[data-dictionary="新明解国語辞典　第八版"]
+) .consolidated-entry-separator + span:has(> a[href="#"]),
+:is(
+  li[data-dictionary="大辞林　第四版"],
+  li[data-dictionary="新明解国語辞典　第八版"]
+) .consolidated-entry-separator:has(+ i + span > a[href="#"]),
+:is(
+  li[data-dictionary="大辞林　第四版"],
+  li[data-dictionary="新明解国語辞典　第八版"]
+) .consolidated-entry-separator + i + span:has(> a[href="#"]),
+
+li[data-dictionary="大辞林　第四版"]:has(a[href="#"]) .consolidated-entry-separator:has(~ ul),
+li[data-dictionary="大辞林　第四版"]:has(a[href="#"]) .consolidated-entry-separator ~ ul,
+li[data-dictionary="新明解国語辞典　第八版"]:has(a[href="#"]) .consolidated-entry-separator:has(~ ul),
+li[data-dictionary="新明解国語辞典　第八版"]:has(a[href="#"]) .consolidated-entry-separator ~ ul {
+  display: none;
+}
+
+/* 岩波国語辞典　第八版 */
+[data-sc-iwakoku8="blkhu"]:not(:has([style="vertical-align: text-bottom;"])) {
+  display: none;
+}
+
+/* 漢検漢字辞典　第二版 */
+[data-sc-subentries="子項目"], [data-sc-subentries="孫項目"] {
   display: none !important;
+}
+
+/* Pixiv */
+[data-sc-pixiv="related-tags"], [data-sc-pixiv="parent-link"] {
+  display: none;
+}
+
+/* Stroke Order */
+/* 旺文社国語辞典 第十一版 */
+li[data-dictionary="旺文社国語辞典 第十一版"] a[href*="yomitan_dictionary_media"][href$=".png"]:has(> span > img) {
+  vertical-align: top;
+  max-height: 40px;
+  overflow: hidden;
+  border-radius: 4px;
+  cursor: pointer;
+  display: inline-block;
+}
+
+li[data-dictionary="旺文社国語辞典 第十一版"] a[href*="yomitan_dictionary_media"][href$=".png"]:has(> span > img)::before {
+  content: "stroke order";
+  color: black;
+  font-size: 0.7rem;
+  position: absolute;
+  top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    white-space: nowrap;
+}
+
+li[data-dictionary="旺文社国語辞典 第十一版"] a[href*="yomitan_dictionary_media"][href$=".png"]:has(> span > img):hover {
+    max-height: 100vh;
+}
+
+li[data-dictionary="旺文社国語辞典 第十一版"] a[href*="yomitan_dictionary_media"][href$=".png"]:has(> span > img):hover::before {
+    display: none;
+}
+
+/* 漢検漢字辞典　第二版 */
+li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br):first-child:has(+ td:last-child) + td a[href*="yomitan_dictionary_media"][href$=".png"]:has(> span > img),
+li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br):first-child:has(+ td:last-child) + td a[href*="yomitan_dictionary_media"][href$=".svg"]:has(> span > img) {
+    height: 50px;
+    min-width: 2.65rem;
+    cursor: pointer;
+}
+
+li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br):first-child:has(+ td:last-child) + td a[href*="yomitan_dictionary_media"][href$=".png"]:has(> span > img) > span,
+li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br):first-child:has(+ td:last-child) + td a[href*="yomitan_dictionary_media"][href$=".svg"]:has(> span > img) > span {
+    display: none !important;
+}
+
+li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br):first-child:has(+ td:last-child) + td a[href*="yomitan_dictionary_media"][href$=".png"]:has(> span > img)::before,
+li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br):first-child:has(+ td:last-child) + td a[href*="yomitan_dictionary_media"][href$=".svg"]:has(> span > img)::before {
+  content: "show stroke order";
+  font-size: 0.7rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br):first-child:has(+ td:last-child) + td a[href*="yomitan_dictionary_media"][href$=".png"]:has(> span > img):hover,
+li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br):first-child:has(+ td:last-child) + td a[href*="yomitan_dictionary_media"][href$=".svg"]:has(> span > img):hover {
+    height: auto;
+    width: auto;
+    max-height: auto;
+}
+
+li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br):first-child:has(+ td:last-child) + td a[href*="yomitan_dictionary_media"][href$=".png"]:has(> span > img):hover > span:first-child,
+li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br):first-child:has(+ td:last-child) + td a[href*="yomitan_dictionary_media"][href$=".svg"]:has(> span > img):hover > span:first-child {
+    display: inline-block !important;
+    width: auto;
+    height: auto;
+    max-height: auto;
+}
+
+li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br):first-child:has(+ td:last-child) + td a[href*="yomitan_dictionary_media"][href$=".png"]:has(> span > img):hover::before,
+li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br):first-child:has(+ td:last-child) + td a[href*="yomitan_dictionary_media"][href$=".svg"]:has(> span > img):hover::before {
+    display: none;
 }
 
 /* Hide default dictionary titles */
 [data-dictionary] i { 
   display: none;
+}
+
+/* hr.consolidated-entry-separator */
+#glossary .glossary-box hr.consolidated-entry-separator {
+  background: rgba(0,0,0,0.2);
+  border: none;
+  height: 1px;
+}
+
+.card.nightMode #glossary .glossary-box hr.consolidated-entry-separator,
+.custom-dark-mode #glossary .glossary-box hr.consolidated-entry-separator {
+  background: rgba(255,255,255,0.15);
 }
 
 /* Frequency */
@@ -2176,6 +2356,10 @@ div[data-sc-content="attribution"] {
 }
 
 @media (max-width: 1050px) {
+  .dictionary-counter {
+    padding: var(--spacing-md);
+  }
+
   .front:not(:has(#wordAudio)) .toggle-custom-dark-mode { 
     position: unset;
   }
@@ -2328,7 +2512,6 @@ div[data-sc-content="attribution"] {
     padding-top: 23.5px;
     padding-bottom: 27.5px;
   }
-
   .chrome:not(.win):not(.linux) .mobile-word-layout > .background-box {
     padding-top: 25px;
     padding-bottom: 29px;

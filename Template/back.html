@@ -15,7 +15,7 @@
     <script>
       function darkMode() {
         const button = document.querySelector(".toggle-custom-dark-mode");
-        const body = document.body;
+        const body = document.querySelector("html");
         const sunIcon = document.querySelector(".sun-icon");
         const moonIcon = document.querySelector(".moon-icon");
 
@@ -68,7 +68,14 @@
         {{/frequency}}
       </div>
     </div>
-  </div>
+    </div>
+
+    <script>
+      document.querySelectorAll('label.freqbt').forEach(lbl => {
+        if (lbl.childNodes[0]?.nodeType === 3 && lbl.childNodes[0].nodeValue.trim() === "9999999")
+          lbl.style.display = 'none';
+      });
+    </script>
   <!-- /HEADER -->
 
   <!-- GRID LAYOUT -->
@@ -190,7 +197,7 @@
       </a>
 
       <!-- Immersion Kit -->
-      <a data-details="immersionkit.com" href="https://v2.immersionkit.com/search?keyword={{text:word}}">
+      <a data-details="immersionkit.com" href="https://immersionkit.com/dictionary?keyword={{text:word}}">
         <img class="light-icon" src="_icon_immersion_kit.ico">
         <img class="dark-icon" src="_icon_immersion_kit.ico">
       </a>
@@ -681,7 +688,7 @@
     });
   }
 
-  // Enables click/hover effects for sentenceEng and miscInfo
+  // Enables interaction effects
   function enableInteractions() {
 
     function applyClickToggleEffect(triggerSelector, targetSelector, extraPadding = 0) {
@@ -762,6 +769,23 @@
             }
           });
         });
+      }
+    }
+
+    const notesElement = document.querySelector('.back .notes');
+
+    if (notesElement) {
+      const expandByDefault = getComputedStyle(document.documentElement)
+                              .getPropertyValue('--notes-default-expanded').trim();
+
+      if (expandByDefault === 'true') {
+        const originalTransition = notesElement.style.transition;
+        notesElement.style.transition = 'none';
+
+        if (notesElement.classList.contains('is-collapsed')) {
+          notesElement.classList.remove('is-collapsed');
+          notesElement.style.maxHeight = notesElement.scrollHeight + 'px';
+        }
       }
     }
 
@@ -1101,15 +1125,8 @@
         const content = rubyElement ? rubyElement.firstChild.textContent.trim() : wordSpan.textContent.trim();
         const contentLength = content.length;
 
-        if (contentLength >= 1 && contentLength <= 5) {
-          wordElement.classList.add(`length-${contentLength}`);
-        } else if (contentLength >= 9) {
-          wordElement.classList.add('length-9');
-        } else if (contentLength >= 6) {
-          wordElement.classList.add(`length-${contentLength}`);
-        } else {
-          wordElement.classList.add('length-default');
-        }
+        const classNumber = Math.min(contentLength, 9);
+        wordElement.classList.add(`length-${classNumber}`);
       }
     }
   }
@@ -2012,8 +2029,82 @@
     rtElement.style.overflow = 'visible';
   }
 
+  // Merge entries from the same dictionary
+  function consolidateYomitanGlossaryEntries() {
+    const glossaryOuterDiv = document.getElementById('glossary');
+    if (!glossaryOuterDiv) {
+      return;
+    }
+
+    const glossaryBox = glossaryOuterDiv.querySelector('.glossary-box');
+    if (!glossaryBox) {
+      return;
+    }
+
+    const glossarySpan = glossaryBox.querySelector('span');
+    if (!glossarySpan) {
+      return;
+    }
+
+    if (glossarySpan.dataset.consolidated === 'true') {
+      return;
+    }
+
+    const yomitanGlossaryDivs = glossarySpan.querySelectorAll('div.yomitan-glossary');
+
+    if (yomitanGlossaryDivs.length === 0) {
+      return;
+    }
+
+    let consolidationHappened = false;
+
+    yomitanGlossaryDivs.forEach(ygDiv => {
+      const olElement = ygDiv.querySelector('ol');
+      if (!olElement) {
+        return;
+      }
+
+      const originalListItems = Array.from(olElement.querySelectorAll('li[data-dictionary]'));
+      if (originalListItems.length === 0) {
+        return;
+      }
+
+      const entriesByDictionary = {};
+      originalListItems.forEach(li => {
+        const dictName = li.dataset.dictionary;
+        if (!entriesByDictionary[dictName]) {
+          entriesByDictionary[dictName] = [];
+        }
+
+        entriesByDictionary[dictName].push(li.innerHTML.trim());
+      });
+
+      olElement.innerHTML = '';
+
+      for (const dictName in entriesByDictionary) {
+        if (entriesByDictionary.hasOwnProperty(dictName) && entriesByDictionary[dictName].length > 0) {
+          const newLi = document.createElement('li');
+          newLi.dataset.dictionary = dictName;
+
+
+          newLi.innerHTML = entriesByDictionary[dictName].join(
+            entriesByDictionary[dictName].length > 1 ? '<hr class="consolidated-entry-separator">' : ''
+          );
+
+          olElement.appendChild(newLi);
+          consolidationHappened = true;
+        }
+      }
+    });
+
+    if (consolidationHappened) {
+      glossarySpan.dataset.consolidated = 'true';
+    }
+  }
+
   // Initializes immediate functions
   function init() {
+    consolidateYomitanGlossaryEntries();
     createDownstepNotation();
     highlightFurigana();
     dictionaryTitle();
