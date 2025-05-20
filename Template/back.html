@@ -218,6 +218,12 @@
 <script>
   // Collect images from the glossary and add them to the picture container
   function collectGlossaryImages() {
+    const computedStyles = window.getComputedStyle(document.documentElement);
+    const collectSetting = computedStyles.getPropertyValue('--collect-glossary-images').trim().toLowerCase();
+    if (collectSetting !== 'true') {
+      return;
+    }
+
     const glossaryItems = document.querySelectorAll("#glossary img");
     const pictureContainer = document.querySelector(".picture-container");
 
@@ -2105,15 +2111,15 @@
   // Initializes immediate functions
   function init() {
     consolidateYomitanGlossaryEntries();
-    createDownstepNotation();
-    highlightFurigana();
     dictionaryTitle();
-    cleanPitchPositions();
-    dynamicWordSize();
     splitTags();
+    highlightFurigana();
+    cleanPitchPositions();
+    createDownstepNotation();
+    dynamicWordSize();
+    alternativePitchStyle();
     toggleDefinition();
     collectGlossaryImages();
-    alternativePitchStyle();
     enableInteractions();
   }
 
@@ -2128,6 +2134,11 @@
     if (!isMobile) {
       wrapKanjiInWordField();
     }
+
+    // Prevent specified image links from opening
+    document.querySelectorAll('a[target="_blank"][href*="yomitan_dictionary_media_"]').forEach(link => {
+      if (link.href && /\.(png|jpe?g|gif|webp|svg)$/i.test(link.href)) link.onclick = e => e.preventDefault();
+    });
   }
 
   init();

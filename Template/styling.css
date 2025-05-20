@@ -73,6 +73,7 @@
   /* Default States */
   --audio-sentence-default-expanded: false; /* "true" to show sentence on audio cards immediately */
   --notes-default-expanded:          false; /* "true" to show notes immediately */
+  --collect-glossary-images:         true;  /* "false" to disable image collection */
 
   /* Spacing Scale */
   --spacing-xs: 2px;
@@ -114,12 +115,12 @@
   /* ===== TYPOGRAPHY ===== */
   /* Word Sizes */
   --word-size-base: 2.5rem;
-  --word-size-4: 2.1rem; /* For 5-character words */
+  --word-size-4: 2.1rem; /* For 4-character words */
   --word-size-5: 2.0rem; /* For 5-character words */
   --word-size-6: 1.9rem; /* For 6-character words */
   --word-size-7: 1.8rem; /* For 7-character words */
   --word-size-8: 1.6rem; /* For 8-character words */
-  --word-size-9: 1.5rem; /* For 9-character words */
+  --word-size-9: 1.5rem; /* For 9-character+ words */
 
   /* Sentence Sizes */
   --sentence-size: 1.3rem;
@@ -235,7 +236,7 @@
     */
 
     /* Picture Height */
-    --picture-height-small: 330px; /* Max picture height */
+    --picture-height-small: 330px;    /* Max picture height */
     --picture-max-height-small: 100%; /* Max picture img height */
   }
 }
@@ -1838,36 +1839,38 @@ li[data-dictionary="旺文社国語辞典 第十一版"] a[href*="yomitan_dictio
   font-size: 0.7rem;
   position: absolute;
   top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 1;
-    white-space: nowrap;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  white-space: nowrap;
+  font-family: var(--sans);
 }
 
 li[data-dictionary="旺文社国語辞典 第十一版"] a[href*="yomitan_dictionary_media"][href$=".png"]:has(> span > img):hover {
-    max-height: 100vh;
+  max-height: 100vh;
 }
 
 li[data-dictionary="旺文社国語辞典 第十一版"] a[href*="yomitan_dictionary_media"][href$=".png"]:has(> span > img):hover::before {
-    display: none;
+  display: none;
 }
 
 /* 漢検漢字辞典　第二版 */
 li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br):first-child:has(+ td:last-child) + td a[href*="yomitan_dictionary_media"][href$=".png"]:has(> span > img),
 li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br):first-child:has(+ td:last-child) + td a[href*="yomitan_dictionary_media"][href$=".svg"]:has(> span > img) {
-    height: 50px;
-    min-width: 2.65rem;
-    cursor: pointer;
+  height: 50px;
+  min-width: 2.65rem;
+  cursor: pointer;
 }
 
 li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br):first-child:has(+ td:last-child) + td a[href*="yomitan_dictionary_media"][href$=".png"]:has(> span > img) > span,
 li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br):first-child:has(+ td:last-child) + td a[href*="yomitan_dictionary_media"][href$=".svg"]:has(> span > img) > span {
-    display: none !important;
+  display: none !important;
 }
 
 li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br):first-child:has(+ td:last-child) + td a[href*="yomitan_dictionary_media"][href$=".png"]:has(> span > img)::before,
 li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br):first-child:has(+ td:last-child) + td a[href*="yomitan_dictionary_media"][href$=".svg"]:has(> span > img)::before {
   content: "show stroke order";
+  font-family: var(--sans);
   font-size: 0.7rem;
   position: absolute;
   top: 50%;
@@ -1877,22 +1880,22 @@ li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br)
 
 li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br):first-child:has(+ td:last-child) + td a[href*="yomitan_dictionary_media"][href$=".png"]:has(> span > img):hover,
 li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br):first-child:has(+ td:last-child) + td a[href*="yomitan_dictionary_media"][href$=".svg"]:has(> span > img):hover {
-    height: auto;
-    width: auto;
-    max-height: auto;
+  height: auto;
+  width: auto;
+  max-height: auto;
 }
 
 li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br):first-child:has(+ td:last-child) + td a[href*="yomitan_dictionary_media"][href$=".png"]:has(> span > img):hover > span:first-child,
 li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br):first-child:has(+ td:last-child) + td a[href*="yomitan_dictionary_media"][href$=".svg"]:has(> span > img):hover > span:first-child {
-    display: inline-block !important;
-    width: auto;
-    height: auto;
-    max-height: auto;
+  display: inline-block !important;
+  width: auto;
+  height: auto;
+  max-height: auto;
 }
 
 li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br):first-child:has(+ td:last-child) + td a[href*="yomitan_dictionary_media"][href$=".png"]:has(> span > img):hover::before,
 li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br):first-child:has(+ td:last-child) + td a[href*="yomitan_dictionary_media"][href$=".svg"]:has(> span > img):hover::before {
-    display: none;
+  display: none;
 }
 
 /* Hide default dictionary titles */
