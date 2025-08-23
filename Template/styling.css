@@ -74,6 +74,8 @@
   --audio-sentence-default-expanded: false; /* "true" to show sentence on audio cards immediately */
   --notes-default-expanded:          false; /* "true" to show notes immediately */
   --collect-glossary-images:         true;  /* "false" to disable image collection */
+  --collect-diagram-images:          true;  /* "false" to disable image collection from diagram*/
+
 
   /* Spacing Scale */
   --spacing-xs: 2px;

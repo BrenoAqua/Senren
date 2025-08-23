@@ -1,11 +1,12 @@
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+/>
 
 <!-- BACK -->
 <div class="back">
-
   <!-- HEADER -->
   <div class="header">
-
     <!-- Custom Dark Mode Toggle -->
     <span class="toggle-custom-dark-mode tappable">
       <i class="fas fa-sun sun-icon"></i>
@@ -32,7 +33,10 @@
 
         button.addEventListener("click", () => {
           const isCurrentlyDark = body.classList.contains("custom-dark-mode");
-          localStorage.setItem("darkMode", isCurrentlyDark ? "disabled" : "enabled");
+          localStorage.setItem(
+            "darkMode",
+            isCurrentlyDark ? "disabled" : "enabled"
+          );
           requestAnimationFrame(applyDarkMode);
         });
       }
@@ -42,16 +46,16 @@
     <!-- Audios -->
     {{#wordAudio}}
     <div class="{{Tags}}"><span class="audio">{{wordAudio}}</span></div>
-    {{/wordAudio}}
-
-    {{#sentenceAudio}}
-    <div class="{{Tags}}"><span class="sentenceaudio">{{sentenceAudio}}</span></div>
+    {{/wordAudio}} {{#sentenceAudio}}
+    <div class="{{Tags}}">
+      <span class="sentenceaudio">{{sentenceAudio}}</span>
+    </div>
     {{/sentenceAudio}}
 
     <!-- Notes Toggle -->
     {{#notes}}
     <span class="toggle-notes tappable">
-      <img class="toggle-notes-svg" src="_bookmark.svg">
+      <img class="toggle-notes-svg" src="_bookmark.svg" />
     </span>
     {{/notes}}
 
@@ -62,25 +66,25 @@
           {{freqSort}} <i class="fas fa-chevron-down arrow"></i>
         </label>
         {{#frequency}}
-        <div class="frequency-content">
-          {{frequency}}
-        </div>
+        <div class="frequency-content">{{frequency}}</div>
         {{/frequency}}
       </div>
     </div>
-    </div>
+  </div>
 
-    <script>
-      document.querySelectorAll('label.freqbt').forEach(lbl => {
-        if (lbl.childNodes[0]?.nodeType === 3 && lbl.childNodes[0].nodeValue.trim() === "9999999")
-          lbl.style.display = 'none';
-      });
-    </script>
+  <script>
+    document.querySelectorAll("label.freqbt").forEach((lbl) => {
+      if (
+        lbl.childNodes[0]?.nodeType === 3 &&
+        lbl.childNodes[0].nodeValue.trim() === "9999999"
+      )
+        lbl.style.display = "none";
+    });
+  </script>
   <!-- /HEADER -->
 
   <!-- GRID LAYOUT -->
   <div class="grid-container">
-
     <!-- Word -->
     <div class="background-box tappable">
       <div id="word" class="pitch card-a">
@@ -103,11 +107,13 @@
 
   <!-- Lightbox -->
   <div class="lightbox" id="lightbox">
-    <img id="lightbox-img">
+    <img id="lightbox-img" />
     <a href="#" class="close tappable"></a>
     <div class="lightbox-nav left tappable"></div>
     <div class="lightbox-nav right tappable"></div>
-    <button id="show-all" class="lightbox-grid-toggle tappable">Show All</button>
+    <button id="show-all" class="lightbox-grid-toggle tappable">
+      Show All
+    </button>
   </div>
 
   <!-- Sentence -->
@@ -115,9 +121,7 @@
     <div id="sentence">
       <span id="formattedSentence" class="{{pitch}} tappable"></span>
     </div>
-    <div id="sentenceEng">
-      {{sentenceEng}}
-    </div>
+    <div id="sentenceEng">{{sentenceEng}}</div>
   </div>
 
   <!-- Notes -->
@@ -164,9 +168,13 @@
     </div>
   </div>
 
+  <!-- diagram -->
+  <div id="diagram" hidden>
+    <span>{{diagram}}</span>
+  </div>
+
   <!-- FOOTER -->
   <div class="tags-and-links-wrapper">
-
     <!-- Tags -->
     <div class="tags-container"></div>
 
@@ -174,53 +182,106 @@
     <div class="external-links">
       <!-- Jpdb -->
       <a data-details="jpdb.io" href="https://jpdb.io/search?q={{text:word}}">
-        <img class="light-icon" src="_icon_jpdb_lightmode.png">
-        <img class="dark-icon" src="_icon_jpdb_darkmode.png">
+        <img class="light-icon" src="_icon_jpdb_lightmode.png" />
+        <img class="dark-icon" src="_icon_jpdb_darkmode.png" />
       </a>
 
       <!-- Jisho -->
       <a data-details="jisho.org" href="https://jisho.org/search/{{text:word}}">
-        <img class="light-icon" src="_icon_jisho_lightmode.png">
-        <img class="dark-icon" src="_icon_jisho_darkmode.png">
+        <img class="light-icon" src="_icon_jisho_lightmode.png" />
+        <img class="dark-icon" src="_icon_jisho_darkmode.png" />
       </a>
 
       <!-- Google Images -->
-      <a data-details="image_search" href="https://www.google.co.jp/search?q={{text:word}}&amp;tbm=isch">
-        <img class="light-icon" src="_icon_image_black.svg">
-        <img class="dark-icon" src="_icon_image_white.svg">
+      <a
+        data-details="image_search"
+        href="https://www.google.co.jp/search?q={{text:word}}&amp;tbm=isch"
+      >
+        <img class="light-icon" src="_icon_image_black.svg" />
+        <img class="dark-icon" src="_icon_image_white.svg" />
       </a>
 
       <!-- Nadeshiko -->
-      <a data-details="nadeshiko.co" href="https://nadeshiko.co/search/sentence?query={{text:word}}">
-        <img class="light-icon" src="_icon_nadeshiko.ico">
-        <img class="dark-icon" src="_icon_nadeshiko.ico">
+      <a
+        data-details="nadeshiko.co"
+        href="https://nadeshiko.co/search/sentence?query={{text:word}}"
+      >
+        <img class="light-icon" src="_icon_nadeshiko.ico" />
+        <img class="dark-icon" src="_icon_nadeshiko.ico" />
       </a>
 
       <!-- Immersion Kit -->
-      <a data-details="immersionkit.com" href="https://immersionkit.com/dictionary?keyword={{text:word}}">
-        <img class="light-icon" src="_icon_immersion_kit.ico">
-        <img class="dark-icon" src="_icon_immersion_kit.ico">
+      <a
+        data-details="immersionkit.com"
+        href="https://immersionkit.com/dictionary?keyword={{text:word}}"
+      >
+        <img class="light-icon" src="_icon_immersion_kit.ico" />
+        <img class="dark-icon" src="_icon_immersion_kit.ico" />
       </a>
     </div>
   </div>
 
   <!-- Misc Info -->
-  <div class="misc-info">
-    {{miscInfo}}
-  </div>
+  <div class="misc-info">{{miscInfo}}</div>
   <!-- /FOOTER -->
 
-  <div id="dictionaryPreference" style="display: none;">{{dictionaryPreference}}</div>
+  <div id="dictionaryPreference" style="display: none">
+    {{dictionaryPreference}}
+  </div>
   <div id="kanji-tooltip"></div>
 </div>
 <!-- /BACK -->
 
 <script>
+  function collectDiagramImages() {
+    // Check if feature is enabled via CSS variable (like the glossary version)
+    const computedStyles = window.getComputedStyle(document.documentElement);
+    const collectSetting = computedStyles
+      .getPropertyValue("--collect-diagram-images")
+      .trim()
+      .toLowerCase();
+
+    if (collectSetting !== "true") {
+      return;
+    }
+
+    // Get the diagram field and the shared picture container
+    const diagramField = document.getElementById("diagram");
+    const pictureContainer = document.querySelector(".picture-container");
+
+    if (!diagramField || !pictureContainer) return;
+
+    // Only pick up SVG images from diagram field
+    const svgImages = diagramField.querySelectorAll("img[src$='.svg']");
+
+    if (!svgImages.length) return;
+
+    svgImages.forEach((img) => {
+      if (!img.src || !img.src.toLowerCase().endsWith(".svg")) {
+        return; // skip non-svg
+      }
+
+      // Create a fresh <img> element so styles/attributes can be controlled
+      const newImg = new Image();
+      newImg.src = img.src;
+
+      newImg.onload = () => {
+        // mark as tappable for zoom/lightbox just like glossary images
+        newImg.classList.add("tappable");
+      };
+
+      // add into the same container as glossary images
+      pictureContainer.appendChild(newImg);
+    });
+  }
   // Collect images from the glossary and add them to the picture container
   function collectGlossaryImages() {
     const computedStyles = window.getComputedStyle(document.documentElement);
-    const collectSetting = computedStyles.getPropertyValue('--collect-glossary-images').trim().toLowerCase();
-    if (collectSetting !== 'true') {
+    const collectSetting = computedStyles
+      .getPropertyValue("--collect-glossary-images")
+      .trim()
+      .toLowerCase();
+    if (collectSetting !== "true") {
       return;
     }
 
@@ -229,11 +290,13 @@
 
     if (!glossaryItems.length || !pictureContainer) return;
 
-    glossaryItems.forEach(img => {
-      if (!img.src ||
+    glossaryItems.forEach((img) => {
+      if (
+        !img.src ||
         img.src === window.location.href ||
-        img.src.toLowerCase().endsWith('.svg') ||
-        img.closest('span[data-sc-pixiv="read-more-link"] a')) {
+        img.src.toLowerCase().endsWith(".svg") ||
+        img.closest('span[data-sc-pixiv="read-more-link"] a')
+      ) {
         return;
       }
 
@@ -249,15 +312,19 @@
       newImg.src = img.src;
 
       newImg.onload = () => {
-
         const w = newImg.naturalWidth;
         const h = newImg.naturalHeight;
         const finalAspectRatio = w / h;
 
-        if (w < 120 || h < 180 || finalAspectRatio < 0.7 || finalAspectRatio > 1.6) {
+        if (
+          w < 120 ||
+          h < 180 ||
+          finalAspectRatio < 0.7 ||
+          finalAspectRatio > 1.6
+        ) {
           return;
         } else {
-          newImg.classList.add('tappable');
+          newImg.classList.add("tappable");
         }
       };
 
@@ -267,34 +334,42 @@
 
   // Manages cycling between Selection Text, Definition, and Glossary
   function toggleDefinition() {
-    const toggleAreas = document.querySelectorAll('.toggle-area');
-    const selectionText = document.getElementById('selectionText');
-    const definition = document.getElementById('definition');
-    const glossary = document.getElementById('glossary');
-    const allGlossaryListItems = Array.from(document.querySelectorAll("#glossary > .glossary-box > span > div li[data-dictionary], #glossary > div > span > div > i"));
-    const dictionaryPreference = document.getElementById('dictionaryPreference')?.textContent.trim() || '';
+    const toggleAreas = document.querySelectorAll(".toggle-area");
+    const selectionText = document.getElementById("selectionText");
+    const definition = document.getElementById("definition");
+    const glossary = document.getElementById("glossary");
+    const allGlossaryListItems = Array.from(
+      document.querySelectorAll(
+        "#glossary > .glossary-box > span > div li[data-dictionary], #glossary > div > span > div > i"
+      )
+    );
+    const dictionaryPreference =
+      document.getElementById("dictionaryPreference")?.textContent.trim() || "";
 
     function getDictionaryName(element) {
-      if (element.tagName === 'LI' && element.hasAttribute('data-dictionary')) {
-        return element.getAttribute('data-dictionary');
+      if (element.tagName === "LI" && element.hasAttribute("data-dictionary")) {
+        return element.getAttribute("data-dictionary");
       }
       return null;
     }
 
-    const hasSelectionText = !!selectionText && selectionText.textContent.trim() !== '';
-    const hasDefinition = !!definition && definition.textContent.trim() !== '';
+    const hasSelectionText =
+      !!selectionText && selectionText.textContent.trim() !== "";
+    const hasDefinition = !!definition && definition.textContent.trim() !== "";
     let definitionDictName = null;
 
     if (hasDefinition) {
-      const definitionLi = definition.querySelector('.definition-box li[data-dictionary]');
+      const definitionLi = definition.querySelector(
+        ".definition-box li[data-dictionary]"
+      );
       if (definitionLi) {
-        definitionDictName = definitionLi.getAttribute('data-dictionary');
+        definitionDictName = definitionLi.getAttribute("data-dictionary");
       }
     }
 
-    const visibleGlossaryItems = allGlossaryListItems.filter(li => {
-      const parentDiv = li.closest('div');
-      if (parentDiv && parentDiv.classList.contains('ignore')) {
+    const visibleGlossaryItems = allGlossaryListItems.filter((li) => {
+      const parentDiv = li.closest("div");
+      if (parentDiv && parentDiv.classList.contains("ignore")) {
         return false;
       }
 
@@ -308,33 +383,50 @@
     });
 
     const currentVisibleItems = [];
-    if (hasSelectionText) currentVisibleItems.push({ type: 'selectionText', element: selectionText, container: selectionText });
-    if (hasDefinition) currentVisibleItems.push({ type: 'definition', element: definition, container: definition });
+    if (hasSelectionText)
+      currentVisibleItems.push({
+        type: "selectionText",
+        element: selectionText,
+        container: selectionText,
+      });
+    if (hasDefinition)
+      currentVisibleItems.push({
+        type: "definition",
+        element: definition,
+        container: definition,
+      });
 
     if (visibleGlossaryItems.length > 0) {
       visibleGlossaryItems.forEach((li) => {
-        currentVisibleItems.push({ type: 'glossary', element: li, container: glossary });
+        currentVisibleItems.push({
+          type: "glossary",
+          element: li,
+          container: glossary,
+        });
       });
     }
 
     const totalVisibleItemsCount = currentVisibleItems.length;
 
-    toggleAreas.forEach(area => {
+    toggleAreas.forEach((area) => {
       if (totalVisibleItemsCount <= 1) {
-        area.style.display = 'none';
+        area.style.display = "none";
       } else {
-        area.style.display = '';
+        area.style.display = "";
       }
     });
 
     function updateCounters(activeIndex) {
-      const counterText = totalVisibleItemsCount > 0 ? `${activeIndex + 1} / ${totalVisibleItemsCount}` : '';
+      const counterText =
+        totalVisibleItemsCount > 0
+          ? `${activeIndex + 1} / ${totalVisibleItemsCount}`
+          : "";
 
-      [selectionText, definition, glossary].forEach(container => {
+      [selectionText, definition, glossary].forEach((container) => {
         if (container) {
-          const counterDiv = container.querySelector('.dictionary-counter');
+          const counterDiv = container.querySelector(".dictionary-counter");
           if (counterDiv) {
-            counterDiv.textContent = '';
+            counterDiv.textContent = "";
           }
         }
       });
@@ -342,7 +434,9 @@
       if (activeIndex !== -1 && totalVisibleItemsCount > 0) {
         const activeItem = currentVisibleItems[activeIndex];
         if (activeItem && activeItem.container) {
-          const activeCounterDiv = activeItem.container.querySelector('.dictionary-counter');
+          const activeCounterDiv = activeItem.container.querySelector(
+            ".dictionary-counter"
+          );
           if (activeCounterDiv) {
             activeCounterDiv.textContent = counterText;
           }
@@ -352,16 +446,29 @@
 
     function getCurrentIndex() {
       let activeIndex = -1;
-      if (selectionText && selectionText.classList.contains('show')) {
-        activeIndex = currentVisibleItems.findIndex(item => item.type === 'selectionText');
-      } else if (definition && definition.classList.contains('show')) {
-        activeIndex = currentVisibleItems.findIndex(item => item.type === 'definition');
-      } else if (glossary && glossary.classList.contains('show')) {
-        const currentGlossaryLi = visibleGlossaryItems.find(li => li.style.display === 'block');
+      if (selectionText && selectionText.classList.contains("show")) {
+        activeIndex = currentVisibleItems.findIndex(
+          (item) => item.type === "selectionText"
+        );
+      } else if (definition && definition.classList.contains("show")) {
+        activeIndex = currentVisibleItems.findIndex(
+          (item) => item.type === "definition"
+        );
+      } else if (glossary && glossary.classList.contains("show")) {
+        const currentGlossaryLi = visibleGlossaryItems.find(
+          (li) => li.style.display === "block"
+        );
         if (currentGlossaryLi) {
-          activeIndex = currentVisibleItems.findIndex(item => item.type === 'glossary' && item.element === currentGlossaryLi);
-        } else if (currentVisibleItems.some(item => item.type === 'glossary')) {
-          activeIndex = currentVisibleItems.findIndex(item => item.type === 'glossary');
+          activeIndex = currentVisibleItems.findIndex(
+            (item) =>
+              item.type === "glossary" && item.element === currentGlossaryLi
+          );
+        } else if (
+          currentVisibleItems.some((item) => item.type === "glossary")
+        ) {
+          activeIndex = currentVisibleItems.findIndex(
+            (item) => item.type === "glossary"
+          );
         }
       }
       return activeIndex;
@@ -369,7 +476,7 @@
 
     function getDictionaryMap() {
       const map = new Map();
-      allGlossaryListItems.forEach(li => {
+      allGlossaryListItems.forEach((li) => {
         const dictionaryName = getDictionaryName(li);
         if (dictionaryName) {
           map.set(dictionaryName, li);
@@ -380,36 +487,52 @@
 
     let initialIndex = -1;
 
-    allGlossaryListItems.forEach(li => (li.style.display = 'none'));
-    if (selectionText) selectionText.classList.remove('show');
-    if (definition) definition.classList.remove('show');
-    if (glossary) glossary.classList.remove('show');
+    allGlossaryListItems.forEach((li) => (li.style.display = "none"));
+    if (selectionText) selectionText.classList.remove("show");
+    if (definition) definition.classList.remove("show");
+    if (glossary) glossary.classList.remove("show");
 
     if (totalVisibleItemsCount > 0) {
-      const permanentLastSelected = localStorage.getItem("lastSelectedDictionary");
-      const permanentDictionaryName = localStorage.getItem("lastDictionaryName");
+      const permanentLastSelected = localStorage.getItem(
+        "lastSelectedDictionary"
+      );
+      const permanentDictionaryName =
+        localStorage.getItem("lastDictionaryName");
       const dictionaryMap = getDictionaryMap();
       let initialStateSet = false;
 
       if (!initialStateSet) {
-
         // Priority 1: Selection Text
         if (hasSelectionText) {
-          initialIndex = currentVisibleItems.findIndex(item => item.type === 'selectionText');
+          initialIndex = currentVisibleItems.findIndex(
+            (item) => item.type === "selectionText"
+          );
           if (initialIndex !== -1) {
             initialStateSet = true;
           }
         }
 
         // Priority 2: Local Storage
-        if (!initialStateSet && permanentLastSelected === "glossary" && visibleGlossaryItems.length > 0) {
+        if (
+          !initialStateSet &&
+          permanentLastSelected === "glossary" &&
+          visibleGlossaryItems.length > 0
+        ) {
           let foundDictionaryFromStorage = false;
-          if (permanentDictionaryName && dictionaryMap.has(permanentDictionaryName)) {
-            const specificLiElement = dictionaryMap.get(permanentDictionaryName);
+          if (
+            permanentDictionaryName &&
+            dictionaryMap.has(permanentDictionaryName)
+          ) {
+            const specificLiElement = dictionaryMap.get(
+              permanentDictionaryName
+            );
             if (visibleGlossaryItems.includes(specificLiElement)) {
-              initialIndex = currentVisibleItems.findIndex(item => item.type === 'glossary' && item.element === specificLiElement);
+              initialIndex = currentVisibleItems.findIndex(
+                (item) =>
+                  item.type === "glossary" && item.element === specificLiElement
+              );
               if (initialIndex !== -1) {
-                specificLiElement.style.display = 'block';
+                specificLiElement.style.display = "block";
                 foundDictionaryFromStorage = true;
                 initialStateSet = true;
               }
@@ -418,32 +541,44 @@
 
           // fallback
           if (!foundDictionaryFromStorage) {
-            initialIndex = currentVisibleItems.findIndex(item => item.type === 'glossary');
+            initialIndex = currentVisibleItems.findIndex(
+              (item) => item.type === "glossary"
+            );
             if (initialIndex !== -1) {
-              currentVisibleItems[initialIndex].element.style.display = 'block';
+              currentVisibleItems[initialIndex].element.style.display = "block";
               initialStateSet = true;
             }
           }
         }
 
         // Priority 3: Dictionary Preference
-        if (!initialStateSet && dictionaryPreference && visibleGlossaryItems.length > 0) {
+        if (
+          !initialStateSet &&
+          dictionaryPreference &&
+          visibleGlossaryItems.length > 0
+        ) {
           const lowerCasePref = dictionaryPreference.toLowerCase();
 
-          if (lowerCasePref === 'glossary') {
+          if (lowerCasePref === "glossary") {
             // Preference is "glossary", show the first available one
-            initialIndex = currentVisibleItems.findIndex(item => item.type === 'glossary');
+            initialIndex = currentVisibleItems.findIndex(
+              (item) => item.type === "glossary"
+            );
             if (initialIndex !== -1) {
-              currentVisibleItems[initialIndex].element.style.display = 'block';
+              currentVisibleItems[initialIndex].element.style.display = "block";
               initialStateSet = true;
             }
           } else if (dictionaryMap.has(dictionaryPreference)) {
             // Preference is a specific dictionary name
             const preferredLiElement = dictionaryMap.get(dictionaryPreference);
             if (visibleGlossaryItems.includes(preferredLiElement)) {
-              initialIndex = currentVisibleItems.findIndex(item => item.type === 'glossary' && item.element === preferredLiElement);
+              initialIndex = currentVisibleItems.findIndex(
+                (item) =>
+                  item.type === "glossary" &&
+                  item.element === preferredLiElement
+              );
               if (initialIndex !== -1) {
-                preferredLiElement.style.display = 'block';
+                preferredLiElement.style.display = "block";
                 initialStateSet = true;
               }
             }
@@ -452,7 +587,9 @@
 
         // Priority 4: Definition
         if (!initialStateSet && hasDefinition) {
-          initialIndex = currentVisibleItems.findIndex(item => item.type === 'definition');
+          initialIndex = currentVisibleItems.findIndex(
+            (item) => item.type === "definition"
+          );
           if (initialIndex !== -1) {
             initialStateSet = true;
           }
@@ -460,9 +597,11 @@
 
         // Priority 5: Glossary
         if (!initialStateSet && visibleGlossaryItems.length > 0) {
-          initialIndex = currentVisibleItems.findIndex(item => item.type === 'glossary');
+          initialIndex = currentVisibleItems.findIndex(
+            (item) => item.type === "glossary"
+          );
           if (initialIndex !== -1) {
-            currentVisibleItems[initialIndex].element.style.display = 'block';
+            currentVisibleItems[initialIndex].element.style.display = "block";
             initialStateSet = true;
           }
         }
@@ -475,7 +614,7 @@
       if (initialIndex !== -1) {
         const initialItem = currentVisibleItems[initialIndex];
         if (initialItem.container) {
-          initialItem.container.classList.add('show');
+          initialItem.container.classList.add("show");
         }
       }
     }
@@ -487,39 +626,45 @@
       if (currentIndex === -1 || totalVisibleItemsCount <= 1) return;
 
       const currentItem = currentVisibleItems[currentIndex];
-      if (currentItem.type === 'selectionText' || currentItem.type === 'definition') {
-        if (currentItem.container) currentItem.container.classList.remove('show');
-      } else if (currentItem.type === 'glossary') {
-        currentItem.element.style.display = 'none';
+      if (
+        currentItem.type === "selectionText" ||
+        currentItem.type === "definition"
+      ) {
+        if (currentItem.container)
+          currentItem.container.classList.remove("show");
+      } else if (currentItem.type === "glossary") {
+        currentItem.element.style.display = "none";
       }
 
       let nextIndex;
-      if (direction === 'right') {
+      if (direction === "right") {
         nextIndex = (currentIndex + 1) % totalVisibleItemsCount;
       } else {
-        nextIndex = (currentIndex - 1 + totalVisibleItemsCount) % totalVisibleItemsCount;
+        nextIndex =
+          (currentIndex - 1 + totalVisibleItemsCount) % totalVisibleItemsCount;
       }
 
       const nextItem = currentVisibleItems[nextIndex];
 
-      if (currentItem.type === 'glossary' && nextItem.type !== 'glossary') {
-        if (currentItem.container) currentItem.container.classList.remove('show');
+      if (currentItem.type === "glossary" && nextItem.type !== "glossary") {
+        if (currentItem.container)
+          currentItem.container.classList.remove("show");
       }
 
-      if (nextItem.type === 'selectionText' || nextItem.type === 'definition') {
-        if (nextItem.container) nextItem.container.classList.add('show');
-      } else if (nextItem.type === 'glossary') {
-        if (nextItem.container) nextItem.container.classList.add('show');
-        nextItem.element.style.display = 'block';
+      if (nextItem.type === "selectionText" || nextItem.type === "definition") {
+        if (nextItem.container) nextItem.container.classList.add("show");
+      } else if (nextItem.type === "glossary") {
+        if (nextItem.container) nextItem.container.classList.add("show");
+        nextItem.element.style.display = "block";
       }
 
-      if (nextItem.type === 'selectionText') {
+      if (nextItem.type === "selectionText") {
         localStorage.setItem("lastSelectedDictionary", "selectionText");
         localStorage.removeItem("lastDictionaryName");
-      } else if (nextItem.type === 'definition') {
+      } else if (nextItem.type === "definition") {
         localStorage.setItem("lastSelectedDictionary", "definition");
         localStorage.removeItem("lastDictionaryName");
-      } else if (nextItem.type === 'glossary') {
+      } else if (nextItem.type === "glossary") {
         localStorage.setItem("lastSelectedDictionary", "glossary");
         const dictionaryName = getDictionaryName(nextItem.element);
         if (dictionaryName) {
@@ -531,178 +676,209 @@
 
       updateCounters(nextIndex);
 
-      const backElement = document.querySelector('.back');
-      if (backElement && !backElement.classList.contains('dict-toggled-once')) {
-        backElement.classList.add('dict-toggled-once');
+      const backElement = document.querySelector(".back");
+      if (backElement && !backElement.classList.contains("dict-toggled-once")) {
+        backElement.classList.add("dict-toggled-once");
       }
     };
 
-    toggleAreas.forEach(area => {
-      area.addEventListener('click', (e) => {
+    toggleAreas.forEach((area) => {
+      area.addEventListener("click", (e) => {
         if (totalVisibleItemsCount <= 1) return;
 
-        if (area.classList.contains('right') || area.classList.contains('right-larger')) {
-          handleToggle('right');
-        } else if (area.classList.contains('left') || area.classList.contains('left-larger')) {
-          handleToggle('left');
+        if (
+          area.classList.contains("right") ||
+          area.classList.contains("right-larger")
+        ) {
+          handleToggle("right");
+        } else if (
+          area.classList.contains("left") ||
+          area.classList.contains("left-larger")
+        ) {
+          handleToggle("left");
         }
       });
     });
 
-    document.addEventListener('keydown', (e) => {
+    document.addEventListener("keydown", (e) => {
       if (totalVisibleItemsCount <= 1) return;
 
-      if (typeof lightbox !== 'undefined' && lightbox.classList.contains('active')) return;
-      if (document.activeElement && (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA')) {
+      if (
+        typeof lightbox !== "undefined" &&
+        lightbox.classList.contains("active")
+      )
+        return;
+      if (
+        document.activeElement &&
+        (document.activeElement.tagName === "INPUT" ||
+          document.activeElement.tagName === "TEXTAREA")
+      ) {
         return;
       }
-      if (e.key === 'ArrowLeft') {
+      if (e.key === "ArrowLeft") {
         e.preventDefault();
-        handleToggle('left');
+        handleToggle("left");
       }
-      if (e.key === 'ArrowRight') {
+      if (e.key === "ArrowRight") {
         e.preventDefault();
-        handleToggle('right');
+        handleToggle("right");
       }
     });
   }
 
-  // Adds hover effects to Jitendex dictionary content 
+  // Adds hover effects to Jitendex dictionary content
   function jitendexHover() {
-    const sentencePairs = document.querySelectorAll('[data-sc-content="example-sentence-a"]');
+    const sentencePairs = document.querySelectorAll(
+      '[data-sc-content="example-sentence-a"]'
+    );
     const xrefPairs = document.querySelectorAll('[data-sc-content="xref"]');
-    const antonymPairs = document.querySelectorAll('[data-sc-content="antonym"]');
-    const notePairs = document.querySelectorAll('[data-sc-content="sense-note"]');
-    const explanationPairs = document.querySelectorAll('[data-sc-content="info-gloss"]');
-    const langPairs = document.querySelectorAll('[data-sc-content="lang-source"]');
+    const antonymPairs = document.querySelectorAll(
+      '[data-sc-content="antonym"]'
+    );
+    const notePairs = document.querySelectorAll(
+      '[data-sc-content="sense-note"]'
+    );
+    const explanationPairs = document.querySelectorAll(
+      '[data-sc-content="info-gloss"]'
+    );
+    const langPairs = document.querySelectorAll(
+      '[data-sc-content="lang-source"]'
+    );
 
     const handleHover = (parentElement, elementB) => {
       if (parentElement && elementB) {
-        parentElement.classList.add('tappable');
-        parentElement.style.opacity = '0.5';
-        parentElement.style.transition = 'opacity 0.3s ease';
-        elementB.style.maxHeight = '0';
-        elementB.style.overflow = 'hidden';
-        elementB.style.transition = 'max-height 0.3s ease, opacity 0.3s ease';
-        elementB.style.display = 'block';
+        parentElement.classList.add("tappable");
+        parentElement.style.opacity = "0.5";
+        parentElement.style.transition = "opacity 0.3s ease";
+        elementB.style.maxHeight = "0";
+        elementB.style.overflow = "hidden";
+        elementB.style.transition = "max-height 0.3s ease, opacity 0.3s ease";
+        elementB.style.display = "block";
 
         const showContent = () => {
           requestAnimationFrame(() => {
-            parentElement.style.opacity = '1';
-            elementB.style.maxHeight = elementB.scrollHeight + 'px';
-            elementB.style.opacity = '1';
+            parentElement.style.opacity = "1";
+            elementB.style.maxHeight = elementB.scrollHeight + "px";
+            elementB.style.opacity = "1";
           });
         };
 
         const hideContent = () => {
           requestAnimationFrame(() => {
-            parentElement.style.opacity = '0.5';
-            elementB.style.maxHeight = '0';
-            elementB.style.opacity = '0';
+            parentElement.style.opacity = "0.5";
+            elementB.style.maxHeight = "0";
+            elementB.style.opacity = "0";
           });
         };
 
-        elementB.addEventListener('mouseover', showContent);
-        parentElement.addEventListener('mouseover', showContent);
+        elementB.addEventListener("mouseover", showContent);
+        parentElement.addEventListener("mouseover", showContent);
 
-        elementB.addEventListener('mouseout', hideContent);
-        parentElement.addEventListener('mouseout', hideContent);
+        elementB.addEventListener("mouseout", hideContent);
+        parentElement.addEventListener("mouseout", hideContent);
       }
     };
 
-    sentencePairs.forEach(sentenceA => {
+    sentencePairs.forEach((sentenceA) => {
       const sentenceB = sentenceA.nextElementSibling;
       if (sentenceA && sentenceB) {
-        sentenceA.classList.add('tappable');
-        sentenceA.style.opacity = '0.5';
-        sentenceA.style.transition = 'opacity 0.3s ease';
-        sentenceA.style.cursor = 'pointer';
-        sentenceB.style.maxHeight = '0';
-        sentenceB.style.overflow = 'hidden';
-        sentenceB.style.transition = 'max-height 0.3s ease, opacity 0.3s ease';
-        sentenceB.style.display = 'block';
-        sentenceB.style.opacity = '0';
+        sentenceA.classList.add("tappable");
+        sentenceA.style.opacity = "0.5";
+        sentenceA.style.transition = "opacity 0.3s ease";
+        sentenceA.style.cursor = "pointer";
+        sentenceB.style.maxHeight = "0";
+        sentenceB.style.overflow = "hidden";
+        sentenceB.style.transition = "max-height 0.3s ease, opacity 0.3s ease";
+        sentenceB.style.display = "block";
+        sentenceB.style.opacity = "0";
 
         let isSentenceBVisible = false;
 
-        sentenceA.addEventListener('click', (event) => {
+        sentenceA.addEventListener("click", (event) => {
           event.stopPropagation();
           isSentenceBVisible = !isSentenceBVisible;
 
-          const sentenceContainer = sentenceA.closest('[data-sc-content="example-sentence"]');
+          const sentenceContainer = sentenceA.closest(
+            '[data-sc-content="example-sentence"]'
+          );
 
           requestAnimationFrame(() => {
             if (isSentenceBVisible) {
-              sentenceA.style.opacity = '1';
-              sentenceB.style.maxHeight = sentenceB.scrollHeight + 'px';
-              sentenceB.style.opacity = '1';
+              sentenceA.style.opacity = "1";
+              sentenceB.style.maxHeight = sentenceB.scrollHeight + "px";
+              sentenceB.style.opacity = "1";
 
               if (sentenceContainer) {
-                sentenceContainer.classList.add('sentence-active');
+                sentenceContainer.classList.add("sentence-active");
               }
-
             } else {
-              if (!sentenceA.matches(':hover')) {
-                sentenceA.style.opacity = '0.5';
+              if (!sentenceA.matches(":hover")) {
+                sentenceA.style.opacity = "0.5";
               }
-              sentenceB.style.maxHeight = '0';
-              sentenceB.style.opacity = '0';
+              sentenceB.style.maxHeight = "0";
+              sentenceB.style.opacity = "0";
 
               if (sentenceContainer) {
-                sentenceContainer.classList.remove('sentence-active');
+                sentenceContainer.classList.remove("sentence-active");
               }
             }
           });
         });
 
-        sentenceA.addEventListener('mouseenter', () => {
-          sentenceA.style.opacity = '1';
+        sentenceA.addEventListener("mouseenter", () => {
+          sentenceA.style.opacity = "1";
         });
 
-        sentenceA.addEventListener('mouseleave', () => {
+        sentenceA.addEventListener("mouseleave", () => {
           if (!isSentenceBVisible) {
-            sentenceA.style.opacity = '0.5';
+            sentenceA.style.opacity = "0.5";
           }
         });
-
       }
     });
 
-    xrefPairs.forEach(xref => {
-      const xrefGlossary = xref.querySelector('[data-sc-content="xref-glossary"]');
+    xrefPairs.forEach((xref) => {
+      const xrefGlossary = xref.querySelector(
+        '[data-sc-content="xref-glossary"]'
+      );
       handleHover(xref, xrefGlossary);
     });
 
-    antonymPairs.forEach(antonym => {
-      const antonymGlossary = antonym.querySelector('[data-sc-content="antonym-glossary"]');
+    antonymPairs.forEach((antonym) => {
+      const antonymGlossary = antonym.querySelector(
+        '[data-sc-content="antonym-glossary"]'
+      );
       handleHover(antonym, antonymGlossary);
     });
 
-    notePairs.forEach(note => {
-      const noteGlossary = note.querySelector('div:last-child');
+    notePairs.forEach((note) => {
+      const noteGlossary = note.querySelector("div:last-child");
       handleHover(note, noteGlossary);
     });
 
-    explanationPairs.forEach(explanation => {
-      const infoGloss = explanation.querySelector('div:last-child');
+    explanationPairs.forEach((explanation) => {
+      const infoGloss = explanation.querySelector("div:last-child");
       handleHover(explanation, infoGloss);
     });
 
-    langPairs.forEach(lang => {
-      const langSource = lang.querySelector('div:last-child');
+    langPairs.forEach((lang) => {
+      const langSource = lang.querySelector("div:last-child");
       handleHover(lang, langSource);
     });
   }
 
   // Enables interaction effects
   function enableInteractions() {
-
-    function applyClickToggleEffect(triggerSelector, targetSelector, extraPadding = 0) {
+    function applyClickToggleEffect(
+      triggerSelector,
+      targetSelector,
+      extraPadding = 0
+    ) {
       const trigger = document.querySelector(triggerSelector);
       const target = document.querySelector(targetSelector);
 
       if (trigger && target) {
-        const clickable = 'is-clickable';
+        const clickable = "is-clickable";
 
         if (target.textContent.trim() !== "") {
           trigger.classList.add(clickable);
@@ -716,11 +892,13 @@
           }
 
           requestAnimationFrame(() => {
-            const isCollapsed = !target.style.maxHeight || target.style.maxHeight === "0px";
+            const isCollapsed =
+              !target.style.maxHeight || target.style.maxHeight === "0px";
 
             if (isCollapsed) {
               target.classList.remove("is-collapsed");
-              target.style.maxHeight = target.scrollHeight + extraPadding + "px";
+              target.style.maxHeight =
+                target.scrollHeight + extraPadding + "px";
               if (extraPadding) {
                 target.style.opacity = "1";
                 target.style.paddingTop = extraPadding + "px";
@@ -738,20 +916,24 @@
       }
     }
 
-    function applyHoverEffect(containerSelector, targetSelector, extraPadding = 0) {
+    function applyHoverEffect(
+      containerSelector,
+      targetSelector,
+      extraPadding = 0
+    ) {
       const container = document.querySelector(containerSelector);
       const target = document.querySelector(targetSelector);
 
       if (container && target) {
-
         if (window.matchMedia("(pointer: coarse)").matches) {
-          container.classList.add('tappable');
+          container.classList.add("tappable");
         }
 
         container.addEventListener("mouseenter", () => {
           requestAnimationFrame(() => {
             if (target.textContent.trim() !== "") {
-              target.style.maxHeight = target.scrollHeight + extraPadding + "px";
+              target.style.maxHeight =
+                target.scrollHeight + extraPadding + "px";
               if (extraPadding) {
                 target.style.opacity = "1";
                 target.style.paddingTop = extraPadding + "px";
@@ -778,19 +960,20 @@
       }
     }
 
-    const notesElement = document.querySelector('.back .notes');
+    const notesElement = document.querySelector(".back .notes");
 
     if (notesElement) {
       const expandByDefault = getComputedStyle(document.documentElement)
-                              .getPropertyValue('--notes-default-expanded').trim();
+        .getPropertyValue("--notes-default-expanded")
+        .trim();
 
-      if (expandByDefault === 'true') {
+      if (expandByDefault === "true") {
         const originalTransition = notesElement.style.transition;
-        notesElement.style.transition = 'none';
+        notesElement.style.transition = "none";
 
-        if (notesElement.classList.contains('is-collapsed')) {
-          notesElement.classList.remove('is-collapsed');
-          notesElement.style.maxHeight = notesElement.scrollHeight + 'px';
+        if (notesElement.classList.contains("is-collapsed")) {
+          notesElement.classList.remove("is-collapsed");
+          notesElement.style.maxHeight = notesElement.scrollHeight + "px";
         }
       }
     }
@@ -799,7 +982,9 @@
     applyClickToggleEffect(".toggle-notes", ".notes");
 
     const isTouchDevice = window.matchMedia("(pointer: coarse)").matches;
-    const pictureHoverTriggerSelector = isTouchDevice ? ".background-box" : ".picture-container";
+    const pictureHoverTriggerSelector = isTouchDevice
+      ? ".background-box"
+      : ".picture-container";
     applyHoverEffect(pictureHoverTriggerSelector, ".misc-info", 20);
   }
 
@@ -810,10 +995,10 @@
     function switchImage(direction, event) {
       if (event) event.preventDefault();
 
-      const images = document.querySelectorAll('.picture-container img');
+      const images = document.querySelectorAll(".picture-container img");
       if (images.length === 0) return;
 
-      images[currentImageIndex].style.display = 'none';
+      images[currentImageIndex].style.display = "none";
 
       currentImageIndex += direction;
 
@@ -823,21 +1008,21 @@
         currentImageIndex = images.length - 1;
       }
 
-      images[currentImageIndex].style.display = 'block';
+      images[currentImageIndex].style.display = "block";
     }
 
-    const arrows = document.querySelectorAll('.nav-arrow');
-    const images = document.querySelectorAll('.picture-container img');
+    const arrows = document.querySelectorAll(".nav-arrow");
+    const images = document.querySelectorAll(".picture-container img");
 
     if (images.length <= 1) {
-      arrows.forEach(arrow => arrow.classList.add('hidden'));
+      arrows.forEach((arrow) => arrow.classList.add("hidden"));
     } else {
-      arrows.forEach(arrow => arrow.classList.remove('hidden'));
+      arrows.forEach((arrow) => arrow.classList.remove("hidden"));
     }
 
-    arrows.forEach(arrow => {
-      arrow.addEventListener('click', (event) => {
-        const direction = arrow.classList.contains('left') ? -1 : 1;
+    arrows.forEach((arrow) => {
+      arrow.addEventListener("click", (event) => {
+        const direction = arrow.classList.contains("left") ? -1 : 1;
         switchImage(direction, event);
       });
     });
@@ -849,8 +1034,12 @@
     if (!images.length) return;
 
     let currentIndex = 0;
-    let scale = 1, translateX = 0, translateY = 0;
-    let isPanning = false, startX = 0, startY = 0;
+    let scale = 1,
+      translateX = 0,
+      translateY = 0;
+    let isPanning = false,
+      startX = 0,
+      startY = 0;
     let isGridView = false;
 
     const lightbox = document.getElementById("lightbox");
@@ -877,7 +1066,7 @@
         const gridImg = document.createElement("img");
         gridImg.src = img.src;
         gridImg.alt = `Image ${index + 1}`;
-        gridImg.classList.add('tappable');
+        gridImg.classList.add("tappable");
         gridImg.addEventListener("click", () => {
           showImage(index);
           hideGridView();
@@ -934,15 +1123,16 @@
     };
 
     images.forEach((img, index) => {
-      const container = img.closest('.picture-container');
-      const isNSFW = container && container.className.toLowerCase().includes('nsfw');
+      const container = img.closest(".picture-container");
+      const isNSFW =
+        container && container.className.toLowerCase().includes("nsfw");
 
       if (isNSFW) {
         img.addEventListener("click", (e) => {
-          if (img.classList.contains('clicked')) {
+          if (img.classList.contains("clicked")) {
             showImage(index);
           } else {
-            img.classList.add('clicked');
+            img.classList.add("clicked");
           }
         });
       } else {
@@ -970,10 +1160,16 @@
 
       if (lightbox.classList.contains("active") && !isGridView) {
         if (e.key === "ArrowLeft") {
-          showImage(currentIndex = (currentIndex > 0) ? currentIndex - 1 : images.length - 1);
+          showImage(
+            (currentIndex =
+              currentIndex > 0 ? currentIndex - 1 : images.length - 1)
+          );
         }
         if (e.key === "ArrowRight") {
-          showImage(currentIndex = (currentIndex < images.length - 1) ? currentIndex + 1 : 0);
+          showImage(
+            (currentIndex =
+              currentIndex < images.length - 1 ? currentIndex + 1 : 0)
+          );
         }
       }
     });
@@ -1008,7 +1204,7 @@
 
     let initialDistance = null;
 
-    lightboxImg.addEventListener('touchstart', (e) => {
+    lightboxImg.addEventListener("touchstart", (e) => {
       if (e.touches.length === 2) {
         initialDistance = Math.hypot(
           e.touches[0].pageX - e.touches[1].pageX,
@@ -1026,7 +1222,7 @@
       }
     });
 
-    lightboxImg.addEventListener('touchmove', (e) => {
+    lightboxImg.addEventListener("touchmove", (e) => {
       if (e.touches.length === 2 && initialDistance !== null) {
         e.preventDefault();
         const newDistance = Math.hypot(
@@ -1056,7 +1252,6 @@
           showAll.style.display = "block";
         }
         initialDistance = newDistance;
-
       } else if (e.touches.length === 1 && isPanning) {
         e.preventDefault();
         translateX = e.touches[0].pageX - startX;
@@ -1065,7 +1260,7 @@
       }
     });
 
-    lightboxImg.addEventListener('touchend', (e) => {
+    lightboxImg.addEventListener("touchend", (e) => {
       if (e.touches.length < 2) {
         initialDistance = null;
       }
@@ -1091,8 +1286,12 @@
     });
 
     lightbox.addEventListener("click", (e) => {
-      if (e.target === lightbox ||
-        (isGridView && !e.target.closest('.lightbox-grid img') && e.target !== showAll)) {
+      if (
+        e.target === lightbox ||
+        (isGridView &&
+          !e.target.closest(".lightbox-grid img") &&
+          e.target !== showAll)
+      ) {
         if (isGridView) {
           lightbox.classList.remove("active");
         } else {
@@ -1102,8 +1301,12 @@
     });
 
     lightbox.addEventListener("touchend", (e) => {
-      if (e.target === lightbox ||
-        (isGridView && !e.target.closest('.lightbox-grid img') && e.target !== showAll)) {
+      if (
+        e.target === lightbox ||
+        (isGridView &&
+          !e.target.closest(".lightbox-grid img") &&
+          e.target !== showAll)
+      ) {
         if (isGridView) {
           lightbox.classList.remove("active");
         } else {
@@ -1113,11 +1316,15 @@
     });
 
     leftButton.addEventListener("click", () => {
-      showImage(currentIndex = (currentIndex > 0) ? currentIndex - 1 : images.length - 1);
+      showImage(
+        (currentIndex = currentIndex > 0 ? currentIndex - 1 : images.length - 1)
+      );
     });
 
     rightButton.addEventListener("click", () => {
-      showImage(currentIndex = (currentIndex < images.length - 1) ? currentIndex + 1 : 0);
+      showImage(
+        (currentIndex = currentIndex < images.length - 1 ? currentIndex + 1 : 0)
+      );
     });
   }
 
@@ -1125,10 +1332,12 @@
   function dynamicWordSize() {
     const wordElement = document.querySelector("#word");
     if (wordElement) {
-      const wordSpan = wordElement.querySelector('span');
+      const wordSpan = wordElement.querySelector("span");
       if (wordSpan) {
-        const rubyElement = wordSpan.querySelector('ruby');
-        const content = rubyElement ? rubyElement.firstChild.textContent.trim() : wordSpan.textContent.trim();
+        const rubyElement = wordSpan.querySelector("ruby");
+        const content = rubyElement
+          ? rubyElement.firstChild.textContent.trim()
+          : wordSpan.textContent.trim();
         const contentLength = content.length;
 
         const classNumber = Math.min(contentLength, 9);
@@ -1140,19 +1349,21 @@
   // Handles NSFW content behavior and blur toggling
   function nsfw() {
     const tags = `{{Tags}}`.toLowerCase();
-    const isNsfwCard = tags.includes('nsfw');
+    const isNsfwCard = tags.includes("nsfw");
 
     if (isNsfwCard) {
-      const wordAudioButton = document.querySelector(".audio .soundLink, .audio .replaybutton");
+      const wordAudioButton = document.querySelector(
+        ".audio .soundLink, .audio .replaybutton"
+      );
       if (wordAudioButton) {
         wordAudioButton.click();
       }
 
-      document.querySelectorAll('.picture-container').forEach(container => {
-        if (container.className.toLowerCase().includes('nsfw')) {
-          container.querySelectorAll('img').forEach(img => {
-            img.addEventListener('click', () => {
-              img.classList.add('clicked');
+      document.querySelectorAll(".picture-container").forEach((container) => {
+        if (container.className.toLowerCase().includes("nsfw")) {
+          container.querySelectorAll("img").forEach((img) => {
+            img.addEventListener("click", () => {
+              img.classList.add("clicked");
             });
           });
         }
@@ -1164,12 +1375,12 @@
   function dictionaryTitle() {
     let processedDictionaries = new Set();
 
-    document.querySelectorAll('.yomitan-glossary li').forEach(li => {
-      let dictionaryName = li.getAttribute('data-dictionary');
+    document.querySelectorAll(".yomitan-glossary li").forEach((li) => {
+      let dictionaryName = li.getAttribute("data-dictionary");
       if (dictionaryName && !processedDictionaries.has(dictionaryName)) {
-        let titleElement = document.createElement('div');
+        let titleElement = document.createElement("div");
         titleElement.textContent = dictionaryName;
-        titleElement.classList.add('dictionary-title');
+        titleElement.classList.add("dictionary-title");
         li.prepend(titleElement);
         processedDictionaries.add(dictionaryName);
       }
@@ -1182,7 +1393,7 @@
     if (tagsContainer) {
       tagsContainer.innerHTML = "";
       const tags = `{{Tags}}`.split(" ");
-      tags.forEach(tag => {
+      tags.forEach((tag) => {
         const tagElem = document.createElement("div");
         tagElem.className = "tags";
         tagElem.innerText = tag;
@@ -1227,16 +1438,16 @@
     const wordContainer = document.getElementById("word");
     if (!wordContainer) return;
 
-    const mainSpan = wordContainer.querySelector(':scope > span');
+    const mainSpan = wordContainer.querySelector(":scope > span");
     if (!mainSpan) return;
 
-    const rubyElement = mainSpan.querySelector('ruby');
+    const rubyElement = mainSpan.querySelector("ruby");
     if (!rubyElement) return;
 
-    let wordText = '';
-    let readingText = '';
+    let wordText = "";
+    let readingText = "";
     for (const node of rubyElement.childNodes) {
-      if (node.nodeName.toLowerCase() === 'rt') {
+      if (node.nodeName.toLowerCase() === "rt") {
         readingText = node.textContent.trim();
         const wordContainer = node.previousSibling;
         if (wordContainer) {
@@ -1263,7 +1474,9 @@
 
       if (!noteIds || noteIds.length === 0) continue;
 
-      const notesInfo = await ankiConnectRequest("notesInfo", { notes: noteIds });
+      const notesInfo = await ankiConnectRequest("notesInfo", {
+        notes: noteIds,
+      });
       if (!notesInfo) continue;
 
       const relatedWords = [];
@@ -1274,20 +1487,23 @@
         if (fields && fields.word && fields.word.value) {
           const wordValueRaw = fields.word.value;
 
-          const tempDiv = document.createElement('div');
+          const tempDiv = document.createElement("div");
           tempDiv.innerHTML = wordValueRaw;
           const wordValue = tempDiv.textContent || tempDiv.innerText || "";
 
-          if (wordValue.trim() !== wordText && !uniqueWords.has(wordValue.trim())) {
-            const readingValueFull = fields.reading ? fields.reading.value : '';
-            const sentenceValue = fields.sentence ? fields.sentence.value : '';
-            let readingHtml = '';
+          if (
+            wordValue.trim() !== wordText &&
+            !uniqueWords.has(wordValue.trim())
+          ) {
+            const readingValueFull = fields.reading ? fields.reading.value : "";
+            const sentenceValue = fields.sentence ? fields.sentence.value : "";
+            let readingHtml = "";
 
-            if (readingValueFull && readingValueFull.includes('<li')) {
+            if (readingValueFull && readingValueFull.includes("<li")) {
               try {
-                const tempDiv = document.createElement('div');
+                const tempDiv = document.createElement("div");
                 tempDiv.innerHTML = readingValueFull;
-                const firstLi = tempDiv.querySelector('li');
+                const firstLi = tempDiv.querySelector("li");
                 if (firstLi) {
                   readingHtml = firstLi.innerHTML;
                 }
@@ -1298,9 +1514,11 @@
               readingHtml = readingValueFull.split(/[,、・]/)[0].trim();
             }
 
-            const pitchValue = fields.pitch ? fields.pitch.value : '';
-            const pitchPositionValue = fields.pitchPosition ? fields.pitchPosition.value : '';
-            const tagsValue = fields.Tags ? fields.Tags.value : '';
+            const pitchValue = fields.pitch ? fields.pitch.value : "";
+            const pitchPositionValue = fields.pitchPosition
+              ? fields.pitchPosition.value
+              : "";
+            const tagsValue = fields.Tags ? fields.Tags.value : "";
 
             relatedWords.push({
               word: wordValue,
@@ -1308,7 +1526,7 @@
               sentence: sentenceValue,
               pitch: pitchValue,
               pitchPosition: pitchPositionValue,
-              tags: tagsValue
+              tags: tagsValue,
             });
 
             uniqueWords.add(wordValue.trim());
@@ -1326,7 +1544,9 @@
     for (let i = 0; i < textContent.length; i++) {
       if (isKanji(textContent[i])) {
         if (lastIndex < i) {
-          fragment.appendChild(document.createTextNode(textContent.slice(lastIndex, i)));
+          fragment.appendChild(
+            document.createTextNode(textContent.slice(lastIndex, i))
+          );
         }
         const span = document.createElement("span");
         span.textContent = textContent[i];
@@ -1343,10 +1563,12 @@
     }
 
     if (lastIndex < textContent.length) {
-      fragment.appendChild(document.createTextNode(textContent.slice(lastIndex)));
+      fragment.appendChild(
+        document.createTextNode(textContent.slice(lastIndex))
+      );
     }
 
-    const rtElement = rubyElement.querySelector('rt');
+    const rtElement = rubyElement.querySelector("rt");
     while (rubyElement.firstChild) {
       rubyElement.removeChild(rubyElement.firstChild);
     }
@@ -1360,15 +1582,18 @@
   function hideKanjiInfo(force = false) {
     if (tooltipElement) {
       clearTimeout(hideTooltipTimeout);
-      hideTooltipTimeout = setTimeout(() => {
-        const isOverKanji = document.querySelector('.kanji:hover');
-        const isOverTooltip = tooltipElement.matches(':hover');
+      hideTooltipTimeout = setTimeout(
+        () => {
+          const isOverKanji = document.querySelector(".kanji:hover");
+          const isOverTooltip = tooltipElement.matches(":hover");
 
-        if (!isOverKanji && !isOverTooltip) {
-          tooltipElement.classList.remove('active');
-          tooltipElement.style.display = 'none';
-        }
-      }, force ? 0 : 100);
+          if (!isOverKanji && !isOverTooltip) {
+            tooltipElement.classList.remove("active");
+            tooltipElement.style.display = "none";
+          }
+        },
+        force ? 0 : 100
+      );
     }
   }
 
@@ -1381,72 +1606,105 @@
 
     if (preloadedKanjiData[kanji]) {
       const relatedWords = preloadedKanjiData[kanji];
-      let relatedWordsHtml = "<ul class=\"kanji-tooltip-list\">";
+      let relatedWordsHtml = '<ul class="kanji-tooltip-list">';
       let count = 0;
       const maxInitialWords = 5;
 
-      const kanjiHighlightRegex = new RegExp(kanji.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'), 'g');
+      const kanjiHighlightRegex = new RegExp(
+        kanji.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&"),
+        "g"
+      );
       const highlightSpan = `<span class="kanji-highlight">${kanji}</span>`;
 
       for (const wordInfo of relatedWords) {
-        const wordHtml = wordInfo.word.replace(kanjiHighlightRegex, highlightSpan);
+        const wordHtml = wordInfo.word.replace(
+          kanjiHighlightRegex,
+          highlightSpan
+        );
 
-        let formattedPositionHtml = '';
-        let firstPitchCategory = '';
-        let fullCategoriesHtml = '';
+        let formattedPositionHtml = "";
+        let firstPitchCategory = "";
+        let fullCategoriesHtml = "";
 
         if (wordInfo.pitchPosition) {
           const numbers = Array.from(wordInfo.pitchPosition.matchAll(/\d+/g))
-            .map(match => parseInt(match[0], 10))
+            .map((match) => parseInt(match[0], 10))
             .filter((num, index, arr) => arr.indexOf(num) === index);
 
           let tempRt = null;
           if (wordInfo.reading) {
-            const tempReadingDiv = document.createElement('div');
+            const tempReadingDiv = document.createElement("div");
             tempReadingDiv.innerHTML = wordInfo.reading;
-            const readingTextContent = tempReadingDiv.textContent || tempReadingDiv.innerText || "";
+            const readingTextContent =
+              tempReadingDiv.textContent || tempReadingDiv.innerText || "";
 
             if (readingTextContent) {
-              tempRt = document.createElement('rt');
+              tempRt = document.createElement("rt");
               tempRt.textContent = readingTextContent;
             }
           }
 
           if (numbers.length > 0) {
-            const pitchTypesRaw = wordInfo.pitch ? wordInfo.pitch.split(',') : [];
+            const pitchTypesRaw = wordInfo.pitch
+              ? wordInfo.pitch.split(",")
+              : [];
             const relevantPitchTypes = [];
 
-            formattedPositionHtml = numbers.map((num, index) => {
-              let pitchType = getPitchType(num, tempRt);
-              pitchType = pitchType.split(',')[0].trim();
-              relevantPitchTypes.push(pitchType);
-              return `<span class="pitch-number ${pitchType}">${num}</span>`;
-            }).join('・');
+            formattedPositionHtml = numbers
+              .map((num, index) => {
+                let pitchType = getPitchType(num, tempRt);
+                pitchType = pitchType.split(",")[0].trim();
+                relevantPitchTypes.push(pitchType);
+                return `<span class="pitch-number ${pitchType}">${num}</span>`;
+              })
+              .join("・");
 
-            firstPitchCategory = relevantPitchTypes[0] || '';
-            fullCategoriesHtml = relevantPitchTypes.join('<br>');
+            firstPitchCategory = relevantPitchTypes[0] || "";
+            fullCategoriesHtml = relevantPitchTypes.join("<br>");
           } else {
-            firstPitchCategory = wordInfo.pitch ? wordInfo.pitch.split(',')[0].trim() : '';
-            fullCategoriesHtml = wordInfo.pitch ? wordInfo.pitch.replace(/,/g, '<br>') : '';
+            firstPitchCategory = wordInfo.pitch
+              ? wordInfo.pitch.split(",")[0].trim()
+              : "";
+            fullCategoriesHtml = wordInfo.pitch
+              ? wordInfo.pitch.replace(/,/g, "<br>")
+              : "";
           }
         } else {
-          firstPitchCategory = wordInfo.pitch ? wordInfo.pitch.split(',')[0].trim() : '';
-          fullCategoriesHtml = wordInfo.pitch ? wordInfo.pitch.replace(/,/g, '<br>') : '';
+          firstPitchCategory = wordInfo.pitch
+            ? wordInfo.pitch.split(",")[0].trim()
+            : "";
+          fullCategoriesHtml = wordInfo.pitch
+            ? wordInfo.pitch.replace(/,/g, "<br>")
+            : "";
         }
 
         const itemHtml = `
-          <li style="${count >= maxInitialWords ? 'display: none;' : ''}">
+          <li style="${count >= maxInitialWords ? "display: none;" : ""}">
             <div class="related-word-container pitch card-a">
-              <span class="pitch-info ${firstPitchCategory || ''} ${wordInfo.tags || ''}">
+              <span class="pitch-info ${firstPitchCategory || ""} ${
+          wordInfo.tags || ""
+        }">
                 <ruby>
                   <span class="related-word">${wordHtml}</span>
-                  ${wordInfo.reading ? `<rt>${wordInfo.reading}</rt>` : ''}
+                  ${wordInfo.reading ? `<rt>${wordInfo.reading}</rt>` : ""}
                 </ruby>
-                ${formattedPositionHtml ? `<div class="position">${formattedPositionHtml}</div>` : ''}
-                ${firstPitchCategory ? `<div class="categories" data-first-category="${firstPitchCategory}" data-full-categories="${fullCategoriesHtml}">${firstPitchCategory}</div>` : ''}
+                ${
+                  formattedPositionHtml
+                    ? `<div class="position">${formattedPositionHtml}</div>`
+                    : ""
+                }
+                ${
+                  firstPitchCategory
+                    ? `<div class="categories" data-first-category="${firstPitchCategory}" data-full-categories="${fullCategoriesHtml}">${firstPitchCategory}</div>`
+                    : ""
+                }
               </span>
             </div>
-            ${wordInfo.sentence ? `<div class="related-sentence">「${wordInfo.sentence}」</div>` : ''}
+            ${
+              wordInfo.sentence
+                ? `<div class="related-sentence">「${wordInfo.sentence}」</div>`
+                : ""
+            }
           </li>
         `;
 
@@ -1456,33 +1714,48 @@
       relatedWordsHtml += "</ul>";
 
       if (relatedWords.length > maxInitialWords) {
-        relatedWordsHtml += `<button class="show-more-btn">Show More (${relatedWords.length - maxInitialWords})</button>`;
+        relatedWordsHtml += `<button class="show-more-btn">Show More (${
+          relatedWords.length - maxInitialWords
+        })</button>`;
       }
 
-      tooltipElement.innerHTML = count === 0 ? "No words found." : relatedWordsHtml;
-      tooltipElement.classList.add('active');
-      tooltipElement.style.display = 'block';
+      tooltipElement.innerHTML =
+        count === 0 ? "No words found." : relatedWordsHtml;
+      tooltipElement.classList.add("active");
+      tooltipElement.style.display = "block";
       positionTooltipNearElement(tooltipElement, element);
 
-      const showMoreBtn = tooltipElement.querySelector('.show-more-btn');
+      const showMoreBtn = tooltipElement.querySelector(".show-more-btn");
       if (showMoreBtn) {
-        showMoreBtn.addEventListener('click', () => {
-          const hiddenItems = tooltipElement.querySelectorAll('li[style="display: none;"]');
-          hiddenItems.forEach(item => item.style.display = '');
+        showMoreBtn.addEventListener("click", () => {
+          const hiddenItems = tooltipElement.querySelectorAll(
+            'li[style="display: none;"]'
+          );
+          hiddenItems.forEach((item) => (item.style.display = ""));
           showMoreBtn.remove();
         });
       }
 
-      tooltipElement.addEventListener('mouseover', () => clearTimeout(hideTooltipTimeout));
-      tooltipElement.addEventListener('mouseout', () => hideKanjiInfo());
+      tooltipElement.addEventListener("mouseover", () =>
+        clearTimeout(hideTooltipTimeout)
+      );
+      tooltipElement.addEventListener("mouseout", () => hideKanjiInfo());
 
-      tooltipElement.addEventListener('mouseover', (event) => {
-        const positionElement = event.target.closest('.position');
+      tooltipElement.addEventListener("mouseover", (event) => {
+        const positionElement = event.target.closest(".position");
         if (positionElement) {
           const categoriesElement = positionElement.nextElementSibling;
-          if (categoriesElement && categoriesElement.classList.contains('categories') && categoriesElement.dataset.fullCategories) {
-            if (categoriesElement.innerHTML !== categoriesElement.dataset.fullCategories) {
-              categoriesElement.innerHTML = categoriesElement.dataset.fullCategories;
+          if (
+            categoriesElement &&
+            categoriesElement.classList.contains("categories") &&
+            categoriesElement.dataset.fullCategories
+          ) {
+            if (
+              categoriesElement.innerHTML !==
+              categoriesElement.dataset.fullCategories
+            ) {
+              categoriesElement.innerHTML =
+                categoriesElement.dataset.fullCategories;
             }
           }
         }
@@ -1507,17 +1780,22 @@
 
     element.style.left = `${relativeLeft}px`;
     element.style.top = `${relativeTop + targetRect.height}px`;
-    element.classList.remove('tooltip-above');
+    element.classList.remove("tooltip-above");
 
-    element.style.setProperty('--tooltip-arrow-left', `${targetRect.width / 2}px`);
+    element.style.setProperty(
+      "--tooltip-arrow-left",
+      `${targetRect.width / 2}px`
+    );
 
     const tooltipRect = element.getBoundingClientRect();
 
     if (tooltipRect.right > window.innerWidth) {
-      element.style.left = `${relativeLeft + (window.innerWidth - tooltipRect.right - 10)}px`;
+      element.style.left = `${
+        relativeLeft + (window.innerWidth - tooltipRect.right - 10)
+      }px`;
     }
 
-    const finalLeft = parseFloat(element.style.left || '0');
+    const finalLeft = parseFloat(element.style.left || "0");
     if (finalLeft + parentRect.left < 0) {
       element.style.left = `${-parentRect.left + 10}px`;
     }
@@ -1527,70 +1805,79 @@
       const potentialTopAbove = relativeTop - tooltipRect.height - arrowSize;
       if (potentialTopAbove + parentRect.top > 0) {
         element.style.top = `${potentialTopAbove}px`;
-        element.classList.add('tooltip-above');
+        element.classList.add("tooltip-above");
       } else {
-
-        element.classList.remove('tooltip-above');
+        element.classList.remove("tooltip-above");
       }
     } else {
-      element.classList.remove('tooltip-above');
+      element.classList.remove("tooltip-above");
     }
 
-    const finalTop = parseFloat(element.style.top || '0');
-    if (element.classList.contains('tooltip-above') && (finalTop + parentRect.top < 0)) {
+    const finalTop = parseFloat(element.style.top || "0");
+    if (
+      element.classList.contains("tooltip-above") &&
+      finalTop + parentRect.top < 0
+    ) {
       element.style.top = `${-parentRect.top + 10}px`;
     }
 
-    const finalTooltipLeftRelative = parseFloat(element.style.left || '0');
+    const finalTooltipLeftRelative = parseFloat(element.style.left || "0");
     let newArrowLeft = defaultArrowLeft;
 
-    const targetCenterRelativeX = relativeLeft + (targetRect.width / 2);
+    const targetCenterRelativeX = relativeLeft + targetRect.width / 2;
     newArrowLeft = targetCenterRelativeX - finalTooltipLeftRelative;
 
     const tooltipWidth = element.offsetWidth;
-    newArrowLeft = Math.max(arrowSize, Math.min(newArrowLeft, tooltipWidth - arrowSize));
-    element.style.setProperty('--tooltip-arrow-left', `${newArrowLeft}px`);
+    newArrowLeft = Math.max(
+      arrowSize,
+      Math.min(newArrowLeft, tooltipWidth - arrowSize)
+    );
+    element.style.setProperty("--tooltip-arrow-left", `${newArrowLeft}px`);
   }
 
   // Helper function to determine pitch type
   function getPitchType(number, readingElement) {
-    if (!readingElement) return 'unknown';
+    if (!readingElement) return "unknown";
 
-    const firstLi = readingElement.querySelector('li');
+    const firstLi = readingElement.querySelector("li");
     const targetElement = firstLi || readingElement;
 
-    const readingText = (targetElement.textContent || targetElement.innerText || "")
-      .replace(/<[^>]+>/g, '')
-      .replace(/([ぁ-ゖァ-ヺ])[\u3099\u309A]/g, '$1゙')
+    const readingText = (
+      targetElement.textContent ||
+      targetElement.innerText ||
+      ""
+    )
+      .replace(/<[^>]+>/g, "")
+      .replace(/([ぁ-ゖァ-ヺ])[\u3099\u309A]/g, "$1゙")
       .normalize("NFC")
-      .replace(/[ぁぃぅぇぉゃゅょァィゥェォャュョ]/g, '')
-      .replace(/[・〜～]/g, '')
-      .replace(/\s+/g, '');
+      .replace(/[ぁぃぅぇぉゃゅょァィゥェォャュョ]/g, "")
+      .replace(/[・〜～]/g, "")
+      .replace(/\s+/g, "");
 
     const moraCount = readingText.length;
 
     if (moraCount === 0) {
-      return 'unknown';
+      return "unknown";
     }
 
-    let resultType = 'unknown';
-    if (number === 0) resultType = 'heiban';
-    if (number === 1) resultType = 'atamadaka';
-    if (moraCount > 1 && number === moraCount) resultType = 'odaka';
-    if (number > 1 && number < moraCount && resultType === 'unknown') {
-      resultType = 'nakadaka';
+    let resultType = "unknown";
+    if (number === 0) resultType = "heiban";
+    if (number === 1) resultType = "atamadaka";
+    if (moraCount > 1 && number === moraCount) resultType = "odaka";
+    if (number > 1 && number < moraCount && resultType === "unknown") {
+      resultType = "nakadaka";
     }
 
     return resultType;
   }
 
-  // Format pitch accent positions and categories 
+  // Format pitch accent positions and categories
   function cleanPitchPositions() {
     const allSpans = document.querySelectorAll("span");
-    allSpans.forEach(spanElement => {
+    allSpans.forEach((spanElement) => {
       const classList = spanElement.classList;
       let classToModify = "";
-      classList.forEach(cls => {
+      classList.forEach((cls) => {
         if (cls.includes(",")) {
           classToModify = cls;
         }
@@ -1598,80 +1885,99 @@
 
       if (classToModify) {
         const commaIndex = classToModify.indexOf(",");
-        const newClassValue = commaIndex !== -1 ? classToModify.substring(0, commaIndex).trim() : classToModify;
+        const newClassValue =
+          commaIndex !== -1
+            ? classToModify.substring(0, commaIndex).trim()
+            : classToModify;
         spanElement.classList.remove(classToModify);
         spanElement.classList.add(newClassValue);
       }
     });
 
-    const positionElements = document.querySelectorAll('#position');
+    const positionElements = document.querySelectorAll("#position");
     const rubyElement = document.querySelector("#word > span > ruby");
     const mainWordSpan = document.querySelector("#word > span");
     const sentenceSpan = document.getElementById("formattedSentence");
-    const rtElement = rubyElement?.querySelector('rt');
+    const rtElement = rubyElement?.querySelector("rt");
 
     let potentialFallbackClass = null;
     let runFallbackCheck = false;
 
-    positionElements.forEach(element => {
+    positionElements.forEach((element) => {
       if (element.dataset.cleaned || !element.innerHTML.trim()) return;
 
       const content = element.innerHTML.trim();
       const numbers = Array.from(content.matchAll(/\d+/g))
-        .map(match => parseInt(match[0], 10))
+        .map((match) => parseInt(match[0], 10))
         .filter((num, index, arr) => arr.indexOf(num) === index);
 
       if (numbers.length === 0) return;
 
       if (!runFallbackCheck && mainWordSpan && rtElement) {
-        const hasPitchClass = ['heiban', 'atamadaka', 'nakadaka', 'odaka', 'kifuku']
-          .some(cls => mainWordSpan.classList.contains(cls));
+        const hasPitchClass = [
+          "heiban",
+          "atamadaka",
+          "nakadaka",
+          "odaka",
+          "kifuku",
+        ].some((cls) => mainWordSpan.classList.contains(cls));
         if (!hasPitchClass) {
           const firstNumber = numbers[0];
           const calculatedClass = getPitchType(firstNumber, rtElement);
-          if (calculatedClass && calculatedClass !== 'unknown') {
+          if (calculatedClass && calculatedClass !== "unknown") {
             potentialFallbackClass = calculatedClass;
             runFallbackCheck = true;
           }
         }
       }
 
-      const categoriesElement = element.closest('.pitch')?.querySelector('#categories');
-      const pitchTypes = categoriesElement?.textContent.split(',') || [];
+      const categoriesElement = element
+        .closest(".pitch")
+        ?.querySelector("#categories");
+      const pitchTypes = categoriesElement?.textContent.split(",") || [];
 
       const resolvedPitchTypes = [];
-      const newContent = numbers.map((num, index) => {
-        let pitchType = pitchTypes[index]?.trim() || getPitchType(num, rtElement);
-        let cleanPitchType = pitchType.split(',')[0].trim();
-        resolvedPitchTypes.push(cleanPitchType);
-        return `<span class="pitch-number ${cleanPitchType}">${num}</span>`;
-      }).join('・');
+      const newContent = numbers
+        .map((num, index) => {
+          let pitchType =
+            pitchTypes[index]?.trim() || getPitchType(num, rtElement);
+          let cleanPitchType = pitchType.split(",")[0].trim();
+          resolvedPitchTypes.push(cleanPitchType);
+          return `<span class="pitch-number ${cleanPitchType}">${num}</span>`;
+        })
+        .join("・");
 
       if (resolvedPitchTypes.length > 0) {
-        categoriesElement.dataset.fullCategories = resolvedPitchTypes.join('<br>');
+        categoriesElement.dataset.fullCategories =
+          resolvedPitchTypes.join("<br>");
         categoriesElement.innerHTML = resolvedPitchTypes[0];
       } else {
-        categoriesElement.dataset.fullCategories = '';
-        categoriesElement.innerHTML = '';
+        categoriesElement.dataset.fullCategories = "";
+        categoriesElement.innerHTML = "";
       }
 
       element.innerHTML = newContent;
-      element.dataset.cleaned = 'true';
+      element.dataset.cleaned = "true";
     });
 
     if (runFallbackCheck && potentialFallbackClass) {
-      const hasPitchClassNow = ['heiban', 'atamadaka', 'nakadaka', 'odaka', 'kifuku']
-        .some(cls => mainWordSpan.classList.contains(cls));
+      const hasPitchClassNow = [
+        "heiban",
+        "atamadaka",
+        "nakadaka",
+        "odaka",
+        "kifuku",
+      ].some((cls) => mainWordSpan.classList.contains(cls));
       if (!hasPitchClassNow) {
         mainWordSpan.classList.add(potentialFallbackClass);
         sentenceSpan.classList.add(potentialFallbackClass);
       }
     }
 
-    positionElements.forEach(pos => {
-      const cat = pos.closest('.pitch')?.querySelector('#categories');
+    positionElements.forEach((pos) => {
+      const cat = pos.closest(".pitch")?.querySelector("#categories");
       if (cat?.dataset.fullCategories) {
-        pos.addEventListener('mouseenter', () => {
+        pos.addEventListener("mouseenter", () => {
           cat.innerHTML = cat.dataset.fullCategories;
         });
       }
@@ -1690,12 +1996,12 @@
 
     sentenceFurigana = sentenceFurigana.replace(
       /<ruby>([^<]+?)<rt>(.*?)<\/rt><\/ruby>/g,
-      '<ruby><rb>$1</rb><rt>$2</rt></ruby>'
+      "<ruby><rb>$1</rb><rt>$2</rt></ruby>"
     );
 
     let cleanedFurigana = sentenceFurigana
-      .replace(/<ruby><rb>([。、！？！？])<\/rb><rt>.*?<\/rt><\/ruby>/g, '$1')
-      .replace(/<ruby>([。、！？！？])<rt>.*?<\/rt><\/ruby>/g, '$1');
+      .replace(/<ruby><rb>([。、！？！？])<\/rb><rt>.*?<\/rt><\/ruby>/g, "$1")
+      .replace(/<ruby>([。、！？！？])<rt>.*?<\/rt><\/ruby>/g, "$1");
 
     if (cleanedFurigana.includes('<span class="highlight">')) {
       document.getElementById("formattedSentence").innerHTML = cleanedFurigana;
@@ -1709,7 +2015,7 @@
       highlightedWords.push(match[1]);
     }
 
-    const tempDiv = document.createElement('div');
+    const tempDiv = document.createElement("div");
     tempDiv.innerHTML = cleanedFurigana;
 
     const allNodes = [];
@@ -1717,10 +2023,10 @@
     function collectTextAndRubyNodes(node) {
       if (node.nodeType === Node.TEXT_NODE) {
         if (node.textContent.trim()) {
-          allNodes.push({ type: 'text', node: node });
+          allNodes.push({ type: "text", node: node });
         }
-      } else if (node.tagName === 'RUBY') {
-        allNodes.push({ type: 'ruby', node: node });
+      } else if (node.tagName === "RUBY") {
+        allNodes.push({ type: "ruby", node: node });
       } else {
         for (let i = 0; i < node.childNodes.length; i++) {
           collectTextAndRubyNodes(node.childNodes[i]);
@@ -1730,15 +2036,15 @@
 
     collectTextAndRubyNodes(tempDiv);
 
-    let plainText = '';
+    let plainText = "";
     const nodePositions = [];
 
-    allNodes.forEach(item => {
+    allNodes.forEach((item) => {
       let text;
-      if (item.type === 'text') {
+      if (item.type === "text") {
         text = item.node.textContent;
       } else {
-        const rb = item.node.querySelector('rb') || item.node.firstChild;
+        const rb = item.node.querySelector("rb") || item.node.firstChild;
         text = rb.textContent;
       }
 
@@ -1746,32 +2052,32 @@
         node: item.node,
         type: item.type,
         start: plainText.length,
-        end: plainText.length + text.length
+        end: plainText.length + text.length,
       });
 
       plainText += text;
     });
 
-    highlightedWords.forEach(word => {
+    highlightedWords.forEach((word) => {
       const wordStart = plainText.indexOf(word);
       if (wordStart === -1) return;
 
       const wordEnd = wordStart + word.length;
 
-      const affectedNodes = nodePositions.filter(pos =>
-        pos.start < wordEnd && pos.end > wordStart
+      const affectedNodes = nodePositions.filter(
+        (pos) => pos.start < wordEnd && pos.end > wordStart
       );
 
-      affectedNodes.forEach(pos => {
+      affectedNodes.forEach((pos) => {
         const node = pos.node;
 
         if (pos.start >= wordStart && pos.end <= wordEnd) {
-          if (pos.type === 'ruby') {
-            const wrapper = document.createElement('span');
-            wrapper.className = 'highlight';
+          if (pos.type === "ruby") {
+            const wrapper = document.createElement("span");
+            wrapper.className = "highlight";
 
             const parent = node.parentNode;
-            if (parent.tagName === 'SPAN' && parent.className === 'term') {
+            if (parent.tagName === "SPAN" && parent.className === "term") {
               const rubyClone = node.cloneNode(true);
               wrapper.appendChild(rubyClone);
               node.parentNode.replaceChild(wrapper, node);
@@ -1781,16 +2087,15 @@
               node.parentNode.replaceChild(wrapper, node);
             }
           } else {
-            const wrapper = document.createElement('span');
-            wrapper.className = 'highlight';
+            const wrapper = document.createElement("span");
+            wrapper.className = "highlight";
             wrapper.textContent = node.textContent;
             node.parentNode.replaceChild(wrapper, node);
           }
-        }
-        else if (pos.type === 'ruby') {
+        } else if (pos.type === "ruby") {
           const ruby = node;
-          const rb = ruby.querySelector('rb') || ruby.firstChild;
-          const rt = ruby.querySelector('rt');
+          const rb = ruby.querySelector("rb") || ruby.firstChild;
+          const rt = ruby.querySelector("rt");
 
           if (!rb || !rt) return;
 
@@ -1800,31 +2105,45 @@
           const relativeStart = Math.max(0, wordStart - pos.start);
           const relativeEnd = Math.min(baseText.length, wordEnd - pos.start);
 
-          let newHTML = '';
+          let newHTML = "";
 
           if (relativeStart > 0) {
             newHTML += `<ruby><rb>${baseText.substring(0, relativeStart)}</rb>
-                      <rt>${rtText.substring(0, Math.round(rtText.length * relativeStart / baseText.length))}</rt></ruby>`;
+                      <rt>${rtText.substring(
+                        0,
+                        Math.round(
+                          (rtText.length * relativeStart) / baseText.length
+                        )
+                      )}</rt></ruby>`;
           }
 
-          newHTML += `<span class="highlight"><ruby><rb>${baseText.substring(relativeStart, relativeEnd)}</rb>
+          newHTML += `<span class="highlight"><ruby><rb>${baseText.substring(
+            relativeStart,
+            relativeEnd
+          )}</rb>
                    <rt>${rtText.substring(
-            Math.round(rtText.length * relativeStart / baseText.length),
-            Math.round(rtText.length * relativeEnd / baseText.length)
-          )}</rt></ruby></span>`;
+                     Math.round(
+                       (rtText.length * relativeStart) / baseText.length
+                     ),
+                     Math.round((rtText.length * relativeEnd) / baseText.length)
+                   )}</rt></ruby></span>`;
 
           if (relativeEnd < baseText.length) {
             newHTML += `<ruby><rb>${baseText.substring(relativeEnd)}</rb>
-                      <rt>${rtText.substring(Math.round(rtText.length * relativeEnd / baseText.length))}</rt></ruby>`;
+                      <rt>${rtText.substring(
+                        Math.round(
+                          (rtText.length * relativeEnd) / baseText.length
+                        )
+                      )}</rt></ruby>`;
           }
 
           const parent = ruby.parentNode;
-          const span = document.createElement('span');
+          const span = document.createElement("span");
           span.innerHTML = newHTML;
 
-          if (parent.tagName === 'SPAN' && parent.className === 'term') {
-            const newSpan = document.createElement('span');
-            newSpan.className = 'term';
+          if (parent.tagName === "SPAN" && parent.className === "term") {
+            const newSpan = document.createElement("span");
+            newSpan.className = "term";
             while (span.firstChild) {
               newSpan.appendChild(span.firstChild);
             }
@@ -1832,8 +2151,7 @@
           } else {
             ruby.parentNode.replaceChild(span, ruby);
           }
-        }
-        else {
+        } else {
           const text = node.textContent;
           const relativeStart = Math.max(0, wordStart - pos.start);
           const relativeEnd = Math.min(text.length, wordEnd - pos.start);
@@ -1848,8 +2166,8 @@
             fragment.appendChild(document.createTextNode(beforeText));
           }
 
-          const highlightSpan = document.createElement('span');
-          highlightSpan.className = 'highlight';
+          const highlightSpan = document.createElement("span");
+          highlightSpan.className = "highlight";
           highlightSpan.textContent = highlightedText;
           fragment.appendChild(highlightSpan);
 
@@ -1867,9 +2185,16 @@
     const formattedSentenceSpan = document.getElementById("formattedSentence");
     const sentenceContainer = document.querySelector(".sentence-container");
     if (formattedSentenceSpan && sentenceContainer) {
-      const furiganaDisplayValue = getComputedStyle(sentenceContainer).getPropertyValue('--furigana-display').trim().toLowerCase();
-      if (furiganaDisplayValue === 'none') {
-        formattedSentenceSpan.innerHTML = formattedSentenceSpan.innerHTML.replace(/<ruby><rb>(.*?)<\/rb><rt>.*?<\/rt><\/ruby>/gs, '$1');
+      const furiganaDisplayValue = getComputedStyle(sentenceContainer)
+        .getPropertyValue("--furigana-display")
+        .trim()
+        .toLowerCase();
+      if (furiganaDisplayValue === "none") {
+        formattedSentenceSpan.innerHTML =
+          formattedSentenceSpan.innerHTML.replace(
+            /<ruby><rb>(.*?)<\/rb><rt>.*?<\/rt><\/ruby>/gs,
+            "$1"
+          );
       }
     }
   }
@@ -1879,36 +2204,45 @@
     const rootElement = document.documentElement;
     const computedRootStyle = getComputedStyle(rootElement);
 
-    const wordElement = document.getElementById('word');
+    const wordElement = document.getElementById("word");
     if (wordElement) {
-      const pitchStyleValue = computedRootStyle.getPropertyValue('--pitch-style').trim();
-      wordElement.classList.toggle('alt', pitchStyleValue === 'alt');
+      const pitchStyleValue = computedRootStyle
+        .getPropertyValue("--pitch-style")
+        .trim();
+      wordElement.classList.toggle("alt", pitchStyleValue === "alt");
 
-      const pitchColorsValue = computedRootStyle.getPropertyValue('--pitch-colors').trim();
-      wordElement.classList.toggle('colors', pitchColorsValue === 'false');
+      const pitchColorsValue = computedRootStyle
+        .getPropertyValue("--pitch-colors")
+        .trim();
+      wordElement.classList.toggle("colors", pitchColorsValue === "false");
     }
 
     const sentenceElement = document.getElementById("formattedSentence");
     if (sentenceElement) {
-      const sentenceHighlightValue = computedRootStyle.getPropertyValue('--sentence-pitch-highlight').trim();
-      sentenceElement.classList.toggle('alt-highlight', sentenceHighlightValue === 'true');
+      const sentenceHighlightValue = computedRootStyle
+        .getPropertyValue("--sentence-pitch-highlight")
+        .trim();
+      sentenceElement.classList.toggle(
+        "alt-highlight",
+        sentenceHighlightValue === "true"
+      );
     }
   }
 
   // Generates a visual pitch accent line using Yomitan-style formatting
   function createDownstepNotation() {
-    const wordElement = document.getElementById('word');
+    const wordElement = document.getElementById("word");
     if (!wordElement) return;
 
-    const mainSpan = wordElement.querySelector(':scope > span');
-    const rubyElement = mainSpan?.querySelector('ruby');
-    const rtElement = rubyElement?.querySelector('rt');
+    const mainSpan = wordElement.querySelector(":scope > span");
+    const rubyElement = mainSpan?.querySelector("ruby");
+    const rtElement = rubyElement?.querySelector("rt");
 
     if (!rtElement) {
       return;
     }
 
-    if (rtElement.querySelector('span[style], ol, li')) {
+    if (rtElement.querySelector("span[style], ol, li")) {
       return;
     }
 
@@ -1919,39 +2253,39 @@
 
     const normalizedReading = readingText.normalize("NFC");
     const moraRegexParts = [
-      '[きしちにひみりぎじぢびぴゔ][ゃゅょ]',
-      '[うくすつぬふむゆるぐずづぶゔ][ぁぃぅぇぉ]',
-      '[てで][ぃ]',
-      '[とど][ぅ]',
-      '[キシチニヒミリギジヂビピヴ][ャュョ]',
-      '[ウクスツヌフムユルグズヅブプヴ][ァィゥェォ]',
-      '[テデ][ィ]',
-      '[トド][ゥ]',
-      '[クグ][ヮ]',
-      '[フ][ォ]',
-      '[っッ]',
-      'ー',
-      '[んン]',
-      '[\u3041-\u3096\u30A1-\u30F6\u30FD\u30FE]',
-      '\\S'
+      "[きしちにひみりぎじぢびぴゔ][ゃゅょ]",
+      "[うくすつぬふむゆるぐずづぶゔ][ぁぃぅぇぉ]",
+      "[てで][ぃ]",
+      "[とど][ぅ]",
+      "[キシチニヒミリギジヂビピヴ][ャュョ]",
+      "[ウクスツヌフムユルグズヅブプヴ][ァィゥェォ]",
+      "[テデ][ィ]",
+      "[トド][ゥ]",
+      "[クグ][ヮ]",
+      "[フ][ォ]",
+      "[っッ]",
+      "ー",
+      "[んン]",
+      "[\u3041-\u3096\u30A1-\u30F6\u30FD\u30FE]",
+      "\\S",
     ];
-    const moraRegex = new RegExp(moraRegexParts.join('|'), 'g');
+    const moraRegex = new RegExp(moraRegexParts.join("|"), "g");
     const morae = normalizedReading.match(moraRegex) || [];
 
     const moraCount = morae.length;
     if (moraCount === 0) return;
 
     let pitchPosition = -1;
-    let pitchClass = '';
-    const positionElement = document.getElementById('position');
+    let pitchClass = "";
+    const positionElement = document.getElementById("position");
 
     const mainClasses = mainSpan.classList;
-    const isOriginallyKifuku = mainClasses.contains('kifuku');
-    if (mainClasses.contains('heiban')) pitchClass = 'heiban';
-    else if (mainClasses.contains('atamadaka')) pitchClass = 'atamadaka';
-    else if (mainClasses.contains('nakadaka')) pitchClass = 'nakadaka';
-    else if (mainClasses.contains('odaka')) pitchClass = 'odaka';
-    else if (isOriginallyKifuku) pitchClass = 'kifuku';
+    const isOriginallyKifuku = mainClasses.contains("kifuku");
+    if (mainClasses.contains("heiban")) pitchClass = "heiban";
+    else if (mainClasses.contains("atamadaka")) pitchClass = "atamadaka";
+    else if (mainClasses.contains("nakadaka")) pitchClass = "nakadaka";
+    else if (mainClasses.contains("odaka")) pitchClass = "odaka";
+    else if (isOriginallyKifuku) pitchClass = "kifuku";
 
     if (positionElement && positionElement.textContent.trim()) {
       const firstNumMatch = positionElement.textContent.trim().match(/\d+/);
@@ -1961,44 +2295,54 @@
     }
 
     if (pitchPosition !== -1) {
-      if (pitchPosition === 0) pitchClass = 'heiban';
-      else if (pitchPosition === 1) pitchClass = 'atamadaka';
-      else if (moraCount > 1 && pitchPosition === moraCount) pitchClass = 'odaka';
-      else if (moraCount > 1 && pitchPosition > 1 && pitchPosition < moraCount) pitchClass = 'nakadaka';
-      else if (moraCount > 1 && pitchPosition >= moraCount) pitchClass = 'odaka';
-      else if (moraCount === 1 && pitchPosition >= 1) pitchClass = 'atamadaka';
+      if (pitchPosition === 0) pitchClass = "heiban";
+      else if (pitchPosition === 1) pitchClass = "atamadaka";
+      else if (moraCount > 1 && pitchPosition === moraCount)
+        pitchClass = "odaka";
+      else if (moraCount > 1 && pitchPosition > 1 && pitchPosition < moraCount)
+        pitchClass = "nakadaka";
+      else if (moraCount > 1 && pitchPosition >= moraCount)
+        pitchClass = "odaka";
+      else if (moraCount === 1 && pitchPosition >= 1) pitchClass = "atamadaka";
       else {
         if (!pitchClass) pitchPosition = -1;
       }
-    } else if (pitchClass && pitchClass !== 'kifuku' && pitchClass !== 'nakadaka') {
-      if (pitchClass === 'heiban') pitchPosition = 0;
-      else if (pitchClass === 'atamadaka') pitchPosition = 1;
-      else if (pitchClass === 'odaka') pitchPosition = moraCount;
+    } else if (
+      pitchClass &&
+      pitchClass !== "kifuku" &&
+      pitchClass !== "nakadaka"
+    ) {
+      if (pitchClass === "heiban") pitchPosition = 0;
+      else if (pitchClass === "atamadaka") pitchPosition = 1;
+      else if (pitchClass === "odaka") pitchPosition = moraCount;
     }
 
-    if (pitchPosition === -1 && !isOriginallyKifuku && pitchClass !== 'kifuku') {
+    if (
+      pitchPosition === -1 &&
+      !isOriginallyKifuku &&
+      pitchClass !== "kifuku"
+    ) {
       return;
     }
 
     let pitchPattern = [];
     for (let i = 0; i < moraCount; i++) {
-      if (pitchPosition === 0) pitchPattern.push(i === 0 ? 'L' : 'H');
-      else if (pitchPosition === 1) pitchPattern.push(i === 0 ? 'H' : 'L');
+      if (pitchPosition === 0) pitchPattern.push(i === 0 ? "L" : "H");
+      else if (pitchPosition === 1) pitchPattern.push(i === 0 ? "H" : "L");
       else {
-        if (i === 0) pitchPattern.push('L');
-        else if (i < pitchPosition) pitchPattern.push('H');
-        else pitchPattern.push('L');
+        if (i === 0) pitchPattern.push("L");
+        else if (i < pitchPosition) pitchPattern.push("H");
+        else pitchPattern.push("L");
       }
     }
 
     const fragment = document.createDocumentFragment();
-    const container = document.createElement('span');
-    container.className = 'pronunciation';
+    const container = document.createElement("span");
+    container.className = "pronunciation";
 
     if (isOriginallyKifuku) {
-      container.classList.add('kifuku');
-    }
-    else if (pitchClass) {
+      container.classList.add("kifuku");
+    } else if (pitchClass) {
       container.classList.add(pitchClass);
     }
 
@@ -2006,57 +2350,58 @@
       const mora = morae[i];
       const currentPitch = pitchPattern[i];
 
-      const moraSpan = document.createElement('span');
-      moraSpan.className = 'pronunciation-mora';
+      const moraSpan = document.createElement("span");
+      moraSpan.className = "pronunciation-mora";
       moraSpan.textContent = mora;
-      moraSpan.dataset.pitch = currentPitch === 'H' ? 'high' : 'low';
+      moraSpan.dataset.pitch = currentPitch === "H" ? "high" : "low";
 
-      if (currentPitch === 'H' &&
-        (
-          ((i + 1 < moraCount) && pitchPattern[i + 1] === 'L') ||
-          (pitchClass === 'odaka' && i === moraCount - 1)
-        )
+      if (
+        currentPitch === "H" &&
+        ((i + 1 < moraCount && pitchPattern[i + 1] === "L") ||
+          (pitchClass === "odaka" && i === moraCount - 1))
       ) {
-        moraSpan.dataset.pitchNext = 'low';
+        moraSpan.dataset.pitchNext = "low";
       }
 
-      const lineSpan = document.createElement('span');
-      lineSpan.className = 'pronunciation-mora-line';
+      const lineSpan = document.createElement("span");
+      lineSpan.className = "pronunciation-mora-line";
       moraSpan.appendChild(lineSpan);
 
       container.appendChild(moraSpan);
     }
 
-    rtElement.innerHTML = '';
+    rtElement.innerHTML = "";
     rtElement.appendChild(container);
-    rtElement.style.paddingTop = '';
-    rtElement.style.marginBottom = '';
-    rtElement.style.position = '';
-    rtElement.style.overflow = 'visible';
+    rtElement.style.paddingTop = "";
+    rtElement.style.marginBottom = "";
+    rtElement.style.position = "";
+    rtElement.style.overflow = "visible";
   }
 
   // Merge entries from the same dictionary
   function consolidateYomitanGlossaryEntries() {
-    const glossaryOuterDiv = document.getElementById('glossary');
+    const glossaryOuterDiv = document.getElementById("glossary");
     if (!glossaryOuterDiv) {
       return;
     }
 
-    const glossaryBox = glossaryOuterDiv.querySelector('.glossary-box');
+    const glossaryBox = glossaryOuterDiv.querySelector(".glossary-box");
     if (!glossaryBox) {
       return;
     }
 
-    const glossarySpan = glossaryBox.querySelector('span');
+    const glossarySpan = glossaryBox.querySelector("span");
     if (!glossarySpan) {
       return;
     }
 
-    if (glossarySpan.dataset.consolidated === 'true') {
+    if (glossarySpan.dataset.consolidated === "true") {
       return;
     }
 
-    const yomitanGlossaryDivs = glossarySpan.querySelectorAll('div.yomitan-glossary');
+    const yomitanGlossaryDivs = glossarySpan.querySelectorAll(
+      "div.yomitan-glossary"
+    );
 
     if (yomitanGlossaryDivs.length === 0) {
       return;
@@ -2064,19 +2409,21 @@
 
     let consolidationHappened = false;
 
-    yomitanGlossaryDivs.forEach(ygDiv => {
-      const olElement = ygDiv.querySelector('ol');
+    yomitanGlossaryDivs.forEach((ygDiv) => {
+      const olElement = ygDiv.querySelector("ol");
       if (!olElement) {
         return;
       }
 
-      const originalListItems = Array.from(olElement.querySelectorAll('li[data-dictionary]'));
+      const originalListItems = Array.from(
+        olElement.querySelectorAll("li[data-dictionary]")
+      );
       if (originalListItems.length === 0) {
         return;
       }
 
       const entriesByDictionary = {};
-      originalListItems.forEach(li => {
+      originalListItems.forEach((li) => {
         const dictName = li.dataset.dictionary;
         if (!entriesByDictionary[dictName]) {
           entriesByDictionary[dictName] = [];
@@ -2085,16 +2432,20 @@
         entriesByDictionary[dictName].push(li.innerHTML.trim());
       });
 
-      olElement.innerHTML = '';
+      olElement.innerHTML = "";
 
       for (const dictName in entriesByDictionary) {
-        if (entriesByDictionary.hasOwnProperty(dictName) && entriesByDictionary[dictName].length > 0) {
-          const newLi = document.createElement('li');
+        if (
+          entriesByDictionary.hasOwnProperty(dictName) &&
+          entriesByDictionary[dictName].length > 0
+        ) {
+          const newLi = document.createElement("li");
           newLi.dataset.dictionary = dictName;
 
-
           newLi.innerHTML = entriesByDictionary[dictName].join(
-            entriesByDictionary[dictName].length > 1 ? '<hr class="consolidated-entry-separator">' : ''
+            entriesByDictionary[dictName].length > 1
+              ? '<hr class="consolidated-entry-separator">'
+              : ""
           );
 
           olElement.appendChild(newLi);
@@ -2104,7 +2455,7 @@
     });
 
     if (consolidationHappened) {
-      glossarySpan.dataset.consolidated = 'true';
+      glossarySpan.dataset.consolidated = "true";
     }
   }
 
@@ -2121,6 +2472,7 @@
     toggleDefinition();
     collectGlossaryImages();
     enableInteractions();
+    collectDiagramImages();
   }
 
   // initializes deferred functions
@@ -2130,15 +2482,20 @@
     enableLightbox();
     nsfw();
 
-    const isMobile = document.documentElement.classList.contains('mobile') || document.body.classList.contains('mobile');
+    const isMobile =
+      document.documentElement.classList.contains("mobile") ||
+      document.body.classList.contains("mobile");
     if (!isMobile) {
       wrapKanjiInWordField();
     }
 
     // Prevent specified image links from opening
-    document.querySelectorAll('a[target="_blank"][href*="yomitan_dictionary_media_"]').forEach(link => {
-      if (link.href && /\.(png|jpe?g|gif|webp|svg)$/i.test(link.href)) link.onclick = e => e.preventDefault();
-    });
+    document
+      .querySelectorAll('a[target="_blank"][href*="yomitan_dictionary_media_"]')
+      .forEach((link) => {
+        if (link.href && /\.(png|jpe?g|gif|webp|svg)$/i.test(link.href))
+          link.onclick = (e) => e.preventDefault();
+      });
   }
 
   init();
