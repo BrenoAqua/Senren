@@ -9,4 +9,6 @@ Supported Sites:
 *   [Google Images](https://images.google.com/)
 *   [Nadeshiko](https://nadeshiko.co/)
 *   [Immersion Kit](https://v2.immersionkit.com/)
+*   [Deepl](https://www.deepl.com/)
+*   [Mazii](https://mazii.net/)
 
