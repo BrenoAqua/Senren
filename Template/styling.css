@@ -71,6 +71,7 @@
   
   /* ===== LAYOUT & SPACING ===== */
   /* Default States */
+  --word-sentence-default-expanded:  false;  /* "true" to show sentence on word cards immediately */  
   --audio-sentence-default-expanded: false; /* "true" to show sentence on audio cards immediately */
   --notes-default-expanded:          false; /* "true" to show notes immediately */
   --collect-glossary-images:         true;  /* "false" to disable image collection */
