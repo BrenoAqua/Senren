@@ -233,7 +233,12 @@
       if (!img.src ||
         img.src === window.location.href ||
         img.src.toLowerCase().endsWith('.svg') ||
-        img.closest('span[data-sc-pixiv="read-more-link"] a')) {
+        img.closest('span[data-sc-pixiv="read-more-link"] a') ||
+        img.closest(`
+          [data-dictionary*="漢字でGo!"],
+          [data-dictionary*="現代国語例解辞典"]
+        `)
+      ) {
         return;
       }
 
@@ -1238,15 +1243,20 @@
     for (const node of rubyElement.childNodes) {
       if (node.nodeName.toLowerCase() === 'rt') {
         readingText = node.textContent.trim();
-        const wordContainer = node.previousSibling;
-        if (wordContainer) {
-          wordText = wordContainer.textContent.trim();
-          break;
+        const wordNode = node.previousSibling;
+        if (wordNode) {
+          wordText = wordNode.textContent.trim();
         }
+        break;
       }
     }
+    if (!readingText) {
+        wordText = rubyElement.textContent.trim();
+    }
 
-    if (!wordText) return;
+    if (!/[一-龯]/.test(wordText)) {
+      return;
+    }
 
     const uniqueKanji = new Set();
     for (const char of wordText) {
@@ -1315,7 +1325,6 @@
           }
         }
       }
-
       preloadedKanjiData[kanji] = relatedWords;
     }
 
@@ -2108,8 +2117,57 @@
     }
   }
 
+  // Replaces the word with its reading when the word is written only in kana
+  function noDuplicateKana() {
+    const substituteSetting = getComputedStyle(document.documentElement).getPropertyValue('--no-duplicate-kana').trim().toLowerCase();
+
+    if (substituteSetting !== 'true') {
+      return;
+    }
+
+    const rubyElement = document.querySelector("#word ruby");
+    if (!rubyElement) return;
+
+    const rtElement = rubyElement.querySelector("rt");
+    let wordTextNode = null;
+    for (const node of rubyElement.childNodes) {
+      if (node.nodeType === Node.TEXT_NODE && node.textContent.trim()) {
+        wordTextNode = node;
+        break;
+      }
+    }
+
+    if (!wordTextNode || !rtElement) return;
+
+    const word = wordTextNode.textContent.trim();
+    const hasKanji = /[一-龯]/.test(word);
+
+    if (!hasKanji) {
+      let readingHTML = '';
+      const firstLi = rtElement.querySelector("li");
+
+      if (firstLi) {
+        readingHTML = firstLi.innerHTML;
+      } else {
+        readingHTML = rtElement.innerHTML;
+      }
+
+      if (readingHTML.trim()) {
+        const readingWrapper = document.createElement('span');
+        readingWrapper.innerHTML = readingHTML;
+
+        rubyElement.replaceChild(readingWrapper, wordTextNode);
+        
+        rtElement.style.display = "none";
+
+        document.getElementById('word').classList.add('reading-is-word');
+      }
+    }
+  }
+
   // Initializes immediate functions
   function init() {
+    noDuplicateKana();
     consolidateYomitanGlossaryEntries();
     dictionaryTitle();
     splitTags();
