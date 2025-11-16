@@ -37,7 +37,7 @@
   
   /* Pitch Accent Options */
   --pitch-style: default;            /* "alt" to change */
-  --sentence-pitch-highlight: false; /* "true" to enable */
+  --sentence-pitch-highlight: true;  /* "true" to enable */
   --pitch-colors: true;              /* "false" to disable */
 
   /* Pitch Accent Colors */
@@ -134,6 +134,13 @@
   --frequency-size: 20px;
   --frequency-content-size: 14px;
   --frequency-max-height: 500px;
+
+  /* Reading Display */
+  /* Set to "true" to replace kana word with its reading */
+  /* Set to "false" to always show the original word */
+  --no-duplicate-kana: true;
+  /* Controls the pitch accent border thickness when a kana word is replaced by its reading */
+  --only-kana-pitch-size: 0.08em;
 
   /* Furigana Display */
   --furigana-display: initial;          /* "none" to hide */
@@ -581,6 +588,12 @@ ul, ol {
 }
 
 /* Word + Grid Settings */
+#word.reading-is-word span[style*="border-top-width"],
+#word.reading-is-word span[style*="border-right-width"] {
+  border-top-width: var(--only-kana-pitch-size) !important;
+  border-right-width: var(--only-kana-pitch-size) !important;
+}
+
 #word li:not(:first-child) {
   display: none;
 }
@@ -1513,6 +1526,28 @@ span[style*="display:inline"]:has(+ span[style*="border:1.5px dotted #c83c28"]) 
 }
 
 /* Jitendex Settings */
+
+.yomitan-glossary [data-dictionary*="Jitendex.org"] {
+  & :is(
+      li[data-sc-content="sense-group"],
+      li[data-sc-content="forms"],
+      ul[data-sc-content="glossary"]
+    ) {
+    padding-left: 0 !important;
+  }
+
+  & :is(
+      div[data-sc-content="sense-group"],
+      li[data-sc-content="sense-group"]:first-child
+    ) {
+    margin-top: 0 !important;
+  }
+
+  & span[data-sc-class="tag"] {
+    margin-right: 0.25em !important;
+  }
+}
+
 li > span > div > span[data-sc-code] + ol > li,
 ol > li:has(> span[data-sc-code] + ol) > ol > li,
 ul > li:has(> span[data-sc-code] + ol) > ol > li {
@@ -1548,24 +1583,32 @@ ul > li:has(> span[data-sc-code] + ol) > ol > li {
   padding-bottom: 0;
 }
 
-ol > li:last-child > ul[data-sc-content="glossary"]:last-child {
-  margin-bottom: -4px !important;
+li[data-sc-content="sense-group"] + 
+li[data-sc-content="sense-group"] {
+    margin-top: 0.5rem !important;
 }
 
-[data-sc-content="example-sentence"],
-[data-sc-content="antonym"],
-[data-sc-content="sense-note"],
-[data-sc-content="xref"] {
+:is(
+  [data-sc-content="example-sentence-a"],
+  [data-sc-content="antonym"],
+  [data-sc-content="sense-note"],
+  [data-sc-content="extra-info"],
+  [data-sc-content="glossary"]
+):last-child {
   margin-bottom: 0 !important;
 }
 
-ol > li:not(:last-child) :is(
-  [data-sc-content="example-sentence"],
-  [data-sc-content="antonym"],
-  [data-sc-content="sense-note"],
-  [data-sc-content="xref"]
-) {
-  margin-bottom: 0.5rem !important;
+#definition > div > span > div > ol > li > span > div:nth-child(1) {
+  margin-bottom: -0.5rem !important;
+}
+
+ol > li:last-child > ul[data-sc-content="glossary"]:last-child, 
+[data-sc-content="glossary"]:last-child {
+  margin-bottom: -4px !important;
+}
+
+.yomitan-glossary [data-dictionary*="Jitendex.org"] div[data-sc-class="extra-box"] {
+  width: auto !important;
 }
 
 [data-sc-content="example-sentence-a"],
@@ -1578,17 +1621,6 @@ ol > li:not(:last-child) :is(
 [data-sc-content="example-sentence-a"], 
 [data-sc-content="example-sentence-b"] {
   font-size: 1em !important;
-}
-
-[data-sc-content="example-sentence"] span {
-  background: unset !important;
-  color: var(--light-highlight) !important;
-  font-size: unset !important;
-}
-
-.card.nightMode [data-sc-content="example-sentence"] span,
-.custom-dark-mode [data-sc-content="example-sentence"] span {
-  color: var(--dark-highlight) !important;
 }
 
 [data-sc-content="example-sentence"] {
@@ -1652,8 +1684,12 @@ span[data-sc-content="example-keyword"] {
   text-decoration: none !important;
 }
 
-.custom-dark-mode span[data-sc-content="example-keyword"], 
-.card.nightMode span[data-sc-content="example-keyword"] {
+span[style*="color-mix(in srgb, lime"] {
+  color: var(--light-highlight) !important;
+}
+
+:is(.custom-dark-mode, .card.nightMode) span[data-sc-content="example-keyword"],
+:is(.custom-dark-mode, .card.nightMode) span[style*="color-mix(in srgb, lime,"] {
   color: var(--dark-highlight) !important;
 }
 
