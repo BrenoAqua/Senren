@@ -1584,12 +1584,13 @@ li[data-sc-content="sense-group"] {
     margin-top: 0.5rem !important;
 }
 
-.definition-box:has([data-dictionary^="Jitendex.org"]) {
-  padding-bottom: calc(var(--spacing-lg) - 0.5rem);
+div[data-sc-content="attribution"] {
+  opacity: 0;
+  margin-bottom: -1.32rem;
 }
 
 [data-sc-content="glossary"]:last-child {
-  margin-bottom: 4px;
+  margin-bottom: 0.15rem;
 }
 
 .yomitan-glossary [data-dictionary*="Jitendex.org"] div[data-sc-class="extra-box"] {
@@ -1676,10 +1677,6 @@ span[style*="color-mix(in srgb, lime"] {
 :is(.custom-dark-mode, .card.nightMode) span[data-sc-content="example-keyword"],
 :is(.custom-dark-mode, .card.nightMode) span[style*="color-mix(in srgb, lime,"] {
   color: var(--dark-highlight) !important;
-}
-
-div[data-sc-content="attribution"] {
-  display: none;
 }
 
 [data-sc-content|="forms"]{
