@@ -1002,7 +1002,22 @@ This Handlebars template displays the **Reading (kana)** as fallback for words l
       display: none;
     }
     
-    /* Changes for Jitendex */
+    /* Jitendex Settings */
+    [data-dictionary*="Jitendex.org"] {
+      li[data-sc-content="sense-group"],
+      li[data-sc-content="forms"],
+      li[data-sc-content="sense"],
+      ul[data-sc-content="glossary"] {
+        padding-left: 0 !important;
+      }
+    }
+    
+    [data-dictionary*="Jitendex.org"] {
+      span[data-sc-class="tag"] {
+        margin-right: 0.25em !important;
+      }
+    }
+    
     .definition-item[data-dictionary*="Jitendex"] *[data-sc-content="example-sentence-a"] {
       font-size: 1em !important;
     }
