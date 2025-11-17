@@ -952,11 +952,11 @@ This Handlebars template displays the **Reading (kana)** as fallback for words l
     }
     
     /* Frequency hover (average enabled) */
-    [data-average-frequency="true"] [data-section-type="frequencies"]:hover .frequency-group-item:not([data-details="Average"]) {
+    [data-average-frequency="true"] [data-section-type="frequencies"]:active .frequency-group-item:not([data-details="Average"]) {
       display: inline-block;
     }
     
-    [data-average-frequency="true"] [data-section-type="frequencies"]:hover .frequency-group-item[data-details="Average"] {
+    [data-average-frequency="true"] [data-section-type="frequencies"]:active .frequency-group-item[data-details="Average"] {
       display: none;
     }
     
@@ -965,7 +965,8 @@ This Handlebars template displays the **Reading (kana)** as fallback for words l
       display: none;
     }
     
-    [data-average-frequency="false"] [data-section-type="frequencies"]:hover span.frequency-group-item:nth-child(n + 3):not([data-details="Average"]) {
+    [data-average-frequency="false"] [data-section-type="frequencies"]:active 
+    span.frequency-group-item:nth-child(n + 3):not([data-details="Average"]) {
       display: inline-block;
     }
     
@@ -974,9 +975,11 @@ This Handlebars template displays the **Reading (kana)** as fallback for words l
       display: none;
     }
     
-    ol.pronunciation-group-list:hover li.pronunciation-group:first-child ~ li.pronunciation-group {
-      display: inline-block;
+    ol.pronunciation-group-list:active li.pronunciation-group:first-child ~ 
+    li.pronunciation-group { 
+      display: inline-block; 
     }
+    
     
     /* Hide add duplicate */
     button.action-button[title="Add duplicate expression (Alt + E)"] {
@@ -1018,6 +1021,16 @@ This Handlebars template displays the **Reading (kana)** as fallback for words l
       content: "|";
       color: rgba(255, 255, 255, 0.5);
       margin: 0 8px;
+    }
+    
+    /* Hide version date */
+    .tag[title^="Jitendex"] .tag-label-content {
+      font-size: 0;
+    }
+    
+    .tag[title^="Jitendex"] .tag-label-content::after {
+      content: "Jitendex";
+      font-size: 0.885rem;
     }
     
     /* Example Keyword */
@@ -1067,10 +1080,6 @@ This Handlebars template displays the **Reading (kana)** as fallback for words l
     
     [data-sc-content="example-sentence"]:hover rt {
       opacity: 1;
-    }
-    
-    [data-sc-content="example-sentence"] span {
-      color: #FCFF61 !important;
     }
     
     /* Hidden */
@@ -1217,7 +1226,7 @@ This Handlebars template displays the **Reading (kana)** as fallback for words l
     
     /* Nasal Mora */
     .pronunciation-nasal-indicator {
-      border: 0.115em solid var(--nasal-color);
+      border: 0.1em solid var(--nasal-color);
       width: 0.35em;
       height: 0.35em;
       right: -0.1em;
