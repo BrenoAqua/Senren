@@ -82,56 +82,36 @@ This Handlebars template displays the **Reading (kana)** as fallback for words l
         {{~/if~}}
         {{~set "previousDictionary" dictionary~}}
     {{/inline}}
-
+    
     {{#*inline "audio"}}
         {{~#if (hasMedia "audio")~}}
             [sound:{{getMedia "audio"}}]
         {{~/if~}}
     {{/inline}}
-
+    
     {{#*inline "character"}}
         {{~definition.character~}}
     {{/inline}}
-
+    
     {{#*inline "dictionary"}}
         {{~definition.dictionary~}}
     {{/inline}}
-
+    
     {{#*inline "dictionary-alias"}}
         {{~definition.dictionaryAlias~}}
     {{/inline}}
-
+    
     {{#*inline "expression"}}
         {{~#if merge~}}
-            {{~#if modeTermKana~}}
-                {{~#each definition.reading~}}
-                    {{{.}}}
-                    {{~#unless @last}}、{{/unless~}}
-                {{~else~}}
-                    {{~#each definition.expression~}}
-                        {{{.}}}
-                        {{~#unless @last}}、{{/unless~}}
-                    {{~/each~}}
-                {{~/each~}}
-            {{~else~}}
-                {{~#each definition.expression~}}
-                    {{{.}}}
-                    {{~#unless @last}}、{{/unless~}}
-                {{~/each~}}
-            {{~/if~}}
+            {{~#each definition.expression~}}
+                {{{.}}}
+                {{~#unless @last}}、{{/unless~}}
+            {{~/each~}}
         {{~else~}}
-            {{~#if modeTermKana~}}
-                {{~#if definition.reading~}}
-                    {{definition.reading}}
-                {{~else~}}
-                    {{definition.expression}}
-                {{~/if~}}
-            {{~else~}}
-                {{definition.expression}}
-            {{~/if~}}
+            {{definition.expression}}
         {{~/if~}}
     {{/inline}}
-
+    
     {{#*inline "furigana"}}
         {{~#if merge~}}
             {{~#each definition.expressions~}}
@@ -142,7 +122,7 @@ This Handlebars template displays the **Reading (kana)** as fallback for words l
             {{furigana definition}}
         {{~/if~}}
     {{/inline}}
-
+    
     {{#*inline "furigana-plain"}}
         {{~#if merge~}}
             {{~#each definition.expressions~}}
@@ -153,7 +133,7 @@ This Handlebars template displays the **Reading (kana)** as fallback for words l
             {{furiganaPlain definition}}
         {{~/if~}}
     {{/inline}}
-
+    
     {{~#*inline "glossary"~}}
         <div style="text-align: left;" class="yomitan-glossary">
         {{~#scope~}}
@@ -165,29 +145,18 @@ This Handlebars template displays the **Reading (kana)** as fallback for words l
                     {{~/if~}}
                 {{~/unless~}}
             {{~else if (op "||" (op "===" definition.type "termGrouped") (op "===" definition.type "termMerged"))~}}
-                {{~#if (op ">" definition.definitions.length 1)~}}
-                    <ol>
-                        {{~#each definition.definitions~}}
-                            {{~#unless (op "&&" ../selectedDictionary (op "!=" ../selectedDictionary dictionary))~}}
-                                <li data-dictionary="{{dictionary}}">
-                                    {{~> glossary-single . brief=../brief noDictionaryTag=../noDictionaryTag ~}}
-                                </li>
-                                {{~#if dictScopedStyles~}}
-                                    <style>{{{dictScopedStyles}}}</style>
-                                {{~/if~}}
-                            {{~/unless~}}
-                        {{~/each~}}
-                    </ol>
-                {{~else~}}
+                <ol>
                     {{~#each definition.definitions~}}
                         {{~#unless (op "&&" ../selectedDictionary (op "!=" ../selectedDictionary dictionary))~}}
-                            {{~> glossary-single . brief=../brief noDictionaryTag=../noDictionaryTag ~}}
-                            {{~#if glossaryScopedStyles~}}
-                                <style>{{{glossaryScopedStyles}}}</style>
+                            <li data-dictionary="{{dictionary}}">
+                                {{~> glossary-single . brief=../brief noDictionaryTag=../noDictionaryTag ~}}
+                            </li>
+                            {{~#if dictScopedStyles~}}
+                                <style>{{{dictScopedStyles}}}</style>
                             {{~/if~}}
                         {{~/unless~}}
                     {{~/each~}}
-                {{~/if~}}
+                </ol>
             {{~else if (op "===" definition.type "kanji")~}}
                 {{~#if (op ">" definition.glossary.length 1)~}}
                     <ol>{{#each definition.glossary}}<li>{{.}}</li>{{/each}}</ol>
@@ -198,15 +167,32 @@ This Handlebars template displays the **Reading (kana)** as fallback for words l
         {{~/scope~}}
         </div>
     {{~/inline~}}
-
+    
     {{#*inline "glossary-no-dictionary"}}
         {{~> glossary noDictionaryTag=true ~}}
     {{/inline}}
-
+    
     {{#*inline "glossary-brief"}}
         {{~> glossary brief=true ~}}
     {{/inline}}
-
+    
+    {{~#*inline "glossary-plain"~}}
+        {{~#scope~}}
+            {{~#each definition.definitions~}}
+                {{~#unless (op "&&" ../selectedDictionary (op "!=" ../selectedDictionary dictionary))~}}
+                    {{~#unless ../noDictionaryTag~}}
+                        ({{dictionaryAlias}})<br>
+                    {{~/unless~}}
+                    {{#each glossary}}{{{formatGlossaryPlain ../dictionary .}}}{{#unless @last}}<br>{{/unless}}{{/each}}{{#unless @last}}<br>{{/unless}}
+                {{~/unless~}}
+            {{~/each~}}
+        {{~/scope~}}
+    {{~/inline~}}
+    
+    {{#*inline "glossary-plain-no-dictionary"~}}
+        {{~> glossary-plain noDictionaryTag=true ~}}
+    {{/inline}}
+    
     {{~#*inline "glossary-first"~}}
         <div style="text-align: left;" class="yomitan-glossary">
         {{~#scope~}}
@@ -235,83 +221,81 @@ This Handlebars template displays the **Reading (kana)** as fallback for words l
         {{~/scope~}}
         </div>
     {{~/inline~}}
-
+    
     {{#*inline "glossary-first-no-dictionary"}}
         {{~> glossary-first noDictionaryTag=true ~}}
     {{/inline}}
-
+    
     {{#*inline "glossary-first-brief"}}
         {{~> glossary-first brief=true ~}}
     {{/inline}}
-
+    
     {{#*inline "kunyomi"}}
         {{~#each definition.kunyomi}}{{.}}{{#unless @last}}, {{/unless}}{{/each~}}
     {{/inline}}
-
+    
     {{#*inline "onyomi"}}
         {{~#each definition.onyomi}}{{.}}{{#unless @last}}, {{/unless}}{{/each~}}
     {{/inline}}
-
+    
     {{#*inline "onyomi-hiragana"}}
         {{~#each definition.onyomi}}{{hiragana .}}{{#unless @last}}, {{/unless}}{{/each~}}
     {{/inline}}
-
+    
     {{#*inline "reading"}}
-        {{~#unless modeTermKana~}}
-            {{~#if merge~}}
-                {{~#each definition.reading~}}
-                    {{{.}}}
-                    {{~#unless @last}}、{{/unless~}}
-                {{~/each~}}
-            {{~else~}}
-                {{~definition.reading~}}
-            {{~/if~}}
-        {{~/unless~}}
+        {{~#if merge~}}
+            {{~#each definition.reading~}}
+                {{{.}}}
+                {{~#unless @last}}、{{/unless~}}
+            {{~/each~}}
+        {{~else~}}
+            {{~definition.reading~}}
+        {{~/if~}}
     {{/inline}}
-
+    
     {{#*inline "sentence"}}
         {{~#if definition.cloze}}{{{definition.cloze.sentence}}}{{/if~}}
     {{/inline}}
-
+    
     {{#*inline "cloze-prefix"}}
         {{~#if definition.cloze}}{{{definition.cloze.prefix}}}{{/if~}}
     {{/inline}}
-
+    
     {{#*inline "cloze-body"}}
         {{~#if definition.cloze}}{{{definition.cloze.body}}}{{/if~}}
     {{/inline}}
-
+    
     {{#*inline "cloze-body-kana"}}
         {{~#if definition.cloze}}{{{definition.cloze.bodyKana}}}{{/if~}}
     {{/inline}}
-
+    
     {{#*inline "cloze-suffix"}}
         {{~#if definition.cloze}}{{{definition.cloze.suffix}}}{{/if~}}
     {{/inline}}
-
+    
     {{#*inline "tags"}}
         {{~#mergeTags definition group merge}}{{this}}{{/mergeTags~}}
     {{/inline}}
-
+    
     {{~#*inline "url"~}}
         <a href="{{definition.url}}">{{definition.url}}</a>
     {{~/inline~}}
-
+    
     {{#*inline "screenshot"}}
         {{~#if (hasMedia "screenshot")~}}
             <img src="{{getMedia "screenshot"}}" />
         {{~/if~}}
     {{/inline}}
-
+    
     {{#*inline "document-title"}}
         {{~context.document.title~}}
     {{/inline}}
-
+    
     {{! Pitch Accents }}
     {{#*inline "pitch-accent-item"}}
-        {{~pronunciation format=format reading=reading downstepPosition=position nasalPositions=nasalPositions devoicePositions=devoicePositions~}}
+        {{~pronunciation format=format reading=reading pitchPositions=positions nasalPositions=nasalPositions devoicePositions=devoicePositions~}}
     {{/inline}}
-
+    
     {{#*inline "pitch-accent-item-disambiguation"}}
         {{~#scope~}}
             {{~set "exclusive" (spread exclusiveExpressions exclusiveReadings)~}}
@@ -323,7 +307,7 @@ This Handlebars template displays the **Reading (kana)** as fallback for words l
             {{~/if~}}
         {{~/scope~}}
     {{/inline}}
-
+    
     {{#*inline "pitch-accent-list"}}
         {{~#if (op ">" pitchCount 0)~}}
             {{~#if (op ">" pitchCount 1)~}}<ol>{{~/if~}}
@@ -338,7 +322,7 @@ This Handlebars template displays the **Reading (kana)** as fallback for words l
             {{~#if (op ">" pitchCount 1)~}}</ol>{{~/if~}}
         {{~/if~}}
     {{/inline}}
-
+    
     {{#*inline "pitch-accents"}}
         {{#if (op ">" pitchCount 0)}}
             {{~> pitch-accent-list format='text'~}}
@@ -346,24 +330,24 @@ This Handlebars template displays the **Reading (kana)** as fallback for words l
             {{~definition.reading~}}
         {{/if}}
     {{/inline}}
-
+    
     {{#*inline "pitch-accent-graphs"}}
         {{~> pitch-accent-list format='graph'~}}
     {{/inline}}
-
+    
     {{#*inline "pitch-accent-graphs-jj"}}
         {{~> pitch-accent-list format='graph-jj'~}}
     {{/inline}}
-
+    
     {{#*inline "pitch-accent-positions"}}
         {{~> pitch-accent-list format='position'~}}
     {{/inline}}
-
+    
     {{~#*inline "pitch-accent-categories"~}}
         {{~#each (pitchCategories @root)~}}{{~.~}}{{~#unless @last~}},{{~/unless~}}{{~/each~}}
     {{~/inline~}}
     {{! End Pitch Accents }}
-
+    
     {{#*inline "phonetic-transcriptions"}}
         {{~#if (op ">" definition.phoneticTranscriptions.length 0)~}}
             <ul>
@@ -384,17 +368,17 @@ This Handlebars template displays the **Reading (kana)** as fallback for words l
             </ul>
         {{~/if~}}
     {{/inline}}
-
+    
     {{#*inline "clipboard-image"}}
         {{~#if (hasMedia "clipboardImage")~}}
             <img src="{{getMedia "clipboardImage"}}" />
         {{~/if~}}
     {{/inline}}
-
+    
     {{#*inline "clipboard-text"}}
         {{~#if (hasMedia "clipboardText")}}{{{getMedia "clipboardText"}}}{{/if~}}
     {{/inline}}
-
+    
     {{#*inline "conjugation"}}
         {{~#if (op ">" definition.inflectionRuleChainCandidates.length 0)~}}
             {{~set "multiple" false~}}
@@ -415,24 +399,36 @@ This Handlebars template displays the **Reading (kana)** as fallback for words l
             {{~#if (get "multiple")~}}</ul>{{/if~}}
         {{~/if~}}
     {{/inline}}
-
+    
     {{#*inline "frequencies"}}
         {{~#if (op ">" definition.frequencies.length 0)~}}
             <ul style="text-align: left;">
             {{~#each definition.frequencies~}}
-                <li>
-                {{~#if (op "!==" ../definition.type "kanji")~}}
-                    {{~#if (op "||" (op ">" ../uniqueExpressions.length 1) (op ">" ../uniqueReadings.length 1))~}}(
-                        {{~furigana expression reading~}}
-                    ) {{/if~}}
-                {{~/if~}}
-                {{~dictionaryAlias}}: {{frequency~}}
-                </li>
+                {{~#unless (op "&&" ../selectedDictionary (op "!=" ../selectedDictionary dictionary))~}}
+                    <li>
+                    {{~#if (op "!==" ../definition.type "kanji")~}}
+                        {{~#if (op "||" (op ">" ../uniqueExpressions.length 1) (op ">" ../uniqueReadings.length 1))~}}(
+                            {{~furigana expression reading~}}
+                        ) {{/if~}}
+                    {{~/if~}}
+                    {{~dictionaryAlias}}: {{frequency~}}
+                    </li>
+                {{~/unless~}}
             {{~/each~}}
             </ul>
         {{~/if~}}
     {{/inline}}
-
+    
+    {{#*inline "single-frequency-number"}}
+        {{~#if (op ">" definition.frequencyNumbers.length 0)~}}
+            {{~#each definition.frequencyNumbers~}}
+                {{~#unless (op "&&" ../selectedDictionary (op "!=" ../selectedDictionary dictionary))~}}
+                        {{frequency~}}
+                {{~/unless~}}
+            {{~/each~}}
+        {{/if}}
+    {{/inline}}
+    
     {{#*inline "frequency-harmonic-rank"}}
         {{~#if (op "===" definition.frequencyHarmonic -1) ~}}
             9999999
@@ -440,7 +436,7 @@ This Handlebars template displays the **Reading (kana)** as fallback for words l
             {{definition.frequencyHarmonic}}
         {{~/if~}}
     {{/inline}}
-
+    
     {{#*inline "frequency-harmonic-occurrence"}}
         {{~#if (op "===" definition.frequencyHarmonic -1) ~}}
             0
@@ -448,7 +444,7 @@ This Handlebars template displays the **Reading (kana)** as fallback for words l
             {{definition.frequencyHarmonic}}
         {{~/if~}}
     {{/inline}}
-
+    
     {{#*inline "frequency-average-rank"}}
         {{~#if (op "===" definition.frequencyAverage -1) ~}}
             9999999
@@ -456,7 +452,7 @@ This Handlebars template displays the **Reading (kana)** as fallback for words l
             {{definition.frequencyAverage}}
         {{~/if~}}
     {{/inline}}
-
+    
     {{#*inline "frequency-average-occurrence"}}
         {{~#if (op "===" definition.frequencyAverage -1) ~}}
             0
@@ -464,7 +460,7 @@ This Handlebars template displays the **Reading (kana)** as fallback for words l
             {{definition.frequencyAverage}}
         {{~/if~}}
     {{/inline}}
-
+    
     {{#*inline "stroke-count"}}
         {{~#scope~}}
             {{~set "found" false~}}
@@ -479,7 +475,7 @@ This Handlebars template displays the **Reading (kana)** as fallback for words l
             {{~/if~}}
         {{~/scope~}}
     {{/inline}}
-
+    
     {{#*inline "part-of-speech-pretty"}}
         {{~#if (op "===" . "v1")~}}Ichidan verb
         {{~else if (op "===" . "v5")~}}Godan verb
@@ -491,7 +487,7 @@ This Handlebars template displays the **Reading (kana)** as fallback for words l
         {{~else~}}{{.}}
         {{~/if~}}
     {{/inline}}
-
+    
     {{#*inline "part-of-speech"}}
         {{~#scope~}}
             {{~#if (op "!==" definition.type "kanji")~}}
@@ -510,15 +506,15 @@ This Handlebars template displays the **Reading (kana)** as fallback for words l
             {{~/if~}}
         {{~/scope~}}
     {{/inline}}
-
+    
     {{#*inline "search-query"}}
         {{~#multiLine}}{{context.fullQuery}}{{/multiLine~}}
     {{/inline}}
-
+    
     {{#*inline "popup-selection-text"}}
         {{~#if (hasMedia "popupSelectionText")}}{{{getMedia "popupSelectionText"}}}{{/if~}}
     {{/inline}}
-
+    
     {{#*inline "sentence-furigana"}}
         {{~#if definition.cloze~}}
             {{~#if (hasMedia "textFurigana" definition.cloze.sentence)~}}
@@ -528,7 +524,7 @@ This Handlebars template displays the **Reading (kana)** as fallback for words l
             {{~/if~}}
         {{~/if~}}
     {{/inline}}
-
+    
     {{#*inline "sentence-furigana-plain"}}
         {{~#if definition.cloze~}}
             {{~#if (hasMedia "textFuriganaPlain" definition.cloze.sentence)~}}
@@ -538,6 +534,7 @@ This Handlebars template displays the **Reading (kana)** as fallback for words l
             {{~/if~}}
         {{~/if~}}
     {{/inline}}
+    
     {{~> (lookup . "marker") ~}}
     ```
 
