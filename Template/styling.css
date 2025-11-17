@@ -37,7 +37,7 @@
   
   /* Pitch Accent Options */
   --pitch-style: default;            /* "alt" to change */
-  --sentence-pitch-highlight: true;  /* "true" to enable */
+  --sentence-pitch-highlight: false; /* "true" to enable */
   --pitch-colors: true;              /* "false" to disable */
 
   /* Pitch Accent Colors */
@@ -136,11 +136,8 @@
   --frequency-max-height: 500px;
 
   /* Reading Display */
-  /* Set to "true" to replace kana word with its reading */
-  /* Set to "false" to always show the original word */
-  --no-duplicate-kana: true;
-  /* Controls the pitch accent border thickness when a kana word is replaced by its reading */
-  --only-kana-pitch-size: 0.08em;
+  --no-duplicate-kana: false; /* "true" to replace kana word with its reading */
+  --only-kana-pitch-size: 0.08em; /* Controls the pitch accent border thickness when a kana word is replaced by its reading */
 
   /* Furigana Display */
   --furigana-display: initial;          /* "none" to hide */
@@ -1526,7 +1523,6 @@ span[style*="display:inline"]:has(+ span[style*="border:1.5px dotted #c83c28"]) 
 }
 
 /* Jitendex Settings */
-
 .yomitan-glossary [data-dictionary*="Jitendex.org"] {
   & :is(
       li[data-sc-content="sense-group"],
@@ -1588,23 +1584,12 @@ li[data-sc-content="sense-group"] {
     margin-top: 0.5rem !important;
 }
 
-:is(
-  [data-sc-content="example-sentence-a"],
-  [data-sc-content="antonym"],
-  [data-sc-content="sense-note"],
-  [data-sc-content="extra-info"],
-  [data-sc-content="glossary"]
-):last-child {
-  margin-bottom: 0 !important;
+.definition-box:has([data-dictionary^="Jitendex.org"]) {
+  padding-bottom: calc(var(--spacing-lg) - 0.5rem);
 }
 
-#definition > div > span > div > ol > li > span > div:nth-child(1) {
-  margin-bottom: -0.5rem !important;
-}
-
-ol > li:last-child > ul[data-sc-content="glossary"]:last-child, 
 [data-sc-content="glossary"]:last-child {
-  margin-bottom: -4px !important;
+  margin-bottom: 4px;
 }
 
 .yomitan-glossary [data-dictionary*="Jitendex.org"] div[data-sc-class="extra-box"] {
