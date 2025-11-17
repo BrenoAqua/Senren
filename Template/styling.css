@@ -1,3 +1,4 @@
+/* Fonts */
 @font-face {
   font-family: klee;
   src: url("_KleeOne-SemiBold.ttf");
@@ -17,176 +18,177 @@
 :root {
   /* ===== BASE SETTINGS ===== */
   /* Global */
-  font-size: clamp(19px, 3vw, 24px); /* Scales with viewport, min 19px, max 24px */
-  --base-size: clamp(19px, 3vw, 24px);
-  --base-line-height: 1.5;
-  --base-padding: 20px;
-  --base-transition: 0.3s ease;
-  --fast-transition: 0.2s ease;
+  font-size:                          clamp(19px, 3vw, 24px); /* Scales with viewport, min 19px, max 24px */
+  --base-size:                        clamp(19px, 3vw, 24px);
+  --base-line-height:                 1.5;
+  --base-padding:                     20px;
+  --base-transition:                  0.3s ease;
+  --fast-transition:                  0.2s ease;
   
   /* Fonts */
-  --sans: hiragino kaku gothic proN, notosansjp, Noto Sans JP;
-  --serif: klee, Klee One SemiBold, notoserifjp, Noto Serif JP;
+  --sans:                             hiragino kaku gothic proN, notosansjp, Noto Sans JP;
+  --serif:                            klee, Klee One SemiBold, notoserifjp, Noto Serif JP;
   
   /* ===== COLORS ===== */
   /* Theme Colors */
-  --light-bg: white;
-  --light-text: black;
-  --dark-bg: black;
-  --dark-text: white;
+  --light-bg:                         white;
+  --light-text:                       black;
+  --dark-bg:                          black;
+  --dark-text:                        white;
   
   /* Pitch Accent Options */
-  --pitch-style: default;            /* "alt" to change */
-  --sentence-pitch-highlight: false; /* "true" to enable */
-  --pitch-colors: true;              /* "false" to disable */
+  --pitch-style:                      default; /* "alt" to change */
+  --sentence-pitch-highlight:         false;   /* "true" to enable */
+  --pitch-colors:                     true;    /* "false" to disable */
 
   /* Pitch Accent Colors */
-  --pitch-red: #F5436D;
-  --pitch-blue: #39C1FF;
-  --pitch-orange: #fca311;
-  --pitch-green: #40D4A6;
-  --pitch-purple: #afa2ff;
+  --pitch-red:                        #F5436D;
+  --pitch-blue:                       #39C1FF;
+  --pitch-orange:                     #fca311;
+  --pitch-green:                      #40D4A6;
+  --pitch-purple:                     #afa2ff;
 
   /* Devoiced Mora Color */
-  --light-devoiced-color: RoyalBlue;
-  --dark-devoiced-color: cornflowerBlue;
+  --light-devoiced-color:             RoyalBlue;
+  --dark-devoiced-color:              cornflowerBlue;
 
   /* Highlight Colors */
-  --dark-highlight: #FCFF61;
-  --light-highlight: #E20033;
+  --dark-highlight:                   #FCFF61;
+  --light-highlight:                  #E20033;
   
   /* ===== BACKGROUND COLORS ===== */
-  --card-bg: rgba(0,0,0,0.4);
-  --buttons-bg: rgba(0,0,0,0.1);
-  --buttons-bg-hover: rgba(0, 0, 0, 0.63);
-  --lightbox-bg: rgba(0, 0, 0, 0.8);
-  --frequency-bg-light: rgba(0, 0, 0, 0.8);
-  --frequency-bg-dark: rgba(0, 0, 0, 0.63);
+  --card-bg:                          rgba(0,0,0,0.4);
+  --buttons-bg:                       rgba(0,0,0,0.1);
+  --buttons-bg-hover:                 rgba(0, 0, 0, 0.63);
+  --lightbox-bg:                      rgba(0, 0, 0, 0.8);
+  --frequency-bg-light:               rgba(0, 0, 0, 0.8);
+  --frequency-bg-dark:                rgba(0, 0, 0, 0.63);
   
   /* ===== TEXT COLORS ===== */
-  --text-color-light: rgba(105, 105, 105, 0.3);
-  --text-color-dark: rgba(255, 255, 255, 0.2);
-  --text-color-muted: rgba(105, 105, 105, 0.3);
-  --text-color-muted-dark: rgba(255, 255, 255, 0.5);
+  --text-color-light:                 rgba(105, 105, 105, 0.3);
+  --text-color-dark:                  rgba(255, 255, 255, 0.2);
+  --text-color-muted:                 rgba(105, 105, 105, 0.3);
+  --text-color-muted-dark:            rgba(255, 255, 255, 0.5);
   
   /* ===== LAYOUT & SPACING ===== */
   /* Default States */
-  --word-sentence-default-expanded:  false; /* "true" to show sentence on word cards immediately */  
-  --audio-sentence-default-expanded: false; /* "true" to show sentence on audio cards immediately */
-  --notes-default-expanded:          false; /* "true" to show notes immediately */
-  --collect-glossary-images:         true;  /* "false" to disable image collection */
+  --word-sentence-default-expanded:   false; /* "true" to show sentence on word cards immediately */  
+  --audio-sentence-default-expanded:  false; /* "true" to show sentence on audio cards immediately */
+  --notes-default-expanded:           false; /* "true" to show notes immediately */
+  --collect-glossary-images:          true;  /* "false" to disable image collection */
 
   /* Spacing Scale */
-  --spacing-xs: 2px;
-  --spacing-sm: 3px;
-  --spacing-ms: 8px;
-  --spacing-md: 10px;
-  --spacing-lg: 15px;
-  --spacing-xl: 20px;
-  --spacing-xxl: 24px;
-  --spacing-xxml: 27px;
-  --spacing-xxxl: 34px;
+  --spacing-xs:                       2px;
+  --spacing-sm:                       3px;
+  --spacing-ms:                       8px;
+  --spacing-md:                       10px;
+  --spacing-lg:                       15px;
+  --spacing-xl:                       20px;
+  --spacing-xxl:                      24px;
+  --spacing-xxml:                     27px;
+  --spacing-xxxl:                     34px;
   
   /* Layout Components */
-  --card-max-width: 800px;
-  --front-top-offset: 104px;
-  --back-top-offset: 26px;
-  --grid-gap: var(--spacing-xl);
-  --grid-column-min-width: 390px;
+  --card-max-width:                   800px;
+  --front-top-offset:                 104px;
+  --back-top-offset:                  26px;
+  --grid-gap:                         var(--spacing-xl);
+  --grid-column-min-width:            390px;
 
-  --grid-order: "word picture"; /* Options: "word picture" | "picture word" (flips layout) */
-     --grid-columns: minmax(var(--grid-column-min-width), 1fr) auto;
+  --grid-order:                       "word picture"; /* Options: "word picture" | "picture word" (flips layout) */
+  --grid-columns:                     minmax(var(--grid-column-min-width), 1fr) auto;
 
-  /* Substitue the above for "picture word" layout: */
-  /* --grid-columns: auto minmax(var(--grid-column-min-width), 1fr); */
+  /* Use the line below for the "picture word" layout:
+  --grid-columns:                     auto minmax(var(--grid-column-min-width), 1fr);
+  */
   
   /* Component Sizes */
-  --button-size: 20px;
-  --toggle-width-large: 60px;
-  --toggle-width-medium: 20px;
-  --picture-height: 220px;
-  --lightbox-nav-width: 100px;
+  --button-size:                      20px;
+  --toggle-width-large:               60px;
+  --toggle-width-medium:              20px;
+  --picture-height:                   220px;
+  --lightbox-nav-width:               100px;
 
   /* Border Radius */
-  --border-radius-sm: 4px;
-  --border-radius-ms: 5px;
-  --border-radius-md: 10px;
-  --border-radius-lg: 12px;
+  --border-radius-sm:                 4px;
+  --border-radius-ms:                 5px;
+  --border-radius-md:                 10px;
+  --border-radius-lg:                 12px;
   
   /* ===== TYPOGRAPHY ===== */
   /* Word Sizes */
-  --word-size-base: 2.5rem;
-  --word-size-4: 2.1rem; /* For 4-character words */
-  --word-size-5: 2.0rem; /* For 5-character words */
-  --word-size-6: 1.9rem; /* For 6-character words */
-  --word-size-7: 1.8rem; /* For 7-character words */
-  --word-size-8: 1.6rem; /* For 8-character words */
-  --word-size-9: 1.5rem; /* For 9-character+ words */
+  --word-size-base:                   2.5rem;
+  --word-size-4:                      2.1rem; /* For 4-character words */
+  --word-size-5:                      2.0rem; /* For 5-character words */
+  --word-size-6:                      1.9rem; /* For 6-character words */
+  --word-size-7:                      1.8rem; /* For 7-character words */
+  --word-size-8:                      1.6rem; /* For 8-character words */
+  --word-size-9:                      1.5rem; /* For 9-character+ words */
 
   /* Sentence Sizes */
-  --sentence-size: 1.3rem;
-  --sentence-eng-size: 0.8rem;
+  --sentence-size:                    1.3rem;
+  --sentence-eng-size:                0.8rem;
   
   /* Definition Size */
   --definition-size: 0.8rem;
   
   /* Frequency Sizes */
-  --frequency-size: 20px;
-  --frequency-content-size: 14px;
-  --frequency-max-height: 500px;
+  --frequency-size:                   20px;
+  --frequency-content-size:           14px;
+  --frequency-max-height:             500px;
 
   /* Reading Display */
-  --no-duplicate-kana: false; /* "true" to replace kana word with its reading */
-  --only-kana-pitch-size: 0.08em; /* Controls the pitch accent border thickness when a kana word is replaced by its reading */
+  --no-duplicate-kana:                false;   /* "true" to replace kana word with its reading */
+  --only-kana-pitch-size:             0.08em;  /* Controls the pitch accent border thickness when a kana word is replaced by its reading */
 
   /* Furigana Display */
-  --furigana-display: initial;          /* "none" to hide */
+  --furigana-display:                 initial; /* "none" to hide */
 
   /* Dictionary Title */
-  --definition-title-visibility: block; /* "none" to hide */
-  --glossary-title-visibility:   block; /* "none" to hide */
-  --dict-size: 0.5rem;
-  --dict-display: inline-block;
-  --light-dict-color: rgba(0, 0, 0, 0.4);
-  --dict-color: rgba(255, 255, 255, 0.4);
+  --definition-title-visibility:      block;   /* "none" to hide */
+  --glossary-title-visibility:        block;   /* "none" to hide */
+  --dict-size:                        0.5rem;
+  --dict-display:                     inline-block;
+  --light-dict-color:                 rgba(0, 0, 0, 0.4);
+  --dict-color:                       rgba(255, 255, 255, 0.4);
 
   /* ===== HEADER ===== */
-  --custom-dark-mode-visibility: flex;    /* "none"   to hide */
-  --audio-visibility:            visible; /* "hidden" to hide */
-  --freq-visibility:             visible; /* "hidden" to hide */
+  --custom-dark-mode-visibility:      flex;    /* "none"   to hide */
+  --audio-visibility:                 visible; /* "hidden" to hide */
+  --freq-visibility:                  visible; /* "hidden" to hide */
 
   /* ===== FOOTER ===== */
   /* Tags */
-  --tag-visibility: flex; /* "none" to hide */
-  --tag-font-size: 0.7rem;
-  --tag-padding: 5px 10px;
-  --tag-margin-top: 5px;
-  --tag-margin-bottom: 0;
-  --tag-border-radius: 5px;
-  --tag-bg: var(--card-bg);
-  --tag-color: white;
-  --tags-container-gap: 0 5px;
+  --tag-visibility:                   flex;    /* "none" to hide */
+  --tag-font-size:                    0.7rem;
+  --tag-padding:                      5px 10px;
+  --tag-margin-top:                   5px;
+  --tag-margin-bottom:                0;
+  --tag-border-radius:                5px;
+  --tag-bg:                           var(--card-bg);
+  --tag-color:                        white;
+  --tags-container-gap:               0 5px;
 
   /* External Links */
-  --external-links-visibility: flex; /* "none" to hide */
-  --external-links-padding: 5px 10px;
-  --external-links-margin-top: 5px;
-  --external-links-margin-bottom: 0;
-  --external-links-icon-size: 25px;
+  --external-links-visibility:        flex;    /* "none" to hide */
+  --external-links-padding:           5px 10px;
+  --external-links-margin-top:        5px;
+  --external-links-margin-bottom:     0;
+  --external-links-icon-size:         25px;
 
   /* Misc Info Size */
-  --misc-info-size: 15px;
+  --misc-info-size:                   15px;
   
   /* ===== SHADOWS & Z-INDEX ===== */
   /* Shadows */
-  --button-shadow: 0 0 5px 2.5px rgba(0, 0, 0, 0.1);
-  --button-shadow-dark: 0 0 5px 2.5px rgba(255, 255, 255, 0.1);
-  --lightbox-shadow: 0 1px 8px rgba(0, 0, 0, 0.15);
+  --button-shadow:                    0 0 5px 2.5px rgba(0, 0, 0, 0.1);
+  --button-shadow-dark:               0 0 5px 2.5px rgba(255, 255, 255, 0.1);
+  --lightbox-shadow:                  0 1px 8px rgba(0, 0, 0, 0.15);
   
   /* Z-index Layers */
-  --z-index-base: 1;
-  --z-index-toggle: 2;
-  --z-index-lightbox: 1000;
+  --z-index-base:                     1;
+  --z-index-toggle:                   2;
+  --z-index-lightbox:                 1000;
   }
 
   /* ===== RESPONSIVE DESIGN ===== */
@@ -194,7 +196,7 @@
   @media (max-width: 1050px) {
   :root {
     /* Grid Columns */
-    --grid-columns-large: repeat(2, 1fr); /* Two columns */
+    --grid-columns-large:             repeat(2, 1fr); /* Two columns */
 
     /* Remove the comment markers around the block below to flip the layout (picture left, word right) */
 
@@ -210,7 +212,7 @@
   @media (max-width: 768px) {
   :root {
     /* Grid Columns */
-    --grid-columns-medium: repeat(2, 1fr); /* Two columns */
+    --grid-columns-medium:            repeat(2, 1fr); /* Two columns */
 
     /* Remove the comment markers around the block below to flip the layout (picture left, word right) */
 
@@ -226,7 +228,7 @@
   @media (max-width: 624px) {
   :root {
     /* Grid Columns */
-    --grid-columns-small: repeat(1, 1fr); /* One column */
+    --grid-columns-small:             repeat(1, 1fr); /* One column */
 
     /* Remove --grid-order entirely to enable a two-column layout */
     --grid-order: 
@@ -241,8 +243,8 @@
     */
 
     /* Picture Height */
-    --picture-height-small: 330px;    /* Max picture height */
-    --picture-max-height-small: 100%; /* Max picture img height */
+    --picture-height-small:           330px; /* Max picture height */
+    --picture-max-height-small:       100%;  /* Max picture img height */
   }
 }
 
