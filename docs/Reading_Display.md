@@ -8,7 +8,6 @@ Hides the reading when a word is written entirely in kana while keeping the pitc
 === "After"
     ![After](assets/images/No_Duplicate_Kana.png)
 
-
 **How to Use:**
 
 To enable this feature, you need to edit the `Styling` in your Anki card template.
