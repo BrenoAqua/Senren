@@ -1,6 +1,6 @@
 # Reading Display
 
-This feature hides the reading when a word is written entirely in kana while keeping the pitch accent, preventing redundant information and maintaining a clean layout.
+Hides the reading when a word is written entirely in kana while keeping the pitch accent, preventing redundant information and maintaining a clean layout.
 
 === "Before"
     ![Before](assets/images/No_Duplicate_Kana_Before.png)
