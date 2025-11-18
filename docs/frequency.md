@@ -7,4 +7,4 @@
     ![Default Layout](assets/images/Freq_Default_Preview.gif)
 
 === "Medium-Small Layout"
-    ![Medium-Small Layout](assets/images/Freq_Medium-Small_Preview.gif)
+    ![Medium-Small Layout](assets/images/Freq_Medium-Small.gif)
