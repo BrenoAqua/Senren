@@ -38,7 +38,7 @@
 
   /* Pitch Accent Options */
   --pitch-style:                      default; /* "alt" to change */
-  --sentence-pitch-highlight:         true;    /* "true" to enable */
+  --sentence-pitch-highlight:         false;   /* "true" to enable */
   --pitch-colors:                     true;    /* "false" to disable */
 
   /* Pitch Accent Colors */
