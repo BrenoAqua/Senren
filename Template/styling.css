@@ -295,7 +295,7 @@
   --frequency-max-height:             500px;
 
   /* Reading Display */
-  --no-duplicate-kana:                true;    /* "true" to replace kana word with its reading */
+  --no-duplicate-kana:                false;   /* "true" to replace kana word with its reading */
   --only-kana-pitch-size:             0.08em;  /* Controls the pitch accent border thickness when a kana word is replaced by its reading */
 
   /* Furigana Display */
