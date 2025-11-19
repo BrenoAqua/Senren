@@ -10,7 +10,7 @@ In Yomitan Settings -> Anki -> Configure Anki Flashcards:
 |-----------------------|-----------------------------------------------------------------------------|--------------|
 |  word                 | `{expression}`                                                              |              |
 |  sentence             | `{cloze-prefix}<span class="highlight">{cloze-body}</span>{cloze-suffix}`   |              |
-|  sentenceFurigana     | `{sentence-furigana-plain}`                                                 |              |
+|  sentenceFurigana     | `{sentence-furigana}`                                                       | Or `{sentence-furigana-plain}` if you prefer. |
 |  sentenceEng          |                                                                             | Leave empty. |
 |  reading              | `{pitch-accents}`                                                           |              |
 |  sentenceCard         |                                                                             | Leave empty. |
