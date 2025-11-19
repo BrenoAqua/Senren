@@ -38,7 +38,7 @@
 
   /* Pitch Accent Options */
   --pitch-style:                      default; /* "alt" to change */
-  --sentence-pitch-highlight:         false;   /* "true" to enable */
+  --sentence-pitch-highlight:         true;    /* "true" to enable */
   --pitch-colors:                     true;    /* "false" to disable */
 
   /* Pitch Accent Colors */
@@ -216,6 +216,9 @@
   /* --- BACKGROUND COLORS --- */
   --disable-main-bg:                  block; /* "none" to disable the main bg */
   --card-bg:                          rgba(0,0,0,0.4);
+  --word-bg:                          rgba(0,0,0,0.3);
+  --picture-bg:                       rgba(0,0,0,0.3);
+  --definition-bg:                    rgba(0,0,0,0.3);
   --buttons-bg:                       rgba(0,0,0,0.1);
   --buttons-bg-hover:                 rgba(0, 0, 0, 0.63);
   --lightbox-bg:                      rgba(0, 0, 0, 0.8);
@@ -276,12 +279,12 @@
   /* --- TYPOGRAPHY --- */
   /* Word Sizes */
   --word-size-base:                   2.5rem;
-  --word-size-4:                      2.1rem; /* For 4-character words */
-  --word-size-5:                      2.0rem; /* For 5-character words */
-  --word-size-6:                      1.9rem; /* For 6-character words */
-  --word-size-7:                      1.8rem; /* For 7-character words */
-  --word-size-8:                      1.6rem; /* For 8-character words */
-  --word-size-9:                      1.5rem; /* For 9-character+ words */
+  --word-size-4:                      2.1rem;  /* For 4-character words */
+  --word-size-5:                      2.0rem;  /* For 5-character words */
+  --word-size-6:                      1.7rem;  /* For 6-character words */
+  --word-size-7:                      1.6rem;  /* For 7-character words */
+  --word-size-8:                      1.3rem;  /* For 8-character words */
+  --word-size-9:                      1.15rem; /* For 9-character+ words */
 
   /* Sentence Sizes */
   --sentence-size:                    1.3rem;
@@ -813,7 +816,7 @@ ul, ol {
 }
 
 .card.nightMode .background-box {
-  background: var(--card-bg);
+  background: var(--word-bg);
 }
 
 /* Picture Container */
@@ -857,7 +860,7 @@ img {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: var(--card-bg);
+  background: var(--picture-bg);
   border-radius: var(--border-radius-ms);
   overflow: hidden;
 }
@@ -1136,7 +1139,7 @@ img {
 
 .card.nightMode .glossary-box, 
 .card.nightMode .definition-box {
-  background: var(--card-bg);
+  background: var(--definition-bg);
 }
 
 /* Toggle Areas */
@@ -1831,9 +1834,14 @@ div[data-sc-content="attribution"] {
   opacity: 1;
 }
 
-span[data-sc-content="example-keyword"] {
+span[data-sc-content="example-keyword"], span[style*="color-mix(in srgb, lime"] {
   color: var(--light-highlight) !important;
   text-decoration: none !important;
+}
+
+.card.nightMode span:is([data-sc-content="example-keyword"], [style*="color-mix("]),
+.custom-dark-mode span:is([data-sc-content="example-keyword"], [style*="color-mix("]) {
+  color: var(--dark-highlight) !important;
 }
 
 :is(
