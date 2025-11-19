@@ -27,7 +27,7 @@ In Yomitan Settings -> Anki -> Configure Anki Flashcards:
 |  frequency            | `{frequencies}`                                                             | Requires [frequency dictionaries](https://drive.google.com/drive/folders/1cJn4lw-a-YollDJvEkfUyRcel6QndFDN?usp=sharing). |
 |  freqSort             | `{frequency-harmonic-rank}`                                                 | Used for sorting new cards. Uses same [frequency dictionaries](https://drive.google.com/drive/folders/1cJn4lw-a-YollDJvEkfUyRcel6QndFDN?usp=sharing). |
 |  miscInfo             | `{document-title}`                                                          | Captures the source web page title. Leave empty if using mpvacious or similar tools that populate this. |
-|  dictionaryPreference |                                                                             | Enter `glossary` to show the glossary field first by default. Leave empty to show the `definition` field first. Or enter a specific dictionary name to prioritize it over the others (e.g. `新選国語辞典　第十版`). <br><br> Use [Batch Editing add-on](https://ankiweb.net/shared/info/291119185) to update existing cards. |
+|  dictionaryPreference |                                                                             | Enter `glossary` to show the glossary first, leave it empty to show the `definition` first, or enter a dictionary name to prioritize it (e.g., `新選国語辞典　第十版`). If Jitendex is your main dictionary but you want another one for a specific card, edit this field in **Anki** and it will take priority without using Selection Text. <br><br> Use [Batch Editing add-on](https://ankiweb.net/shared/info/291119185) to update existing cards. |
 
 ## Result Display Setting
 
