@@ -59,6 +59,7 @@
   /* --- DICTIONARY COLORIZER --- */
   --dictionary-colorizer:             0;       /* "1" to enable the entire colorizer */
   --dict-bg-enabled:                  1;       /* "0" to disable just the background color */
+  --dict-back-bg:                     0;       /* "1" to enable the background on the entire card */
   --dict-bg-opacity:                  0.03;    /* Opacity of the background color */
   --dict-border-width:                5px;     /* Width of the colored border */
 
@@ -1885,6 +1886,15 @@ span[data-sc-content="example-keyword"] {
   font-size: var(--dict-size);
 }
 
+/* JA Wikipedia */
+[data-dictionary^="JA Wikipedia"] .dictionary-title {
+  font-size: 0;
+}
+[data-dictionary^="JA Wikipedia"] .dictionary-title::after {
+  content: "JA Wikipedia";
+  font-size: var(--dict-size);
+}
+
 /* Pixiv */
 [data-dictionary^="Pixiv"] .dictionary-title {
   font-size: 0;
@@ -2568,6 +2578,14 @@ li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br)
   --dict-color: currentColor;
   position: relative;
   padding-left: calc(var(--dictionary-colorizer) * var(--spacing-lg));
+}
+
+.back:has(li[data-dictionary]) {
+  background-color: rgba(
+    var(--dict-color-rgb, 0, 0, 0),
+    calc(var(--dictionary-colorizer) * var(--dict-back-bg) * var(--dict-bg-opacity))
+  );
+  border-radius: var(--border-radius-ms);
 }
 
 #definition:has(li[data-dictionary]), #glossary:has(li[data-dictionary]) {
