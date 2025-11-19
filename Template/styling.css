@@ -38,7 +38,7 @@
 
   /* Pitch Accent Options */
   --pitch-style:                      default; /* "alt" to change */
-  --sentence-pitch-highlight:         true;    /* "true" to enable */
+  --sentence-pitch-highlight:         false;   /* "true" to enable */
   --pitch-colors:                     true;    /* "false" to disable */
 
   /* Pitch Accent Colors */
@@ -57,7 +57,7 @@
   --light-highlight:                  #E20033;
 
   /* --- DICTIONARY COLORIZER --- */
-  --dictionary-colorizer:             1;       /* "1" to enable the entire colorizer */
+  --dictionary-colorizer:             0;       /* "1" to enable the entire colorizer */
   --dict-bg-enabled:                  1;       /* "0" to disable just the background color */
   --dict-bg-opacity:                  0.03;    /* Opacity of the background color */
   --dict-border-width:                5px;     /* Width of the colored border */
