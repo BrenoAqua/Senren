@@ -1266,7 +1266,7 @@ This Handlebars template displays the **Reading (kana)** as fallback for words l
 ??? note "Click to expand Popup CSS Code"
 
     ```css
-    /* Firefox specific fix for furigana alignment */
+    /* Firefox specific fix for furigana alignment (Remove this rule if not using Firefox) */
     .headword ruby>* {
       margin-top: -3px;
       margin-bottom: -10px;
@@ -2039,7 +2039,7 @@ This Handlebars template displays the **Reading (kana)** as fallback for words l
 
 ??? note "Click to expand Popup outer CSS Code"
 
-    ```
+    ```css
     iframe.yomitan-popup[data-theme="light"] {
         color-scheme: light !important; /* forces light theme so it works on google.com*/
         --outer-bg: rgba(210, 210, 215, 0.85);
