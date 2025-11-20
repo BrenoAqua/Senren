@@ -214,7 +214,6 @@
   --wikipedia-color-dark-rgb:               100, 149, 237;
 
   /* --- BACKGROUND COLORS --- */
-  --disable-main-bg:                  block; /* "none" to disable the main bg */
   --card-bg:                          rgba(0,0,0,0.4);
   --word-bg:                          rgba(0,0,0,0.3);
   --picture-bg:                       rgba(0,0,0,0.3);
@@ -233,6 +232,7 @@
 
   /* --- LAYOUT & SPACING --- */
   /* Default States */
+  --main-bg:                          block; /* "none" to disable the main bg */
   --word-sentence-default-expanded:   false; /* "true" to show sentence on word cards immediately */  
   --audio-sentence-default-expanded:  false; /* "true" to show sentence on audio cards immediately */
   --notes-default-expanded:           false; /* "true" to show notes immediately */
@@ -435,6 +435,10 @@
 .card.nightMode .front::before, 
 .card.nightMode .back::before {
   background: var(--card-bg);
+}
+
+.back::before {
+  display: var(--main-bg);
 }
 
 /* ===== FRONT ===== */
@@ -3270,8 +3274,4 @@ li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br)
   .frequency-content {
     max-height: 0.5px;
   }
-}
-
-.back::before {
-  display: var(--disable-main-bg);
 }
