@@ -2065,3 +2065,9 @@ This Handlebars template displays the **Reading (kana)** as fallback for words l
         -ms-overflow-style: none !important; /* IE, Edge (legacy) */
     }
     ```
+    
+=== "Popup"
+    ![Popup](assets/images/CSS_Alternative_Popup.png)
+
+=== "Search"
+    ![Searc](assets/images/CSS_Alternative_Search.png)
