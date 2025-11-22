@@ -2998,11 +2998,9 @@ span[style="font-size: 0.8em; vertical-align: text-bottom; border-style: solid; 
   height: 45px;
   cursor: pointer;
   z-index: 5;
-  /* --- Default style for LIGHT MODE --- */
   background: linear-gradient(to bottom, rgba(245, 245, 245, 0), rgba(245, 245, 245, 1));
 }
 
-/* --- Add the hover effect overlay using a pseudo-element --- */
 .fade-to-show-more::before {
   content: '';
   position: absolute;
@@ -3010,8 +3008,8 @@ span[style="font-size: 0.8em; vertical-align: text-bottom; border-style: solid; 
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: transparent; /* Transparent by default */
-  transition: background-color 0.2s ease; /* Smooth transition for the hover effect */
+  background-color: transparent;
+  transition: background-color 0.2s ease;
 }
 
 .card.nightMode .fade-to-show-more {
@@ -3029,7 +3027,7 @@ span[style="font-size: 0.8em; vertical-align: text-bottom; border-style: solid; 
   left: 0;
   right: 0;
   bottom: 0;
-  opacity: 0; /* Start completely transparent */
+  opacity: 0;
   transition: var(--base-transition);
   background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.02));
 }
