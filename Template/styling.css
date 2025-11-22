@@ -1905,6 +1905,69 @@ li[data-dictionary="明鏡国語辞典 第三版"] [data-sc-summary] {
   }
 }
 
+/* 小学館例解学習国語 第十二版 */
+li[data-dictionary="小学館例解学習国語 第十二版"] table[data-sc-image] {
+  display: block !important;
+  width: auto !important;
+  border-collapse: collapse;
+}
+
+li[data-dictionary="小学館例解学習国語 第十二版"] tbody, 
+li[data-dictionary="小学館例解学習国語 第十二版"] tr[data-sc-tr] {
+  display: flex !important;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+li[data-dictionary="小学館例解学習国語 第十二版"] td[data-sc-td] {
+  display: block !important;
+  border: none !important;
+  padding: 0 !important;
+  width: auto !important;
+}
+
+li[data-dictionary="小学館例解学習国語 第十二版"] span[style*="width: 400em"] {
+  width: auto !important;
+  max-width: 100% !important;
+}
+
+[data-dictionary="小学館例解学習国語 第十二版"] span[style*="padding-top"] {
+  display: none !important;
+}
+
+li[data-dictionary="小学館例解学習国語 第十二版"] [data-sc-img] img {
+  position: static !important;
+  display: block !important;
+  width: auto !important;
+  height: auto !important;
+  max-width: 100% !important;
+  max-height: 300px;
+  border-radius: 5px;
+}
+
+li[data-dictionary="小学館例解学習国語 第十二版"] td[data-sc-class="caption"] {
+  flex: 0 0 auto;
+  writing-mode: vertical-rl;
+  -webkit-writing-mode: vertical-rl;
+  text-orientation: upright;
+}
+
+[data-sc-ws] {
+  border-style: solid; 
+  border-width: 0.05em; 
+}
+
+@container style(--dictionary-colorizer: 1) {
+  li[data-dictionary="小学館例解学習国語 第十二版"] [data-sc-ws] {
+    border-color: var(--dict-color) !important; 
+  }
+
+  li[data-dictionary="小学館例解学習国語 第十二版"] [data-sc-paren] {
+    color: var(--dict-color) !important; 
+  }
+}
+
 /* Yomitan Links */
 [data-dictionary="新選国語辞典　第十版"] a, [data-dictionary="漢検漢字辞典　第二版"] a, [data-dictionary="岩波国語辞典　第八版"] a, [data-dictionary="大辞林　第四版"] a, [data-dictionary="明鏡国語辞典　第二版"] a, [data-dictionary="現代国語例解辞典　第五版"] a {
   color: inherit !important;
