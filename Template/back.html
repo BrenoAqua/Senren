@@ -142,24 +142,25 @@
 
   <!-- Definition -->
   <div id="definition" class="card-b" data-type="definition">
-    <div class="definition-box">
       <div class="dictionary-counter"></div>
       <div class="toggle-area left-larger tappable"></div>
       <div class="toggle-area right-larger tappable"></div>
       <div class="toggle-area left tappable"></div>
       <div class="toggle-area right tappable"></div>
+    <div class="definition-box">
+
       <span>{{definition}}</span>
     </div>
   </div>
 
   <!-- Glossary -->
   <div id="glossary" class="card-b yomitan-glossary" data-type="glossary">
-    <div class="glossary-box">
       <div class="dictionary-counter"></div>
       <div class="toggle-area left-larger tappable"></div>
       <div class="toggle-area right-larger tappable"></div>
       <div class="toggle-area left tappable"></div>
       <div class="toggle-area right tappable"></div>
+    <div class="glossary-box">
       <span>{{glossary}}</span>
     </div>
   </div>
@@ -481,6 +482,8 @@
         const initialItem = currentVisibleItems[initialIndex];
         if (initialItem.container) {
           initialItem.container.classList.add('show');
+          // For collapsed dictionary entries 1
+          collapseDictionary(initialItem.container.querySelector('.definition-box, .glossary-box'));
         }
       }
     }
@@ -517,6 +520,9 @@
         if (nextItem.container) nextItem.container.classList.add('show');
         nextItem.element.style.display = 'block';
       }
+
+      // For collapsed dictionary entries 2
+      collapseDictionary(nextItem.container.querySelector('.definition-box, .glossary-box'));
 
       if (nextItem.type === 'selectionText') {
         localStorage.setItem("lastSelectedDictionary", "selectionText");
@@ -2162,6 +2168,42 @@
 
         document.getElementById('word').classList.add('reading-is-word');
       }
+    }
+  }
+
+  // Collapses long dictionary entries and adds a clickable fade-out.
+  function collapseDictionary(container) {
+    const isCollapsedEnabled = getComputedStyle(document.documentElement)
+      .getPropertyValue('--dictionary-collapse')
+      .trim();
+    if (isCollapsedEnabled !== '1') {
+      return;
+    }
+
+    if (!container || container.dataset.expanded === 'true') {
+      return;
+    }
+
+    const rootStyles = getComputedStyle(document.documentElement);
+    const maxHeight = parseInt(rootStyles.getPropertyValue('--dictionary-max-height').trim(), 10);
+
+    const oldFade = container.querySelector('.fade-to-show-more');
+    if (oldFade) oldFade.remove();
+    container.classList.remove('is-truncated');
+
+    if (container.scrollHeight > maxHeight) {
+      container.classList.add('is-truncated');
+
+      const fadeElement = document.createElement('div');
+      fadeElement.className = 'fade-to-show-more tappable';
+      container.appendChild(fadeElement);
+
+      fadeElement.addEventListener('click', (e) => {
+        e.stopPropagation();
+        container.classList.remove('is-truncated');
+        container.dataset.expanded = 'true';
+        fadeElement.remove();
+      });
     }
   }
 

@@ -63,156 +63,6 @@
   --dict-bg-opacity:                  0.03;    /* Opacity of the background color */
   --dict-border-width:                5px;     /* Width of the colored border */
 
-  /* Dict Colors */
-  --jmdict-color-light:                     #007ACC;
-  --jmdict-color-rgb-light:                 0, 122, 204;
-  --jmdict-color-dark:                      #4AB5FF;
-  --jmdict-color-dark-rgb:                  74, 181, 255;
-  --shinmeikai-color-light:                 #C80000;
-  --shinmeikai-color-rgb-light:             200, 0, 0;
-  --shinmeikai-color-dark:                  #FF0000;
-  --shinmeikai-color-dark-rgb:              255, 0, 0;
-  --daijirin-color-light:                   #8A5AB8;
-  --daijirin-color-rgb-light:               138, 90, 184;
-  --daijirin-color-dark:                    #B388DD;
-  --daijirin-color-dark-rgb:                179, 136, 221;
-  --digital-daijisen-color-light:           #D83A3A;
-  --digital-daijisen-color-rgb-light:       216, 58, 58;
-  --digital-daijisen-color-dark:            #FF5252;
-  --digital-daijisen-color-dark-rgb:        255, 82, 82;
-  --gendai-kokugo-reikai-color-light:       #B5282F;
-  --gendai-kokugo-reikai-color-rgb-light:   181, 40, 47;
-  --gendai-kokugo-reikai-color-dark:        #E3323A;
-  --gendai-kokugo-reikai-color-dark-rgb:    227, 50, 58;
-  --iwanami-kokugo-jiten-color-light:       #4CAF50;
-  --iwanami-kokugo-jiten-color-rgb-light:   76, 175, 80;
-  --iwanami-kokugo-jiten-color-dark:        #79C879;
-  --iwanami-kokugo-jiten-color-dark-rgb:    121, 200, 121;
-  --koujien-color-light:                    #D94A23;
-  --koujien-color-rgb-light:                217, 74, 35;
-  --koujien-color-dark:                     #FD5629;
-  --koujien-color-dark-rgb:                 253, 86, 41;
-  --meikyo-kokugo-jiten-color-light:        #4967E6;
-  --meikyo-kokugo-jiten-color-rgb-light:    73, 103, 230;
-  --meikyo-kokugo-jiten-color-dark:         #6B85FF;
-  --meikyo-kokugo-jiten-color-dark-rgb:     107, 133, 255;
-  --obunsha-kokugo-jiten-color-light:       #008080;
-  --obunsha-kokugo-jiten-color-rgb-light:   0, 128, 128;
-  --obunsha-kokugo-jiten-color-dark:        #BBFFFF;
-  --obunsha-kokugo-jiten-color-dark-rgb:    187, 255, 255;
-  --sanseido-kokugo-jiten-color-light:      #B8562D;
-  --sanseido-kokugo-jiten-color-rgb-light:  184, 86, 45;
-  --sanseido-kokugo-jiten-color-dark:       #E56B39;
-  --sanseido-kokugo-jiten-color-dark-rgb:   229, 107, 57;
-  --shinsen-kokugo-color-light:             #B80065;
-  --shinsen-kokugo-color-rgb-light:         184, 0, 101;
-  --shinsen-kokugo-color-dark:              #E5007F;
-  --shinsen-kokugo-color-dark-rgb:          229, 0, 127;
-  --seisenban-color-light:                  #A8A88A;
-  --seisenban-color-rgb-light:              168, 168, 138;
-  --seisenban-color-dark:                   #EEEECB;
-  --seisenban-color-dark-rgb:               238, 238, 204;
-  --hybrid-shin-jirin-color-light:          #AAB0D5;
-  --hybrid-shin-jirin-color-rgb-light:      170, 176, 213;
-  --hybrid-shin-jirin-color-dark:           #DDDDFA;
-  --hybrid-shin-jirin-color-dark-rgb:       221, 221, 238;
-  --new-saitou-waei-color-light:            #B590C8;
-  --new-saitou-waei-color-rgb-light:        181, 144, 200;
-  --new-saitou-waei-color-dark:             #F4E1FE;
-  --new-saitou-waei-color-dark-rgb:         244, 225, 254;
-  --shin-waei-color-light:                  #3E8E60;
-  --shin-waei-color-rgb-light:              62, 142, 96;
-  --shin-waei-color-dark:                   #5DBB87;
-  --shin-waei-color-dark-rgb:               93, 187, 135;
-  --kanjigen-color-light:                   #9E7648;
-  --kanjigen-color-rgb-light:               158, 118, 72;
-  --kanjigen-color-dark:                    #C9955D;
-  --kanjigen-color-dark-rgb:                201, 149, 93;
-  --kanjipedia-doukun-igi-color-light:      #757575;
-  --kanjipedia-doukun-igi-color-rgb-light:  117, 117, 117;
-  --kanjipedia-doukun-igi-color-dark:       #B7B7B7;
-  --kanjipedia-doukun-igi-color-dark-rgb:   183, 183, 183;
-  --kanken-kanji-jiten-color-light:         #B9872E;
-  --kanken-kanji-jiten-color-rgb-light:     185, 135, 46;
-  --kanken-kanji-jiten-color-dark:          #E7A93A;
-  --kanken-kanji-jiten-color-dark-rgb:      231, 169, 58;
-  --gakken-yojijukugo-color-light:          #8D9A75;
-  --gakken-yojijukugo-color-rgb-light:      141, 154, 117;
-  --gakken-yojijukugo-color-dark:           #B4C098;
-  --gakken-yojijukugo-color-dark-rgb:       180, 192, 152;
-  --gogen-yurai-jiten-color-light:          #A38625;
-  --gogen-yurai-jiten-color-rgb-light:      163, 134, 37;
-  --gogen-yurai-jiten-color-dark:           #CEA92F;
-  --gogen-yurai-jiten-color-dark-rgb:       206, 169, 47;
-  --koji-kotowaza-no-jiten-color-light:     #8E7270;
-  --koji-kotowaza-no-jiten-color-rgb-light: 142, 114, 112;
-  --koji-kotowaza-no-jiten-color-dark:      #B18F8D;
-  --koji-kotowaza-no-jiten-color-dark-rgb:  177, 143, 141;
-  --nihongo-zokugo-jisho-color-light:       #D450CF;
-  --nihongo-zokugo-jisho-color-rgb-light:   212, 80, 207;
-  --nihongo-zokugo-jisho-color-dark:        #FF69FA;
-  --nihongo-zokugo-jisho-color-dark-rgb:    255, 105, 250;
-  --ruigo-jiten-online-color-light:         #C06E5B;
-  --ruigo-jiten-online-color-rgb-light:     192, 110, 91;
-  --ruigo-jiten-online-color-dark:          #E88B74;
-  --ruigo-jiten-online-color-dark-rgb:      232, 139, 116;
-  --shingo-jiji-yougo-color-light:          #638CAF;
-  --shingo-jiji-yougo-color-rgb-light:      99, 140, 175;
-  --shingo-jiji-yougo-color-dark:           #8EB8DE;
-  --shingo-jiji-yougo-color-dark-rgb:       142, 184, 222;
-  --donna-toki-dou-tsukau-color-light:      #5C84C0;
-  --donna-toki-dou-tsukau-color-rgb-light:  92, 132, 192;
-  --donna-toki-dou-tsukau-color-dark:       #7EA8E8;
-  --donna-toki-dou-tsukau-color-dark-rgb:   126, 168, 232;
-  --e-de-wakaru-nihongo-color-light:        #A93D58;
-  --e-de-wakaru-nihongo-color-rgb-light:    169, 61, 88;
-  --e-de-wakaru-nihongo-color-dark:         #CF4C6E;
-  --e-de-wakaru-nihongo-color-dark-rgb:     207, 76, 110;
-  --jlpt-bunpou-kaisetsu-color-light:       #D32F2F;
-  --jlpt-bunpou-kaisetsu-color-rgb-light:   211, 47, 47;
-  --jlpt-bunpou-kaisetsu-color-dark:        #F44236;
-  --jlpt-bunpou-kaisetsu-color-dark-rgb:    244, 66, 54;
-  --mainichi-nonbiri-color-light:           #EAA6B9;
-  --mainichi-nonbiri-color-rgb-light:       234, 166, 185;
-  --mainichi-nonbiri-color-dark:            #FFD8E4;
-  --mainichi-nonbiri-color-dark-rgb:        255, 216, 228;
-  --nihongo-bunpou-jiten-color-light:       #465DDB;
-  --nihongo-bunpou-jiten-color-rgb-light:   70, 93, 219;
-  --nihongo-bunpou-jiten-color-dark:        #687EFF;
-  --nihongo-bunpou-jiten-color-dark-rgb:    104, 126, 255;
-  --tsukaikata-no-wakaru-color-light:       #C06E5B;
-  --tsukaikata-no-wakaru-color-rgb-light:   192, 110, 91;
-  --tsukaikata-no-wakaru-color-dark:        #E88B74;
-  --tsukaikata-no-wakaru-color-dark-rgb:    232, 139, 116;
-  --kids-japonica-color-light:              #D98E00;
-  --kids-japonica-color-rgb-light:          217, 142, 0;
-  --kids-japonica-color-dark:               #FFA500;
-  --kids-japonica-color-dark-rgb:           255, 165, 0;
-  --reikai-gakushuu-kokugo-color-light:     #D28A22;
-  --reikai-gakushuu-kokugo-color-rgb-light: 210, 138, 34;
-  --reikai-gakushuu-kokugo-color-dark:      #FAA72F;
-  --reikai-gakushuu-kokugo-color-dark-rgb:  250, 167, 47;
-  --jiten-online-color-light:               #EBC258;
-  --jiten-online-color-rgb-light:           235, 194, 88;
-  --jiten-online-color-dark:                #FFE37C;
-  --jiten-online-color-dark-rgb:            255, 227, 124;
-  --jitsuyou-nihongo-color-light:           #848DA7;
-  --jitsuyou-nihongo-color-rgb-light:       132, 141, 167;
-  --jitsuyou-nihongo-color-dark:            #A6B0CF;
-  --jitsuyou-nihongo-color-dark-rgb:        166, 176, 207;
-  --pixiv-color-light:                      #0078D4;
-  --pixiv-color-rgb-light:                  0, 120, 212;
-  --pixiv-color-dark:                       #33A1FF;
-  --pixiv-color-dark-rgb:                   51, 161, 255;
-  --sozai-jiten-color-light:                #4A8B95;
-  --sozai-jiten-color-rgb-light:            74, 139, 149;
-  --sozai-jiten-color-dark:                 #65B3BF;
-  --sozai-jiten-color-dark-rgb:             101, 179, 191;
-  --wikipedia-color-light:                  #4674C3;
-  --wikipedia-color-rgb-light:              70, 116, 195;
-  --wikipedia-color-dark:                   #6495ED;
-  --wikipedia-color-dark-rgb:               100, 149, 237;
-
   /* --- BACKGROUND COLORS --- */
   --card-bg:                          rgba(0,0,0,0.4);
   --word-bg:                          rgba(0,0,0,0.3);
@@ -237,6 +87,10 @@
   --audio-sentence-default-expanded:  false; /* "true" to show sentence on audio cards immediately */
   --notes-default-expanded:           false; /* "true" to show notes immediately */
   --collect-glossary-images:          true;  /* "false" to disable image collection */
+
+  /* Dictionary Settings */
+  --dictionary-collapse:              0;     /* "1" to enable */
+  --dictionary-max-height:            395px; /* Maximum height before the entry collapses */
 
   /* Spacing Scale */
   --spacing-xs:                       2px;
@@ -326,7 +180,7 @@
   --tag-margin-top:                   5px;
   --tag-margin-bottom:                0;
   --tag-border-radius:                5px;
-  --tag-bg:                           var(--card-bg);
+  --tag-bg:                           rgba(0,0,0,0.3);
   --tag-color:                        white;
   --tags-container-gap:               0 5px;
 
@@ -1207,7 +1061,6 @@ img {
   background: rgba(255, 255, 255, 0.8);
   transition: background var(--base-transition);
 }
-
 
 /* Audio */
 .audio, .sentenceaudio, .playImage path {
@@ -2275,13 +2128,13 @@ li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br)
   margin-bottom: var(--tag-margin-bottom);
   padding: var(--external-links-padding);
   display: var(--external-links-visibility);
-  background: rgba(0,0,0,0.04);
+  background: var(--tag-bg);
   transition: filter var(--fast-transition);
 }
 
 .card.nightMode .external-links a,
 .custom-dark-mode .external-links a {
-  background: rgba(0,0,0,0.4);
+  background: var(--tag-bg);
 }
 
 .external-links img {
@@ -2585,6 +2438,20 @@ li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br)
 }
 
 /* --- DICTIONARY COLORIZER --- */
+:is(div[data-sc-name="使い方"], 
+div[data-sc-name="意味"], 
+div[data-sc-name="共通する意味"], 
+div[data-sc-name=""], 
+div[data-sc-name="使い分け"], 
+div[data-sc-name="関連語"]) 
+> span:first-child {
+  border-color: var(--dict-color);
+}
+
+span[style="font-size: 0.8em; vertical-align: text-bottom; border-style: solid; border-width: 0.05em; margin-right: 0.25em; padding: 0.1em;"] {
+  border-color: var(--dict-color);
+}
+
 /* Base Setup */
 :is(.definition-box, .glossary-box) li[data-dictionary] {
   --dict-color: currentColor;
@@ -2741,6 +2608,8 @@ li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br)
   --sozai-jiten-color-rgb: var(--sozai-jiten-color-rgb-light);
   --wikipedia-color: var(--wikipedia-color-light);
   --wikipedia-color-rgb: var(--wikipedia-color-rgb-light);
+  --goiryoku-nijijukugo-color: var(--goiryoku-nijijukugo-color-light);
+  --goiryoku-nijijukugo-color-rgb: var(--goiryoku-nijijukugo-color-rgb-light);
 }
 
 /* Dark Theme Colors */
@@ -2820,6 +2689,8 @@ li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br)
   --sozai-jiten-color-rgb: var(--sozai-jiten-color-dark-rgb);
   --wikipedia-color: var(--wikipedia-color-dark);
   --wikipedia-color-rgb: var(--wikipedia-color-dark-rgb);
+  --goiryoku-nijijukugo-color: var(--goiryoku-nijijukugo-color-dark);
+  --goiryoku-nijijukugo-color-rgb: var(--goiryoku-nijijukugo-color-dark-rgb);
 }
 
 /* Specific Color Definitions for Each Dictionary */
@@ -3104,6 +2975,74 @@ li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br)
   --dict-color-rgb: var(--sozai-jiten-color-rgb);
 }
 
+:is(.definition-box, .glossary-box) li[data-dictionary*="語彙力"],
+:is(.definition-box, .glossary-box):has(li[data-dictionary*="語彙力"]:not([style*="display: none"])),
+.back:has(li[data-dictionary*="語彙力"]:not([style*="display: none"])) {
+  --dict-color: var(--goiryoku-nijijukugo-color);
+  --dict-color-rgb: var(--goiryoku-nijijukugo-color-rgb);
+}
+
+/* Dictionary Collapse & Clickable Fade */
+.definition-box.is-truncated,
+.glossary-box.is-truncated {
+  max-height: var(--dictionary-max-height);
+  overflow: hidden;
+  position: relative;
+}
+
+.fade-to-show-more {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 45px;
+  cursor: pointer;
+  z-index: 5;
+  /* --- Default style for LIGHT MODE --- */
+  background: linear-gradient(to bottom, rgba(245, 245, 245, 0), rgba(245, 245, 245, 1));
+}
+
+/* --- Add the hover effect overlay using a pseudo-element --- */
+.fade-to-show-more::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: transparent; /* Transparent by default */
+  transition: background-color 0.2s ease; /* Smooth transition for the hover effect */
+}
+
+.card.nightMode .fade-to-show-more {
+  background: linear-gradient(to bottom, rgba(44, 44, 44, 0), #1A1A1A);
+}
+
+.custom-dark-mode .fade-to-show-more {
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0), #000000) !important;
+}
+
+.fade-to-show-more::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0; /* Start completely transparent */
+  transition: var(--base-transition);
+  background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.02));
+}
+
+.card.nightMode .fade-to-show-more::before,
+.custom-dark-mode .fade-to-show-more::before {
+  background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.03));
+}
+
+.fade-to-show-more:hover::before {
+  opacity: 1;
+}
+
 @media (max-width: 1050px) {
   .dictionary-counter {
     padding: var(--spacing-md);
@@ -3274,4 +3213,160 @@ li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br)
   .frequency-content {
     max-height: 0.5px;
   }
+}
+
+/* Dict Colors */
+:root {
+  --jmdict-color-light:                     #007ACC;
+  --jmdict-color-rgb-light:                 0, 122, 204;
+  --jmdict-color-dark:                      #4AB5FF;
+  --jmdict-color-dark-rgb:                  74, 181, 255;
+  --shinmeikai-color-light:                 #C80000;
+  --shinmeikai-color-rgb-light:             200, 0, 0;
+  --shinmeikai-color-dark:                  #FF0000;
+  --shinmeikai-color-dark-rgb:              255, 0, 0;
+  --daijirin-color-light:                   #8A5AB8;
+  --daijirin-color-rgb-light:               138, 90, 184;
+  --daijirin-color-dark:                    #B388DD;
+  --daijirin-color-dark-rgb:                179, 136, 221;
+  --digital-daijisen-color-light:           #D83A3A;
+  --digital-daijisen-color-rgb-light:       216, 58, 58;
+  --digital-daijisen-color-dark:            #FF5252;
+  --digital-daijisen-color-dark-rgb:        255, 82, 82;
+  --gendai-kokugo-reikai-color-light:       #B5282F;
+  --gendai-kokugo-reikai-color-rgb-light:   181, 40, 47;
+  --gendai-kokugo-reikai-color-dark:        #E3323A;
+  --gendai-kokugo-reikai-color-dark-rgb:    227, 50, 58;
+  --iwanami-kokugo-jiten-color-light:       #4CAF50;
+  --iwanami-kokugo-jiten-color-rgb-light:   76, 175, 80;
+  --iwanami-kokugo-jiten-color-dark:        #79C879;
+  --iwanami-kokugo-jiten-color-dark-rgb:    121, 200, 121;
+  --koujien-color-light:                    #D94A23;
+  --koujien-color-rgb-light:                217, 74, 35;
+  --koujien-color-dark:                     #FD5629;
+  --koujien-color-dark-rgb:                 253, 86, 41;
+  --meikyo-kokugo-jiten-color-light:        #4967E6;
+  --meikyo-kokugo-jiten-color-rgb-light:    73, 103, 230;
+  --meikyo-kokugo-jiten-color-dark:         #6B85FF;
+  --meikyo-kokugo-jiten-color-dark-rgb:     107, 133, 255;
+  --obunsha-kokugo-jiten-color-light:       #008080;
+  --obunsha-kokugo-jiten-color-rgb-light:   0, 128, 128;
+  --obunsha-kokugo-jiten-color-dark:        #BBFFFF;
+  --obunsha-kokugo-jiten-color-dark-rgb:    187, 255, 255;
+  --sanseido-kokugo-jiten-color-light:      #B8562D;
+  --sanseido-kokugo-jiten-color-rgb-light:  184, 86, 45;
+  --sanseido-kokugo-jiten-color-dark:       #E56B39;
+  --sanseido-kokugo-jiten-color-dark-rgb:   229, 107, 57;
+  --shinsen-kokugo-color-light:             #B80065;
+  --shinsen-kokugo-color-rgb-light:         184, 0, 101;
+  --shinsen-kokugo-color-dark:              #E5007F;
+  --shinsen-kokugo-color-dark-rgb:          229, 0, 127;
+  --seisenban-color-light:                  #A8A88A;
+  --seisenban-color-rgb-light:              168, 168, 138;
+  --seisenban-color-dark:                   #EEEECB;
+  --seisenban-color-dark-rgb:               238, 238, 204;
+  --hybrid-shin-jirin-color-light:          #AAB0D5;
+  --hybrid-shin-jirin-color-rgb-light:      170, 176, 213;
+  --hybrid-shin-jirin-color-dark:           #DDDDFA;
+  --hybrid-shin-jirin-color-dark-rgb:       221, 221, 238;
+  --new-saitou-waei-color-light:            #B590C8;
+  --new-saitou-waei-color-rgb-light:        181, 144, 200;
+  --new-saitou-waei-color-dark:             #F4E1FE;
+  --new-saitou-waei-color-dark-rgb:         244, 225, 254;
+  --shin-waei-color-light:                  #3E8E60;
+  --shin-waei-color-rgb-light:              62, 142, 96;
+  --shin-waei-color-dark:                   #5DBB87;
+  --shin-waei-color-dark-rgb:               93, 187, 135;
+  --kanjigen-color-light:                   #9E7648;
+  --kanjigen-color-rgb-light:               158, 118, 72;
+  --kanjigen-color-dark:                    #C9955D;
+  --kanjigen-color-dark-rgb:                201, 149, 93;
+  --kanjipedia-doukun-igi-color-light:      #757575;
+  --kanjipedia-doukun-igi-color-rgb-light:  117, 117, 117;
+  --kanjipedia-doukun-igi-color-dark:       #B7B7B7;
+  --kanjipedia-doukun-igi-color-dark-rgb:   183, 183, 183;
+  --kanken-kanji-jiten-color-light:         #B9872E;
+  --kanken-kanji-jiten-color-rgb-light:     185, 135, 46;
+  --kanken-kanji-jiten-color-dark:          #E7A93A;
+  --kanken-kanji-jiten-color-dark-rgb:      231, 169, 58;
+  --gakken-yojijukugo-color-light:          #8D9A75;
+  --gakken-yojijukugo-color-rgb-light:      141, 154, 117;
+  --gakken-yojijukugo-color-dark:           #B4C098;
+  --gakken-yojijukugo-color-dark-rgb:       180, 192, 152;
+  --gogen-yurai-jiten-color-light:          #A38625;
+  --gogen-yurai-jiten-color-rgb-light:      163, 134, 37;
+  --gogen-yurai-jiten-color-dark:           #CEA92F;
+  --gogen-yurai-jiten-color-dark-rgb:       206, 169, 47;
+  --koji-kotowaza-no-jiten-color-light:     #8E7270;
+  --koji-kotowaza-no-jiten-color-rgb-light: 142, 114, 112;
+  --koji-kotowaza-no-jiten-color-dark:      #B18F8D;
+  --koji-kotowaza-no-jiten-color-dark-rgb:  177, 143, 141;
+  --nihongo-zokugo-jisho-color-light:       #D450CF;
+  --nihongo-zokugo-jisho-color-rgb-light:   212, 80, 207;
+  --nihongo-zokugo-jisho-color-dark:        #FF69FA;
+  --nihongo-zokugo-jisho-color-dark-rgb:    255, 105, 250;
+  --ruigo-jiten-online-color-light:         #C06E5B;
+  --ruigo-jiten-online-color-rgb-light:     192, 110, 91;
+  --ruigo-jiten-online-color-dark:          #E88B74;
+  --ruigo-jiten-online-color-dark-rgb:      232, 139, 116;
+  --shingo-jiji-yougo-color-light:          #638CAF;
+  --shingo-jiji-yougo-color-rgb-light:      99, 140, 175;
+  --shingo-jiji-yougo-color-dark:           #8EB8DE;
+  --shingo-jiji-yougo-color-dark-rgb:       142, 184, 222;
+  --donna-toki-dou-tsukau-color-light:      #5C84C0;
+  --donna-toki-dou-tsukau-color-rgb-light:  92, 132, 192;
+  --donna-toki-dou-tsukau-color-dark:       #7EA8E8;
+  --donna-toki-dou-tsukau-color-dark-rgb:   126, 168, 232;
+  --e-de-wakaru-nihongo-color-light:        #A93D58;
+  --e-de-wakaru-nihongo-color-rgb-light:    169, 61, 88;
+  --e-de-wakaru-nihongo-color-dark:         #CF4C6E;
+  --e-de-wakaru-nihongo-color-dark-rgb:     207, 76, 110;
+  --jlpt-bunpou-kaisetsu-color-light:       #D32F2F;
+  --jlpt-bunpou-kaisetsu-color-rgb-light:   211, 47, 47;
+  --jlpt-bunpou-kaisetsu-color-dark:        #F44236;
+  --jlpt-bunpou-kaisetsu-color-dark-rgb:    244, 66, 54;
+  --mainichi-nonbiri-color-light:           #EAA6B9;
+  --mainichi-nonbiri-color-rgb-light:       234, 166, 185;
+  --mainichi-nonbiri-color-dark:            #FFD8E4;
+  --mainichi-nonbiri-color-dark-rgb:        255, 216, 228;
+  --nihongo-bunpou-jiten-color-light:       #465DDB;
+  --nihongo-bunpou-jiten-color-rgb-light:   70, 93, 219;
+  --nihongo-bunpou-jiten-color-dark:        #687EFF;
+  --nihongo-bunpou-jiten-color-dark-rgb:    104, 126, 255;
+  --tsukaikata-no-wakaru-color-light:       #C06E5B;
+  --tsukaikata-no-wakaru-color-rgb-light:   192, 110, 91;
+  --tsukaikata-no-wakaru-color-dark:        #E88B74;
+  --tsukaikata-no-wakaru-color-dark-rgb:    232, 139, 116;
+  --kids-japonica-color-light:              #D98E00;
+  --kids-japonica-color-rgb-light:          217, 142, 0;
+  --kids-japonica-color-dark:               #FFA500;
+  --kids-japonica-color-dark-rgb:           255, 165, 0;
+  --reikai-gakushuu-kokugo-color-light:     #D28A22;
+  --reikai-gakushuu-kokugo-color-rgb-light: 210, 138, 34;
+  --reikai-gakushuu-kokugo-color-dark:      #FAA72F;
+  --reikai-gakushuu-kokugo-color-dark-rgb:  250, 167, 47;
+  --jiten-online-color-light:               #EBC258;
+  --jiten-online-color-rgb-light:           235, 194, 88;
+  --jiten-online-color-dark:                #FFE37C;
+  --jiten-online-color-dark-rgb:            255, 227, 124;
+  --jitsuyou-nihongo-color-light:           #848DA7;
+  --jitsuyou-nihongo-color-rgb-light:       132, 141, 167;
+  --jitsuyou-nihongo-color-dark:            #A6B0CF;
+  --jitsuyou-nihongo-color-dark-rgb:        166, 176, 207;
+  --pixiv-color-light:                      #0078D4;
+  --pixiv-color-rgb-light:                  0, 120, 212;
+  --pixiv-color-dark:                       #33A1FF;
+  --pixiv-color-dark-rgb:                   51, 161, 255;
+  --sozai-jiten-color-light:                #4A8B95;
+  --sozai-jiten-color-rgb-light:            74, 139, 149;
+  --sozai-jiten-color-dark:                 #65B3BF;
+  --sozai-jiten-color-dark-rgb:             101, 179, 191;
+  --wikipedia-color-light:                  #4674C3;
+  --wikipedia-color-rgb-light:              70, 116, 195;
+  --wikipedia-color-dark:                   #6495ED;
+  --wikipedia-color-dark-rgb:               100, 149, 237;
+  --goiryoku-nijijukugo-color-light:        #2A9D8F;
+  --goiryoku-nijijukugo-color-rgb-light:    42, 157, 143;
+  --goiryoku-nijijukugo-color-dark:         #48D1BF;
+  --goiryoku-nijijukugo-color-dark-rgb:     72, 209, 191;
 }
