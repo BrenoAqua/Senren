@@ -2982,9 +2982,9 @@ span[style="font-size: 0.8em; vertical-align: text-bottom; border-style: solid; 
   --dict-color-rgb: var(--goiryoku-nijijukugo-color-rgb);
 }
 
-/* Dictionary Collapsee */
-.definition-box.is-truncated,
-.glossary-box.is-truncated {
+/* Dictionary Collapse */
+.definition-box.is-collapsed,
+.glossary-box.is-collapsed {
   max-height: var(--dictionary-max-height);
   overflow: hidden;
   position: relative;
@@ -2998,9 +2998,11 @@ span[style="font-size: 0.8em; vertical-align: text-bottom; border-style: solid; 
   height: 45px;
   cursor: pointer;
   z-index: 5;
+  /* --- Default style for LIGHT MODE --- */
   background: linear-gradient(to bottom, rgba(245, 245, 245, 0), rgba(245, 245, 245, 1));
 }
 
+/* --- Add the hover effect overlay using a pseudo-element --- */
 .fade-to-show-more::before {
   content: '';
   position: absolute;
@@ -3008,7 +3010,7 @@ span[style="font-size: 0.8em; vertical-align: text-bottom; border-style: solid; 
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: transparent;
+  background-color: transparent; /* Transparent by default */
   transition: background-color 0.2s ease; /* Smooth transition for the hover effect */
 }
 
@@ -3027,7 +3029,7 @@ span[style="font-size: 0.8em; vertical-align: text-bottom; border-style: solid; 
   left: 0;
   right: 0;
   bottom: 0;
-  opacity: 0;
+  opacity: 0; /* Start completely transparent */
   transition: var(--base-transition);
   background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.02));
 }
