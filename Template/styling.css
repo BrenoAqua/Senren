@@ -2998,7 +2998,7 @@ span[style="font-size: 0.8em; vertical-align: text-bottom; border-style: solid; 
   height: 45px;
   cursor: pointer;
   z-index: 5;
-  background: linear-gradient(to bottom, rgba(245, 245, 245, 0), rgba(245, 245, 245, 1));
+  background: linear-gradient(to bottom, rgba(245, 245, 245, 0), #EBEBEB);
 }
 
 .fade-to-show-more::before {
