@@ -1851,6 +1851,60 @@ span[data-sc-content="example-keyword"], span[style*="color-mix(in srgb, lime"] 
   display: none;
 }
 
+/* 明鏡国語辞典 */
+[data-dictionary*="明鏡国語辞典"] div[data-sc-ruigo_items] {
+	display: none !important;
+}
+
+[data-dictionary="明鏡国語辞典 第三版"] span {
+  width: 25em !important;
+  vertical-align: bottom !important;
+}
+
+.card.nightMode li[data-dictionary="明鏡国語辞典 第三版"] [data-sc-img] img,
+.custom-dark-mode li[data-dictionary="明鏡国語辞典 第三版"] [data-sc-img] img {
+    display: none !important;
+}
+
+.card.nightMode li[data-dictionary="明鏡国語辞典 第三版"] [data-sc-img] span[style*="--image"],
+.custom-dark-mode li[data-dictionary="明鏡国語辞典 第三版"] [data-sc-img] span[style*="--image"] {
+    display: block !important;
+    background-color: white !important;
+    width: 100% !important;
+    height: 100% !important;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 1 !important;
+}
+
+li[data-dictionary="明鏡国語辞典 第三版"] [data-sc-bc] {
+  margin-right: 5px;
+}
+
+li[data-dictionary="明鏡国語辞典 第三版"] [data-sc-summary] {
+  text-decoration: underline dashed black 1px;
+  text-underline-offset: 4px;
+  cursor: pointer;
+  user-select: none;
+  transition: color 0.2s ease;
+}
+
+.card.nightMode li[data-dictionary="明鏡国語辞典 第三版"] [data-sc-summary],
+.custom-dark-mode li[data-dictionary="明鏡国語辞典 第三版"] [data-sc-summary] {
+  text-decoration-color: white;
+}
+
+@container style(--dictionary-colorizer: 1) {
+  li[data-dictionary="明鏡国語辞典 第三版"] [data-sc-red] {
+    color: var(--dict-color) !important;
+  }
+
+  li[data-dictionary="明鏡国語辞典 第三版"] [data-sc-summary] {
+    text-decoration-color: var(--dict-color) !important;
+  }
+}
+
 /* Yomitan Links */
 [data-dictionary="新選国語辞典　第十版"] a, [data-dictionary="漢検漢字辞典　第二版"] a, [data-dictionary="岩波国語辞典　第八版"] a, [data-dictionary="大辞林　第四版"] a, [data-dictionary="明鏡国語辞典　第二版"] a, [data-dictionary="現代国語例解辞典　第五版"] a {
   color: inherit !important;
