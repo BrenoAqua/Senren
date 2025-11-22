@@ -2189,10 +2189,10 @@
 
     const oldFade = container.querySelector('.fade-to-show-more');
     if (oldFade) oldFade.remove();
-    container.classList.remove('is-truncated');
+    container.classList.remove('is-collapsed');
 
     if (container.scrollHeight > maxHeight) {
-      container.classList.add('is-truncated');
+      container.classList.add('is-collapsed');
 
       const fadeElement = document.createElement('div');
       fadeElement.className = 'fade-to-show-more tappable';
@@ -2200,7 +2200,7 @@
 
       fadeElement.addEventListener('click', (e) => {
         e.stopPropagation();
-        container.classList.remove('is-truncated');
+        container.classList.remove('is-collapsed');
         container.dataset.expanded = 'true';
         fadeElement.remove();
       });
