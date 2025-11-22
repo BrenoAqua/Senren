@@ -2261,6 +2261,12 @@ li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br)
 }
 
 .external-links a:not(:hover) {
+  background: rgba(0,0,0,0.3);
+  filter: grayscale(1) opacity(0.13);
+}
+
+.card.nightMode .external-links a:not(:hover) {
+  background: rgba(0,0,0,0.3);
   filter: grayscale(1) opacity(0.5);
 }
 
@@ -2727,6 +2733,8 @@ span[style="font-size: 0.8em; vertical-align: text-bottom; border-style: solid; 
   --wikipedia-color-rgb: var(--wikipedia-color-rgb-light);
   --goiryoku-nijijukugo-color: var(--goiryoku-nijijukugo-color-light);
   --goiryoku-nijijukugo-color-rgb: var(--goiryoku-nijijukugo-color-rgb-light);
+  --shogakukan-reikai-12-color: var(--shogakukan-reikai-12-color-light);
+  --shogakukan-reikai-12-color-rgb: var(--shogakukan-reikai-12-color-rgb-light);
 }
 
 /* Dark Theme Colors */
@@ -2808,6 +2816,8 @@ span[style="font-size: 0.8em; vertical-align: text-bottom; border-style: solid; 
   --wikipedia-color-rgb: var(--wikipedia-color-dark-rgb);
   --goiryoku-nijijukugo-color: var(--goiryoku-nijijukugo-color-dark);
   --goiryoku-nijijukugo-color-rgb: var(--goiryoku-nijijukugo-color-dark-rgb);
+  --shogakukan-reikai-12-color: var(--shogakukan-reikai-12-color-dark);
+  --shogakukan-reikai-12-color-rgb: var(--shogakukan-reikai-12-color-dark-rgb);
 }
 
 /* Specific Color Definitions for Each Dictionary */
@@ -3097,6 +3107,13 @@ span[style="font-size: 0.8em; vertical-align: text-bottom; border-style: solid; 
 .back:has(li[data-dictionary*="語彙力"]:not([style*="display: none"])) {
   --dict-color: var(--goiryoku-nijijukugo-color);
   --dict-color-rgb: var(--goiryoku-nijijukugo-color-rgb);
+}
+
+:is(.definition-box, .glossary-box) li[data-dictionary="小学館例解学習国語 第十二版"],
+:is(.definition-box, .glossary-box):has(li[data-dictionary="小学館例解学習国語 第十二版"]:not([style*="display: none"])),
+.back:has(li[data-dictionary="小学館例解学習国語 第十二版"]:not([style*="display: none"])) {
+  --dict-color: var(--shogakukan-reikai-12-color);
+  --dict-color-rgb: var(--shogakukan-reikai-12-color-rgb);
 }
 
 /* Dictionary Collapse */
@@ -3484,4 +3501,8 @@ span[style="font-size: 0.8em; vertical-align: text-bottom; border-style: solid; 
   --goiryoku-nijijukugo-color-rgb-light:    42, 157, 143;
   --goiryoku-nijijukugo-color-dark:         #48D1BF;
   --goiryoku-nijijukugo-color-dark-rgb:     72, 209, 191;
+  --shogakukan-reikai-12-color-light:       #00ACC1;
+  --shogakukan-reikai-12-color-rgb-light:   0, 172, 193;
+  --shogakukan-reikai-12-color-dark:        #4DD0E1;
+  --shogakukan-reikai-12-color-dark-rgb:    77, 208, 225;
 }
