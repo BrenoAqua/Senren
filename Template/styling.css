@@ -1921,6 +1921,16 @@ span[data-sc-content="example-keyword"], span[style*="color-mix(in srgb, lime"] 
   display: none;
 }
 
+/* 大辞泉 */
+div[data-sc-meaning][data-sc-c][data-sc-class="C"]:has(span[data-sc-href="$c-ruigo"]),
+div[data-sc-meaning][data-sc-c][data-sc-class="C"]:has(span[data-sc-href="$c-ssgo"]) {
+  display: none;
+}
+
+div[data-sc-m-accent-audio-g] {
+  display: none;
+}
+
 /* 明鏡国語辞典 */
 [data-dictionary*="明鏡国語辞典"] div[data-sc-ruigo_items] {
 	display: none !important;
@@ -2641,6 +2651,11 @@ div[data-sc-name="関連語"])
   border-color: var(--dict-color);
 }
 
+span[title="右記以外の漢字に関する参考記事"] {
+  color: var(--dict-color) !important;
+  border-color: var(--dict-color) !important;
+}
+
 span[style="font-size: 0.8em; vertical-align: text-bottom; border-style: solid; border-width: 0.05em; margin-right: 0.25em; padding: 0.1em;"] {
   border-color: var(--dict-color);
 }
@@ -2978,9 +2993,9 @@ span[style="font-size: 0.8em; vertical-align: text-bottom; border-style: solid; 
   --dict-color-rgb: var(--shinmeikai-color-rgb);
 }
 
-:is(.definition-box, .glossary-box) li[data-dictionary="デジタル大辞泉"],
-:is(.definition-box, .glossary-box):has(li[data-dictionary="デジタル大辞泉"]:not([style*="display: none"])),
-.back:has(li[data-dictionary="デジタル大辞泉"]:not([style*="display: none"])) {
+:is(.definition-box, .glossary-box) li[data-dictionary*="大辞泉"],
+:is(.definition-box, .glossary-box):has(li[data-dictionary*="大辞泉"]:not([style*="display: none"])),
+.back:has(li[data-dictionary*="大辞泉"]:not([style*="display: none"])) {
   --dict-color: var(--digital-daijisen-color);
   --dict-color-rgb: var(--digital-daijisen-color-rgb);
 }
