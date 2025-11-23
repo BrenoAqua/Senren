@@ -1,97 +1,171 @@
-/* Fonts */
+/* FONT DECLARATIONS
+============================================ */
 @font-face {
-  font-family: klee;
-  src: url("_KleeOne-SemiBold.ttf");
+    font-family: klee;
+    src: url("_KleeOne-SemiBold.ttf");
 }
 
 @font-face {
-  font-family: notosansjp;
-  src: url("_NotoSansJP.ttf");
+    font-family: notosansjp;
+    src: url("_NotoSansJP.ttf");
 }
 
 @font-face {
-  font-family: notoserifjp;
-  src: url("_NotoSerifJP.ttf");
+    font-family: notoserifjp;
+    src: url("_NotoSerifJP.ttf");
 }
 
 /* Custom Variables for Styling */
 :root {
-  /* --- BASE SETTINGS --- */
-  /* Global */
-  font-size:                          clamp(19px, 3vw, 24px); /* Scales with viewport, min 19px, max 24px */
+  /* CARD SETTINGS
+  ============================================ */
+  /* Default States (true/false) */
+  --word-sentence-default-expanded:   false;   /* Show sentence on word cards immediately */
+  --audio-sentence-default-expanded:  false;   /* Show sentence on audio cards immediately */
+  --notes-default-expanded:           false;   /* Show notes immediately */
+  --collect-glossary-images:          true;    /* Enable image collection */
+  --no-duplicate-kana:                false;   /* Replace kana word with its reading */
+
+  /* Positioning & Display */
+  --main-bg:                          block;   /* "none" to disable main bg */
+  --reading-position:                 over;    /* "under" to display reading under word */
+  --furigana-display:                 initial; /* "none" to hide */
+
+  /* Component Visibility */
+  --custom-dark-mode-visibility:      flex;    /* "none" to hide header toggle */
+  --audio-visibility:                 visible; /* "hidden" to hide audio button */
+  --freq-visibility:                  visible; /* "hidden" to hide frequency */
+  --tag-visibility:                   flex;    /* "none" to hide tags */
+  --external-links-visibility:        flex;    /* "none" to hide external links */
+  --definition-title-visibility:      block;   /* "none" to hide dict title */
+  --glossary-title-visibility:        block;   /* "none" to hide glossary title */
+
+
+  /* TYPOGRAPHY & FONTS
+  ============================================ */
+  /* Global Settings */
   --base-size:                        clamp(19px, 3vw, 24px);
   --base-line-height:                 1.5;
-  --base-padding:                     20px;
-  --base-transition:                  0.3s ease;
-  --fast-transition:                  0.2s ease;
   
-  /* Fonts */
+  /* Font Families */
   --sans:                             hiragino kaku gothic proN, notosansjp, Noto Sans JP;
   --serif:                            klee, Klee One SemiBold, notoserifjp, Noto Serif JP;
+
+  /* Word Sizes (Dynamic Scaling) */
+  --word-size-base:                   2.5rem;
+  --word-size-4:                      2.1rem;  /* 4 chars */
+  --word-size-5:                      2.0rem;  /* 5 chars */
+  --word-size-6:                      1.7rem;  /* 6 chars */
+  --word-size-7:                      1.6rem;  /* 7 chars */
+  --word-size-8:                      1.3rem;  /* 8 chars */
+  --word-size-9:                      1.15rem; /* 9+ chars */
+
+  /* Text Sizes */
+  --sentence-size:                    1.3rem;
+  --sentence-eng-size:                0.8rem;
+  --definition-size:                  0.8rem;
+  --misc-info-size:                   15px;
+  --tag-font-size:                    0.7rem;
+  --frequency-size:                   20px;
+  --frequency-content-size:           14px;
+
+
+  /* DICTIONARY & GLOSSARY STYLING
+  ============================================ */
+  /* Colorizer Settings */
+  --dictionary-colorizer:             0;       /* "1" to enable Dictionary Colorizer */
+  --dict-bg-enabled:                  1;       /* "0" to disable bg color */
+  --dict-back-bg:                     0;       /* "1" to enable bg on entire card */
+  --dict-bg-opacity:                  0.03;    /* Opacity of the bg color */
+  --dict-border-width:                5px;     /* Width of colored border */
   
-  /* --- COLORS --- */
-  /* Theme Colors */
+  /* Dictionary Title Styles */
+  --dict-size:                        0.5rem;
+  --dict-display:                     inline-block;
+  --light-dict-color:                 rgba(0, 0, 0, 0.4);
+  --dict-color-dark:                  rgba(255, 255, 255, 0.4);
+
+  /* Collapse Settings */
+  --dictionary-collapse:              0;       /* "1" to enable */
+  --dictionary-max-height:            390px;   /* Max height before collapse */
+
+
+  /* PITCH ACCENT SETTINGS
+  ============================================ */
+  --pitch-style:                      default; /* "alt" to change */
+  --sentence-pitch-highlight:         false;   /* "true" to enable */
+  --pitch-colors:                     true;    /* "false" to disable */
+  --only-kana-pitch-size:             0.08em;  /* Border thickness for kana-only words */
+
+
+  /* RESPONSIVE GRID CONTROL
+  ============================================ */
+  /* Default Grid Layout */
+  --grid-order:                       1; /* "2" to flip grid horizontally */
+  --vertical-grid-order:              0; /* "1" to enable,  "2" to flip vertically */
+
+  /* Large Screens */
+  --horizontal-grid-large:            1; /* "0" to disable, "2" to flip horizontally */
+  --vertical-grid-large:              0; /* "1" to enable,  "2" to flip vertically */
+
+  /* Medium Screens */
+  --horizontal-grid-medium:           1; /* "0" to disable, "2" to flip horizontally */
+  --vertical-grid-medium:             0; /* "1" to enable,  "2" to flip vertically */
+
+  /* Small Screens */
+  --horizontal-grid-small:            0; /* "1" to enable,  "2" to flip horizontally */
+  --vertical-grid-small:              1; /* "0" to disable, "2" to flip vertically */
+
+  /* ==================================================================================
+     Note: You cannot enable the horizontal grid while the vertical grid is enabled.
+  ================================================================================== */ 
+
+
+  /* COLOR PALETTE
+  ============================================ */
+  /* Themes */
   --light-bg:                         white;
   --light-text:                       black;
   --dark-bg:                          black;
   --dark-text:                        white;
 
-  /* Pitch Accent Options */
-  --pitch-style:                      default; /* "alt" to change */
-  --sentence-pitch-highlight:         false;   /* "true" to enable */
-  --pitch-colors:                     true;    /* "false" to disable */
+  /* Highlights */
+  --light-highlight:                  #E20033;
+  --dark-highlight:                   #FCFF61;
 
-  /* Pitch Accent Colors */
+  /* Pitch Colors */
   --pitch-red:                        #F5436D;
   --pitch-blue:                       #39C1FF;
   --pitch-orange:                     #fca311;
   --pitch-green:                      #40D4A6;
   --pitch-purple:                     #afa2ff;
 
-  /* Devoiced Mora Color */
+  /* Devoiced Mora */
   --light-devoiced-color:             RoyalBlue;
   --dark-devoiced-color:              cornflowerBlue;
 
-  /* Highlight Colors */
-  --dark-highlight:                   #FCFF61;
-  --light-highlight:                  #E20033;
+  /* Text Colors */
+  --text-color-light:                 rgba(105, 105, 105, 0.3);
+  --text-color-dark:                  rgba(255, 255, 255, 0.2);
+  --text-color-muted:                 rgba(105, 105, 105, 0.3); /* Buttons */
+  --text-color-muted-dark:            rgba(255, 255, 255, 0.5); /* Separators */
+  --tag-color:                        white;
 
-  /* --- DICTIONARY COLORIZER --- */
-  --dictionary-colorizer:             0;       /* "1" to enable the entire colorizer */
-  --dict-bg-enabled:                  1;       /* "0" to disable just the background color */
-  --dict-back-bg:                     0;       /* "1" to enable the background on the entire card */
-  --dict-bg-opacity:                  0.03;    /* Opacity of the background color */
-  --dict-border-width:                5px;     /* Width of the colored border */
-
-  /* --- BACKGROUND COLORS --- */
-  --card-bg:                          rgba(0,0,0,0.4);
-  --word-bg:                          rgba(0,0,0,0.3);
-  --picture-bg:                       rgba(0,0,0,0.3);
-  --definition-bg:                    rgba(0,0,0,0.3);
-  --buttons-bg:                       rgba(0,0,0,0.1);
+  /* Background Opacities */
+  --card-bg:                          rgba(0, 0, 0, 0.4);
+  --word-bg:                          rgba(0, 0, 0, 0.3);
+  --picture-bg:                       rgba(0, 0, 0, 0.3);
+  --definition-bg:                    rgba(0, 0, 0, 0.3);
+  --tag-bg:                           rgba(0, 0, 0, 0.3);
+  --buttons-bg:                       rgba(0, 0, 0, 0.1);
   --buttons-bg-hover:                 rgba(0, 0, 0, 0.63);
   --lightbox-bg:                      rgba(0, 0, 0, 0.8);
   --frequency-bg-light:               rgba(0, 0, 0, 0.8);
   --frequency-bg-dark:                rgba(0, 0, 0, 0.63);
-  
-  /* --- TEXT COLORS --- */
-  --text-color-light:                 rgba(105, 105, 105, 0.3);
-  --text-color-dark:                  rgba(255, 255, 255, 0.2);
-  --text-color-muted:                 rgba(105, 105, 105, 0.3); /* Used primarly for buttons */
-  --text-color-muted-dark:            rgba(255, 255, 255, 0.5); /* Jitendex separators */
 
-  /* --- LAYOUT & SPACING --- */
-  /* Default States */
-  --main-bg:                          block; /* "none" to disable the main bg */
-  --word-sentence-default-expanded:   false; /* "true" to show sentence on word cards immediately */  
-  --audio-sentence-default-expanded:  false; /* "true" to show sentence on audio cards immediately */
-  --notes-default-expanded:           false; /* "true" to show notes immediately */
-  --collect-glossary-images:          true;  /* "false" to disable image collection */
 
-  /* Dictionary Settings */
-  --dictionary-collapse:              0;     /* "1" to enable */
-  --dictionary-max-height:            395px; /* Maximum height before the entry collapses */
-
+  /* DIMENSIONS & SPACING
+  ============================================ */
   /* Spacing Scale */
   --spacing-xs:                       2px;
   --spacing-sm:                       3px;
@@ -102,168 +176,66 @@
   --spacing-xxl:                      24px;
   --spacing-xxml:                     27px;
   --spacing-xxxl:                     34px;
-  
-  /* Layout Components */
-  --card-max-width:                   800px;
-  --front-top-offset:                 104px;
-  --back-top-offset:                  26px;
-  --grid-gap:                         var(--spacing-xl);
-  --grid-column-min-width:            390px;
-
-  --grid-order:                       "word picture"; /* Options: "word picture" | "picture word" (flips layout) */
-  --grid-columns:                     minmax(var(--grid-column-min-width), 1fr) auto;
-
-  /* Use the line below for the "picture word" layout:
-  --grid-columns:                     auto minmax(var(--grid-column-min-width), 1fr);
-  */
-  
-  /* Component Sizes */
-  --button-size:                      20px;
-  --toggle-width-large:               60px;
-  --toggle-width-medium:              20px;
-  --picture-height:                   220px;
-  --lightbox-nav-width:               100px;
+  --base-padding:                     20px;
 
   /* Border Radius */
   --border-radius-sm:                 4px;
   --border-radius-ms:                 5px;
   --border-radius-md:                 10px;
   --border-radius-lg:                 12px;
-  
-  /* --- TYPOGRAPHY --- */
-  /* Word Sizes */
-  --word-size-base:                   2.5rem;
-  --word-size-4:                      2.1rem;  /* For 4-character words */
-  --word-size-5:                      2.0rem;  /* For 5-character words */
-  --word-size-6:                      1.7rem;  /* For 6-character words */
-  --word-size-7:                      1.6rem;  /* For 7-character words */
-  --word-size-8:                      1.3rem;  /* For 8-character words */
-  --word-size-9:                      1.15rem; /* For 9-character+ words */
+  --tag-border-radius:                5px;
 
-  /* Sentence Sizes */
-  --sentence-size:                    1.3rem;
-  --sentence-eng-size:                0.8rem;
+  /* Dimensions */
+  --card-max-width:                   800px;
+  --front-top-offset:                 104px;
+  --back-top-offset:                  26px;
+  --grid-gap:                         var(--spacing-xl);
+  --grid-column-min-width:            390px;
   
-  /* Definition Size */
-  --definition-size: 0.8rem;
-  
-  /* Frequency Sizes */
-  --frequency-size:                   20px;
-  --frequency-content-size:           14px;
+  /* UI Elements */
+  --button-size:                      20px;
+  --toggle-width-large:               60px;
+  --toggle-width-medium:              20px;
+  --picture-height:                   220px;
+  --picture-height-small:             330px; /* Max picture container height */
+  --picture-max-height-small:         100%;  /* Max picture img height */
+  --lightbox-nav-width:               100px;
+  --external-links-icon-size:         25px;
   --frequency-max-height:             500px;
 
-  /* Reading Display */
-  --no-duplicate-kana:                false;   /* "true" to replace kana word with its reading */
-  --only-kana-pitch-size:             0.08em;  /* Controls the pitch accent border thickness when a kana word is replaced by its reading */
-
-  /* Furigana Display */
-  --furigana-display:                 initial; /* "none" to hide */
-
-  /* Dictionary Title */
-  --definition-title-visibility:      block;   /* "none" to hide */
-  --glossary-title-visibility:        block;   /* "none" to hide */
-  --dict-size:                        0.5rem;
-  --dict-display:                     inline-block;
-  --light-dict-color:                 rgba(0, 0, 0, 0.4);
-  --dict-color-dark:                  rgba(255, 255, 255, 0.4);
-
-  /* --- HEADER --- */
-  --custom-dark-mode-visibility:      flex;    /* "none"   to hide */
-  --audio-visibility:                 visible; /* "hidden" to hide */
-  --freq-visibility:                  visible; /* "hidden" to hide */
-
-  /* --- FOOTER --- */
-  /* Tags */
-  --tag-visibility:                   flex;    /* "none" to hide */
-  --tag-font-size:                    0.7rem;
+  /* Margins & Padding */
   --tag-padding:                      5px 10px;
   --tag-margin-top:                   5px;
   --tag-margin-bottom:                0;
-  --tag-border-radius:                5px;
-  --tag-bg:                           rgba(0,0,0,0.3);
-  --tag-color:                        white;
   --tags-container-gap:               0 5px;
-
-  /* External Links */
-  --external-links-visibility:        flex;    /* "none" to hide */
+  
   --external-links-padding:           5px 10px;
   --external-links-margin-top:        5px;
   --external-links-margin-bottom:     0;
-  --external-links-icon-size:         25px;
 
-  /* Misc Info Size */
-  --misc-info-size:                   15px;
-  
-  /* --- SHADOWS & Z-INDEX --- */
+
+  /* EFFECTS & ANIMATION
+  ============================================ */
+  /* Transitions */
+  --base-transition:                  0.3s ease;
+  --fast-transition:                  0.2s ease;
+
   /* Shadows */
   --button-shadow:                    0 0 5px 2.5px rgba(0, 0, 0, 0.1);
   --button-shadow-dark:               0 0 5px 2.5px rgba(255, 255, 255, 0.1);
   --lightbox-shadow:                  0 1px 8px rgba(0, 0, 0, 0.15);
-  
-  /* Z-index Layers */
+
+  /* Z-Index Layers */
   --z-index-base:                     1;
   --z-index-toggle:                   2;
   --z-index-lightbox:                 1000;
-  }
-
-  /* --- RESPONSIVE DESIGN --- */
-  /* Large Screens */
-  @media (max-width: 1050px) {
-  :root {
-    /* Grid Columns */
-    --grid-columns-large:             repeat(2, 1fr); /* Two columns */
-
-    /* Remove the comment markers around the block below to flip the layout (picture left, word right) */
-
-    /*
-    --grid-order: 
-      "picture word";
-    */
-
-    }
-  }
-
-  /* Medium Screens */
-  @media (max-width: 768px) {
-  :root {
-    /* Grid Columns */
-    --grid-columns-medium:            repeat(2, 1fr); /* Two columns */
-
-    /* Remove the comment markers around the block below to flip the layout (picture left, word right) */
-
-    /*
-    --grid-order: 
-      "picture word";
-    */
-
-    }
-  }
-
-  /* Small Screens */
-  @media (max-width: 624px) {
-  :root {
-    /* Grid Columns */
-    --grid-columns-small:             repeat(1, 1fr); /* One column */
-
-    /* Remove --grid-order entirely to enable a two-column layout */
-    --grid-order: 
-      "word"
-      "picture";
-
-    /* To flip the layout (picture above word), use this instead: */
-    /*
-    --grid-order: 
-      "picture"
-      "word";
-    */
-
-    /* Picture Height */
-    --picture-height-small:           330px; /* Max picture height */
-    --picture-max-height-small:       100%;  /* Max picture img height */
-  }
 }
 
 /* Card Layout */
+:root {
+  font-size: var(--base-size);
+}
+
 .front, .back {
   position: relative;
   padding: var(--base-padding);
@@ -643,18 +615,7 @@ ul, ol {
   font-size: 1rem;
 }
 
-.grid-container {
-  display: grid;
-  gap: var(--grid-gap);
-  align-items: stretch;
-  grid-template-columns: var(--grid-columns);
-  grid-template-areas: var(--grid-order);
-}
 
-.grid-container:not(:has(> .picture-container > img)) {
-  grid-template-columns: repeat(1, 1fr);
-  gap: unset;
-}
 
 .background-box {
   position: relative;
@@ -677,7 +638,79 @@ ul, ol {
   background: var(--word-bg);
 }
 
+@container style(--reading-position: under) {
+  #word ruby {
+    ruby-position: under !important;
+    -webkit-ruby-position: after !important;
+    text-align: center;
+  }
+
+  #word ruby li {
+  padding-top: 10px;
+  }
+
+  #word rt ol, #word rt ul {
+    display: inline-block !important; 
+  }
+
+  #position {
+    top: auto !important;
+    transform: none !important;
+    align-content: center;
+  }
+
+  #categories {
+    top: auto !important;
+    transform-origin: bottom left !important;
+  }
+}
+
 /* Picture Container */
+.grid-container {
+  display: grid;
+  gap: var(--grid-gap);
+  align-items: stretch;
+  grid-template-areas: "word picture";
+  grid-template-columns: minmax(var(--grid-column-min-width), 1fr) auto;
+}
+
+.grid-container:not(:has(> .picture-container > img)) {
+  grid-template-columns: repeat(1, 1fr);
+  gap: unset;
+}
+
+@container style(--grid-order: 2) {
+  .grid-container {
+    display: grid;
+    gap: var(--grid-gap);
+    align-items: stretch;
+    grid-template-areas: "picture word";
+    grid-template-columns: auto minmax(var(--grid-column-min-width), 1fr);
+  }
+}
+
+@container style(--vertical-grid-order: 1) {
+  .grid-container {
+    display: grid;
+    gap: var(--grid-gap);
+    align-items: centerh;
+    grid-template-areas: "word" 
+                         "picture";
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+@container style(--vertical-grid-order: 2) {
+  .grid-container {
+    display: grid;
+    gap: var(--grid-gap);
+    align-items: stretch;
+    grid-template-areas: "picture"
+                         "word";
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
 img {
   max-width: 100%;
   height: auto;
@@ -1741,6 +1774,43 @@ span[data-sc-content="example-keyword"], span[style*="color-mix(in srgb, lime"] 
   display: none;
 }
 
+/* Selection Text Jitendex */
+#selectionText span[data-sc-class="tag"] {
+  border-radius: 0.3em;
+  font-size: 0.8em;
+  font-weight: bold;
+  margin-right: 0.5em;
+  padding: 0.2em 0.3em;
+  vertical-align: text-bottom;
+  word-break: keep-all;
+  color: var(--dark-text);
+}
+
+#selectionText {
+  & :is(
+      li[data-sc-content="sense-group"],
+      li[data-sc-content="forms"],
+      ul[data-sc-content="glossary"]
+    ) {
+    padding-left: 0 !important;
+  }
+
+  & :is(
+      div[data-sc-content="sense-group"],
+      li[data-sc-content="sense-group"]:first-child
+    ) {
+    margin-top: 0 !important;
+  }
+
+  & span[data-sc-class="tag"] {
+    margin-right: 0.25em !important;
+  }
+}
+
+#selectionText div[data-sc-class="extra-box"] {
+  width: auto !important;
+}
+
 /* Hide dict version date */
 /* Jitendex */
 [data-dictionary^="Jitendex"] .dictionary-title {
@@ -2590,8 +2660,11 @@ span[style="font-size: 0.8em; vertical-align: text-bottom; border-style: solid; 
   border-radius: var(--border-radius-ms);
 }
 
-#definition:has(li[data-dictionary]), #glossary:has(li[data-dictionary]) {
-  background-color: rgba(var(--dict-color-rgb, 0, 0, 0), calc(var(--dictionary-colorizer) * var(--dict-bg-enabled) * var(--dict-bg-opacity)));
+:is(#definition, #glossary):has(li[data-dictionary]) {
+  background-color: rgba(
+    var(--dict-color-rgb, 0, 0, 0), 
+    calc(var(--dictionary-colorizer) * var(--dict-bg-enabled) * var(--dict-bg-opacity))
+  );
   border-radius: var(--border-radius-ms);
 }
 
@@ -2605,6 +2678,7 @@ span[style="font-size: 0.8em; vertical-align: text-bottom; border-style: solid; 
   border-radius: var(--border-radius-ms);
   height: 100%;
 }
+
 :is(.definition-box, .glossary-box) li[data-dictionary*="Jitendex.org"]::before {
   height: calc(100% - 1.32rem);
 }
@@ -2623,11 +2697,12 @@ span[style="font-size: 0.8em; vertical-align: text-bottom; border-style: solid; 
   ) !important;
 }
 
-.card.nightMode .dictionary-title, .custom-dark-mode .dictionary-title,
-.card.nightMode .yomitan-glossary i, .custom-dark-mode .yomitan-glossary i,
-.card.nightMode .dictionary-counter, .custom-dark-mode .dictionary-counter,
-.card.nightMode .glossary-box .yomitan-glossary li[data-dictionary]:not(:has(> .dictionary-title))::before,
-.custom-dark-mode .glossary-box .yomitan-glossary li[data-dictionary]:not(:has(> .dictionary-title))::before {
+:is(.card.nightMode, .custom-dark-mode) :is(
+  .dictionary-title,
+  .yomitan-glossary i,
+  .dictionary-counter,
+  .glossary-box .yomitan-glossary li[data-dictionary]:not(:has(> .dictionary-title))::before
+) {
   color: color-mix(in srgb, 
       var(--dict-color-dark),
       var(--dict-color) calc(var(--dictionary-colorizer) * 100%)
@@ -2635,28 +2710,57 @@ span[style="font-size: 0.8em; vertical-align: text-bottom; border-style: solid; 
 }
 
 /* Link and Keyword Coloring */
-#glossary.yomitan-glossary a,
-#definition.yomitan-glossary a,
-:is(.definition-box, .glossary-box) li[data-dictionary] span[data-sc-content="example-keyword"] {
+:is(
+  :is(#glossary, #definition).yomitan-glossary a,
+  :is(.definition-box, .glossary-box) li[data-dictionary] span[data-sc-content="example-keyword"]
+) {
   color: color-mix(in srgb,
       var(--light-highlight),
       var(--dict-color) calc(var(--dictionary-colorizer) * 100%)
   ) !important;
 }
 
-.card.nightMode #glossary.yomitan-glossary a, .custom-dark-mode #glossary.yomitan-glossary a,
-.card.nightMode #definition.yomitan-glossary a, .custom-dark-mode #definition.yomitan-glossary a,
-.card.nightMode :is(.definition-box, .glossary-box) li[data-dictionary] span[data-sc-content="example-keyword"],
-.custom-dark-mode :is(.definition-box, .glossary-box) li[data-dictionary] span[data-sc-content="example-keyword"] {
+:is(.card.nightMode, .custom-dark-mode) :is(
+  :is(#glossary, #definition).yomitan-glossary a,
+  :is(.definition-box, .glossary-box) li[data-dictionary] span[data-sc-content="example-keyword"]
+) {
   color: color-mix(in srgb,
       var(--dark-highlight),
       var(--dict-color) calc(var(--dictionary-colorizer) * 100%)
   ) !important;
 }
 
+/* Selection Text */
+#selectionText {
+  background-color: rgba(
+    var(--dict-color-rgb, 0, 0, 0),
+    calc(var(--dictionary-colorizer) * var(--dict-bg-enabled) * var(--dict-bg-opacity))
+  );
+  border-radius: var(--border-radius-ms);
+}
+
+#selectionText .definition-box {
+  position: relative;
+  padding-left: calc(var(--spacing-lg) + (var(--dictionary-colorizer) * var(--spacing-lg)));
+}
+
+#selectionText .definition-box::before {
+  content: '';
+  position: absolute;
+  left: var(--spacing-lg);
+  top: var(--spacing-lg);
+  bottom: var(--spacing-lg);
+  width: calc(var(--dictionary-colorizer) * var(--dict-border-width));
+  background-color: var(--dict-color);
+  border-radius: var(--border-radius-ms);
+  z-index: 0;
+}
+
 /* --- DICTIONARY THEME MAPPING --- */
 /* Light Theme Colors */
 .card {
+  --selection-text-color: var(--selection-text-color-light);
+  --selection-text-color-rgb: var(--selection-text-color-rgb-light);
   --jmdict-color: var(--jmdict-color-light);
   --jmdict-color-rgb: var(--jmdict-color-rgb-light);
   --shinmeikai-color: var(--shinmeikai-color-light);
@@ -2739,7 +2843,9 @@ span[style="font-size: 0.8em; vertical-align: text-bottom; border-style: solid; 
 
 /* Dark Theme Colors */
 .card.nightMode,
-.custom-dark-mode {
+.custom-dark-mode :is(.definition-box, .glossary-box) {
+  --selection-text-color: var(--selection-text-color-dark);
+  --selection-text-color-rgb: var(--selection-text-color-dark-rgb);
   --jmdict-color: var(--jmdict-color-dark);
   --jmdict-color-rgb: var(--jmdict-color-dark-rgb);
   --shinmeikai-color: var(--shinmeikai-color-dark);
@@ -2821,6 +2927,13 @@ span[style="font-size: 0.8em; vertical-align: text-bottom; border-style: solid; 
 }
 
 /* Specific Color Definitions for Each Dictionary */
+#selectionText,
+#selectionText .definition-box,
+#selectionText li[data-dictionary] {
+  --dict-color: var(--selection-text-color) !important;
+  --dict-color-rgb: var(--selection-text-color-rgb) !important;
+}
+
 :is(.definition-box, .glossary-box) li[data-dictionary*="JMdict"],
 :is(.definition-box, .glossary-box) li[data-dictionary*="JMDict"],
 :is(.definition-box, .glossary-box) li[data-dictionary*="JMnedict"],
@@ -3176,6 +3289,11 @@ span[style="font-size: 0.8em; vertical-align: text-bottom; border-style: solid; 
 }
 
 @media (max-width: 1050px) {
+  :root {
+    --horizontal-layout: var(--horizontal-grid-large);
+    --vertical-layout: var(--vertical-grid-large);
+  }
+
   .dictionary-counter {
     padding: var(--spacing-md);
   }
@@ -3195,8 +3313,38 @@ span[style="font-size: 0.8em; vertical-align: text-bottom; border-style: solid; 
   .front { top: 0; }
   .back { top: 0; }
 
-  .grid-container {
-    grid-template-columns: var(--grid-columns-large);
+  @container style(--horizontal-layout: 1) {
+    .grid-container {
+      grid-template-areas: "word picture";
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @container style(--horizontal-layout: 2) {
+    .grid-container {
+      grid-template-areas: "picture word";
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @container style(--vertical-layout: 1) {
+    .grid-container {
+      grid-template-areas: 
+      "word"
+      "picture";
+      grid-template-columns: repeat(1, 1fr);
+      gap: 10px;
+    }
+  }
+
+  @container style(--vertical-layout: 2) {
+    .grid-container {
+      grid-template-areas: 
+      "picture"
+      "word";
+      grid-template-columns: repeat(1, 1fr);
+      gap: 10px;
+    }
   }
 
   .header {
@@ -3270,11 +3418,56 @@ span[style="font-size: 0.8em; vertical-align: text-bottom; border-style: solid; 
   .glossary-box, .definition-box {
     padding: var(--spacing-md);
   }
+
+  #selectionText .definition-box::before {
+    left: var(--spacing-md) !important;
+    top: var(--spacing-md) !important;
+    bottom: var(--spacing-md) !important;
+  }
+
+  #selectionText .definition-box {
+    padding-left: calc(var(--spacing-md) + (var(--dictionary-colorizer) * var(--spacing-lg))) !important;
+  }
 }
 
 @media (max-width: 768px) {
-  .grid-container {
-    grid-template-columns: var(--grid-columns-medium);
+  :root { 
+    --horizontal-layout: var(--horizontal-grid-medium);
+    --vertical-layout: var(--vertical-grid-medium);
+  }
+
+  @container style(--horizontal-layout: 1) {
+    .grid-container {
+      grid-template-areas: "word picture";
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @container style(--horizontal-layout: 2) {
+    .grid-container {
+      grid-template-areas: "picture word";
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @container style(--vertical-layout: 1) {
+    .grid-container {
+      grid-template-areas: 
+      "word"
+      "picture";
+      grid-template-columns: repeat(1, 1fr);
+      gap: 10px;
+    }
+  }
+
+  @container style(--vertical-layout: 2) {
+    .grid-container {
+      grid-template-areas: 
+      "picture"
+      "word";
+      grid-template-columns: repeat(1, 1fr);
+      gap: 10px;
+    }
   }
 
   .front::before,
@@ -3284,6 +3477,11 @@ span[style="font-size: 0.8em; vertical-align: text-bottom; border-style: solid; 
 }
 
 @media (max-width: 624px) {
+  :root {
+    --horizontal-layout: var(--horizontal-grid-small);
+    --vertical-layout: var(--vertical-grid-small);
+  }
+
   .front:not(:has(#wordAudio)) .toggle-custom-dark-mode { 
     position: unset;
   }
@@ -3299,8 +3497,36 @@ span[style="font-size: 0.8em; vertical-align: text-bottom; border-style: solid; 
     padding-top: 10px;
   }
 
-  .grid-container {
-    grid-template-columns: var(--grid-columns-small);
+  @container style(--horizontal-layout: 1) {
+    .grid-container {
+      grid-template-areas: "word picture";
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @container style(--horizontal-layout: 2) {
+    .grid-container {
+      grid-template-areas: "picture word";
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @container style(--vertical-layout: 1) {
+    .grid-container {
+      grid-template-areas: 
+      "word"
+      "picture" !important;
+      grid-template-columns: repeat(1, 1fr) !important;
+    }
+  }
+
+  @container style(--vertical-layout: 2) {
+    .grid-container {
+      grid-template-areas: 
+      "picture"
+      "word" !important;
+      grid-template-columns: repeat(1, 1fr) !important;
+    }
   }
 
   .picture-container {
@@ -3349,6 +3575,10 @@ span[style="font-size: 0.8em; vertical-align: text-bottom; border-style: solid; 
 
 /* Dict Colors */
 :root {
+  --selection-text-color-light:             #009688;
+  --selection-text-color-rgb-light:         0, 150, 136;
+  --selection-text-color-dark:              #4DB6AC;
+  --selection-text-color-dark-rgb:          77, 182, 172;
   --jmdict-color-light:                     #007ACC;
   --jmdict-color-rgb-light:                 0, 122, 204;
   --jmdict-color-dark:                      #4AB5FF;
