@@ -2236,6 +2236,7 @@ li[data-dictionary*="明鏡国語辞典"] [data-sc-body] {
   [data-dictionary="明鏡国語辞典 第三版"] span[data-sc-fbox] {
     background-color: rgb(0,0,0,0) !important;
     border-color: var(--dict-color) !important;
+    color: var(--dict-color) !important;
   }
 
   [data-dictionary="明鏡国語辞典 第三版"] div[data-sc-class="hinkaku"] {
