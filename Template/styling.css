@@ -2857,7 +2857,7 @@ li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br)
 
   span[title="右記以外の漢字に関する参考記事"] {
     color: var(--dict-color) !important;
-    border-color: var(--dict-color);
+    border-color: var(--dict-color) !important;
   }
 
   span[style="font-size: 0.8em; vertical-align: text-bottom; border-style: solid; border-width: 0.05em; margin-right: 0.25em; padding: 0.1em;"],
