@@ -280,6 +280,18 @@
     const allGlossaryListItems = Array.from(document.querySelectorAll("#glossary > .glossary-box > span > div li[data-dictionary], #glossary > div > span > div > i"));
     const dictionaryPreference = document.getElementById('dictionaryPreference')?.textContent.trim() || '';
 
+    function updateBackgroundColor(element) {
+      const backDiv = document.querySelector('.back');
+      if (!backDiv || !element) return;
+
+      const computed = getComputedStyle(element);
+      const color = computed.getPropertyValue('--dict-color').trim();
+      const rgb = computed.getPropertyValue('--dict-color-rgb').trim();
+
+      if (color) backDiv.style.setProperty('--dict-color', color);
+      if (rgb) backDiv.style.setProperty('--dict-color-rgb', rgb);
+    }
+
     function getDictionaryName(element) {
       if (element.tagName === 'LI' && element.hasAttribute('data-dictionary')) {
         return element.getAttribute('data-dictionary');
@@ -315,7 +327,14 @@
 
     const currentVisibleItems = [];
     if (hasSelectionText) currentVisibleItems.push({ type: 'selectionText', element: selectionText, container: selectionText });
-    if (hasDefinition) currentVisibleItems.push({ type: 'definition', element: definition, container: definition });
+    if (hasDefinition) {
+      const defLi = definition.querySelector('.definition-box li[data-dictionary]');
+      currentVisibleItems.push({ 
+        type: 'definition', 
+        element: defLi || definition,
+        container: definition 
+      });
+    }
 
     if (visibleGlossaryItems.length > 0) {
       visibleGlossaryItems.forEach((li) => {
@@ -484,6 +503,8 @@
           initialItem.container.classList.add('show');
           // For collapsed dictionary entries 1
           collapseDictionary(initialItem.container.querySelector('.definition-box, .glossary-box'));
+          // For dictionary colorizer 1
+          updateBackgroundColor(initialItem.element);
         }
       }
     }
@@ -523,6 +544,8 @@
 
       // For collapsed dictionary entries 2
       collapseDictionary(nextItem.container.querySelector('.definition-box, .glossary-box'));
+      // For collapsed dictionary colorizer 2
+      updateBackgroundColor(nextItem.element);
 
       if (nextItem.type === 'selectionText') {
         localStorage.setItem("lastSelectedDictionary", "selectionText");
@@ -2053,69 +2076,62 @@
   // Merge entries from the same dictionary
   function consolidateYomitanGlossaryEntries() {
     const glossaryOuterDiv = document.getElementById('glossary');
-    if (!glossaryOuterDiv) {
-      return;
-    }
+    if (!glossaryOuterDiv) return;
 
     const glossaryBox = glossaryOuterDiv.querySelector('.glossary-box');
-    if (!glossaryBox) {
-      return;
-    }
+    if (!glossaryBox) return;
 
     const glossarySpan = glossaryBox.querySelector('span');
-    if (!glossarySpan) {
-      return;
-    }
+    if (!glossarySpan) return;
 
-    if (glossarySpan.dataset.consolidated === 'true') {
-      return;
-    }
+    if (glossarySpan.dataset.consolidated === 'true') return;
 
     const yomitanGlossaryDivs = glossarySpan.querySelectorAll('div.yomitan-glossary');
-
-    if (yomitanGlossaryDivs.length === 0) {
-      return;
-    }
+    if (yomitanGlossaryDivs.length === 0) return;
 
     let consolidationHappened = false;
 
     yomitanGlossaryDivs.forEach(ygDiv => {
       const olElement = ygDiv.querySelector('ol');
-      if (!olElement) {
-        return;
-      }
+      if (!olElement) return;
 
-      const originalListItems = Array.from(olElement.querySelectorAll('li[data-dictionary]'));
-      if (originalListItems.length === 0) {
-        return;
-      }
+      const listItems = Array.from(olElement.querySelectorAll('li[data-dictionary]'));
+      if (listItems.length === 0) return;
 
-      const entriesByDictionary = {};
-      originalListItems.forEach(li => {
-        const dictName = li.dataset.dictionary;
-        if (!entriesByDictionary[dictName]) {
-          entriesByDictionary[dictName] = [];
+      const groupedItems = {};
+      listItems.forEach(li => {
+        const dictName = li.getAttribute('data-dictionary');
+        if (!dictName) return;
+        
+        if (!groupedItems[dictName]) {
+          groupedItems[dictName] = [];
         }
-
-        entriesByDictionary[dictName].push(li.innerHTML.trim());
+        groupedItems[dictName].push(li);
       });
 
-      olElement.innerHTML = '';
+      Object.keys(groupedItems).forEach(dictName => {
+        const items = groupedItems[dictName];
+        
+        if (items.length > 1) {
+          const firstItem = items[0];
+          
+          const consolidatedLi = firstItem.cloneNode(false);
+          
+          const combinedHtml = items
+            .map(li => li.innerHTML.trim())
+            .join('<hr class="consolidated-entry-separator">');
+            
+          consolidatedLi.innerHTML = combinedHtml;
 
-      for (const dictName in entriesByDictionary) {
-        if (entriesByDictionary.hasOwnProperty(dictName) && entriesByDictionary[dictName].length > 0) {
-          const newLi = document.createElement('li');
-          newLi.dataset.dictionary = dictName;
+          olElement.replaceChild(consolidatedLi, firstItem);
 
+          for (let i = 1; i < items.length; i++) {
+            olElement.removeChild(items[i]);
+          }
 
-          newLi.innerHTML = entriesByDictionary[dictName].join(
-            entriesByDictionary[dictName].length > 1 ? '<hr class="consolidated-entry-separator">' : ''
-          );
-
-          olElement.appendChild(newLi);
           consolidationHappened = true;
         }
-      }
+      });
     });
 
     if (consolidationHappened) {
