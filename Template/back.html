@@ -1901,15 +1901,6 @@
     });
 
     document.getElementById("formattedSentence").innerHTML = tempDiv.innerHTML;
-
-    const formattedSentenceSpan = document.getElementById("formattedSentence");
-    const sentenceContainer = document.querySelector(".sentence-container");
-    if (formattedSentenceSpan && sentenceContainer) {
-      const furiganaDisplayValue = getComputedStyle(sentenceContainer).getPropertyValue('--furigana-display').trim().toLowerCase();
-      if (furiganaDisplayValue === 'none') {
-        formattedSentenceSpan.innerHTML = formattedSentenceSpan.innerHTML.replace(/<ruby><rb>(.*?)<\/rb><rt>.*?<\/rt><\/ruby>/gs, '$1');
-      }
-    }
   }
 
   // Alternative pitch styling based on CSS variables
