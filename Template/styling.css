@@ -1201,24 +1201,6 @@ img {
   pointer-events: none !important;
 }
 
-.audio .replay-button::after, 
-.sentenceaudio .replay-button::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-}
-
-.playImage, 
-.playImage path, 
-.playImage svg, 
-.replay-button svg {
-  pointer-events: none !important;
-}
-
 /* Notes Toggle */
 .toggle-notes {
   position: fixed;
