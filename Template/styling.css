@@ -26,11 +26,6 @@
   --collect-glossary-images:          true;    /* Enable image collection */
   --no-duplicate-kana:                false;   /* Replace kana word with its reading */
 
-  /* Positioning & Display */
-  --main-bg:                          block;   /* "none" to disable main bg */
-  --reading-position:                 over;    /* "under" to display reading under word */
-  --furigana-display:                 initial; /* "none" to hide */
-
   /* Component Visibility */
   --custom-dark-mode-visibility:      flex;    /* "none" to hide header toggle */
   --audio-visibility:                 visible; /* "hidden" to hide audio button */
@@ -39,6 +34,7 @@
   --external-links-visibility:        flex;    /* "none" to hide external links */
   --definition-title-visibility:      block;   /* "none" to hide dict title */
   --glossary-title-visibility:        block;   /* "none" to hide glossary title */
+  --main-bg:                          block;   /* "none" to disable main bg */
 
 
   /* TYPOGRAPHY & FONTS
@@ -59,6 +55,14 @@
   --word-size-7:                      1.6rem;  /* 7 chars */
   --word-size-8:                      1.3rem;  /* 8 chars */
   --word-size-9:                      1.15rem; /* 9+ chars */
+
+  /* Furigana Settings */
+  --reading-position:                 over;    /* "under" to display reading under word */
+  --furigana-size:                    1rem;    
+  --furigana-height:                  0.0rem;  /* Negative value moves it UP (e.g., -0.05rem), Positive moves it DOWN */
+
+  /* Sentence Furigana */
+  --furigana-display:                 1;       /* "0" to disable furigana in sentences */
 
   /* Text Sizes */
   --sentence-size:                    1.3rem;
@@ -100,7 +104,11 @@
 
   /* RESPONSIVE GRID CONTROL
   ============================================ */
-  /* Default Grid Layout */
+  /* Global Grid Settings */
+  --grid-gap:                         var(--spacing-xl);
+  --grid-column-min-width:            390px;
+
+  /* Default Layout (> 1050px) */
   --grid-order:                       1; /* "2" to flip grid horizontally */
   --vertical-grid-order:              0; /* "1" to enable,  "2" to flip vertically */
 
@@ -189,8 +197,6 @@
   --card-max-width:                   800px;
   --front-top-offset:                 104px;
   --back-top-offset:                  26px;
-  --grid-gap:                         var(--spacing-xl);
-  --grid-column-min-width:            390px;
   
   /* UI Elements */
   --button-size:                      20px;
@@ -608,11 +614,12 @@ ul, ol {
 
 #word rt {
   line-height: 1.5;
+  transform: translateY(var(--furigana-height)); 
 }
 
 #word ruby rt {
   font-family: var(--sans);
-  font-size: 1rem;
+  font-size: var(--furigana-size);
 }
 
 .background-box {
@@ -928,6 +935,16 @@ img {
   transform: translateY(0.23em);
   opacity: 0;
   transition: opacity var(--fast-transition);
+}
+
+@container style(--furigana-display: 0) {
+  #sentence rb {
+    margin-top: 21px;
+  }
+
+  #sentence rt {
+    display: none;
+  }
 }
 
 #sentence ruby:hover rt {
