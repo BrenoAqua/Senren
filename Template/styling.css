@@ -2193,23 +2193,31 @@ li[data-dictionary*="明鏡国語辞典"] [data-sc-body] {
 
 .card.nightMode li[data-dictionary="明鏡国語辞典 第三版"] [data-sc-img] img,
 .custom-dark-mode li[data-dictionary="明鏡国語辞典 第三版"] [data-sc-img] img {
-    display: none !important;
+  display: none !important;
 }
 
 .card.nightMode li[data-dictionary="明鏡国語辞典 第三版"] [data-sc-img] span[style*="--image"],
 .custom-dark-mode li[data-dictionary="明鏡国語辞典 第三版"] [data-sc-img] span[style*="--image"] {
-    display: block !important;
-    background-color: white !important;
-    width: 100% !important;
-    height: 100% !important;
-    position: absolute;
-    top: 0;
-    left: 0;
-    opacity: 1 !important;
+  display: block !important;
+  background-color: white !important;
+  width: 100% !important;
+  height: 100% !important;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 1 !important;
+}
+
+.yomitan-glossary [data-dictionary="明鏡国語辞典 第三版"] div[data-sc-head2] {
+  margin-block-start: 0 !important;
 }
 
 .yomitan-glossary [data-dictionary="明鏡国語辞典 第三版"] details {
-    margin-block: 0 !important;
+  margin-block: 0 !important;
+}
+
+[data-dictionary="明鏡国語辞典 第三版"] [data-sc-body] {
+  line-height: 1.9em !important;
 }
 
 @container style(--dictionary-colorizer: 1) {
@@ -2226,6 +2234,7 @@ li[data-dictionary*="明鏡国語辞典"] [data-sc-body] {
   }
 
   [data-dictionary="明鏡国語辞典 第三版"] span[data-sc-fbox] {
+    background-color: rgb(0,0,0,0) !important;
     border-color: var(--dict-color) !important;
   }
 
