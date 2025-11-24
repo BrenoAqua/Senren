@@ -615,8 +615,6 @@ ul, ol {
   font-size: 1rem;
 }
 
-
-
 .background-box {
   position: relative;
   overflow: hidden;
@@ -1174,8 +1172,8 @@ img {
 }
 
 .replay-button svg {
-  width: 29px;
-  height: 29px;
+  width: calc(var(--button-size) + 9px);
+  height: calc(var(--button-size) + 9px);
   margin: 0 !important;
   padding: 0 !important;
   display: block !important;
@@ -1192,6 +1190,31 @@ img {
 .playing {
   outline: 2px solid transparent !important;
   outline-offset: -2px;
+}
+
+.playImage, 
+.playImage path, 
+.playImage svg, 
+.replay-button svg {
+  pointer-events: none !important;
+}
+
+#wordAudio, 
+#sentenceAudio {
+  position: relative !important;
+}
+
+#wordAudio .replay-button::after, 
+#sentenceAudio .replay-button::after,
+.audio .replay-button::after, 
+.sentenceaudio .replay-button::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
 }
 
 .playImage, 
@@ -3524,6 +3547,16 @@ li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br)
 
   #selectionText .definition-box {
     padding-left: calc(var(--spacing-md) + (var(--dictionary-colorizer) * var(--spacing-lg))) !important;
+  }
+
+  .back .audio, 
+  .back .sentenceaudio,
+  .back:not(:has(.audio)) .sentenceaudio {
+    position: relative !important;
+    top: auto !important;          
+    left: auto !important;         
+    right: auto !important;
+    bottom: auto !important;
   }
 }
 
