@@ -66,8 +66,8 @@ nav:
       - Anki Setup: anki.md
   - Features:
       - Pitch Accent Automatic Colors: pitch_accent_automatic_colors.md
-      - Definition Toggle: defnition_toggle.md
-      - Lightbox Picture: lightbox.md
+      - Dictionary Preference & Definition Toggle: defnition_toggle.md
+      - Picture Lightbox: lightbox.md
       - Kanji Hover: kanji_hover.md
       - Custom Dark Mode: Custom_Dark_Mode.md
       - External Links: external_links.md
