@@ -67,8 +67,9 @@ nav:
   - Features:
       - Pitch Accent Automatic Colors: pitch_accent_automatic_colors.md
       - Dictionary Preference & Definition Toggle: defnition_toggle.md
-      - Picture Lightbox: lightbox.md
       - Kanji Hover: kanji_hover.md
+      - Picture Lightbox: lightbox.md
+      - Collect Glossary Images: collect_glossary_images.md
       - Custom Dark Mode: Custom_Dark_Mode.md
       - External Links: external_links.md
       - Dictionary Colorizer: dictionary_colorizer.md
