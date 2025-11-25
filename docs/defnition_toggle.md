@@ -10,7 +10,7 @@ This controls which definition pops up first when you reveal the answer, and how
     
 *   **Navigation:**
     *   **Click Zones:** The left and right edges of the screen are clickable. Clicking **Right** cycles forward; Clicking **Left** cycles backward.
-    *   **Cycle Order:** Selection Text $\leftrightarrow$ Definition $\leftrightarrow$ Glossary Dictionary 1 $\leftrightarrow$ Glossary Dictionary 2...
+    *   **Cycle Order:** Selection Text ↔ Definition ↔ Glossary 1 ↔ Glossary Dictionary 1... Glossary Dictionary 2...
     *   **Keyboard Shortcuts:** Left Arrow and Right Arrow keys perform the same toggling action.
     *   **Counter:** After you cycle at least once, a small indicator (e.g., `1 / 4`) appears in the top right, showing the current and total dictionaries.
 
