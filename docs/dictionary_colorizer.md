@@ -35,4 +35,4 @@ You can customize this feature by editing the **Styling** in your Anki card temp
 
 !!! tip "Customize Your Colors"
     Don't like the default colors? You can change them!
-    Scroll down to the **Dict Colors** section in the CSS. You can change the HEX codes for both Light and Dark modes for any specific dictionary.
+    Scroll down to the `/* DICTIONARY & GLOSSARY STYLING */` section in the CSS. You can change the HEX codes for both Light and Dark modes for any specific dictionary.
