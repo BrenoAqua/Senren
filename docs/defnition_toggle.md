@@ -1,11 +1,20 @@
-# Definition Toggle
+# Dictionary Preference & Definition Toggle
+This controls which definition pops up first when you reveal the answer, and how you flip through different dictionaries.
 
-Switch between multiple definitions or glossaries using buttons or arrow keys.
-
-*   **Save Preference:** Set whether the glossary or the main definition appears first by default. Add `glossary` to the `dictionaryPreference` field to show the glossary first.
-
-    ![dictionaryPreference field](assets/images/dictionaryPreference.png)
-
-    Use the [Batch Editing](https://ankiweb.net/shared/info/291119185) add-on to update multiple cards at once.
+*   **Priority Logic:** The card decides what to show based on the following priority order:
+    1.  **Selection Text:** If you highlighted text while creating the card (using Yomitan), that shows up first.                                            
+    2.  **Memory:** The card remembers if you last looked at "Definition", "Glossary", "Selection Text" or any specific glossary dictionary via `localStorage`, and keeps it until Anki is closed.
+    3.  **Specific Dictionary Name:** If you set a preference in the `dictionaryPreference` field (e.g., "新選国語辞典　第十版"), the card attempts to open that specific dictionary within the glossary first.
+    4.  **Generic Preference:** If the preference is set to simply "glossary", it opens the first available dictionary in the glossary list.
+    5.  **Main Definition:** If none of the conditions above are met, it defaults to showing the single dictionary chosen for the definition.
     
-    **Remember Last View:** The last viewed dictionary/glossary tab remains active until Anki is restarted.
+*   **Navigation:**
+    *   **Click Zones:** The left and right edges of the screen are clickable. Clicking **Right** cycles forward; Clicking **Left** cycles backward.
+    *   **Cycle Order:** Selection Text $\leftrightarrow$ Definition $\leftrightarrow$ Glossary Dictionary 1 $\leftrightarrow$ Glossary Dictionary 2...
+    *   **Keyboard Shortcuts:** Left Arrow and Right Arrow keys perform the same toggling action.
+    *   **Counter:** After you cycle at least once, a small indicator (e.g., `1 / 4`) appears in the top right, showing the current and total dictionaries.
+
+### Dictionary Preference Demo
+![type:video](assets/dictionary_preference_preview.mp4)
+
+Use the [Batch Editing](https://ankiweb.net/shared/info/291119185) add-on to update multiple cards at once.
