@@ -14,7 +14,10 @@ This controls which definition pops up first when you reveal the answer, and how
     *   **Keyboard Shortcuts:** Left Arrow and Right Arrow keys perform the same toggling action.
     *   **Counter:** After you cycle at least once, a small indicator (e.g., `1 / 4`) appears in the top right, showing the current and total dictionaries.
 
-### Dictionary Preference Demo
-![type:video](assets/dictionary_preference_preview.mp4)
+    === "Definition Toggle"
+        ![type:video](assets/definition_toggle_preview.mp4) }
+
+    === "Dictionary Preference"
+        ![type:video](assets/dictionary_preference_preview.mp4) }
 
 Use the [Batch Editing](https://ankiweb.net/shared/info/291119185) add-on to update multiple cards at once.
