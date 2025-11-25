@@ -9,12 +9,11 @@ This guide covers setting up Yomitan and Anki to work optimally with the Senren 
 
 !!! warning "Updates"
     If you're updating from a previous version, make sure to enable the Merge note types option during import.
-
-| Updates |  |
-| :--- | :--- |
-| **Merge note types** | 🔵 **Enabled** (On) |
-| **Update notes** | Always |
-| **Update note types** | Always |
+    | Updates |  |
+    | :--- | :--- |
+    | **Merge note types** | 🔵 **Enabled** (On) |
+    | **Update notes** | Always |
+    | **Update note types** | Always |
 
 ## Updating Without Downloading the APKG
 1. Go to **Browse** in Anki.
