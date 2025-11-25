@@ -5,4 +5,4 @@ Automatically applies a unique color to each dictionary entry, making it easier 
     ![type:video](assets/dictionary_colorizer_1.mp4) }
 
 === "Dictionary Colorizer with full background"
-    ![type:video](assets/dictionary_colorizer_1.mp4) }
+    ![type:video](assets/dictionary_colorizer_2.mp4) }
