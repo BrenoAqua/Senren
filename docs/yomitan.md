@@ -1,4 +1,4 @@
-# Setup: Anki
+# Setup: Yomitan
 
 Configure Yomitan to automatically populate Senren's fields when creating cards.
 
