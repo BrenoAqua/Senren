@@ -63,6 +63,7 @@ nav:
   - Setup:
       - Overview: setup_overview.md
       - Yomitan Setup: yomitan.md
+      - JL Setup: JL.md
       - Anki Setup: anki.md
   - Features:
       - Pitch Accent Automatic Colors: pitch_accent_automatic_colors.md
