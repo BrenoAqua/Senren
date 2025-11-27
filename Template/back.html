@@ -1931,7 +1931,14 @@
 
     const mainSpan = wordElement.querySelector(':scope > span');
     const rubyElement = mainSpan?.querySelector('ruby');
-    const rtElement = rubyElement?.querySelector('rt');
+    let rtElement = rubyElement?.querySelector('rt');
+
+    if ((wordElement.classList.contains('reading-is-word') || (rtElement && !rtElement.textContent.trim())) && rubyElement) {
+      const wordSpan = rubyElement.querySelector('span');
+      if (wordSpan) {
+        rtElement = wordSpan;
+      }
+    }
 
     if (!rtElement) {
       return;
