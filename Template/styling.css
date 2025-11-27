@@ -585,8 +585,14 @@ ul, ol {
 
 /* Word + Grid Settings */
 #word.reading-is-word span[style*="border-top-width"],
-#word.reading-is-word span[style*="border-right-width"] {
+#word.reading-is-word span[style*="border-right-width"],
+#word.reading-is-word .pronunciation-mora[data-pitch="high"] > .pronunciation-mora-line {
   border-top-width: var(--only-kana-pitch-size) !important;
+}
+
+#word.reading-is-word span[style*="border-top-width"],
+#word.reading-is-word span[style*="border-right-width"],
+#word.reading-is-word .pronunciation-mora[data-pitch-next="low"] > .pronunciation-mora-line {
   border-right-width: var(--only-kana-pitch-size) !important;
 }
 
@@ -1037,6 +1043,7 @@ img {
   padding: var(--spacing-lg); 
   border-radius: var(--border-radius-ms);
   will-change: transform;
+	text-align: left;
 }
 
 .glossary-box, .definition-box {
