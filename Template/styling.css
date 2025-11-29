@@ -101,7 +101,6 @@
   --dictionary-collapse:              0;       /* "1" to enable */
   --dictionary-max-height:            390px;   /* Max height before collapse */
 
-
   /* PITCH ACCENT SETTINGS
   ============================================ */
   --pitch-style:                      default; /* "alt" to change */
@@ -139,37 +138,36 @@
 
   /* COLOR PALETTE
   ============================================ */
-  /* For both Light & Dark Mode */
-  --light-text:                       black;
-  --dark-text:                        white;
-  --light-bg:                         white;
-  --dark-bg:                          black;
-  --svg-color:                        rgba(105, 105, 105, 0.3); 
-  --svg-hover:                        white; 
-  --svg-hover-dark:                   black;
-
-  /* Pitch Colors */
-  --pitch-red:                        #F5436D;
-  --pitch-blue:                       #39C1FF;
-  --pitch-orange:                     #fca311;
-  --pitch-green:                      #40D4A6;
-  --pitch-purple:                     #afa2ff;
-
   /* Light Theme
   -------------------------------------------- */
   /* Text Colors */
+  --light-text:                       black;
   --light-devoiced-color:             RoyalBlue;
   --light-highlight:                  #E20033;
   --freq-text-light:                  rgba(105, 105, 105, 0.3);
   --tag-color-light:                  rgba(105, 105, 105, 0.3);
 
+  /* Pitch Colors */
+  --pitch-red-light:                  #D62839;
+  --pitch-blue-light:                 #3474FF;
+  --pitch-orange-light:               #FF6E03;
+  --pitch-green-light:                #2BAF7E;
+  --pitch-purple-light:               #8A5EDE;
+
+  /* Icon Colors */
+  --svg-color-light:                  rgba(105, 105, 105, 0.3);
+  --svg-hover-light:                  white; 
+
   /* Background Colors */
+  --light-bg:                         white;
   --card-bg-light:                    rgba(255, 255, 255, 0.4);
   --card-shadow-light:                0 10px 25px rgba(0, 0, 0, 0.1), 0 5px 10px rgba(0, 0, 0, 0.05);
   --word-bg-light:                    rgba(0, 0, 0, 0.03);
+  --pitch-position-bg-light:          rgba(255,255,255,0.8);
   --picture-bg-light:                 rgba(0, 0, 0, 0.03);
-  --definition-bg-light:              rgba(0, 0, 0, 0.03);
   --notes-bg-light:                   rgba(0, 0, 0, 0.03);
+  --definition-bg-light:              rgba(0, 0, 0, 0.03);
+  --dictionary-collapse-fade-light:   linear-gradient(to bottom, rgba(245,245,245,0), rgba(245,245,245,0.5));
   --tag-bg-light:                     rgba(0, 0, 0, 0.03);
   --buttons-bg-light:                 rgba(0, 0, 0, 0.03);
   --buttons-bg-hover-light:           rgba(0, 0, 0, 0.63);
@@ -179,23 +177,39 @@
   /* Dark Theme
   -------------------------------------------- */
   /* Text Colors */
+  --dark-text:                        white;
   --dark-devoiced-color:              cornflowerBlue;
   --dark-highlight:                   #FCFF61;
   --freq-text:                        rgba(255, 255, 255, 0.2);
   --tag-color:                        rgba(255, 255, 255, 0.5);
 
+  /* Pitch Colors */
+  --pitch-red:                        #F5436D;
+  --pitch-blue:                       #39C1FF;
+  --pitch-orange:                     #fca311;
+  --pitch-green:                      #40D4A6;
+  --pitch-purple:                     #afa2ff;
+
+  /* Icon Colors */
+  --svg-color:                        rgba(255, 255, 255, 0.2);
+  --svg-hover:                        white; 
+
   /* Background Colors */
+  --dark-bg:                          black;
   --card-bg:                          rgba(0, 0, 0, 0.4);
   --card-shadow:                      0 10px 25px rgba(0, 0, 0, 0.5), 0 5px 10px rgba(0, 0, 0, 0.3);
   --word-bg:                          rgba(0, 0, 0, 0.3);
+  --pitch-position-bg:                rgba(0, 0, 0, 0.2);
   --picture-bg:                       rgba(0, 0, 0, 0.3);
-  --definition-bg:                    rgba(0, 0, 0, 0.3);
   --notes-bg:                         rgba(0, 0, 0, 0.3);
+  --definition-bg:                    rgba(0, 0, 0, 0.3);
+  --dictionary-collapse-fade:         linear-gradient(to bottom, rgba(44, 44, 44, 0), rgba(26, 26, 26, 0.5));
   --tag-bg:                           rgba(0, 0, 0, 0.3);
   --buttons-bg:                       rgba(0, 0, 0, 0.1);
   --buttons-bg-hover:                 rgba(0, 0, 0, 0.63);
   --lightbox-bg:                      rgba(0, 0, 0, 0.8);
   --frequency-bg:                     rgba(0, 0, 0, 0.63);
+
 
   /* DIMENSIONS & SPACING
   ============================================ */
@@ -242,7 +256,7 @@
   
   --external-links-padding:           5px 10px;
   --external-links-margin-top:        5px;
-  --external-links-margin-bottom:     0;
+  --external-links-margin-bottom:     0; 
 
 
   /* EFFECTS & ANIMATION
@@ -396,10 +410,11 @@
   background: var(--buttons-bg-light);
 }
 
-.custom-dark-mode #wordAudio, 
-.card.nightMode #wordAudio, 
-.custom-dark-mode #sentenceAudio, 
-.card.nightMode #sentenceAudio {
+:is(.card.nightMode, .custom-dark-mode) 
+:is(#wordAudio, 
+#wordAudio, 
+#sentenceAudio, 
+#sentenceAudio) {
   background: var(--buttons-bg);
 }
 
@@ -409,23 +424,27 @@
 #sentenceAudio:hover .playImage path {
   box-shadow: var(--button-shadow);
   background: var(--buttons-bg-hover-light);
+  fill: var(--svg-hover-light) !important;
+}
+
+:is(.card.nightMode) 
+:is(#wordAudio:hover,
+ #sentenceAudio:hover, 
+#wordAudio:hover .playImage path, 
+#sentenceAudio:hover .playImage path) {
+  background: var(--buttons-bg-hover);
   fill: var(--svg-hover) !important;
 }
 
-.card.nightMode #wordAudio:hover, 
-.card.nightMode #sentenceAudio:hover, 
-.card.nightMode #wordAudio:hover .playImage path, 
-.card.nightMode #sentenceAudio:hover .playImage path {
-  background: var(--buttons-bg-hover);
-}
-
-.custom-dark-mode #wordAudio:hover,
-.custom-dark-mode #sentenceAudio:hover,
-.custom-dark-mode #wordAudio:hover .playImage path,
-.custom-dark-mode #sentenceAudio:hover .playImage path {
+:is(html.custom-dark-mode .card)
+:is(#wordAudio, #sentenceAudio):hover {
   box-shadow: var(--button-shadow-dark);
   background: var(--light-bg) !important;
-  fill: var(--svg-hover-dark) !important;
+}
+
+html.custom-dark-mode .card 
+:is(#wordAudio, #sentenceAudio):hover .playImage path {
+  fill: var(--light-text) !important; 
 }
 
 #wordAudio circle, #sentenceAudio circle {
@@ -475,8 +494,8 @@ b {
   font-weight: normal;
 }
 
-.custom-dark-mode b, 
-.card.nightMode b {
+:is(.card.nightMode, .custom-dark-mode) 
+b {
   color: var(--dark-highlight);
 }
 
@@ -484,8 +503,8 @@ b {
   color: var(--light-highlight);
 }
 
-.custom-dark-mode .highlight, 
-.card.nightMode .highlight {
+:is(.card.nightMode, .custom-dark-mode) 
+.highlight {
   color: var(--dark-highlight);
 }
 
@@ -512,7 +531,7 @@ ul, ol {
   top: 74px;
   left: var(--spacing-xxxl);
   padding: var(--spacing-ms) 17.5px;
-  color: var(--svg-color);
+  color: var(--svg-color-light);
   cursor: pointer;
   border: none;
   border-radius: var(--border-radius-ms);
@@ -528,21 +547,22 @@ ul, ol {
               color var(--fast-transition);
 }
 
+:is(.card.nightMode, .custom-dark-mode) 
+.audio-hint {
+  color: var(--svg-color);
+  background: var(--buttons-bg); 
+}
+
 .audio-hint:hover {
   box-shadow: var(--button-shadow);
   background: var(--buttons-bg-hover-light);
-  color: var(--dark-text);
-}
-
-.custom-dark-mode .audio-hint, 
-.card.nightMode .audio-hint {
-  background: var(--buttons-bg); 
+  color: var(--svg-hover-light);
 }
 
 .card.nightMode .audio-hint:hover {
   box-shadow: var(--button-shadow);
   background: var(--buttons-bg-hover);
-  color: var(--dark-text);
+  color: var(--svg-hover);
 }
 
 .custom-dark-mode .audio-hint:hover {
@@ -557,7 +577,7 @@ ul, ol {
   top: var(--spacing-xxl);
   left: var(--spacing-xxxl);
   padding: var(--spacing-ms) var(--spacing-lg);
-  color: var(--svg-color);
+  color: var(--svg-color-light);
   background: var(--buttons-bg-light);
   cursor: pointer;
   border: none;
@@ -573,15 +593,16 @@ ul, ol {
               color var(--fast-transition);
 }
 
+:is(.card.nightMode, .custom-dark-mode) 
+.toggle-custom-dark-mode {
+  color: var(--svg-color);
+  background: var(--buttons-bg); 
+}
+
 .toggle-custom-dark-mode:hover {
   box-shadow: var(--button-shadow);
   background: var(--buttons-bg-hover-light);
-  color: var(--svg-hover);
-}
-
-.custom-dark-mode .toggle-custom-dark-mode, 
-.card.nightMode .toggle-custom-dark-mode {
-  background: var(--buttons-bg); 
+  color: var(--svg-hover-light);
 }
 
 .card.nightMode .toggle-custom-dark-mode:hover {
@@ -593,7 +614,7 @@ ul, ol {
 .custom-dark-mode .toggle-custom-dark-mode.dark-mode:hover {
   box-shadow: var(--button-shadow-dark);
   background: var(--light-bg);
-  color: var(--svg-hover-dark);
+  color: var(--light-text);
 }
 
 /* Word + Grid Settings */
@@ -658,7 +679,8 @@ ul, ol {
   grid-area: word;
 }
 
-.card.nightMode .background-box {
+:is(.card.nightMode, .custom-dark-mode) 
+.background-box {
   background: var(--word-bg);
 }
 
@@ -1073,8 +1095,8 @@ img {
   background: var(--definition-bg-light);
 }
 
-.card.nightMode .glossary-box, 
-.card.nightMode .definition-box {
+:is(.card.nightMode, .custom-dark-mode) 
+:is(.glossary-box, .definition-box) {
   background: var(--definition-bg);
 }
 
@@ -1095,8 +1117,8 @@ img {
   background: rgba(0, 0, 0, 0.8);
 }
 
-.custom-dark-mode .toggle-area:hover, 
-.card.nightMode .toggle-area:hover {
+:is(.card.nightMode, .custom-dark-mode) 
+.toggle-area:hover {
   background: rgba(255, 255, 255, 0.8);
   transition: background var(--base-transition);
 }
@@ -1132,10 +1154,11 @@ img {
   transition: background var(--base-transition);
 }
 
-.custom-dark-mode .toggle-area.left-larger:hover ~ .toggle-area.left:not(.left-larger):not(.right-larger),
-.custom-dark-mode .toggle-area.right-larger:hover ~ .toggle-area.right:not(.left-larger):not(.right-larger), 
-.card.nightMode .toggle-area.left-larger:hover ~ .toggle-area.left:not(.left-larger):not(.right-larger),
-.card.nightMode .toggle-area.right-larger:hover ~ .toggle-area.right:not(.left-larger):not(.right-larger) {
+:is(.card.nightMode, .custom-dark-mode) 
+:is(.toggle-area.left-larger:hover ~ .toggle-area.left:not(.left-larger):not(.right-larger),
+.toggle-area.right-larger:hover ~ .toggle-area.right:not(.left-larger):not(.right-larger), 
+.toggle-area.left-larger:hover ~ .toggle-area.left:not(.left-larger):not(.right-larger),
+.toggle-area.right-larger:hover ~ .toggle-area.right:not(.left-larger):not(.right-larger)) {
   background: rgba(255, 255, 255, 0.8);
   transition: background var(--base-transition);
 }
@@ -1158,14 +1181,13 @@ img {
               fill var(--fast-transition);
 }
 
+
 .audio, .sentenceaudio {
   background: var(--buttons-bg-light);
 }
 
-.custom-dark-mode .audio, 
-.card.nightMode .audio, 
-.custom-dark-mode .sentenceaudio, 
-.card.nightMode .sentenceaudio {
+:is(.card.nightMode, .custom-dark-mode) 
+:is(.audio, .audio, .sentenceaudio, .sentenceaudio) {
   background: var(--buttons-bg);
 }
 
@@ -1173,8 +1195,27 @@ img {
   top: 124px;
 }
 
+@container style(--custom-dark-mode-visibility: 0) {
+  .audio {
+    top: var(--spacing-xxl);
+  }
+
+  .sentenceaudio {
+    top: 74px;
+  }
+}
+
 .back:not(:has(.audio)) .sentenceaudio {
   top: 74px;
+}
+
+.playImage path {
+  fill: var(--svg-color-light) !important;
+}
+
+:is(.card.nightMode, .custom-dark-mode)
+.playImage path {
+  fill: var(--svg-color) !important;
 }
 
 .audio:hover, 
@@ -1183,31 +1224,28 @@ img {
 .sentenceaudio:hover .playImage path {
   box-shadow: var(--button-shadow);
   background: var(--buttons-bg-hover-light);
+  fill: var(--svg-hover-light) !important;
+}
+
+:is(.card.nightMode) 
+:is(.audio:hover, .sentenceaudio:hover, 
+.audio:hover .playImage path, 
+.sentenceaudio:hover .playImage path) {
+  background: var(--buttons-bg-hover);
   fill: var(--svg-hover) !important;
 }
 
-.card.nightMode .audio:hover, 
-.card.nightMode .sentenceaudio:hover, 
-.card.nightMode .audio:hover .playImage path, 
-.card.nightMode .sentenceaudio:hover .playImage path {
-  background: var(--buttons-bg-hover);
-}
-
-.custom-dark-mode .audio:hover,
-.custom-dark-mode .sentenceaudio:hover,
-.custom-dark-mode .audio:hover .playImage path,
-.custom-dark-mode .sentenceaudio:hover .playImage path {
+html.custom-dark-mode .card 
+:is(.audio:hover, .sentenceaudio:hover, 
+.audio:hover .playImage path,
+.sentenceaudio:hover .playImage path) {
   box-shadow: var(--button-shadow-dark);
   background: var(--light-bg) !important;
-  fill: var(--svg-hover-dark) !important;
+  fill: var(--light-text) !important;
 }
 
 .audio circle, .sentenceaudio circle {
   display: none;
-}
-
-.playImage path {
-  fill: var(--svg-color) !important;
 }
 
 .replay-button {
@@ -1283,59 +1321,63 @@ img {
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: var(--buttons-bg-light);
   z-index: var(--z-index-base);
   transition: box-shadow var(--fast-transition),
-              background var(--fast-transition),
-              filter var(--fast-transition),
+              background-color var(--fast-transition),
               opacity var(--fast-transition);
+}
+
+.card.nightMode .toggle-notes {
+  background-color: var(--buttons-bg);
 }
 
 .toggle-notes .toggle-notes-svg {
   height: var(--button-size);
-  padding: var(--spacing-ms) 16px;
-  filter: invert(42%) sepia(0%) saturate(0%) hue-rotate(40deg) brightness(96%) contrast(93%);
-  opacity: 0.3;
-  transition: filter var(--fast-transition),
+  width: var(--button-size);
+  padding: var(--spacing-ms) var(--spacing-lg);
+  -webkit-mask-image: url('_bookmark.svg');
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  -webkit-mask-size: var(--button-size);
+  mask-image: url('_bookmark.svg');
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: var(--button-size);
+  background-color: var(--svg-color-light); 
+  transition: background-color var(--fast-transition),
               opacity var(--fast-transition);
 }
 
-.toggle-notes:hover .toggle-notes-svg {
-  filter: brightness(0) invert(1);
-  opacity: 1;
-}
-
-.custom-dark-mode .toggle-notes:hover .toggle-notes-svg,
-.custom-dark-mode .card.nightMode .toggle-notes:hover .toggle-notes-svg {
-  filter: brightness(0);
-  opacity: 1;
+:is(.card.nightMode, .custom-dark-mode)
+.toggle-notes .toggle-notes-svg {
+  background-color: var(--svg-color); 
 }
 
 .toggle-notes:hover {
   box-shadow: var(--button-shadow);
-  background: var(--buttons-bg-hover-light);
-  color: var(--dark-text);
-}
-
-.toggle-notes {
-  background: var(--buttons-bg-light);
-}
-
-.custom-dark-mode .toggle-notes, 
-.card.nightMode .toggle-notes {
-  background: var(--buttons-bg); 
+  background-color: var(--buttons-bg-hover-light);
 }
 
 .card.nightMode .toggle-notes:hover {
-  box-shadow: var(--button-shadow);
-  background: var(--buttons-bg-hover);
-  color: var(--dark-text);
+  background-color: var(--buttons-bg-hover);
 }
 
-.custom-dark-mode .toggle-notes:hover,
-.custom-dark-mode .card.nightMode .toggle-notes:hover {
+.custom-dark-mode .toggle-notes:hover {
   box-shadow: var(--button-shadow-dark);
-  background: var(--light-bg);
-  color: var(--light-text);
+  background-color: var(--light-bg) !important;
+}
+
+.toggle-notes:hover .toggle-notes-svg {
+  background-color: var(--svg-hover-light);
+}
+
+.card.nightMode .toggle-notes:hover .toggle-notes-svg {
+  background-color: var(--svg-hover);
+}
+
+.custom-dark-mode .toggle-notes:hover .toggle-notes-svg {
+  background-color: var(--light-text) !important;
 }
 
 /* Pitch Accent Colors */
@@ -1344,6 +1386,15 @@ img {
 #word.alt .heiban,
 #formattedSentence.alt-highlight.heiban .highlight,
 #formattedSentence.alt-highlight.heiban b { 
+  color: var(--pitch-blue-light); 
+}
+
+:is(.card.nightMode, .custom-dark-mode) 
+:is(.pitch .heiban span[style*="border-color:currentColor"],
+.pitch-number.heiban,
+#word.alt .heiban,
+#formattedSentence.alt-highlight.heiban .highlight,
+#formattedSentence.alt-highlight.heiban b) { 
   color: var(--pitch-blue); 
 }
 
@@ -1352,6 +1403,15 @@ img {
 #word.alt .atamadaka,
 #formattedSentence.alt-highlight.atamadaka .highlight,
 #formattedSentence.alt-highlight.atamadaka b {
+  color: var(--pitch-red-light); 
+}
+
+:is(.card.nightMode, .custom-dark-mode) 
+:is(.pitch .atamadaka span[style*="border-color:currentColor"],
+.pitch-number.atamadaka,
+#word.alt .atamadaka,
+#formattedSentence.alt-highlight.atamadaka .highlight,
+#formattedSentence.alt-highlight.atamadaka b) {
   color: var(--pitch-red); 
 }
 
@@ -1360,6 +1420,15 @@ img {
 #word.alt .nakadaka,
 #formattedSentence.alt-highlight.nakadaka .highlight,
 #formattedSentence.alt-highlight.nakadaka b { 
+  color: var(--pitch-orange-light); 
+}
+
+:is(.card.nightMode, .custom-dark-mode) 
+:is(.pitch .nakadaka span[style*="border-color:currentColor"],
+.pitch-number.nakadaka,
+#word.alt .nakadaka,
+#formattedSentence.alt-highlight.nakadaka .highlight,
+#formattedSentence.alt-highlight.nakadaka b) { 
   color: var(--pitch-orange); 
 }
 
@@ -1368,6 +1437,15 @@ img {
 #word.alt .odaka,
 #formattedSentence.alt-highlight.odaka .highlight, 
 #formattedSentence.alt-highlight.odaka b { 
+  color: var(--pitch-green-light); 
+}
+
+:is(.card.nightMode, .custom-dark-mode) 
+:is(.pitch .odaka span[style*="border-color:currentColor"],
+.pitch-number.odaka,
+#word.alt .odaka,
+#formattedSentence.alt-highlight.odaka .highlight, 
+#formattedSentence.alt-highlight.odaka b) { 
   color: var(--pitch-green); 
 }
 
@@ -1376,6 +1454,15 @@ img {
 #word.alt .kifuku,
 #formattedSentence.alt-highlight.kifuku .highlight,
 #formattedSentence.alt-highlight.kifuku b { 
+  color: var(--pitch-purple-light); 
+}
+
+:is(.card.nightMode, .custom-dark-mode) 
+:is(.pitch .kifuku span[style*="border-color:currentColor"],
+.pitch-number.kifuku,
+#word.alt .kifuku,
+#formattedSentence.alt-highlight.kifuku .highlight,
+#formattedSentence.alt-highlight.kifuku b) { 
   color: var(--pitch-purple); 
 }
 
@@ -1467,10 +1554,21 @@ img {
   border-top-color: var(--pronunciation-annotation-color);
 }
 
+.pronunciation.heiban { --pronunciation-annotation-color: var(--pitch-blue-light); }
+.pronunciation.atamadaka { --pronunciation-annotation-color: var(--pitch-red-light); }
+.pronunciation.nakadaka { --pronunciation-annotation-color: var(--pitch-orange-light); }
+.pronunciation.odaka { --pronunciation-annotation-color: var(--pitch-green-light); }
+.pronunciation.kifuku { --pronunciation-annotation-color: var(--pitch-purple-light); }
+
+:is(.card.nightMode, .custom-dark-mode)
 .pronunciation.heiban { --pronunciation-annotation-color: var(--pitch-blue); }
+:is(.card.nightMode, .custom-dark-mode)
 .pronunciation.atamadaka { --pronunciation-annotation-color: var(--pitch-red); }
+:is(.card.nightMode, .custom-dark-mode)
 .pronunciation.nakadaka { --pronunciation-annotation-color: var(--pitch-orange); }
+:is(.card.nightMode, .custom-dark-mode)
 .pronunciation.odaka { --pronunciation-annotation-color: var(--pitch-green); }
+:is(.card.nightMode, .custom-dark-mode)
 .pronunciation.kifuku { --pronunciation-annotation-color: var(--pitch-purple); }
 
 /* Nasal Mora */
@@ -1513,12 +1611,13 @@ span[style*="display:inline"]:has(+ span[style*="border:1.5px dotted #c83c28"]) 
   z-index: var(--z-index-base);
   text-align: center;
   line-height: 16px;
-  background: rgba(0,0,0,0.8);
+  background: var(--pitch-position-bg-light);
   white-space: nowrap;
 }
 
-.card.nightMode #position {
-  background: rgba(0,0,0,0.2);
+:is(.card.nightMode, .custom-dark-mode) 
+#position {
+  background: var(--pitch-position-bg);
 }
 
 #position:empty {
@@ -1559,10 +1658,11 @@ span[style*="display:inline"]:has(+ span[style*="border:1.5px dotted #c83c28"]) 
   color: rgba(255, 255, 255, 1);
 }
 
-.custom-dark-mode #position:hover + #categories,
-.card.nightMode #position:hover + #categories,
-.custom-dark-mode #categories:hover,
-.card.nightMode #categories:hover {
+:is(.card.nightMode, .custom-dark-mode) 
+:is(#position:hover + #categories,
+#position:hover + #categories,
+#categories:hover,
+#categories:hover) {
   background: rgba(255, 255, 255, 1);
   color: rgba(0, 0, 0, 1);
   opacity: 1 !important;
@@ -1602,7 +1702,6 @@ span[style*="display:inline"]:has(+ span[style*="border:1.5px dotted #c83c28"]) 
 }
 
 /* Dictionary Title */
-
 .definition-box .dictionary-title,
 .definition-box .yomitan-glossary i {
   display: block;
@@ -1623,13 +1722,13 @@ span[style*="display:inline"]:has(+ span[style*="border:1.5px dotted #c83c28"]) 
   font-style: normal;
 }
 
-.card.nightMode .dictionary-title,
-.custom-dark-mode .dictionary-title,
-.card.nightMode .yomitan-glossary i,
-.custom-dark-mode .yomitan-glossary i {
+:is(.card.nightMode, .custom-dark-mode) 
+:is(.dictionary-title,
+    .dictionary-title,
+    .yomitan-glossary i,
+    .yomitan-glossary i) {
   color: var(--dict-color);
 }
-
 
 @container style(--definition-title-visibility:0) {
   .definition-box .dictionary-title,
@@ -1659,8 +1758,9 @@ span[style*="display:inline"]:has(+ span[style*="border:1.5px dotted #c83c28"]) 
   font-style: normal;
 }
 
-.card.nightMode .yomitan-glossary li[data-dictionary]:not(:has(> .dictionary-title))::before,
-.custom-dark-mode .yomitan-glossary li[data-dictionary]:not(:has(> .dictionary-title))::before {
+:is(.card.nightMode, .custom-dark-mode) 
+:is(.yomitan-glossary li[data-dictionary]:not(:has(> .dictionary-title))::before,
+    .yomitan-glossary li[data-dictionary]:not(:has(> .dictionary-title))::before) {
   color: var(--dict-color);
 }
 
@@ -1761,8 +1861,8 @@ div[data-sc-content="attribution"] {
   border-color: rgba(3, 3, 3, 0.8) !important;
 }
 
-.card.nightMode [data-sc-content="example-sentence"],
-.custom-dark-mode [data-sc-content="example-sentence"] {
+:is(.card.nightMode, .custom-dark-mode) 
+[data-sc-content="example-sentence"] {
   border-color: rgba(252, 252, 252, 0.5) !important;
 }
 
@@ -1773,17 +1873,17 @@ div[data-sc-content="attribution"] {
 
 [data-sc-content="example-sentence"].sentence-active {
   border-color: color-mix(in srgb,
-      var(--light-highlight), /* Default light mode color */
-      var(--dict-color) calc(var(--dictionary-colorizer) * 100%)
-  ) !important;
+                var(--light-highlight),
+                var(--dict-color) calc(var(--dictionary-colorizer) * 100%)
+                ) !important;
 }
 
-.card.nightMode [data-sc-content="example-sentence"].sentence-active,
-.custom-dark-mode [data-sc-content="example-sentence"].sentence-active {
+:is(.card.nightMode, .custom-dark-mode) 
+[data-sc-content="example-sentence"].sentence-active {
   border-color: color-mix(in srgb,
-      var(--dark-highlight), /* Default dark mode color */
-      var(--dict-color) calc(var(--dictionary-colorizer) * 100%)
-  ) !important;
+                var(--dark-highlight),
+                var(--dict-color) calc(var(--dictionary-colorizer) * 100%)
+                ) !important;
 }
 
 [data-sc-content="glossary"] {
@@ -1799,8 +1899,8 @@ div[data-sc-content="attribution"] {
   margin: 0 var(--spacing-ms);
 }
 
-.card.nightMode [data-sc-content="glossary"] li:not(:last-child)::after,
-.custom-dark-mode [data-sc-content="glossary"] li:not(:last-child)::after {
+:is(.card.nightMode, .custom-dark-mode) 
+[data-sc-content="glossary"] li:not(:last-child)::after {
   color: rgba(255, 255, 255, 0.5);
 }
 
@@ -1943,8 +2043,8 @@ span[data-sc-content="example-keyword"], span[style*="color-mix(in srgb, lime"] 
   text-decoration: none;
 }
 
-.custom-dark-mode #glossary.yomitan-glossary .example a, 
-.card.nightMode #glossary.yomitan-glossary .example a {
+:is(.card.nightMode, .custom-dark-mode) 
+#glossary.yomitan-glossary .example a {
   color: var(--dark-highlight);
 }
 
@@ -1964,8 +2064,8 @@ span[data-sc-content="example-keyword"], span[style*="color-mix(in srgb, lime"] 
   color: var(--light-highlight);
 }
 
-.custom-dark-mode #glossary.yomitan-glossary a, 
-.card.nightMode #glossary.yomitan-glossary a {
+:is(.card.nightMode, .custom-dark-mode) 
+#glossary.yomitan-glossary a {
   color: var(--dark-highlight);
 }
 
@@ -1987,8 +2087,8 @@ span[data-sc-content="example-keyword"], span[style*="color-mix(in srgb, lime"] 
   color: var(--light-highlight) !important;
 }
 
-.card.nightMode [style="font-weight: bold; color: red;"],
-.custom-dark-mode [style="font-weight: bold; color: red;"] {
+:is(.card.nightMode, .custom-dark-mode) 
+[style="font-weight: bold; color: red;"] {
   color: var(--dark-highlight) !important;
   font-weight: normal !important;
 }
@@ -2022,6 +2122,10 @@ span[data-sc-content="example-keyword"], span[style*="color-mix(in srgb, lime"] 
   --daijisen-background-l3: black;
   --daijisen-accent-mark: #CC0000;
   --daijisen-accent-slash: #808080;
+}
+
+[data-sc-class="bold FM"], [data-sc-class="IM"], [data-sc-class="FM"] {
+ padding: 1px !important;
 }
 
 :is(.card.nightMode, .custom-dark-mode) 
@@ -2175,8 +2279,6 @@ li[data-dictionary="小学館例解学習国語 第十二版"] td[data-sc-captio
   top: -7px !important;
 }
 
-
-
 @container style(--dictionary-colorizer: 1) {
   li[data-dictionary*="小学館例解学習国語"] {
     --rgko12-light-blue:        color-mix(in srgb, var(--dict-color), transparent 40%);
@@ -2264,13 +2366,13 @@ li[data-dictionary*="明鏡国語辞典"] [data-sc-body] {
   padding: 1px !important;
 }
 
-.card.nightMode li[data-dictionary="明鏡国語辞典 第三版"] [data-sc-img] img,
-.custom-dark-mode li[data-dictionary="明鏡国語辞典 第三版"] [data-sc-img] img {
+:is(.card.nightMode, .custom-dark-mode) 
+li[data-dictionary="明鏡国語辞典 第三版"] [data-sc-img] img {
   display: none !important;
 }
 
-.card.nightMode li[data-dictionary="明鏡国語辞典 第三版"] [data-sc-img] span[style*="--image"],
-.custom-dark-mode li[data-dictionary="明鏡国語辞典 第三版"] [data-sc-img] span[style*="--image"] {
+:is(.card.nightMode, .custom-dark-mode) 
+li[data-dictionary="明鏡国語辞典 第三版"] [data-sc-img] span[style*="--image"] {
   display: block !important;
   background-color: white !important;
   width: 100% !important;
@@ -2481,8 +2583,8 @@ li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br)
   height: 1px;
 }
 
-.card.nightMode #glossary .glossary-box hr.consolidated-entry-separator,
-.custom-dark-mode #glossary .glossary-box hr.consolidated-entry-separator {
+:is(.card.nightMode, .custom-dark-mode) 
+#glossary .glossary-box hr.consolidated-entry-separator {
   background: rgba(255,255,255,0.15);
 }
 
@@ -2507,8 +2609,8 @@ li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br)
               text-shadow var(--base-transition);
 }
 
-.custom-dark-mode .freqbt, 
-.card.nightMode .freqbt {
+:is(.card.nightMode, .custom-dark-mode) 
+.freqbt {
   color: var(--freq-text);
 }
 
@@ -2517,8 +2619,8 @@ li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br)
   text-shadow: 0 0 5px var(--light-bg);
 }
 
-.card.nightMode .frequency-box:hover .freqbt,
-.custom-dark-mode .frequency-box:hover .freqbt {
+:is(.card.nightMode, .custom-dark-mode) 
+.frequency-box:hover .freqbt {
   color: var(--dark-text);
   text-shadow: 0 0 5px var(--dark-bg);
 }
@@ -2538,8 +2640,8 @@ li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br)
               padding var(--base-transition);
 }
 
-.card.nightMode .frequency-content,
-.custom-dark-mode .frequency-content {
+:is(.card.nightMode, .custom-dark-mode) 
+.frequency-content {
   color: var(--dark-text);
   background: var(--frequency-bg);
 }
@@ -2584,8 +2686,8 @@ li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br)
   background: var(--tag-bg-light);
 }
 
-.card.nightMode .tags, 
-.custom-dark-mode .tags {
+:is(.card.nightMode, .custom-dark-mode) 
+.tags {
   color: var(--tag-color);
   background: var(--tag-bg);
 }
@@ -2609,8 +2711,8 @@ li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br)
   display: inline-block;
 }
 
-.card.nightMode .light-icon,
-.custom-dark-mode .light-icon {
+:is(.card.nightMode, .custom-dark-mode) 
+.light-icon {
   display: none;
 }
 
@@ -2618,8 +2720,8 @@ li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br)
   display: none;
 }
 
-.card.nightMode .dark-icon,
-.custom-dark-mode .dark-icon {
+:is(.card.nightMode, .custom-dark-mode) 
+.dark-icon {
   display: inline-block;
 }
 
@@ -2638,8 +2740,8 @@ li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br)
   }
 }
 
-.card.nightMode .external-links a,
-.custom-dark-mode .external-links a {
+:is(.card.nightMode, .custom-dark-mode) 
+.external-links a {
   background: var(--tag-bg);
 }
 
@@ -2726,8 +2828,8 @@ li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br)
   margin-top: 10px;
 }
 
-.card.nightMode #kanji-tooltip, 
-.custom-dark-mode #kanji-tooltip{
+:is(.card.nightMode, .custom-dark-mode) 
+#kanji-tooltip {
   background: rgba(0, 0, 0, 0.9);
   color: #eee;
 }
@@ -2760,8 +2862,8 @@ li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br)
   z-index: -1;
 }
 
-.card.nightMode #kanji-tooltip::before,
-.custom-dark-mode #kanji-tooltip::before {
+:is(.card.nightMode, .custom-dark-mode) 
+#kanji-tooltip::before {
   border-bottom: 7px solid rgba(0, 0, 0, 0.9);
 }
 
@@ -2769,8 +2871,8 @@ li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br)
   color: var(--light-highlight);
 }
 
-.card.nightMode .kanji-highlight,
-.custom-dark-mode .kanji-highlight {
+:is(.card.nightMode, .custom-dark-mode) 
+.kanji-highlight {
   color: var(--dark-highlight);
 }
 
@@ -2785,8 +2887,8 @@ li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br)
   border-bottom: 1px solid rgba(0,0,0,0.1);
 }
 
-.card.nightMode #kanji-tooltip li,
-.custom-dark-mode #kanji-tooltip li {
+:is(.card.nightMode, .custom-dark-mode) 
+#kanji-tooltip li {
   border-bottom: 1px solid rgba(255,255,255,0.1);
 }
 
@@ -2800,8 +2902,8 @@ li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br)
   margin-top: 4px;
 }
 
-.card.nightMode .related-sentence,
-.custom-dark-mode .related-sentence {
+:is(.card.nightMode, .custom-dark-mode) 
+.related-sentence {
   color: #ccc;
 }
 
@@ -2831,15 +2933,14 @@ li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br)
   border: none; 
 }
 
-.card.nightMode .show-more-btn,
-.custom-dark-mode .show-more-btn {
+:is(.card.nightMode, .custom-dark-mode) 
+.show-more-btn {
   background: rgba(255,255,255,0.02); 
   color: var(--dark-text);
-
 }
 
-.card.nightMode .show-more-btn:hover, 
-.custom-dark-mode .show-more-btn:hover { 
+:is(.card.nightMode, .custom-dark-mode) 
+.show-more-btn:hover { 
   background: rgba(255,255,255,0.03); 
 }
 
@@ -2856,13 +2957,13 @@ li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br)
   z-index: var(--z-index-base);
   text-align: center;
   line-height: 16px;
-  background: rgba(0,0,0,0.8);
+  background: var(--pitch-position-bg-light);
   white-space: nowrap;
 }
 
-.card.nightMode #kanji-tooltip .position,
-.custom-dark-mode #kanji-tooltip .position {
-  background: rgba(0,0,0,0.2);
+:is(.card.nightMode, .custom-dark-mode) 
+#kanji-tooltip .position {
+  background: var(--pitch-position-bg);
 }
 
 #kanji-tooltip .position:empty {
@@ -2901,10 +3002,9 @@ li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br)
   color: rgba(255, 255, 255, 1);
 }
 
-.custom-dark-mode #kanji-tooltip .position:hover + .categories,
-.card.nightMode #kanji-tooltip .position:hover + .categories,
-.custom-dark-mode #kanji-tooltip .categories:hover,
-.card.nightMode #kanji-tooltip .categories:hover {
+:is(.card.nightMode, .custom-dark-mode) 
+:is(#kanji-tooltip .position:hover + .categories,
+    #kanji-tooltip .categories:hover) {
   background: rgba(255, 255, 255, 1);
   color: rgba(0, 0, 0, 1);
   opacity: 1 !important;
@@ -3494,7 +3594,7 @@ li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br)
   height: 45px;
   cursor: pointer;
   z-index: 5;
-  background: linear-gradient(to bottom, rgba(245,245,245,0) 0%, rgba(245,245,245,1) 100%);
+  background: var(--dictionary-collapse-fade-light);
 }
 
 .fade-to-show-more::before {
@@ -3509,7 +3609,7 @@ li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br)
 }
 
 .card.nightMode .fade-to-show-more {
-  background: linear-gradient(to bottom, rgba(44, 44, 44, 0), #1A1A1A);
+  background: var(--dictionary-collapse-fade);
 }
 
 .custom-dark-mode .fade-to-show-more {
@@ -3547,7 +3647,6 @@ li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br)
   @container style(--main-bg-shadow-visibility: 1) {
     .front::before, .back::before {
       box-shadow: var(--card-shadow-light);
-      transition: box-shadow var(--base-transition), background var(--base-transition);
     }
 
     :is(.card.nightMode, .custom-dark-mode) :is(.front, .back)::before {
@@ -3672,7 +3771,6 @@ li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br)
   @container style(--main-bg-shadow-1050-visibility: 1) {
     .front::before, .back::before {
       box-shadow: var(--card-shadow-light);
-      transition: box-shadow var(--base-transition), background var(--base-transition);
     }
 
     :is(.card.nightMode, .custom-dark-mode) :is(.front, .back)::before {
