@@ -71,6 +71,7 @@ nav:
       - Kanji Hover: kanji_hover.md
       - Picture Lightbox: lightbox.md
       - Collect Glossary Images: collect_glossary_images.md
+      - Scene Switching: scene_switching.md
       - Custom Dark Mode: Custom_Dark_Mode.md
       - External Links: external_links.md
       - Dictionary Colorizer: dictionary_colorizer.md
