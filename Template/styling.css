@@ -2180,8 +2180,8 @@ li[data-dictionary*="小学館例解学習国語"] {
 	--rgko12-pink: #FF0099;
 	--rgko12-gray: rgba(0, 0, 0, 0.05);
 	--rgko12-brown: #976B33;
-	--rgko12-light-brown: #DDCCBB;
-	--rgko12-light-light-brown: #FFEEDD;
+	--rgko12-light-brown: #696158;
+	--rgko12-light-light-brown: ;
 	--rgko12-blue: ;
 	--rgko12-green: ;
 }
@@ -2196,8 +2196,8 @@ li[data-dictionary*="小学館例解学習国語"] {
 	--rgko12-light-orange: #663300;
 	--rgko12-gray: rgba(255, 255, 255, 0.1);
 	--rgko12-brown: #885522;
-	--rgko12-light-brown: #887766;
-	--rgko12-light-light-brown: #AA9988;
+	--rgko12-light-brown: #696158;
+	--rgko12-light-light-brown: ;
 	--rgko12-cream: #333300;
 	--rgko12-green: ;
 }
@@ -2279,6 +2279,42 @@ li[data-dictionary="小学館例解学習国語 第十二版"] td[data-sc-captio
   top: -7px !important;
 }
 
+li[data-dictionary="小学館例解学習国語 第十二版"] table[data-sc使い分け] {
+    display: table !important;
+    width: 100% !important;
+    margin: 0 !important;
+}
+
+li[data-dictionary="小学館例解学習国語 第十二版"] table[data-sc使い分け] tbody,
+li[data-dictionary="小学館例解学習国語 第十二版"] table[data-sc使い分け] tr[data-sc-tr] {
+    display: table-row !important;
+    flex-flow: unset !important;
+    gap: 0 !important;
+}
+
+li[data-dictionary="小学館例解学習国語 第十二版"] table[data-sc使い分け] td[data-sc-td] {
+    display: table-cell !important;
+    border: 1px solid #666 !important;
+    padding: 4px 8px !important;
+    vertical-align: middle !important;
+    width: auto !important;
+}
+
+li[data-dictionary="小学館例解学習国語 第十二版"] table[data-sc使い分け] td[data-sc-td]:first-child {
+    text-align: left !important;
+    width: 30% !important;
+}
+
+li[data-dictionary="小学館例解学習国語 第十二版"] table[data-sc使い分け] td[data-sc-td]:not(:first-child) {
+    text-align: center !important;
+    width: 23% !important;
+}
+
+li[data-dictionary="小学館例解学習国語 第十二版"] table[data-sc使い分け] td[data-sc-yes] {
+    font-weight: bold !important;
+    font-size: 1.2em !important;
+}
+
 @container style(--dictionary-colorizer: 1) {
   li[data-dictionary*="小学館例解学習国語"] {
     --rgko12-light-blue:        color-mix(in srgb, var(--dict-color), transparent 40%);
@@ -2297,9 +2333,9 @@ li[data-dictionary="小学館例解学習国語 第十二版"] td[data-sc-captio
     --rgko12-light-orange:      #FFCC99;
     --rgko12-pink:              #FF0099;
     --rgko12-gray:              rgba(0, 0, 0, 0.05);
-    --rgko12-brown:             #976B33;
-    --rgko12-light-brown:       #DDCCBB;
-    --rgko12-light-light-brown: #FFEEDD;
+    --rgko12-brown:             #008B9C;
+    --rgko12-light-brown:       #445054;
+    --rgko12-light-light-brown: ;
     --rgko12-blue: ;
     --rgko12-green: ;
   }
@@ -2309,9 +2345,9 @@ li[data-dictionary="小学館例解学習国語 第十二版"] td[data-sc-captio
     --rgko12-red:               white !important;
     --rgko12-gray:              rgba(255, 255, 255, 0.1);
     --rgko12-light-orange:      #663300;
-    --rgko12-brown:             #885522;
-    --rgko12-light-brown:       #887766;
-    --rgko12-light-light-brown: #AA9988;
+    --rgko12-brown:             #227088;
+    --rgko12-light-brown:       #445054;
+    --rgko12-light-light-brown: ;
     --rgko12-cream:             color-mix(in srgb, var(--dict-color), transparent 95%);
     --rgko12-green: ;
   }
