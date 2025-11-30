@@ -9,8 +9,8 @@ In Yomitan Settings -> Anki -> Configure Anki Flashcards:
 | Field                 | Value                                                                       | Note         |
 |-----------------------|-----------------------------------------------------------------------------|--------------|
 |  word                 | `{expression}`                                                              |              |
-|  sentence             | `{cloze-prefix}<span class="highlight">{cloze-body}</span>{cloze-suffix}`   |              |
-|  sentenceFurigana     | `{sentence-furigana}`                                                       | Or `{sentence-furigana-plain}` if you prefer. |
+|  sentence             | `<span class="group">{cloze-prefix}<span class="highlight">{cloze-body}</span>{cloze-suffix}</span>`   |              |
+|  sentenceFurigana     | `{<span class="group">{sentence-furigana}</span>`                           | Or `{<span class="group">{sentence-furigana-plain}</span>` if you prefer. |
 |  sentenceEng          |                                                                             | Leave empty. |
 |  reading              | `{pitch-accents}`                                                           |              |
 |  sentenceCard         |                                                                             | Leave empty. |
