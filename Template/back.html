@@ -51,7 +51,7 @@
     <!-- Notes Toggle -->
     {{#notes}}
     <span class="toggle-notes tappable">
-      <img class="toggle-notes-svg" src="_bookmark.svg">
+      <div class="toggle-notes-svg"></div>
     </span>
     {{/notes}}
 
@@ -219,16 +219,17 @@
 <script>
   // Collect images from the glossary and add them to the picture container
   function collectGlossaryImages() {
-    const computedStyles = window.getComputedStyle(document.documentElement);
-    const collectSetting = computedStyles.getPropertyValue('--collect-glossary-images').trim().toLowerCase();
-    if (collectSetting !== 'true') {
-      return;
-    }
-
     const glossaryItems = document.querySelectorAll("#glossary img");
     const pictureContainer = document.querySelector(".picture-container");
 
     if (!glossaryItems.length || !pictureContainer) return;
+
+    const computedStyles = window.getComputedStyle(document.documentElement);
+    const collectSetting = computedStyles.getPropertyValue('--collect-glossary-images').trim().toLowerCase();
+
+    if (collectSetting !== 'true') {
+      return;
+    }
 
     glossaryItems.forEach(img => {
       if (!img.src ||
@@ -253,6 +254,7 @@
 
       const newImg = new Image();
       newImg.src = img.src;
+      newImg.loading = "lazy";
 
       newImg.onload = () => {
 
@@ -843,11 +845,18 @@
 
     function switchImage(direction, event) {
       if (event) event.preventDefault();
+      if (event) event.stopPropagation();
 
       const images = document.querySelectorAll('.picture-container img');
       if (images.length === 0) return;
 
-      images[currentImageIndex].style.display = 'none';
+      const visibleIndex = Array.from(images).findIndex(img => {
+          return window.getComputedStyle(img).display !== 'none';
+      });
+      
+      if (visibleIndex !== -1) currentImageIndex = visibleIndex;
+
+      images.forEach(img => img.style.setProperty('display', 'none', 'important'));
 
       currentImageIndex += direction;
 
@@ -857,7 +866,7 @@
         currentImageIndex = images.length - 1;
       }
 
-      images[currentImageIndex].style.display = 'block';
+      images[currentImageIndex].style.setProperty('display', 'block', 'important');
     }
 
     const arrows = document.querySelectorAll('.nav-arrow');
@@ -2221,20 +2230,160 @@
     }
   }
 
+  // Groups text, audio, and images into navigable scenes
+  function enableSceneSwitching() {
+    const SENTENCE_DELAY = 900; 
+
+    const audioContainer = document.querySelector('.sentenceaudio');
+    const audioParts = audioContainer ? Array.from(audioContainer.children) : [];
+
+    if (audioParts.length <= 1) {
+      return;
+    }
+
+    let initialPlayTimeout;
+
+    const backContainer = document.querySelector('.back');
+    let newArrows = [];
+
+    if (backContainer) {
+      const arrowLeft = document.createElement('div');
+      arrowLeft.className = 'sentence-nav left';
+      backContainer.appendChild(arrowLeft);
+
+      const arrowRight = document.createElement('div');
+      arrowRight.className = 'sentence-nav right';
+      backContainer.appendChild(arrowRight);
+
+      newArrows = [arrowLeft, arrowRight];
+    } else {
+      return;
+    }
+
+    const sentenceContainer = document.querySelector('.sentence-container #formattedSentence');
+    
+    if (sentenceContainer && !sentenceContainer.getAttribute('data-split-done')) {
+      
+      const groupWrappers = Array.from(sentenceContainer.querySelectorAll('.group'))
+                                .filter(el => el.textContent.trim().length > 0);
+
+      if (groupWrappers.length > 0) {
+        const parts = groupWrappers.map(el => el.outerHTML);
+        sentenceContainer.innerHTML = '';
+        parts.forEach((partHTML) => {
+          const div = document.createElement('div');
+          div.classList.add('split-sentence');
+          div.innerHTML = partHTML;
+          div.style.display = 'none';
+          sentenceContainer.appendChild(div);
+        });
+        sentenceContainer.setAttribute('data-split-done', 'true');
+      }
+    }
+
+    const sentenceParts = document.querySelectorAll('.sentence-container #formattedSentence .split-sentence');
+    const images = document.querySelectorAll('.picture-container img');
+
+    const totalSlides = Math.max(images.length, sentenceParts.length, audioParts.length);
+
+    let currentIndex = 0;
+
+    function playActiveAudio() {
+      if (audioParts.length === 0) return;
+
+      let audioToPlay = null;
+      if (audioParts.length === 1) {
+        audioToPlay = audioParts[0];
+      } else if (audioParts[currentIndex]) {
+        audioToPlay = audioParts[currentIndex];
+      }
+
+      if (audioToPlay) {
+        audioToPlay.click();
+      }
+    }
+
+    function updateDisplay(shouldPlayAudio = false) {
+      if (images.length > 0) {
+        images.forEach((img, i) => {
+          const shouldShow = (images.length === 1) || (i === currentIndex);
+          img.style.display = shouldShow ? 'block' : 'none';
+        });
+      }
+
+      if (sentenceParts.length > 0) {
+        sentenceParts.forEach((part, i) => {
+          const shouldShow = (sentenceParts.length === 1) || (i === currentIndex);
+          part.style.display = shouldShow ? 'block' : 'none';
+        });
+      }
+
+      if (audioParts.length > 0) {
+        audioParts.forEach((btn, i) => {
+          const shouldShow = (audioParts.length === 1) || (i === currentIndex);
+          if (shouldShow) {
+              btn.style.setProperty('display', 'inline-block', 'important');
+          } else {
+              btn.style.setProperty('display', 'none', 'important');
+          }
+        });
+      }
+
+      if (shouldPlayAudio) {
+        playActiveAudio();
+      }
+    }
+
+    newArrows.forEach(arrow => {
+      arrow.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+
+        if (initialPlayTimeout) clearTimeout(initialPlayTimeout);
+
+        const direction = arrow.classList.contains('left') ? -1 : 1;
+        currentIndex += direction;
+
+        if (currentIndex >= totalSlides) {
+          currentIndex = 0;
+        } else if (currentIndex < 0) {
+          currentIndex = totalSlides - 1;
+        }
+
+        updateDisplay(true); 
+      });
+    });
+    
+    updateDisplay(false); 
+
+    initialPlayTimeout = setTimeout(() => {
+      playActiveAudio();
+    }, SENTENCE_DELAY);
+  }
+
   // Initializes immediate functions
   function init() {
     noDuplicateKana();
-    consolidateYomitanGlossaryEntries();
-    dictionaryTitle();
     splitTags();
     highlightFurigana();
     cleanPitchPositions();
     createDownstepNotation();
     dynamicWordSize();
     alternativePitchStyle();
-    toggleDefinition();
-    collectGlossaryImages();
-    enableInteractions();
+
+    // Enable lazy-loading for all images inside #glossary
+    document.querySelectorAll('#glossary img').forEach(img => {
+      img.setAttribute('loading', 'lazy');
+    });
+
+    requestAnimationFrame(() => {
+      dictionaryTitle();
+      collectGlossaryImages();
+      consolidateYomitanGlossaryEntries();
+      toggleDefinition();
+      enableInteractions();
+      enableSceneSwitching(); 
+    });
   }
 
   // initializes deferred functions
