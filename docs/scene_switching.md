@@ -5,7 +5,7 @@
 Switch between immersive "Scenes" where the Sentence text, Audio, and Images are synchronized.
 
 - **Grouped Navigation:** Supports splitting sentences into segments using `<span class="group">...</span>` tags in the Anki field.
-- To use this feature, update the `sentence` and `sentenceFurigana` fields in Yomitan’s "**Configure Anki flashcards…** settings:
+- To use this feature, update the `sentence` and `sentenceFurigana` fields in Yomitan’s "**Configure Anki flashcards…**" settings:
 
   <img width="627" height="161" alt="image" src="https://github.com/user-attachments/assets/12506bd0-d03a-456a-90de-b86c4118d61f" />
 
