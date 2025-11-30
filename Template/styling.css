@@ -145,7 +145,7 @@
   --light-devoiced-color:             RoyalBlue;
   --light-highlight:                  #E20033;
   --freq-text-light:                  rgba(105, 105, 105, 0.3);
-  --tag-color-light:                  rgba(105, 105, 105, 0.3);
+  --tag-color-light:                  rgba(105, 105, 105, 0.26);
 
   /* Pitch Colors */
   --pitch-red-light:                  #D62839;
@@ -168,11 +168,14 @@
   --notes-bg-light:                   rgba(0, 0, 0, 0.03);
   --definition-bg-light:              rgba(0, 0, 0, 0.03);
   --dictionary-collapse-fade-light:   linear-gradient(to bottom, rgba(245,245,245,0), rgba(245,245,245,0.5));
-  --tag-bg-light:                     rgba(0, 0, 0, 0.03);
   --buttons-bg-light:                 rgba(0, 0, 0, 0.03);
   --buttons-bg-hover-light:           rgba(0, 0, 0, 0.63);
   --lightbox-bg-light:                rgba(0, 0, 0, 0.8);
   --frequency-bg-light:               rgba(255, 255,255, 0.8);
+  --tag-bg-light:                     rgba(0, 0, 0, 0.03);
+  --external-links-bg-light:          rgba(0, 0, 0, 0.1);
+  --external-links-bg-hover-light:    rgba(255, 255, 255, 0.4);
+
 
   /* Dark Theme
   -------------------------------------------- */
@@ -181,7 +184,7 @@
   --dark-devoiced-color:              cornflowerBlue;
   --dark-highlight:                   #FCFF61;
   --freq-text:                        rgba(255, 255, 255, 0.2);
-  --tag-color:                        rgba(255, 255, 255, 0.5);
+  --tag-color:                        rgba(255, 255, 255, 0.21);
 
   /* Pitch Colors */
   --pitch-red:                        #F5436D;
@@ -204,11 +207,13 @@
   --notes-bg:                         rgba(0, 0, 0, 0.3);
   --definition-bg:                    rgba(0, 0, 0, 0.3);
   --dictionary-collapse-fade:         linear-gradient(to bottom, rgba(44, 44, 44, 0), rgba(26, 26, 26, 0.5));
-  --tag-bg:                           rgba(0, 0, 0, 0.3);
   --buttons-bg:                       rgba(0, 0, 0, 0.1);
   --buttons-bg-hover:                 rgba(0, 0, 0, 0.63);
   --lightbox-bg:                      rgba(0, 0, 0, 0.8);
   --frequency-bg:                     rgba(0, 0, 0, 0.63);
+  --tag-bg:                           rgba(0, 0, 0, 0.1);
+  --external-links-bg:                rgba(0, 0, 0, 0.4);
+  --external-links-bg-hover:          rgba(0, 0, 0, 0.63);
 
 
   /* DIMENSIONS & SPACING
@@ -836,6 +841,7 @@ img {
   cursor: pointer;
   opacity: 0;
   transition: opacity var(--base-transition);
+  z-index: 2;
 }
 
 .nav-arrow.hidden {
@@ -2202,6 +2208,10 @@ li[data-dictionary*="小学館例解学習国語"] {
 	--rgko12-green: ;
 }
 
+.yomitan-glossary [data-dictionary="小学館例解学習国語 第十二版"] [data-sc-num] {
+  margin-right: 0.25em;
+}
+
 [data-dictionary="小学館例解学習国語 第十二版"] [data-sc-image] {
     margin-block: 0 !important;
 }
@@ -2275,10 +2285,6 @@ li[data-dictionary="小学館例解学習国語 第十二版"] td[data-sc-captio
   text-align: left !important;
 }
 
-[data-dictionary="小学館例解学習国語 第十二版"] [data-sc-blue]:has([data-sc外字][data-sc全丸]), .yomitan-glossary [data-dictionary="小学館例解学習国語 第十二版"] [data-sc-blue]:has([data-sc外字][data-sc左丸]) {
-  top: -7px !important;
-}
-
 li[data-dictionary="小学館例解学習国語 第十二版"] table[data-sc使い分け] {
     display: table !important;
     width: 100% !important;
@@ -2307,7 +2313,7 @@ li[data-dictionary="小学館例解学習国語 第十二版"] table[data-sc使�
 
 li[data-dictionary="小学館例解学習国語 第十二版"] table[data-sc使い分け] td[data-sc-td]:not(:first-child) {
     text-align: center !important;
-    width: 23% !important;
+    width: auto !important;
 }
 
 li[data-dictionary="小学館例解学習国語 第十二版"] table[data-sc使い分け] td[data-sc-yes] {
@@ -2741,6 +2747,7 @@ li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br)
   flex-wrap: nowrap;
   margin-left: auto;
   flex-shrink: 0;
+  z-index: 2;
 }
 
 .light-icon {
@@ -2760,42 +2767,49 @@ li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br)
 .dark-icon {
   display: inline-block;
 }
+
+
+
 
 .external-links a {
   margin-top: var(--external-links-margin-top);
   margin-bottom: var(--tag-margin-bottom);
   padding: var(--external-links-padding);
   display: flex;
-  background: var(--tag-bg);
-  transition: filter var(--fast-transition);
-}
-
-@container style(--external-links-visibility: 0) {
-  .external-links a {
-    display: none;
-  }
-}
-
-:is(.card.nightMode, .custom-dark-mode) 
-.external-links a {
-  background: var(--tag-bg);
+  background: var(--external-links-bg-light);
+  opacity: 0.3;
+  transition: background var(--fast-transition), opacity var(--fast-transition);
 }
 
 .external-links img {
   background: transparent;
   width: var(--base-size);
   height: var(--base-size);
+  filter: grayscale(1);
+  transition: filter var(--fast-transition);
 }
 
-.external-links a:not(:hover) {
-  background: rgba(0,0,0,0.3);
-  filter: grayscale(1) opacity(0.13);
+.external-links a:hover {
+  background: var(--external-links-bg-hover-light);
+  opacity: 1;
 }
 
-.card.nightMode .external-links a:not(:hover) {
-  background: rgba(0,0,0,0.3);
-  filter: grayscale(1) opacity(0.5);
+.external-links a:hover img {
+  filter: grayscale(0);
 }
+
+.card.nightMode .external-links a {
+  background: var(--external-links-bg);
+}
+
+:is(.card.nightMode, .custom-dark-mode) 
+.external-links a:hover {
+  background: var(--external-links-bg-hover);
+}
+
+
+
+
 
 .external-links a:first-child {
   border-top-left-radius: 5px;
@@ -2815,6 +2829,12 @@ li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br)
 .external-links img {
   outline: 2px solid transparent !important;
   outline-offset: -2px;
+}
+
+@container style(--external-links-visibility: 0) {
+  .external-links a {
+    display: none;
+  }
 }
 
 /* Misc Info */
@@ -3055,6 +3075,10 @@ li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br)
 #kanji-tooltip .related-word-container { 
   position: relative;
   display: inline-block;
+}
+
+#kanji-tooltip .related-word { 
+  font-family: var(--serif);
 }
 
 .related-word-container ruby rt {
@@ -3671,6 +3695,47 @@ li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br)
 
 .fade-to-show-more:hover::before {
   opacity: 1;
+}
+
+/* Scene Switching */
+.sentenscenesv {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  height: 100%;
+  width: 7.2%; 
+  max-width: 80px;
+  cursor: pointer;
+  border-radius: var(--border-radius-lg);
+  z-index: 1;
+  opacity: 0;
+  transition: var(--base-transition);
+}
+
+.sentence-nav:hover {
+  opacity: 0.05;
+}
+
+.sentence-nav.left {
+  left: 0;
+  background: linear-gradient(to right, rgba(0, 0, 0, 1), transparent);
+}
+
+.sentence-nav.right {
+  right: 0;
+  background: linear-gradient(to left, rgba(0, 0, 0, 1), transparent);
+}
+
+:is(.card.nightMode, .custom-dark-mode) {
+  .sentence-nav.left {
+    left: 0;
+    background: linear-gradient(to right, rgba(255, 255, 255, 1), transparent);
+  }
+
+  .sentence-nav.right {
+    right: 0;
+    background: linear-gradient(to left, rgba(255, 255, 255, 1), transparent);
+  }
 }
 
 @media (min-width:1051px){
