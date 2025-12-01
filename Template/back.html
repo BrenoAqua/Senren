@@ -1752,6 +1752,11 @@
     }
 
     sentenceFurigana = sentenceFurigana.replace(
+      /([\u3005\u4e00-\u9faf]+)\[([^\]]+)\]/g, 
+      '<ruby><rb>$1</rb><rt>$2</rt></ruby>'
+    );
+
+    sentenceFurigana = sentenceFurigana.replace(
       /<ruby>([^<]+?)<rt>(.*?)<\/rt><\/ruby>/g,
       '<ruby><rb>$1</rb><rt>$2</rt></ruby>'
     );
@@ -1779,7 +1784,7 @@
 
     function collectTextAndRubyNodes(node) {
       if (node.nodeType === Node.TEXT_NODE) {
-        if (node.textContent.trim()) {
+        if (node.textContent.length > 0) { 
           allNodes.push({ type: 'text', node: node });
         }
       } else if (node.tagName === 'RUBY') {
@@ -1816,113 +1821,101 @@
     });
 
     highlightedWords.forEach(word => {
-      const wordStart = plainText.indexOf(word);
-      if (wordStart === -1) return;
+      let searchStartIndex = 0;
+      let wordStart;
+      
+      while ((wordStart = plainText.indexOf(word, searchStartIndex)) !== -1) {
+        const wordEnd = wordStart + word.length;
+        
+        const affectedNodes = nodePositions.filter(pos =>
+          pos.start < wordEnd && pos.end > wordStart
+        );
 
-      const wordEnd = wordStart + word.length;
+        affectedNodes.forEach(pos => {
+          const node = pos.node;
+          if (!node.parentNode) return; 
 
-      const affectedNodes = nodePositions.filter(pos =>
-        pos.start < wordEnd && pos.end > wordStart
-      );
+          const relativeStart = Math.max(0, wordStart - pos.start);
+          let relativeEnd = Math.min(pos.end - pos.start, wordEnd - pos.start);
+          
+          if(pos.type === 'ruby') {
+             const rb = node.querySelector('rb') || node.firstChild;
+             relativeEnd = Math.min(relativeEnd, rb.textContent.length);
+          } else {
+             relativeEnd = Math.min(relativeEnd, node.textContent.length);
+          }
 
-      affectedNodes.forEach(pos => {
-        const node = pos.node;
-
-        if (pos.start >= wordStart && pos.end <= wordEnd) {
-          if (pos.type === 'ruby') {
+          if (pos.start >= wordStart && pos.end <= wordEnd) {
             const wrapper = document.createElement('span');
             wrapper.className = 'highlight';
-
-            const parent = node.parentNode;
-            if (parent.tagName === 'SPAN' && parent.className === 'term') {
-              const rubyClone = node.cloneNode(true);
-              wrapper.appendChild(rubyClone);
+            
+            if (pos.type === 'ruby') {
+              const clone = node.cloneNode(true);
+              wrapper.appendChild(clone);
               node.parentNode.replaceChild(wrapper, node);
             } else {
-              const rubyClone = node.cloneNode(true);
-              wrapper.appendChild(rubyClone);
+              wrapper.textContent = node.textContent;
               node.parentNode.replaceChild(wrapper, node);
             }
-          } else {
-            const wrapper = document.createElement('span');
-            wrapper.className = 'highlight';
-            wrapper.textContent = node.textContent;
-            node.parentNode.replaceChild(wrapper, node);
-          }
-        }
-        else if (pos.type === 'ruby') {
-          const ruby = node;
-          const rb = ruby.querySelector('rb') || ruby.firstChild;
-          const rt = ruby.querySelector('rt');
+          } 
+          else {
+            if (pos.type === 'ruby') {
+              const ruby = node;
+              const rb = ruby.querySelector('rb') || ruby.firstChild;
+              const rt = ruby.querySelector('rt');
+              if (!rb || !rt) return;
 
-          if (!rb || !rt) return;
+              const baseText = rb.textContent;
+              const rtText = rt.textContent;
 
-          const baseText = rb.textContent;
-          const rtText = rt.textContent;
+              let newHTML = '';
 
-          const relativeStart = Math.max(0, wordStart - pos.start);
-          const relativeEnd = Math.min(baseText.length, wordEnd - pos.start);
+              if (relativeStart > 0) {
+                const subRb = baseText.substring(0, relativeStart);
+                const subRtLen = Math.round(rtText.length * relativeStart / baseText.length);
+                const subRt = rtText.substring(0, subRtLen);
+                newHTML += `<ruby><rb>${subRb}</rb><rt>${subRt}</rt></ruby>`;
+              }
 
-          let newHTML = '';
+              const midRb = baseText.substring(relativeStart, relativeEnd);
+              const startRtIdx = Math.round(rtText.length * relativeStart / baseText.length);
+              const endRtIdx = Math.round(rtText.length * relativeEnd / baseText.length);
+              const midRt = rtText.substring(startRtIdx, endRtIdx);
+              
+              newHTML += `<span class="highlight"><ruby><rb>${midRb}</rb><rt>${midRt}</rt></ruby></span>`;
 
-          if (relativeStart > 0) {
-            newHTML += `<ruby><rb>${baseText.substring(0, relativeStart)}</rb>
-                      <rt>${rtText.substring(0, Math.round(rtText.length * relativeStart / baseText.length))}</rt></ruby>`;
-          }
+              if (relativeEnd < baseText.length) {
+                const subRb = baseText.substring(relativeEnd);
+                const subRt = rtText.substring(endRtIdx);
+                newHTML += `<ruby><rb>${subRb}</rb><rt>${subRt}</rt></ruby>`;
+              }
 
-          newHTML += `<span class="highlight"><ruby><rb>${baseText.substring(relativeStart, relativeEnd)}</rb>
-                   <rt>${rtText.substring(
-            Math.round(rtText.length * relativeStart / baseText.length),
-            Math.round(rtText.length * relativeEnd / baseText.length)
-          )}</rt></ruby></span>`;
+              const span = document.createElement('span');
+              span.innerHTML = newHTML;
+              ruby.parentNode.replaceChild(span, ruby);
 
-          if (relativeEnd < baseText.length) {
-            newHTML += `<ruby><rb>${baseText.substring(relativeEnd)}</rb>
-                      <rt>${rtText.substring(Math.round(rtText.length * relativeEnd / baseText.length))}</rt></ruby>`;
-          }
+            } else {
+              const text = node.textContent;
+              const beforeText = text.substring(0, relativeStart);
+              const highlightedText = text.substring(relativeStart, relativeEnd);
+              const afterText = text.substring(relativeEnd);
 
-          const parent = ruby.parentNode;
-          const span = document.createElement('span');
-          span.innerHTML = newHTML;
+              const fragment = document.createDocumentFragment();
+              if (beforeText) fragment.appendChild(document.createTextNode(beforeText));
+              
+              const hlSpan = document.createElement('span');
+              hlSpan.className = 'highlight';
+              hlSpan.textContent = highlightedText;
+              fragment.appendChild(hlSpan);
+              
+              if (afterText) fragment.appendChild(document.createTextNode(afterText));
 
-          if (parent.tagName === 'SPAN' && parent.className === 'term') {
-            const newSpan = document.createElement('span');
-            newSpan.className = 'term';
-            while (span.firstChild) {
-              newSpan.appendChild(span.firstChild);
+              node.parentNode.replaceChild(fragment, node);
             }
-            parent.parentNode.replaceChild(newSpan, parent);
-          } else {
-            ruby.parentNode.replaceChild(span, ruby);
           }
-        }
-        else {
-          const text = node.textContent;
-          const relativeStart = Math.max(0, wordStart - pos.start);
-          const relativeEnd = Math.min(text.length, wordEnd - pos.start);
-
-          const beforeText = text.substring(0, relativeStart);
-          const highlightedText = text.substring(relativeStart, relativeEnd);
-          const afterText = text.substring(relativeEnd);
-
-          const fragment = document.createDocumentFragment();
-
-          if (beforeText) {
-            fragment.appendChild(document.createTextNode(beforeText));
-          }
-
-          const highlightSpan = document.createElement('span');
-          highlightSpan.className = 'highlight';
-          highlightSpan.textContent = highlightedText;
-          fragment.appendChild(highlightSpan);
-
-          if (afterText) {
-            fragment.appendChild(document.createTextNode(afterText));
-          }
-
-          node.parentNode.replaceChild(fragment, node);
-        }
-      });
+        });
+        searchStartIndex = wordEnd;
+      }
     });
 
     document.getElementById("formattedSentence").innerHTML = tempDiv.innerHTML;
@@ -2248,7 +2241,7 @@
 
   // Groups text, audio, and images into navigable scenes
   function enableSceneSwitching() {
-    const SENTENCE_DELAY = 900; 
+    const SENTENCE_DELAY = 650; 
 
     const audioContainer = document.querySelector('.sentenceaudio');
     const audioParts = audioContainer ? Array.from(audioContainer.children) : [];
@@ -2298,7 +2291,7 @@
     }
 
     const sentenceParts = document.querySelectorAll('.sentence-container #formattedSentence .split-sentence');
-    const images = document.querySelectorAll('.picture-container img');
+    const images = document.querySelectorAll('.picture-container img.field-img');
 
     const totalSlides = Math.max(images.length, sentenceParts.length, audioParts.length);
 
@@ -2320,11 +2313,23 @@
     }
 
     function updateDisplay(shouldPlayAudio = false) {
-      if (images.length > 0) {
-        images.forEach((img, i) => {
-          const shouldShow = (images.length === 1) || (i === currentIndex);
-          img.style.display = shouldShow ? 'block' : 'none';
+      const currentFieldImages = document.querySelectorAll('.picture-container img');
+      
+      if (currentFieldImages.length > 0) {
+        let indexToShow = 0;
+        if (currentFieldImages.length > 1) {
+            indexToShow = Math.min(currentIndex, currentFieldImages.length - 1);
+        }
+        const targetImage = currentFieldImages[indexToShow];
+
+        const allImagesInContainer = document.querySelectorAll('.picture-container img');
+        allImagesInContainer.forEach(img => {
+            img.style.setProperty('display', 'none', 'important');
         });
+
+        if (targetImage) {
+            targetImage.style.setProperty('display', 'block', 'important');
+        }
       }
 
       if (sentenceParts.length > 0) {
@@ -2377,8 +2382,17 @@
     }, SENTENCE_DELAY);
   }
 
+  // Marks the original Anki images
+  function markFieldImages() {
+    const images = document.querySelectorAll('.picture-container > img');
+    images.forEach(img => {
+      img.classList.add('field-img');
+    });
+  }
+
   // Initializes immediate functions
   function init() {
+    markFieldImages(); 
     noDuplicateKana();
     splitTags();
     highlightFurigana();
