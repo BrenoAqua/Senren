@@ -1180,19 +1180,24 @@
     }
   }
 
-  // Handles NSFW content behavior and blur toggling
   function nsfw() {
     const tags = `{{Tags}}`.toLowerCase();
     const isNsfwCard = tags.includes('nsfw');
 
-    if (isNsfwCard) {
+    const muteNsfw = getComputedStyle(document.documentElement)
+      .getPropertyValue('--mute-nsfw-audio')
+      .trim()
+      .toLowerCase();
+
+    if (isNsfwCard && muteNsfw === 'true') {
+
       const wordAudioButton = document.querySelector(".audio .soundLink, .audio .replaybutton");
       if (wordAudioButton) {
         wordAudioButton.click();
       }
 
       document.querySelectorAll('.picture-container').forEach(container => {
-        if (container.className.toLowerCase().includes('nsfw')) {
+        if (container.classList.contains('nsfw')) {
           container.querySelectorAll('img').forEach(img => {
             img.addEventListener('click', () => {
               img.classList.add('clicked');
@@ -2241,14 +2246,15 @@
 
   // Groups text, audio, and images into navigable scenes
   function enableSceneSwitching() {
-    const SENTENCE_DELAY = 500; 
-
     const audioContainer = document.querySelector('.sentenceaudio');
     const audioParts = audioContainer ? Array.from(audioContainer.children) : [];
 
     if (audioParts.length <= 1) {
       return;
     }
+
+    const baseWaitTime = 100;  
+    const timePerChar = 200;  
 
     let initialPlayTimeout;
 
@@ -2299,6 +2305,10 @@
 
     function playActiveAudio() {
       if (audioParts.length === 0) return;
+
+      document.querySelectorAll('audio').forEach(a => {
+        try { a.pause(); a.currentTime = 0; } catch(e){}
+      });
 
       let audioToPlay = null;
       if (audioParts.length === 1) {
@@ -2377,9 +2387,41 @@
     
     updateDisplay(false); 
 
-    initialPlayTimeout = setTimeout(() => {
-      playActiveAudio();
-    }, SENTENCE_DELAY);
+    const wordEl = document.getElementById('word');
+    let charCount = 5;
+
+    if (wordEl) {
+      const ruby = wordEl.querySelector('ruby');
+      if (ruby) {
+        const clone = ruby.cloneNode(true);
+        clone.querySelectorAll('rt').forEach(rt => rt.remove());
+        charCount = clone.textContent.replace(/\s+/g, '').length;
+      } else {
+        charCount = wordEl.textContent.replace(/\s+/g, '').length;
+      }
+    }
+
+    let SENTENCE_DELAY;
+
+    if (charCount >= 6) {
+       SENTENCE_DELAY = 1100; 
+    } else if (charCount === 5) {
+       SENTENCE_DELAY = 950;
+    } else {
+       SENTENCE_DELAY = baseWaitTime + (charCount * timePerChar);
+    }
+
+    const muteNsfw = getComputedStyle(document.documentElement)
+      .getPropertyValue('--mute-nsfw-audio')
+      .trim()
+      .toLowerCase();
+
+    if (muteNsfw === 'true') {
+    } else {
+       initialPlayTimeout = setTimeout(() => {
+         playActiveAudio();
+       }, SENTENCE_DELAY);
+    }
   }
 
   // Marks the original Anki images
