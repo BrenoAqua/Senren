@@ -105,6 +105,7 @@
   ============================================ */
   --pitch-style:                      default; /* "alt" to change */
   --sentence-pitch-highlight:         false;   /* "true" to enable */
+  --kanji-hover-pitch-highlight:      false;   /* "true" to enable */
   --pitch-colors:                     true;    /* "false" to disable */
   --only-kana-pitch-size:             0.08em;  /* Border thickness for kana-only words */
 
@@ -2954,13 +2955,13 @@ li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br)
 
 .related-sentence {
   font-size: 0.8rem;
-  color: #333;
+  color: var(--fg);
   margin-top: 4px;
 }
 
 :is(.card.nightMode, .custom-dark-mode) 
 .related-sentence {
-  color: #ccc;
+  color: var(--fg);
 }
 
 .related-sentence .highlight {
@@ -3091,6 +3092,71 @@ li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br)
   margin: 3px 1px !important;
   width: 0.20rem !important;
   height: 0.20rem !important;
+}
+
+/* Unreviewed Cards */
+li.is-new-card {
+  opacity: 0.6;
+  transition: opacity var(--base-transition);
+}
+
+li.is-new-card .related-word,
+li.is-new-card rt,
+li.is-new-card .related-sentence,
+li.is-new-card .highlight,
+li.is-new-card .pitch-number,
+li.is-new-card .pronunciation-mora-line,
+li.is-new-card span[style*="border-color"] {
+  transition: color var(--base-transition), border-color var(--base-transition);
+}
+
+li.is-new-card:not(:hover) .related-word,
+li.is-new-card:not(:hover) rt,
+li.is-new-card:not(:hover) .related-sentence,
+li.is-new-card:not(:hover) .highlight,
+li.is-new-card:not(:hover) .pitch-number,
+li.is-new-card:not(:hover) .pronunciation-mora-line,
+li.is-new-card:not(:hover) span[style*="border-color"] {
+  color: #999 !important;
+  border-color: #999 !important;
+}
+
+li.is-new-card:hover {
+  opacity: 1;
+}
+
+/* Clickable Word */
+li.is-new-card:not(:hover) .related-word {
+  border-bottom-color: rgba(0, 0, 0, 0) !important;
+}
+
+.related-word.clickable-word {
+  cursor: pointer;
+  border-bottom: 1px dotted transparent; 
+  transition: color var(--base-transition), border-bottom-color var(--base-transition);
+}
+
+.related-word.clickable-word:hover {
+  color: var(--light-highlight);
+  border-bottom-color: rgba(150, 150, 150, 0.5);
+}
+
+:is(.card.nightMode, .custom-dark-mode) .related-word.clickable-word:hover {
+  color: var(--dark-highlight);
+}
+
+@container style(--kanji-hover-pitch-highlight: true) {
+  li.heiban     { --light-highlight: var(--pitch-blue-light) !important; }
+  li.atamadaka  { --light-highlight: var(--pitch-red-light) !important; }
+  li.nakadaka   { --light-highlight: var(--pitch-orange-light) !important; }
+  li.odaka      { --light-highlight: var(--pitch-green-light) !important; }
+  li.kifuku     { --light-highlight: var(--pitch-purple-light) !important; }
+
+  :is(.card.nightMode, .custom-dark-mode) li.heiban    { --dark-highlight: var(--pitch-blue) !important; }
+  :is(.card.nightMode, .custom-dark-mode) li.atamadaka { --dark-highlight: var(--pitch-red) !important; }
+  :is(.card.nightMode, .custom-dark-mode) li.nakadaka  { --dark-highlight: var(--pitch-orange) !important; }
+  :is(.card.nightMode, .custom-dark-mode) li.odaka     { --dark-highlight: var(--pitch-green) !important; }
+  :is(.card.nightMode, .custom-dark-mode) li.kifuku    { --dark-highlight: var(--pitch-purple) !important; }
 }
 
 /* Responsive Design */
@@ -3698,7 +3764,7 @@ li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br)
 }
 
 /* Scene Switching */
-.sentenscenesv {
+.sentence-nav {
   position: absolute;
   top: 0;
   bottom: 0;
