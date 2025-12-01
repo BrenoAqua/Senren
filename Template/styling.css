@@ -25,6 +25,8 @@
   --notes-default-expanded:           false;   /* Show notes immediately */
   --collect-glossary-images:          true;    /* Enable image collection */
   --no-duplicate-kana:                false;   /* Replace kana word with its reading */
+  --blur-nsfw-picture:                true;    /* Blur picture on NSFW cards */
+  --mute-nsfw-audio:                  false;   /* Mute sentence audio on NSFW cards */
 
   /* Component Visibility */
   --main-bg-visibility:               1; /* "0" to disable main bg */
@@ -946,18 +948,20 @@ img {
 }
 
 /* NSFW Content */
-[class*=" nsfw" i] {
-  overflow: hidden;
-  border-radius: var(--border-radius-md); 
-}
+@container style(--blur-nsfw-picture: true) {
+  [class*=" nsfw" i] {
+    overflow: hidden;
+    border-radius: var(--border-radius-md); 
+  }
 
-[class*=" nsfw" i] img {
-  filter: blur(20px);
-  transition: filter var(--base-transition);
-}
+  [class*=" nsfw" i] img {
+    filter: blur(20px);
+    transition: filter var(--base-transition);
+  }
 
-[class*=" nsfw" i] img.clicked {
-  filter: blur(0);
+  [class*=" nsfw" i] img.clicked {
+    filter: blur(0);
+  }
 }
 
 /* Sentence */
