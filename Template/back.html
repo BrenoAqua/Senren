@@ -1312,6 +1312,17 @@
       if (!noteIds || noteIds.length === 0) continue;
 
       const notesInfo = await ankiConnectRequest("notesInfo", { notes: noteIds });
+      const allCardIds = [];
+      notesInfo.forEach(n => { if (n.cards && n.cards.length) allCardIds.push(...n.cards); });
+
+      const cardTypeMap = {};
+      if (allCardIds.length > 0) {
+        const cardsInfo = await ankiConnectRequest("cardsInfo", { cards: allCardIds });
+        if (cardsInfo) {
+          cardsInfo.forEach(c => cardTypeMap[c.cardId] = c.type); // 0=New, 1+=Learn/Review
+        }
+      }
+
       if (!notesInfo) continue;
 
       const relatedWords = [];
@@ -1349,6 +1360,7 @@
             const pitchValue = fields.pitch ? fields.pitch.value : '';
             const pitchPositionValue = fields.pitchPosition ? fields.pitchPosition.value : '';
             const tagsValue = fields.Tags ? fields.Tags.value : '';
+            const isNewCard = !note.cards.some(cid => cardTypeMap[cid] > 0)
 
             relatedWords.push({
               word: wordValue,
@@ -1356,7 +1368,9 @@
               sentence: sentenceValue,
               pitch: pitchValue,
               pitchPosition: pitchPositionValue,
-              tags: tagsValue
+              tags: tagsValue,
+              isNew: isNewCard,
+              noteId: note.noteId
             });
 
             uniqueWords.add(wordValue.trim());
@@ -1481,12 +1495,14 @@
           fullCategoriesHtml = wordInfo.pitch ? wordInfo.pitch.replace(/,/g, '<br>') : '';
         }
 
+        const newClass = wordInfo.isNew ? 'is-new-card' : '';
+        const clickAction = `onclick="ankiConnectRequest('guiBrowse', { query: 'nid:${wordInfo.noteId}' })"`;
         const itemHtml = `
-          <li style="${count >= maxInitialWords ? 'display: none;' : ''}">
+          <li class="${newClass} ${firstPitchCategory || ''}" style="${count >= maxInitialWords ? 'display: none;' : ''}">
             <div class="related-word-container pitch card-a">
               <span class="pitch-info ${firstPitchCategory || ''} ${wordInfo.tags || ''}">
                 <ruby>
-                  <span class="related-word">${wordHtml}</span>
+                  <span class="related-word clickable-word" ${clickAction}>${wordHtml}</span>
                   ${wordInfo.reading ? `<rt>${wordInfo.reading}</rt>` : ''}
                 </ruby>
                 ${formattedPositionHtml ? `<div class="position">${formattedPositionHtml}</div>` : ''}
