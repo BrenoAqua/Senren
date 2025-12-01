@@ -277,7 +277,7 @@
   --lightbox-shadow:                  0 1px 8px rgba(0, 0, 0, 0.15);
 
   /* Z-Index Layers */
-  --z-index-base:                     1;
+  --z-index-base:                     3;
   --z-index-toggle:                   2;
   --z-index-lightbox:                 1000;
 }
