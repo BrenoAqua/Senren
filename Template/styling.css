@@ -72,7 +72,8 @@
   --furigana-height:                  0.0rem;  /* Negative value moves it UP (e.g., -0.05rem), Positive moves it DOWN */
 
   /* Sentence Furigana */
-  --furigana-display:                 1;       /* "0" to disable furigana in sentences */
+  --sentence-furigana-display:        1;       /* "0" to disable furigana in sentences */
+  --sentence-furigana-height:         0.0rem;  /* Negative value moves it UP (e.g., -0.05rem), Positive moves it DOWN */
 
   /* Text Sizes */
   --sentence-size:                    1.3rem;
@@ -994,12 +995,12 @@ img {
 }
 
 #sentence rt {
-  transform: translateY(0.23em);
+  transform: translateY(var(--sentence-furigana-height)); 
   opacity: 0;
   transition: opacity var(--fast-transition);
 }
 
-@container style(--furigana-display: 0) {
+@container style(--sentence-furigana-display: 0) {
   #sentence rb {
     margin-top: 21px;
   }
