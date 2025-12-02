@@ -2406,7 +2406,9 @@
     if (charCount >= 6) {
        SENTENCE_DELAY = 1100; 
     } else if (charCount === 5) {
-       SENTENCE_DELAY = 950;
+       SENTENCE_DELAY = 925;
+    } else if (charCount === 2) {
+       SENTENCE_DELAY = 600;
     } else {
        SENTENCE_DELAY = baseWaitTime + (charCount * timePerChar);
     }
