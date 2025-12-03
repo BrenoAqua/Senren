@@ -66,7 +66,7 @@
   --word-size-8:                      1.3rem;  /* 8 chars */
   --word-size-9:                      1.15rem; /* 9+ chars */
 
-  /* Furigana Settings */
+  /* Word Furigana */
   --reading-position:                 over;    /* "under" to display reading under word */
   --furigana-size:                    1rem;    
   --furigana-height:                  0.0rem;  /* Negative value moves it UP (e.g., -0.05rem), Positive moves it DOWN */
