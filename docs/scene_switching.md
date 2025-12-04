@@ -19,4 +19,11 @@ Switch between immersive "Scenes" where the Sentence text, Audio, and Images are
   - You can choose which scene it belongs to by numbering the group, e.g., `<span class="group2">...</span>`. This skips the first scene and groups it with the second.
   - If you have multiple scenes but only one `sentenceEng`, it will appear only in the first scene unless you assign it to a specific group as shown above.
 
+  - This is how it would look inside the field’s HTML:
+  ```html
+  <span class="group2">The future seems bleak...</span><span class="group3">Looks like I have a hard path ahead.</span>
+  ```
+  ![type:video](https://github.com/user-attachments/assets/ccc24115-a1f8-4c67-a8d1-cb7985887a8f)
+
+
 - **Auto-Detection:** Automatically detects if a card has multiple audio files. If found, it enables the Scene Navigation mode; otherwise, it defaults to standard behavior. Multiple sentences are not split if the card doesn’t contain at least 2 audio files.
