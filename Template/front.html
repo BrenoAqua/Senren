@@ -102,6 +102,9 @@
 </div>
 <!-- /FRONT -->
 
+<!-- Hidden field to let JS calculate audio delay based on reading length -->
+<div id="hiddenReading" style="display: none !important;">{{reading}}</div>
+
 <script>
   // Toggles visibility of word/sentence
   function toggleVisibility(wrapperId, innerElementId) {
@@ -160,36 +163,195 @@
     }
   }
 
-  // Shows or hides the word card sentence based on CSS variables
-  function initializeSentenceState() {
-    const wrapper = document.getElementById('sentence-wrapper');
-    const innerElement = document.getElementById('sentence');
+  // Groups text and audio into navigable scenes
+  function enableFrontSceneSwitching() {
+    let initialPlayTimeout;
 
-    if (wrapper && innerElement) {
-      const expandByDefault = getComputedStyle(document.documentElement)
-                              .getPropertyValue('--word-sentence-default-expanded').trim();
-
-      if (expandByDefault === 'true') {
-        const originalWrapperTransition = wrapper.style.transition;
-        const originalInnerElementTransition = innerElement.style.transition;
-
-        wrapper.style.transition = 'none';
-        innerElement.style.transition = 'none';
-
-        requestAnimationFrame(() => {
-            const scrollHeight = innerElement.scrollHeight + 'px';
-            wrapper.style.maxHeight = scrollHeight;
-            wrapper.classList.add('expanded');
-
-            requestAnimationFrame(() => {
-                wrapper.style.transition = originalWrapperTransition;
-                innerElement.style.transition = originalInnerElementTransition;
-            });
+    const textContainers = document.querySelectorAll('#sentence, #sentence-audio');
+    
+    const audioWrapper = document.getElementById('sentenceAudio'); 
+    let audioParts = [];
+    if (audioWrapper) {
+        audioParts = Array.from(audioWrapper.children).filter(el => {
+            return el.classList.contains('soundLink') || 
+                  el.classList.contains('replay-button') || 
+                  el.tagName === 'AUDIO';
         });
+    }
+
+    let hasSplitText = false;
+    let textSlideCount = 0;
+
+    textContainers.forEach(container => {
+      if (container.getAttribute('data-split-done')) {
+          const existingParts = container.querySelectorAll('.split-sentence-part');
+          if (existingParts.length > 0) {
+              hasSplitText = true;
+              textSlideCount = Math.max(textSlideCount, existingParts.length);
+          }
+          return;
       }
+
+      const groupWrappers = Array.from(container.querySelectorAll('.group'))
+                              .filter(el => el.textContent.trim().length > 0);
+
+      if (groupWrappers.length > 0) {
+        const parts = groupWrappers.map(el => el.outerHTML);
+        container.innerHTML = ''; 
+        parts.forEach((partHTML, index) => {
+          const div = document.createElement('div');
+          div.classList.add('split-sentence-part');
+          div.innerHTML = partHTML;
+          div.style.display = (index === 0) ? 'block' : 'none';
+          container.appendChild(div);
+        });
+        container.setAttribute('data-split-done', 'true');
+        hasSplitText = true;
+        textSlideCount = Math.max(textSlideCount, parts.length);
+      }
+    });
+
+    let totalSlides = Math.max(textSlideCount, audioParts.length);
+    
+    if (totalSlides <= 1) {
+        return; 
+    }
+
+    const frontContainer = document.querySelector('.front');
+    if (frontContainer && !frontContainer.querySelector('.sentence-nav')) {
+      const arrowLeft = document.createElement('div');
+      arrowLeft.className = 'sentence-nav left'; 
+      frontContainer.appendChild(arrowLeft);
+      const arrowRight = document.createElement('div');
+      arrowRight.className = 'sentence-nav right'; 
+      frontContainer.appendChild(arrowRight);
+
+      [arrowLeft, arrowRight].forEach(arrow => {
+        arrow.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          if (initialPlayTimeout) clearTimeout(initialPlayTimeout);
+          const direction = arrow.classList.contains('left') ? -1 : 1;
+          changeScene(direction);
+        });
+      });
+    }
+
+    let currentIndex = 0;
+
+    function changeScene(direction) {
+      currentIndex += direction;
+      if (currentIndex >= totalSlides) currentIndex = 0;
+      else if (currentIndex < 0) currentIndex = totalSlides - 1;
+      updateDisplay(true);
+    }
+
+    function updateDisplay(playAudio) {
+      textContainers.forEach(container => {
+        const parts = container.querySelectorAll('.split-sentence-part');
+        if (parts.length > 0) {
+            parts.forEach((part, i) => {
+                part.style.display = (i === currentIndex) ? 'block' : 'none';
+            });
+            const wrapper = container.closest('.expanded'); 
+            if (wrapper) wrapper.style.maxHeight = container.scrollHeight + 'px';
+        }
+      });
+
+      if (audioParts.length > 0) {
+          audioParts.forEach((btn, i) => {
+              const shouldShow = (i === currentIndex) || (audioParts.length === 1);
+              if (shouldShow) {
+                  btn.style.setProperty('display', 'inline-flex', 'important');
+              } else {
+                  btn.style.setProperty('display', 'none', 'important');
+              }
+          });
+      }
+
+      if (playAudio && audioParts.length > 0) {
+          document.querySelectorAll('audio').forEach(a => {
+              try { a.pause(); a.currentTime = 0; } catch(e){}
+          });
+
+          let target = audioParts[currentIndex];
+          if (!target && audioParts.length === 1) target = audioParts[0];
+
+          if (target) {
+              if (typeof target.click === 'function') target.click();
+              else {
+                const trigger = target.querySelector('.soundLink, .replaybutton');
+                if (trigger) trigger.click();
+              }
+          }
+      }
+    }
+
+    const baseWaitTime = 100;  
+    const timePerChar = 150;  
+    
+    let charCount = 5; 
+    let foundReading = false;
+
+    const readingEl = document.getElementById('hiddenReading');
+    if (readingEl && readingEl.textContent.trim().length > 0) {
+        const firstLi = readingEl.querySelector('li');
+        const targetEl = firstLi || readingEl;
+        charCount = (targetEl.textContent || "")
+          .replace(/[\s\u3099\u309A\u309B\u309C]/g, '') 
+          .replace(/[ぁぃぅぇぉゃゅょゎァィゥェォャュョヮ]/g, '') 
+          .length;
+        foundReading = true;
+    }
+
+    if (!foundReading) {
+        const potentialWords = document.querySelectorAll('#word');
+        let wordEl = null;
+        for (let el of potentialWords) {
+            if (el.offsetParent !== null) { wordEl = el; break; }
+        }
+        
+        if (wordEl) {
+            const rt = wordEl.querySelector('rt');
+            if (rt) {
+                const innerItem = rt.querySelector('li');
+                const targetElement = innerItem || rt;
+                charCount = targetElement.textContent
+                  .replace(/[\s\u3099\u309A\u309B\u309C]/g, '')
+                  .replace(/[ぁぃぅぇぉゃゅょゎァィゥェォャュョヮ]/g, '')
+                  .length;
+            } else {
+                charCount = wordEl.textContent.replace(/\s+/g, '').length;
+            }
+        }
+    }
+
+    let SENTENCE_DELAY;
+
+    if (charCount === 2) SENTENCE_DELAY = 600; 
+    else if (charCount === 3) SENTENCE_DELAY = 550;
+    else if (charCount === 4) SENTENCE_DELAY = 700;
+    else if (charCount === 5) SENTENCE_DELAY = 850;
+    else if (charCount === 6) SENTENCE_DELAY = 1000;
+    else if (charCount === 7) SENTENCE_DELAY = 1080; 
+    else if (charCount === 8) SENTENCE_DELAY = 1150; 
+    else SENTENCE_DELAY = baseWaitTime + (charCount * timePerChar);
+
+    updateDisplay(false); 
+
+    const muteNsfw = getComputedStyle(document.documentElement)
+      .getPropertyValue('--mute-nsfw-audio')
+      .trim()
+      .toLowerCase();
+
+    if (muteNsfw !== 'true') {
+      initialPlayTimeout = setTimeout(() => {
+        updateDisplay(true);
+      }, SENTENCE_DELAY);
     }
   }
 
+  enableFrontSceneSwitching();
   initializeAudioSentenceState();
   initializeSentenceState();
 </script>	
