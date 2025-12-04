@@ -34,6 +34,6 @@ Switch between immersive "Scenes" where the Sentence text, Audio, and Images are
   ```html
   <span class="group">My Dress-Up Darling • Season 2, Episode 5 • 0:17:53</span><span class="group">16bit Sensation: Another Layer • Season 1, Episode 13 • 0:16:21</span><span class="group">The Irregular at Magic High School • Season 1, Episode 11 • 0:21:58</span>
   ```
-  ![Scene Switching](assets/images/scene_switching_preview.png)
+  ![Scene Switching](assets/images/scene_switching_preview.gif)
 
 - **Auto-Detection:** Automatically detects if a card has multiple audio files. If found, it enables the Scene Navigation mode; otherwise, it defaults to standard behavior. Multiple sentences are not split if the card doesn’t contain at least 2 audio files.
