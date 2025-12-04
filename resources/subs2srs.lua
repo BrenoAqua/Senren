@@ -323,7 +323,7 @@ end
 
 local function join_field_content(new_text, old_text, separator)
     -- By default, join fields with a HTML newline.
-    separator = separator or "<br>"
+    separator = separator or ""
 
     if h.is_empty(old_text) then
         -- If 'old_text' is empty, there's no need to join content with the separator.
