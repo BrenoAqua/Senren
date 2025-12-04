@@ -19,6 +19,7 @@ Switch between immersive "Scenes" where the Sentence text, Audio, and Images are
 - `sentenceEng` is also supported. However, you'll need to manually edit the field to group it correctly with each scene using `<span class="group">...</span>`.
   - You can choose which scene it belongs to by numbering the group, e.g., `<span class="group2">...</span>`. This skips the first scene and groups it with the second.
   - If you have multiple scenes but only one `sentenceEng`, it will appear only in the first scene unless you assign it to a specific group as shown above.
+  > It’s not necessary to number the groups if the number of translations is the same as the number of sentences.
 
   - This is how it would look inside the field’s HTML:
   ```html
