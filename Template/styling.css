@@ -23,8 +23,8 @@
   --word-sentence-default-expanded:   false;   /* Show sentence on word cards immediately */
   --audio-sentence-default-expanded:  false;   /* Show sentence on audio cards immediately */
   --notes-default-expanded:           false;   /* Show notes immediately */
-  --collect-glossary-images:          true;    /* Enable image collection */
-  --no-duplicate-kana:                false;   /* Replace kana word with its reading */
+  --collect-glossary-images:          true;    /* Enable glossary images to be collected into the picture container */
+  --no-duplicate-kana:                false;   /* Replace kana-only word with its reading */
   --blur-nsfw-picture:                true;    /* Blur picture on NSFW cards */
   --mute-nsfw-audio:                  false;   /* Mute sentence audio on NSFW cards */
 
@@ -41,7 +41,7 @@
 
   /* Component Visibility (Card Size ≤ 1050px) */
   --main-bg-1050-visibility:          1; /* "0" to disable main bg */
-  --main-bg-shadow-1050-visibility:   0; /* "1" to enable main bg */
+  --main-bg-shadow-1050-visibility:   0; /* "1" to enable box shadow on cards */
   --custom-dm-header-visibility:      1; /* "0" to hide custom dark mode toggle */
   --audio-header-visibility:          1; /* "0" to hide audio button */
   --freq-header-visibility:           1; /* "0" to hide frequency */
@@ -106,10 +106,11 @@
 
   /* PITCH ACCENT SETTINGS
   ============================================ */
-  --pitch-style:                      default; /* "alt" to change */
-  --sentence-pitch-highlight:         false;   /* "true" to enable */
-  --kanji-hover-pitch-highlight:      false;   /* "true" to enable */
-  --pitch-colors:                     true;    /* "false" to disable */
+  --pitch-style:                      default; /* "alt" to color the entire word + reading instead of only the downstep */
+  --pitch-colors:                     true;    /* "false" to disable pitch downstep coloring */
+  --sentence-pitch-highlight:         false;   /* "true" to make pitch colors overwrite sentence highlights */
+  --kanji-hover-pitch-colors:         true;    /* "false" to disable pitch downstep coloring in Kanji Hover */
+  --kanji-hover-pitch-highlight:      true;    /* "false" to make pitch colors stop overwriting word + sentence highlights in Kanji Hover */
   --only-kana-pitch-size:             0.08em;  /* Border thickness for kana-only words */
 
 
@@ -140,18 +141,16 @@
   ================================================================================== */ 
 
 
-  /* Shortcuts
+  /* SHORTCUTS
   ============================================ */
   --scene-replay-shortcut-key:        f; /* Set your custom replay key for cards with multiple scenes key here */
 
 
   /* COLOR PALETTE
   ============================================ */
-  ============================================ */
   /* Light Theme
   -------------------------------------------- */
   /* Text Colors */
-  --light-text:                       black;
   --light-devoiced-color:             RoyalBlue;
   --light-highlight:                  #E20033;
   --freq-text-light:                  rgba(105, 105, 105, 0.3);
@@ -169,7 +168,6 @@
   --svg-hover-light:                  white; 
 
   /* Background Colors */
-  --light-bg:                         white;
   --card-bg-light:                    rgba(255, 255, 255, 0.4);
   --card-shadow-light:                0 10px 25px rgba(0, 0, 0, 0.1), 0 5px 10px rgba(0, 0, 0, 0.05);
   --word-bg-light:                    rgba(0, 0, 0, 0.03);
@@ -190,7 +188,6 @@
   /* Dark Theme
   -------------------------------------------- */
   /* Text Colors */
-  --dark-text:                        white;
   --dark-devoiced-color:              cornflowerBlue;
   --dark-highlight:                   #FCFF61;
   --freq-text:                        rgba(255, 255, 255, 0.2);
@@ -208,7 +205,6 @@
   --svg-hover:                        white; 
 
   /* Background Colors */
-  --dark-bg:                          black;
   --card-bg:                          rgba(0, 0, 0, 0.4);
   --card-shadow:                      0 10px 25px rgba(0, 0, 0, 0.5), 0 5px 10px rgba(0, 0, 0, 0.3);
   --word-bg:                          rgba(0, 0, 0, 0.3);
@@ -454,12 +450,12 @@
 :is(html.custom-dark-mode .card)
 :is(#wordAudio, #sentenceAudio):hover {
   box-shadow: var(--button-shadow-dark);
-  background: var(--light-bg) !important;
+  background: white !important;
 }
 
 html.custom-dark-mode .card 
 :is(#wordAudio, #sentenceAudio):hover .playImage path {
-  fill: var(--light-text) !important; 
+  fill: black !important; 
 }
 
 #wordAudio circle, #sentenceAudio circle {
@@ -536,8 +532,8 @@ ul, ol {
 
 /* Custom Dark Mode */
 .custom-dark-mode body {
-  background: var(--dark-bg);
-  color: var(--dark-text);
+  background: black;
+  color: white;
 }
 
 /* Audio Hint Toggle */
@@ -582,8 +578,8 @@ ul, ol {
 
 .custom-dark-mode .audio-hint:hover {
   box-shadow: var(--button-shadow-dark) !important;
-  background: var(--light-bg) !important;
-  color: var(--light-text) !important;
+  background: white !important;
+  color: black !important;
 }
 
 /* Dark Mode Toggle */
@@ -628,8 +624,8 @@ ul, ol {
 
 .custom-dark-mode .toggle-custom-dark-mode.dark-mode:hover {
   box-shadow: var(--button-shadow-dark);
-  background: var(--light-bg);
-  color: var(--light-text);
+  background: white;
+  color: black;
 }
 
 /* Word + Grid Settings */
@@ -922,7 +918,7 @@ img {
 }
 
 .lightbox-grid-toggle:hover {
-  color: var(--dark-text);
+  color: white;
   background: rgba(0,0,0,0.7);
   border: none;
 }
@@ -1258,8 +1254,8 @@ html.custom-dark-mode .card
 .audio:hover .playImage path,
 .sentenceaudio:hover .playImage path) {
   box-shadow: var(--button-shadow-dark);
-  background: var(--light-bg) !important;
-  fill: var(--light-text) !important;
+  background: white !important;
+  fill: black !important;
 }
 
 .audio circle, .sentenceaudio circle {
@@ -1383,7 +1379,7 @@ html.custom-dark-mode .card
 
 .custom-dark-mode .toggle-notes:hover {
   box-shadow: var(--button-shadow-dark);
-  background-color: var(--light-bg) !important;
+  background-color: white !important;
 }
 
 .toggle-notes:hover .toggle-notes-svg {
@@ -1395,98 +1391,100 @@ html.custom-dark-mode .card
 }
 
 .custom-dark-mode .toggle-notes:hover .toggle-notes-svg {
-  background-color: var(--light-text) !important;
+  background-color: black !important;
 }
 
 /* Pitch Accent Colors */
-.pitch .heiban span[style*="border-color:currentColor"],
-.pitch-number.heiban,
-#word.alt .heiban,
-#formattedSentence.alt-highlight.heiban .highlight,
-#formattedSentence.alt-highlight.heiban b { 
-  color: var(--pitch-blue-light); 
-}
+@container style(--pitch-colors: true) {
+  .pitch .heiban span[style*="border-color:currentColor"],
+  .pitch-number.heiban,
+  #word.alt .heiban,
+  #formattedSentence.alt-highlight.heiban .highlight,
+  #formattedSentence.alt-highlight.heiban b { 
+    color: var(--pitch-blue-light); 
+  }
 
-:is(.card.nightMode, .custom-dark-mode) 
-:is(.pitch .heiban span[style*="border-color:currentColor"],
-.pitch-number.heiban,
-#word.alt .heiban,
-#formattedSentence.alt-highlight.heiban .highlight,
-#formattedSentence.alt-highlight.heiban b) { 
-  color: var(--pitch-blue); 
-}
+  :is(.card.nightMode, .custom-dark-mode) 
+  :is(.pitch .heiban span[style*="border-color:currentColor"],
+  .pitch-number.heiban,
+  #word.alt .heiban,
+  #formattedSentence.alt-highlight.heiban .highlight,
+  #formattedSentence.alt-highlight.heiban b) { 
+    color: var(--pitch-blue); 
+  }
 
-.pitch .atamadaka span[style*="border-color:currentColor"],
-.pitch-number.atamadaka,
-#word.alt .atamadaka,
-#formattedSentence.alt-highlight.atamadaka .highlight,
-#formattedSentence.alt-highlight.atamadaka b {
-  color: var(--pitch-red-light); 
-}
+  .pitch .atamadaka span[style*="border-color:currentColor"],
+  .pitch-number.atamadaka,
+  #word.alt .atamadaka,
+  #formattedSentence.alt-highlight.atamadaka .highlight,
+  #formattedSentence.alt-highlight.atamadaka b {
+    color: var(--pitch-red-light); 
+  }
 
-:is(.card.nightMode, .custom-dark-mode) 
-:is(.pitch .atamadaka span[style*="border-color:currentColor"],
-.pitch-number.atamadaka,
-#word.alt .atamadaka,
-#formattedSentence.alt-highlight.atamadaka .highlight,
-#formattedSentence.alt-highlight.atamadaka b) {
-  color: var(--pitch-red); 
-}
+  :is(.card.nightMode, .custom-dark-mode) 
+  :is(.pitch .atamadaka span[style*="border-color:currentColor"],
+  .pitch-number.atamadaka,
+  #word.alt .atamadaka,
+  #formattedSentence.alt-highlight.atamadaka .highlight,
+  #formattedSentence.alt-highlight.atamadaka b) {
+    color: var(--pitch-red); 
+  }
 
-.pitch .nakadaka span[style*="border-color:currentColor"],
-.pitch-number.nakadaka,
-#word.alt .nakadaka,
-#formattedSentence.alt-highlight.nakadaka .highlight,
-#formattedSentence.alt-highlight.nakadaka b { 
-  color: var(--pitch-orange-light); 
-}
+  .pitch .nakadaka span[style*="border-color:currentColor"],
+  .pitch-number.nakadaka,
+  #word.alt .nakadaka,
+  #formattedSentence.alt-highlight.nakadaka .highlight,
+  #formattedSentence.alt-highlight.nakadaka b { 
+    color: var(--pitch-orange-light); 
+  }
 
-:is(.card.nightMode, .custom-dark-mode) 
-:is(.pitch .nakadaka span[style*="border-color:currentColor"],
-.pitch-number.nakadaka,
-#word.alt .nakadaka,
-#formattedSentence.alt-highlight.nakadaka .highlight,
-#formattedSentence.alt-highlight.nakadaka b) { 
-  color: var(--pitch-orange); 
-}
+  :is(.card.nightMode, .custom-dark-mode) 
+  :is(.pitch .nakadaka span[style*="border-color:currentColor"],
+  .pitch-number.nakadaka,
+  #word.alt .nakadaka,
+  #formattedSentence.alt-highlight.nakadaka .highlight,
+  #formattedSentence.alt-highlight.nakadaka b) { 
+    color: var(--pitch-orange); 
+  }
 
-.pitch .odaka span[style*="border-color:currentColor"],
-.pitch-number.odaka,
-#word.alt .odaka,
-#formattedSentence.alt-highlight.odaka .highlight, 
-#formattedSentence.alt-highlight.odaka b { 
-  color: var(--pitch-green-light); 
-}
+  .pitch .odaka span[style*="border-color:currentColor"],
+  .pitch-number.odaka,
+  #word.alt .odaka,
+  #formattedSentence.alt-highlight.odaka .highlight, 
+  #formattedSentence.alt-highlight.odaka b { 
+    color: var(--pitch-green-light); 
+  }
 
-:is(.card.nightMode, .custom-dark-mode) 
-:is(.pitch .odaka span[style*="border-color:currentColor"],
-.pitch-number.odaka,
-#word.alt .odaka,
-#formattedSentence.alt-highlight.odaka .highlight, 
-#formattedSentence.alt-highlight.odaka b) { 
-  color: var(--pitch-green); 
-}
+  :is(.card.nightMode, .custom-dark-mode) 
+  :is(.pitch .odaka span[style*="border-color:currentColor"],
+  .pitch-number.odaka,
+  #word.alt .odaka,
+  #formattedSentence.alt-highlight.odaka .highlight, 
+  #formattedSentence.alt-highlight.odaka b) { 
+    color: var(--pitch-green); 
+  }
 
-.pitch .kifuku span[style*="border-color:currentColor"],
-.pitch-number.kifuku,
-#word.alt .kifuku,
-#formattedSentence.alt-highlight.kifuku .highlight,
-#formattedSentence.alt-highlight.kifuku b { 
-  color: var(--pitch-purple-light); 
-}
+  .pitch .kifuku span[style*="border-color:currentColor"],
+  .pitch-number.kifuku,
+  #word.alt .kifuku,
+  #formattedSentence.alt-highlight.kifuku .highlight,
+  #formattedSentence.alt-highlight.kifuku b { 
+    color: var(--pitch-purple-light); 
+  }
 
-:is(.card.nightMode, .custom-dark-mode) 
-:is(.pitch .kifuku span[style*="border-color:currentColor"],
-.pitch-number.kifuku,
-#word.alt .kifuku,
-#formattedSentence.alt-highlight.kifuku .highlight,
-#formattedSentence.alt-highlight.kifuku b) { 
-  color: var(--pitch-purple); 
-}
+  :is(.card.nightMode, .custom-dark-mode) 
+  :is(.pitch .kifuku span[style*="border-color:currentColor"],
+  .pitch-number.kifuku,
+  #word.alt .kifuku,
+  #formattedSentence.alt-highlight.kifuku .highlight,
+  #formattedSentence.alt-highlight.kifuku b) { 
+    color: var(--pitch-purple); 
+  }
 
-#word.alt > :is(.heiban, .atamadaka, .nakadaka, .odaka, .kifuku) .pronunciation {
-  --pronunciation-annotation-color: var(--active-pitch-color);
-  color: var(--active-pitch-color);
+  #word.alt > :is(.heiban, .atamadaka, .nakadaka, .odaka, .kifuku) .pronunciation {
+    --pronunciation-annotation-color: var(--active-pitch-color);
+    color: var(--active-pitch-color);
+  }
 }
 
 /* Pitch Accent Colors (Disabled) */
@@ -1618,7 +1616,7 @@ span[style*="display:inline"]:has(+ span[style*="border:1.5px dotted #c83c28"]) 
 #position {
   font-family: var(--sans);
   font-weight: bold;
-  color: var(--dark-text);
+  color: white;
   position: absolute;
   top: 0;
   left: 100%;
@@ -1990,7 +1988,7 @@ span[data-sc-content="example-keyword"], span[style*="color-mix(in srgb, lime"] 
   padding: 0.2em 0.3em;
   vertical-align: text-bottom;
   word-break: keep-all;
-  color: var(--dark-text);
+  color: white;
 }
 
 #selectionText {
@@ -2669,21 +2667,21 @@ li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br)
 }
 
 .frequency-box:hover .freqbt {
-  color: var(--light-text);
-  text-shadow: 0 0 5px var(--light-bg);
+  color: black;
+  text-shadow: 0 0 5px white;
 }
 
 :is(.card.nightMode, .custom-dark-mode) 
 .frequency-box:hover .freqbt {
-  color: var(--dark-text);
-  text-shadow: 0 0 5px var(--dark-bg);
+  color: white;
+  text-shadow: 0 0 5px black;
 }
 
 .frequency-content {
   opacity: 0;
   max-height: 0;
   padding: 0 var(--spacing-lg);
-  color: var(--light-text);
+  color: black;
   background: var(--frequency-bg-light);
   border-radius: var(--border-radius-ms);
   font-size: var(--frequency-content-size);
@@ -2696,7 +2694,7 @@ li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br)
 
 :is(.card.nightMode, .custom-dark-mode) 
 .frequency-content {
-  color: var(--dark-text);
+  color: white;
   background: var(--frequency-bg);
 }
 
@@ -3004,7 +3002,7 @@ li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br)
 :is(.card.nightMode, .custom-dark-mode) 
 .show-more-btn {
   background: rgba(255,255,255,0.02); 
-  color: var(--dark-text);
+  color: white;
 }
 
 :is(.card.nightMode, .custom-dark-mode) 
@@ -3156,18 +3154,199 @@ li.is-new-card:not(:hover) .related-word {
   color: var(--dark-highlight);
 }
 
-@container style(--kanji-hover-pitch-highlight: true) {
-  li.heiban     { --light-highlight: var(--pitch-blue-light) !important; }
-  li.atamadaka  { --light-highlight: var(--pitch-red-light) !important; }
-  li.nakadaka   { --light-highlight: var(--pitch-orange-light) !important; }
-  li.odaka      { --light-highlight: var(--pitch-green-light) !important; }
-  li.kifuku     { --light-highlight: var(--pitch-purple-light) !important; }
+@container style(--kanji-hover-pitch-colors: false) {
+  #kanji-tooltip .pitch-info.heiban span[style*="border-color:currentColor"],
+  #kanji-tooltip .pitch-number.heiban {
+    color: var(--light-highlight); 
+  }
 
-  :is(.card.nightMode, .custom-dark-mode) li.heiban    { --dark-highlight: var(--pitch-blue) !important; }
-  :is(.card.nightMode, .custom-dark-mode) li.atamadaka { --dark-highlight: var(--pitch-red) !important; }
-  :is(.card.nightMode, .custom-dark-mode) li.nakadaka  { --dark-highlight: var(--pitch-orange) !important; }
-  :is(.card.nightMode, .custom-dark-mode) li.odaka     { --dark-highlight: var(--pitch-green) !important; }
-  :is(.card.nightMode, .custom-dark-mode) li.kifuku    { --dark-highlight: var(--pitch-purple) !important; }
+  :is(.card.nightMode, .custom-dark-mode) #kanji-tooltip :is(
+    .pitch-info.heiban span[style*="border-color:currentColor"],
+    .pitch-number.heiban
+  ) { 
+    color: var(--dark-highlight); 
+  }
+
+  #kanji-tooltip .pitch-info.atamadaka span[style*="border-color:currentColor"],
+  #kanji-tooltip .pitch-number.atamadaka {
+    color: var(--light-highlight); 
+  }
+
+  :is(.card.nightMode, .custom-dark-mode) #kanji-tooltip :is(
+    .pitch-info.atamadaka span[style*="border-color:currentColor"],
+    .pitch-number.atamadaka
+  ) {
+    color: var(--dark-highlight); 
+  }
+
+  #kanji-tooltip .pitch-info.nakadaka span[style*="border-color:currentColor"],
+  #kanji-tooltip .pitch-number.nakadaka { 
+    color: var(--light-highlight); 
+  }
+
+  :is(.card.nightMode, .custom-dark-mode) #kanji-tooltip :is(
+    .pitch-info.nakadaka span[style*="border-color:currentColor"],
+    .pitch-number.nakadaka
+  ) { 
+    color: var(--dark-highlight); 
+  }
+
+  #kanji-tooltip .pitch-info.odaka span[style*="border-color:currentColor"],
+  #kanji-tooltip .pitch-number.odaka { 
+    color: var(--light-highlight); 
+  }
+
+  :is(.card.nightMode, .custom-dark-mode) #kanji-tooltip :is(
+    .pitch-info.odaka span[style*="border-color:currentColor"],
+    .pitch-number.odaka
+  ) { 
+    color: var(--dark-highlight); 
+  }
+
+  #kanji-tooltip .pitch-info.kifuku span[style*="border-color:currentColor"],
+  #kanji-tooltip .pitch-number.kifuku { 
+    color: var(--light-highlight); 
+  }
+
+  :is(.card.nightMode, .custom-dark-mode) #kanji-tooltip :is(
+    .pitch-info.kifuku span[style*="border-color:currentColor"],
+    .pitch-number.kifuku
+  ) { 
+    color: var(--dark-highlight); 
+  }
+
+  #kanji-tooltip .pronunciation.heiban { --pronunciation-annotation-color: var(--light-highlight); }
+  #kanji-tooltip .pronunciation.atamadaka { --pronunciation-annotation-color: var(--light-highlight); }
+  #kanji-tooltip .pronunciation.nakadaka { --pronunciation-annotation-color: var(--light-highlight); }
+  #kanji-tooltip .pronunciation.odaka { --pronunciation-annotation-color: var(--light-highlight); }
+  #kanji-tooltip .pronunciation.kifuku { --pronunciation-annotation-color: var(--light-highlight); }
+
+  :is(.card.nightMode, .custom-dark-mode) #kanji-tooltip .pronunciation.heiban { --pronunciation-annotation-color: var(--dark-highlight); }
+  :is(.card.nightMode, .custom-dark-mode) #kanji-tooltip .pronunciation.atamadaka { --pronunciation-annotation-color: var(--dark-highlight); }
+  :is(.card.nightMode, .custom-dark-mode) #kanji-tooltip .pronunciation.nakadaka { --pronunciation-annotation-color: var(--dark-highlight); }
+  :is(.card.nightMode, .custom-dark-mode) #kanji-tooltip .pronunciation.odaka { --pronunciation-annotation-color: var(--dark-highlight); }
+  :is(.card.nightMode, .custom-dark-mode) #kanji-tooltip .pronunciation.kifuku { --pronunciation-annotation-color: var(--dark-highlight); }
+}
+
+@container style(--kanji-hover-pitch-colors: true) {
+  #kanji-tooltip .pitch-info.heiban span[style*="border-color:currentColor"],
+  #kanji-tooltip .pitch-number.heiban {
+    color: var(--pitch-blue-light); 
+  }
+
+  :is(.card.nightMode, .custom-dark-mode) #kanji-tooltip :is(
+    .pitch-info.heiban span[style*="border-color:currentColor"],
+    .pitch-number.heiban
+  ) { 
+    color: var(--pitch-blue); 
+  }
+
+  #kanji-tooltip .pitch-info.atamadaka span[style*="border-color:currentColor"],
+  #kanji-tooltip .pitch-number.atamadaka {
+    color: var(--pitch-red-light); 
+  }
+
+  :is(.card.nightMode, .custom-dark-mode) #kanji-tooltip :is(
+    .pitch-info.atamadaka span[style*="border-color:currentColor"],
+    .pitch-number.atamadaka
+  ) {
+    color: var(--pitch-red); 
+  }
+
+  #kanji-tooltip .pitch-info.nakadaka span[style*="border-color:currentColor"],
+  #kanji-tooltip .pitch-number.nakadaka { 
+    color: var(--pitch-orange-light); 
+  }
+
+  :is(.card.nightMode, .custom-dark-mode) #kanji-tooltip :is(
+    .pitch-info.nakadaka span[style*="border-color:currentColor"]
+    li.nakadaka .related-sentence .highlight
+  ) { 
+    color: var(--pitch-orange); 
+  }
+
+  #kanji-tooltip .pitch-info.odaka span[style*="border-color:currentColor"],
+  #kanji-tooltip .pitch-number.odaka { 
+    color: var(--pitch-green-light); 
+  }
+
+  :is(.card.nightMode, .custom-dark-mode) #kanji-tooltip :is(
+    .pitch-info.odaka span[style*="border-color:currentColor"],
+    .pitch-number.odaka
+  ) { 
+    color: var(--pitch-green); 
+  }
+
+  #kanji-tooltip .pitch-info.kifuku span[style*="border-color:currentColor"],
+  #kanji-tooltip .pitch-number.kifuku { 
+    color: var(--pitch-purple-light); 
+  }
+
+  :is(.card.nightMode, .custom-dark-mode) #kanji-tooltip :is(
+    .pitch-info.kifuku span[style*="border-color:currentColor"],
+    .pitch-number.kifuku
+  ) { 
+    color: var(--pitch-purple); 
+  }
+
+  #kanji-tooltip .pronunciation.heiban { --pronunciation-annotation-color: var(--pitch-blue-light); }
+  #kanji-tooltip .pronunciation.atamadaka { --pronunciation-annotation-color: var(--pitch-red-light); }
+  #kanji-tooltip .pronunciation.nakadaka { --pronunciation-annotation-color: var(--pitch-orange-light); }
+  #kanji-tooltip .pronunciation.odaka { --pronunciation-annotation-color: var(--pitch-green-light); }
+  #kanji-tooltip .pronunciation.kifuku { --pronunciation-annotation-color: var(--pitch-purple-light); }
+
+  :is(.card.nightMode, .custom-dark-mode) #kanji-tooltip .pronunciation.heiban { --pronunciation-annotation-color: var(--pitch-blue); }
+  :is(.card.nightMode, .custom-dark-mode) #kanji-tooltip .pronunciation.atamadaka { --pronunciation-annotation-color: var(--pitch-red); }
+  :is(.card.nightMode, .custom-dark-mode) #kanji-tooltip .pronunciation.nakadaka { --pronunciation-annotation-color: var(--pitch-orange); }
+  :is(.card.nightMode, .custom-dark-mode) #kanji-tooltip .pronunciation.odaka { --pronunciation-annotation-color: var(--pitch-green); }
+  :is(.card.nightMode, .custom-dark-mode) #kanji-tooltip .pronunciation.kifuku { --pronunciation-annotation-color: var(--pitch-purple); }
+}
+
+@container style(--kanji-hover-pitch-highlight: false) {
+  #kanji-tooltip li :is(.kanji-highlight, .related-sentence .highlight) {
+    color: var(--light-highlight) !important;
+  }
+
+  :is(.card.nightMode, .custom-dark-mode) #kanji-tooltip li :is(.kanji-highlight, .related-sentence .highlight) {
+    color: var(--dark-highlight) !important;
+  }
+}
+
+@container style(--kanji-hover-pitch-highlight: true) {
+  #kanji-tooltip li.heiban :is(.kanji-highlight, .related-sentence .highlight) {
+    color: var(--pitch-blue-light) !important;
+  }
+  :is(.card.nightMode, .custom-dark-mode) #kanji-tooltip li.heiban :is(.kanji-highlight, .related-sentence .highlight) {
+    color: var(--pitch-blue) !important;
+  }
+
+  #kanji-tooltip li.atamadaka :is(.kanji-highlight, .related-sentence .highlight) {
+    color: var(--pitch-red-light) !important;
+  }
+  :is(.card.nightMode, .custom-dark-mode) #kanji-tooltip li.atamadaka :is(.kanji-highlight, .related-sentence .highlight) {
+    color: var(--pitch-red) !important;
+  }
+
+  #kanji-tooltip li.nakadaka :is(.kanji-highlight, .related-sentence .highlight) {
+    color: var(--pitch-orange-light) !important;
+  }
+  :is(.card.nightMode, .custom-dark-mode) #kanji-tooltip li.nakadaka :is(.kanji-highlight, .related-sentence .highlight) {
+    color: var(--pitch-orange) !important;
+  }
+
+  #kanji-tooltip li.odaka :is(.kanji-highlight, .related-sentence .highlight) {
+    color: var(--pitch-green-light) !important;
+  }
+  :is(.card.nightMode, .custom-dark-mode) #kanji-tooltip li.odaka :is(.kanji-highlight, .related-sentence .highlight) {
+    color: var(--pitch-green) !important;
+  }
+
+  #kanji-tooltip li.kifuku :is(.kanji-highlight, .related-sentence .highlight) {
+    color: var(--pitch-purple-light) !important;
+  }
+  :is(.card.nightMode, .custom-dark-mode) #kanji-tooltip li.kifuku :is(.kanji-highlight, .related-sentence .highlight) {
+    color: var(--pitch-purple) !important;
+  }
 }
 
 /* Responsive Design */
