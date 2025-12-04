@@ -16,7 +16,7 @@ Switch between immersive "Scenes" where the Sentence text, Audio, and Images are
 
     <img width="671" height="204" alt="image" src="https://github.com/user-attachments/assets/2f7a705f-ab9d-4f0d-a9b2-ad3a1e0a49e2" />
     
-- `sentenceEng` is also supported. However, you'll need to manually edit the field to group it correctly with each scene using `<span class="group">...</span>`.
+- `sentenceEng` and `miscInfo` are also supported. However, you'll need to manually edit the field to group it correctly with each scene using `<span class="group">...</span>`.
   - You can choose which scene it belongs to by numbering the group, e.g., `<span class="group2">...</span>`. This skips the first scene and groups it with the second.
   - If you have multiple scenes but only one `sentenceEng`, it will appear only in the first scene unless you assign it to a specific group as shown above.
   > It’s not necessary to number the groups if the number of translations is the same as the number of sentences.
@@ -27,5 +27,13 @@ Switch between immersive "Scenes" where the Sentence text, Audio, and Images are
   ```
   ![type:video](https://github.com/user-attachments/assets/ccc24115-a1f8-4c67-a8d1-cb7985887a8f)
 
+  - Other Example format:
+  ```html
+  <span class="group">Something you wanna try?</span><span class="group">Why don't we test it out?</span><span class="group">Don't you want to try it out?</span>
+  ```
+  ```html
+  <span class="group">My Dress-Up Darling • Season 2, Episode 5 • 0:17:53</span><span class="group">16bit Sensation: Another Layer • Season 1, Episode 13 • 0:16:21</span><span class="group">The Irregular at Magic High School • Season 1, Episode 11 • 0:21:58</span>
+  ```
+  ![Scene Switching](assets/images/scene_switching_preview.png)
 
 - **Auto-Detection:** Automatically detects if a card has multiple audio files. If found, it enables the Scene Navigation mode; otherwise, it defaults to standard behavior. Multiple sentences are not split if the card doesn’t contain at least 2 audio files.
