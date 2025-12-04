@@ -2383,10 +2383,9 @@
       return;
     }
 
+    // Sentence Group
     const sentenceContainer = document.querySelector('.sentence-container #formattedSentence');
-    
     if (sentenceContainer && !sentenceContainer.getAttribute('data-split-done')) {
-      
       const groupWrappers = Array.from(sentenceContainer.querySelectorAll('.group'))
                                 .filter(el => el.textContent.trim().length > 0);
 
@@ -2404,6 +2403,7 @@
       }
     }
 
+    // Sentence Eng Group
     const engContainer = document.getElementById('sentenceEng');
     if (engContainer && !engContainer.getAttribute('data-split-done')) {
       const allSpans = Array.from(engContainer.querySelectorAll('span'));
@@ -2431,8 +2431,38 @@
       }
     }
 
+    // Misc Info Group
+    const miscInfoContainer = document.querySelector('.misc-info'); 
+    
+    if (miscInfoContainer && !miscInfoContainer.getAttribute('data-split-done')) {
+      const allSpans = Array.from(miscInfoContainer.querySelectorAll('span'));
+      const groupWrappers = allSpans.filter(el => {
+         return el.className.split(/\s+/).some(c => /^group\d*$/.test(c));
+      });
+
+      if (groupWrappers.length > 0) {
+        miscInfoContainer.innerHTML = '';
+        
+        groupWrappers.forEach((el) => {
+          const div = document.createElement('div');
+          div.classList.add('split-misc-info');
+          div.innerHTML = el.outerHTML;
+          div.style.display = 'none';
+
+          const match = el.className.match(/group(\d+)/);
+          if (match) {
+             div.setAttribute('data-target-index', parseInt(match[1], 10) - 1);
+          }
+
+          miscInfoContainer.appendChild(div);
+        });
+        miscInfoContainer.setAttribute('data-split-done', 'true');
+      }
+    }
+
     const sentenceParts = document.querySelectorAll('.sentence-container #formattedSentence .split-sentence');
     const engParts = document.querySelectorAll('#sentenceEng .split-sentence-eng'); 
+    const miscInfoParts = document.querySelectorAll('.misc-info .split-misc-info'); 
     const images = document.querySelectorAll('.picture-container img.field-img');
 
     let totalSlides = 1;
@@ -2517,8 +2547,48 @@
         });
       }
 
-      const mainEngContainer = document.getElementById('sentenceEng');
 
+      const mainMiscContainer = document.querySelector('.misc-info');
+      if (miscInfoParts.length > 0) {
+        let isAnyChildVisible = false;
+
+        miscInfoParts.forEach((part, i) => {
+          let shouldShow = false;
+
+          if (part.hasAttribute('data-target-index')) {
+             const targetIndex = parseInt(part.getAttribute('data-target-index'), 10);
+             shouldShow = (targetIndex === currentIndex);
+          } 
+          else {
+             if (miscInfoParts.length === 1) {
+                 shouldShow = (currentIndex === 0);
+             } else {
+                 shouldShow = (i === currentIndex);
+             }
+          }
+
+          if (shouldShow) {
+              part.style.setProperty('display', 'flex', 'important');
+              isAnyChildVisible = true;
+          } else {
+              part.style.setProperty('display', 'none', 'important');
+          }
+        });
+
+        if (mainMiscContainer) {
+            const displayValue = isAnyChildVisible ? 'flex' : 'none';
+            mainMiscContainer.style.setProperty('display', displayValue, 'important');
+        }
+
+      } else if (mainMiscContainer) {
+        if (currentIndex === 0) {
+            mainMiscContainer.style.setProperty('display', 'flex', 'important');
+        } else {
+            mainMiscContainer.style.setProperty('display', 'none', 'important');
+        }
+      }
+
+      const mainEngContainer = document.getElementById('sentenceEng');
       if (engParts.length > 0) {
         engParts.forEach((part, i) => {
           let shouldShow = false;
