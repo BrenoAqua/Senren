@@ -163,6 +163,36 @@
     }
   }
 
+  // Shows or hides the word card sentence based on CSS variables
+  function initializeSentenceState() {
+    const wrapper = document.getElementById('sentence-wrapper');
+    const innerElement = document.getElementById('sentence');
+
+    if (wrapper && innerElement) {
+      const expandByDefault = getComputedStyle(document.documentElement)
+                              .getPropertyValue('--word-sentence-default-expanded').trim();
+
+      if (expandByDefault === 'true') {
+        const originalWrapperTransition = wrapper.style.transition;
+        const originalInnerElementTransition = innerElement.style.transition;
+
+        wrapper.style.transition = 'none';
+        innerElement.style.transition = 'none';
+
+        requestAnimationFrame(() => {
+            const scrollHeight = innerElement.scrollHeight + 'px';
+            wrapper.style.maxHeight = scrollHeight;
+            wrapper.classList.add('expanded');
+
+            requestAnimationFrame(() => {
+                wrapper.style.transition = originalWrapperTransition;
+                innerElement.style.transition = originalInnerElementTransition;
+            });
+        });
+      }
+    }
+  }
+
   // Groups text and audio into navigable scenes
   function enableFrontSceneSwitching() {
     let initialPlayTimeout;
