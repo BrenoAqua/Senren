@@ -2254,7 +2254,38 @@
     }
 
     const baseWaitTime = 100;  
-    const timePerChar = 200;  
+    const timePerChar = 150;  
+
+    const wordEl = document.getElementById('word');
+    let charCount = 5;
+
+    if (wordEl) {
+      const rt = wordEl.querySelector('rt');
+    
+      if (rt) {
+        const innerItem = rt.querySelector('li');
+        const targetElement = innerItem || rt;
+        
+        charCount = targetElement.textContent
+          .replace(/[\s\u3099\u309A\u309B\u309C]/g, '')
+          .replace(/[ぁぃぅぇぉゃゅょゎァィゥェォャュョヮ]/g, '')
+          .length;
+            
+      } else {
+        charCount = wordEl.textContent.replace(/\s+/g, '').length;
+      }
+    }
+
+    let SENTENCE_DELAY;
+
+    if (charCount === 2) SENTENCE_DELAY = 600; 
+    else if (charCount === 3) SENTENCE_DELAY = 550;
+    else if (charCount === 4) SENTENCE_DELAY = 700;
+    else if (charCount === 5) SENTENCE_DELAY = 850;
+    else if (charCount === 6) SENTENCE_DELAY = 1000;
+    else if (charCount === 7) SENTENCE_DELAY = 1080; 
+    else if (charCount === 8) SENTENCE_DELAY = 1150; 
+    else SENTENCE_DELAY = baseWaitTime + (charCount * timePerChar);
 
     let initialPlayTimeout;
 
@@ -2296,10 +2327,41 @@
       }
     }
 
+    const engContainer = document.getElementById('sentenceEng');
+    if (engContainer && !engContainer.getAttribute('data-split-done')) {
+      const allSpans = Array.from(engContainer.querySelectorAll('span'));
+      const groupWrappers = allSpans.filter(el => {
+         return el.className.split(/\s+/).some(c => /^group\d*$/.test(c));
+      });
+
+      if (groupWrappers.length > 0) {
+        engContainer.innerHTML = '';
+        
+        groupWrappers.forEach((el) => {
+          const div = document.createElement('div');
+          div.classList.add('split-sentence-eng');
+          div.innerHTML = el.outerHTML;
+          div.style.display = 'none';
+
+          const match = el.className.match(/group(\d+)/);
+          if (match) {
+             div.setAttribute('data-target-index', parseInt(match[1], 10) - 1);
+          }
+
+          engContainer.appendChild(div);
+        });
+        engContainer.setAttribute('data-split-done', 'true');
+      }
+    }
+
     const sentenceParts = document.querySelectorAll('.sentence-container #formattedSentence .split-sentence');
+    const engParts = document.querySelectorAll('#sentenceEng .split-sentence-eng'); 
     const images = document.querySelectorAll('.picture-container img.field-img');
 
-    const totalSlides = Math.max(images.length, sentenceParts.length, audioParts.length);
+    let totalSlides = 1;
+    if (audioParts.length > 0) {
+        totalSlides = audioParts.length;
+    }
 
     let currentIndex = 0;
 
@@ -2321,6 +2383,35 @@
         audioToPlay.click();
       }
     }
+
+    document.addEventListener('keydown', (e) => {
+        if (document.activeElement && ['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
+
+        const cssKey = getComputedStyle(document.documentElement)
+            .getPropertyValue('--replay-shortcut-key')
+            .trim()
+            .toLowerCase();
+
+        const targetKey = cssKey || 'f';
+
+        if (e.key.toLowerCase() === targetKey) { 
+            e.preventDefault();
+            e.stopPropagation();
+
+            document.querySelectorAll('audio').forEach(a => {
+                try { a.pause(); a.currentTime = 0; } catch(e){}
+            });
+
+            const wordAudioBtn = document.querySelector('.audio .soundLink, .audio .replaybutton');
+            if (wordAudioBtn) {
+                wordAudioBtn.click();
+            }
+
+            setTimeout(() => {
+                playActiveAudio(); 
+            }, SENTENCE_DELAY);
+        }
+    });
 
     function updateDisplay(shouldPlayAudio = false) {
       const currentFieldImages = document.querySelectorAll('.picture-container img');
@@ -2347,6 +2438,33 @@
           const shouldShow = (sentenceParts.length === 1) || (i === currentIndex);
           part.style.display = shouldShow ? 'block' : 'none';
         });
+      }
+
+      const mainEngContainer = document.getElementById('sentenceEng');
+
+      if (engParts.length > 0) {
+        engParts.forEach((part, i) => {
+          let shouldShow = false;
+
+          if (part.hasAttribute('data-target-index')) {
+             const targetIndex = parseInt(part.getAttribute('data-target-index'), 10);
+             shouldShow = (targetIndex === currentIndex);
+          } 
+          else {
+             if (engParts.length === 1) {
+                 shouldShow = (currentIndex === 0);
+             } else {
+                 shouldShow = (i === currentIndex);
+             }
+          }
+
+          part.style.display = shouldShow ? 'flex' : 'none';
+        });
+
+        if (mainEngContainer) mainEngContainer.style.display = 'flex';
+
+      } else if (mainEngContainer) {
+        mainEngContainer.style.display = (currentIndex === 0) ? 'flex' : 'none';
       }
 
       if (audioParts.length > 0) {
@@ -2386,32 +2504,6 @@
     });
     
     updateDisplay(false); 
-
-    const wordEl = document.getElementById('word');
-    let charCount = 5;
-
-    if (wordEl) {
-      const ruby = wordEl.querySelector('ruby');
-      if (ruby) {
-        const clone = ruby.cloneNode(true);
-        clone.querySelectorAll('rt').forEach(rt => rt.remove());
-        charCount = clone.textContent.replace(/\s+/g, '').length;
-      } else {
-        charCount = wordEl.textContent.replace(/\s+/g, '').length;
-      }
-    }
-
-    let SENTENCE_DELAY;
-
-    if (charCount >= 6) {
-       SENTENCE_DELAY = 1100; 
-    } else if (charCount === 5) {
-       SENTENCE_DELAY = 925;
-    } else if (charCount === 2) {
-       SENTENCE_DELAY = 600;
-    } else {
-       SENTENCE_DELAY = baseWaitTime + (charCount * timePerChar);
-    }
 
     const muteNsfw = getComputedStyle(document.documentElement)
       .getPropertyValue('--mute-nsfw-audio')
