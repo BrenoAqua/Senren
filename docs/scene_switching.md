@@ -2,7 +2,7 @@
 
 ![type:video](assets/Scene_Switching_Preview.mp4)
 
-Switch between immersive "Scenes" where the Sentence text, Audio, and Images are synchronized.
+Switch between immersive "Scenes" where the Sentences, Audio, Images and Misc Info are synchronized.
 
 - **Grouped Navigation:** Supports splitting sentences into segments using `<span class="group">...</span>` tags in the Anki field.
 - To use this feature, update the `sentence` and `sentenceFurigana` fields in Yomitan’s "**Configure Anki flashcards…**" settings:
@@ -37,7 +37,7 @@ Switch between immersive "Scenes" where the Sentence text, Audio, and Images are
   ![Scene Switching](assets/images/scene_switching_preview.gif)
 
 - **Auto-Detection:** Automatically detects if a card has multiple audio files. If found, it enables the Scene Navigation mode; otherwise, it defaults to standard behavior. Multiple sentences are not split if the card doesn’t contain at least 2 audio files.
-- **Custom Audio Replay Shortcut:** By default, Anki plays every audio file when you press **R**. This custom shortcut plays only the audios for the active scene. The default key is **W**, and you can remap it in the CSS variable:
+- **Custom Audio Replay Shortcut:** By default, Anki plays every audio file when you press **R**. This custom shortcut plays only the audio for the active scene. The default key is **W**, and you can remap it in the CSS variable:
   ```css
   --scene-replay-shortcut-key: w; 
   ```
