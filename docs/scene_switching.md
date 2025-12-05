@@ -37,3 +37,7 @@ Switch between immersive "Scenes" where the Sentence text, Audio, and Images are
   ![Scene Switching](assets/images/scene_switching_preview.gif)
 
 - **Auto-Detection:** Automatically detects if a card has multiple audio files. If found, it enables the Scene Navigation mode; otherwise, it defaults to standard behavior. Multiple sentences are not split if the card doesn’t contain at least 2 audio files.
+- **Custom Audio Replay Shortcut:** By default, Anki plays every audio file when you press **R**. This custom shortcut plays only the audios for the active scene. The default key is **W**, and you can remap it in the CSS variable:
+  ```css
+  --scene-replay-shortcut-key: w; 
+  ```
