@@ -11,6 +11,7 @@ Switch between immersive "Scenes" where the Sentences, Audio, Images and Misc In
 
   - Set `sentence` to: `<span class="group">{cloze-prefix}<span class="highlight">{cloze-body}</span>{cloze-suffix}</span>`
   - Set `sentenceFurigana` to: `<span class="group">{sentence-furigana}</span>`
+    
     Make sure **Append** is enabled so you can add new sentences instead of overwriting the first one.
     To do this, turn on “**Allow Overwriting**”:
 
