@@ -2323,6 +2323,11 @@
 
   // Groups text, audio, and images into navigable scenes
   function enableSceneSwitching() {
+    if (window.currentSceneKeyHandler) {
+      document.removeEventListener('keydown', window.currentSceneKeyHandler);
+      window.currentSceneKeyHandler = null;
+    }
+
     const audioContainer = document.querySelector('.sentenceaudio');
     const audioParts = audioContainer ? Array.from(audioContainer.children) : [];
 
@@ -2355,7 +2360,7 @@
 
     let SENTENCE_DELAY;
 
-    if (charCount === 2) SENTENCE_DELAY = 600; 
+    if (charCount === 2) SENTENCE_DELAY = 500; 
     else if (charCount === 3) SENTENCE_DELAY = 550;
     else if (charCount === 4) SENTENCE_DELAY = 700;
     else if (charCount === 5) SENTENCE_DELAY = 850;
@@ -2491,19 +2496,24 @@
       }
     }
 
-    document.addEventListener('keydown', (e) => {
+    let replayTimeout; 
+
+    const handleReplayKey = (e) => {
         if (document.activeElement && ['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
 
         const cssKey = getComputedStyle(document.documentElement)
-            .getPropertyValue('--replay-shortcut-key')
+            .getPropertyValue('--scene-replay-shortcut-key')
             .trim()
             .toLowerCase();
 
-        const targetKey = cssKey || 'f';
+        const targetKey = cssKey || 'w';
 
         if (e.key.toLowerCase() === targetKey) { 
             e.preventDefault();
             e.stopPropagation();
+
+            if (replayTimeout) clearTimeout(replayTimeout);
+            if (typeof initialPlayTimeout !== 'undefined') clearTimeout(initialPlayTimeout);
 
             document.querySelectorAll('audio').forEach(a => {
                 try { a.pause(); a.currentTime = 0; } catch(e){}
@@ -2514,11 +2524,14 @@
                 wordAudioBtn.click();
             }
 
-            setTimeout(() => {
+            replayTimeout = setTimeout(() => {
                 playActiveAudio(); 
             }, SENTENCE_DELAY);
         }
-    });
+    };
+
+    window.currentSceneKeyHandler = handleReplayKey;
+    document.addEventListener('keydown', handleReplayKey);
 
     function updateDisplay(shouldPlayAudio = false) {
       const currentFieldImages = document.querySelectorAll('.picture-container img');
