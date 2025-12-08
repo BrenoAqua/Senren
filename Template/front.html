@@ -313,17 +313,34 @@
     const timePerChar = 150;  
     
     const readingEl = document.getElementById('hiddenReading');
-    const targetEl = readingEl.querySelector('li') || readingEl;
+    let charCount = 5;
 
-    const charCount = (targetEl.textContent || "")
-        .replace(/[\s\u3099\u309A\u309B\u309C]/g, '') 
-        .replace(/[ぁぃぅぇぉゃゅょゎァィゥェォャュョヮ]/g, '') 
-        .length;
+    if (readingEl) {
+        const targetEl = readingEl.querySelector('li') || readingEl;
+        let rawText = targetEl.textContent || "";
+
+        let cleanedText = rawText.replace(/[\s\u3099\u309A\u309B\u309C]/g, '');
+
+        cleanedText = cleanedText.replace(/[ぁぃぅぇぉゃゅょゎァィゥェォャュョヮ]/g, '');
+
+        let effectiveCount = cleanedText.length;
+
+        const narrowVowelRegex = /[いきしちにひみりぎじぢびぴイキシチニヒミリギジヂビピうくすつぬふむるぐずづぶぷウクスツヌフムルグズヅブプ]/g;
+        const narrowMatches = cleanedText.match(narrowVowelRegex);
+        
+        if (narrowMatches) {
+            effectiveCount -= (narrowMatches.length * 0.3);
+        }
+
+        charCount = Math.round(effectiveCount);
+
+        if (charCount < 1) charCount = 1;
+    }
 
     let SENTENCE_DELAY;
 
-    if (charCount === 2) SENTENCE_DELAY = 500; 
-    else if (charCount === 3) SENTENCE_DELAY = 550;
+    if (charCount === 2) SENTENCE_DELAY = 550; 
+    else if (charCount === 3) SENTENCE_DELAY = 650;
     else if (charCount === 4) SENTENCE_DELAY = 700;
     else if (charCount === 5) SENTENCE_DELAY = 850;
     else if (charCount === 6) SENTENCE_DELAY = 1000;
