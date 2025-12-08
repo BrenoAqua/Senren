@@ -141,9 +141,12 @@
   ================================================================================== */ 
 
 
-  /* SHORTCUTS
+  /* CUSTOM SHORTCUTS
   ============================================ */
-  --scene-replay-shortcut-key:        w; /* Set your custom replay key for cards with multiple scenes key here */
+  --scene-replay-shortcut-key:        w;       /* Set the custom replay to replay active scene */
+  --toggle-custom-dark-mode-key:      s;       /* Set the key to toggle custom dark mode */
+  --toggle-picture-lightbox-key:      q;       /* Set the key to toggle lightbox */
+  --toggle-picture-lightbox-grid-key: shift+q; /* Set the key to toggle lightbox grid */
 
 
   /* COLOR PALETTE
@@ -156,6 +159,7 @@
   --light-highlight:                  #E20033;
   --freq-text-light:                  rgba(105, 105, 105, 0.3);
   --tag-color-light:                  rgba(105, 105, 105, 0.26);
+  --tag-color-hover-light:            white;
 
   /* Pitch Colors */
   --pitch-red-light:                  #D62839;
@@ -183,6 +187,7 @@
   --lightbox-bg-light:                rgba(0, 0, 0, 0.8);
   --frequency-bg-light:               rgba(255, 255,255, 0.8);
   --tag-bg-light:                     rgba(0, 0, 0, 0.03);
+  --tag-bg-hover-light:               rgba(0, 0, 0, 0.63);
   --external-links-bg-light:          rgba(0, 0, 0, 0.1);
   --external-links-bg-hover-light:    rgba(255, 255, 255, 0.4);
 
@@ -195,6 +200,7 @@
   --dark-highlight:                   #FCFF61;
   --freq-text:                        rgba(255, 255, 255, 0.2);
   --tag-color:                        rgba(255, 255, 255, 0.21);
+  --tag-color-hover:                  white;
 
   /* Pitch Colors */
   --pitch-red:                        #F5436D;
@@ -222,6 +228,7 @@
   --lightbox-bg:                      rgba(0, 0, 0, 0.8);
   --frequency-bg:                     rgba(0, 0, 0, 0.63);
   --tag-bg:                           rgba(0, 0, 0, 0.1);
+  --tag-bg-hover:                     rgba(0, 0, 0, 0.63);
   --external-links-bg:                rgba(0, 0, 0, 0.4);
   --external-links-bg-hover:          rgba(0, 0, 0, 0.63);
 
@@ -1634,6 +1641,7 @@ span[style*="display:inline"]:has(+ span[style*="border:1.5px dotted #c83c28"]) 
   position: absolute;
   top: 0;
   left: 100%;
+  color: var(--text-light);
   margin-left: var(--spacing-ms);
   font-size: 0.5rem;
   padding: 5px 5px 5px 5px;
@@ -1648,6 +1656,7 @@ span[style*="display:inline"]:has(+ span[style*="border:1.5px dotted #c83c28"]) 
 :is(.card.nightMode, .custom-dark-mode) 
 #position {
   background: var(--pitch-position-bg);
+  color: var(--text);
 }
 
 #position:empty {
@@ -2726,6 +2735,9 @@ li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br)
   margin-bottom: var(--tag-margin-bottom);
   padding: var(--tag-padding);
   border-radius: var(--tag-border-radius);
+  z-index: var(--z-index-base);
+  transition: background var(--fast-transition), 
+              color var(--fast-transition);
 }
 
 .tags-container {
@@ -2756,6 +2768,17 @@ li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br)
 .tags {
   color: var(--tag-color);
   background: var(--tag-bg);
+}
+
+.tags:hover {
+  color: var(--tag-color-hover-light);
+  background: var(--tag-bg-hover-light);
+}
+
+:is(.card.nightMode, .custom-dark-mode) 
+.tags:hover {
+  color: var(--tag-color-hover);
+  background: var(--tag-bg-hover);
 }
 
 /* External Links */
@@ -3327,38 +3350,38 @@ li.is-new-card:not(:hover) .related-word {
 }
 
 @container style(--kanji-hover-pitch-highlight: true) {
-  #kanji-tooltip li.heiban :is(.kanji-highlight, .related-sentence .highlight) {
+  #kanji-tooltip li.heiban :is(.kanji-highlight, .related-sentence .highlight, .related-word.clickable-word:hover) {
     color: var(--pitch-blue-light) !important;
   }
-  :is(.card.nightMode, .custom-dark-mode) #kanji-tooltip li.heiban :is(.kanji-highlight, .related-sentence .highlight) {
+  :is(.card.nightMode, .custom-dark-mode) #kanji-tooltip li.heiban :is(.kanji-highlight, .related-sentence .highlight, .related-word.clickable-word:hover) {
     color: var(--pitch-blue) !important;
   }
 
-  #kanji-tooltip li.atamadaka :is(.kanji-highlight, .related-sentence .highlight) {
+  #kanji-tooltip li.atamadaka :is(.kanji-highlight, .related-sentence .highlight, .related-word.clickable-word:hover) {
     color: var(--pitch-red-light) !important;
   }
-  :is(.card.nightMode, .custom-dark-mode) #kanji-tooltip li.atamadaka :is(.kanji-highlight, .related-sentence .highlight) {
+  :is(.card.nightMode, .custom-dark-mode) #kanji-tooltip li.atamadaka :is(.kanji-highlight, .related-sentence .highlight, .related-word.clickable-word:hover) {
     color: var(--pitch-red) !important;
   }
 
-  #kanji-tooltip li.nakadaka :is(.kanji-highlight, .related-sentence .highlight) {
+  #kanji-tooltip li.nakadaka :is(.kanji-highlight, .related-sentence .highlight, .related-word.clickable-word:hover) {
     color: var(--pitch-orange-light) !important;
   }
-  :is(.card.nightMode, .custom-dark-mode) #kanji-tooltip li.nakadaka :is(.kanji-highlight, .related-sentence .highlight) {
+  :is(.card.nightMode, .custom-dark-mode) #kanji-tooltip li.nakadaka :is(.kanji-highlight, .related-sentence .highlight, .related-word.clickable-word:hover) {
     color: var(--pitch-orange) !important;
   }
 
-  #kanji-tooltip li.odaka :is(.kanji-highlight, .related-sentence .highlight) {
+  #kanji-tooltip li.odaka :is(.kanji-highlight, .related-sentence .highlight, .related-word.clickable-word:hover) {
     color: var(--pitch-green-light) !important;
   }
-  :is(.card.nightMode, .custom-dark-mode) #kanji-tooltip li.odaka :is(.kanji-highlight, .related-sentence .highlight) {
+  :is(.card.nightMode, .custom-dark-mode) #kanji-tooltip li.odaka :is(.kanji-highlight, .related-sentence .highlight, .related-word.clickable-word:hover) {
     color: var(--pitch-green) !important;
   }
 
-  #kanji-tooltip li.kifuku :is(.kanji-highlight, .related-sentence .highlight) {
+  #kanji-tooltip li.kifuku :is(.kanji-highlight, .related-sentence .highlight, .related-word.clickable-word:hover) {
     color: var(--pitch-purple-light) !important;
   }
-  :is(.card.nightMode, .custom-dark-mode) #kanji-tooltip li.kifuku :is(.kanji-highlight, .related-sentence .highlight) {
+  :is(.card.nightMode, .custom-dark-mode) #kanji-tooltip li.kifuku :is(.kanji-highlight, .related-sentence .highlight, .related-word.clickable-word:hover) {
     color: var(--pitch-purple) !important;
   }
 }
@@ -4006,6 +4029,11 @@ li.is-new-card:not(:hover) .related-word {
     right: 0;
     background: linear-gradient(to left, rgba(255, 255, 255, 1), transparent);
   }
+}
+
+/* Hide scrollbar */
+::-webkit-scrollbar {
+  display: none;
 }
 
 @media (min-width:1051px){
