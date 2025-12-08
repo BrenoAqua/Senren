@@ -10,7 +10,7 @@ Hover over any kanji within a word to display up to five other words in your col
 
 * Unreviewed cards appear greyed out.
 
-  ![Kanji Hover Unreviewed Preview](assets/images/kanji_hover_unreviewed_preview.png)
+    ![Kanji Hover Unreviewed Preview](assets/images/kanji_hover_unreviewed_preview.png)
 
 ### Customization
 
