@@ -48,4 +48,5 @@ Switch between immersive "Scenes" where the Sentences, Audio, Images and Misc In
 
     **Front:** Use **Left / Right Arrow** keys.
     
-    **Back:** Use **Ctrl + Left / Right Arrow** keys (Ctrl is required here to prevent conflicts with Dictionary navigation).
+    **Back:** Use **Ctrl + Left / Right Arrow** keys 
+    > Ctrl is required here to prevent conflicts with Dictionary navigation.
