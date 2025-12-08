@@ -217,6 +217,33 @@
 <!-- /BACK -->
 
 <script>
+  // Helper functions for shortcuts
+  function parseKeyConfig(configStr) {
+    if (!configStr) return null;
+    const parts = configStr.toLowerCase().split(/[\s+]+/).filter(p => p);
+    if (parts.length === 0) return null;
+
+    const key = parts.pop();
+    return {
+      key: key,
+      ctrl: parts.includes('ctrl') || parts.includes('control'),
+      alt: parts.includes('alt'),
+      shift: parts.includes('shift'),
+      meta: parts.includes('meta') || parts.includes('cmd')
+    };
+  }
+
+  function isKeyMatch(event, config) {
+    if (!config) return false;
+    return (
+      event.key.toLowerCase() === config.key &&
+      event.ctrlKey === config.ctrl &&
+      event.altKey === config.alt &&
+      event.shiftKey === config.shift &&
+      event.metaKey === config.meta
+    );
+  }
+
   // Collect images from the glossary and add them to the picture container
   function collectGlossaryImages() {
     const glossaryItems = document.querySelectorAll("#glossary img");
@@ -587,6 +614,7 @@
 
     document.addEventListener('keydown', (e) => {
       if (totalVisibleItemsCount <= 1) return;
+      if (e.ctrlKey) return; 
 
       if (typeof lightbox !== 'undefined' && lightbox.classList.contains('active')) return;
       if (document.activeElement && (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA')) {
@@ -2498,17 +2526,15 @@
 
     let replayTimeout; 
 
-    const handleReplayKey = (e) => {
+    const handleSceneShortcuts = (e) => {
         if (document.activeElement && ['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
 
-        const cssKey = getComputedStyle(document.documentElement)
-            .getPropertyValue('--scene-replay-shortcut-key')
-            .trim()
-            .toLowerCase();
+        const rootStyle = getComputedStyle(document.documentElement);
+        const cssVal = rootStyle.getPropertyValue('--scene-replay-shortcut-key').trim();
 
-        const targetKey = cssKey || 'w';
+        const replayConfig = parseKeyConfig(cssVal) || { key: 'w', ctrl: false, alt: false, shift: false, meta: false };
 
-        if (e.key.toLowerCase() === targetKey) { 
+        if (isKeyMatch(e, replayConfig)) { 
             e.preventDefault();
             e.stopPropagation();
 
@@ -2524,14 +2550,35 @@
                 wordAudioBtn.click();
             }
 
-            replayTimeout = setTimeout(() => {
+          replayTimeout = setTimeout(() => {
                 playActiveAudio(); 
-            }, SENTENCE_DELAY);
+          }, SENTENCE_DELAY);
+        }
+
+        if (e.ctrlKey) {
+            if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                e.stopPropagation();
+                if (typeof initialPlayTimeout !== 'undefined') clearTimeout(initialPlayTimeout);
+
+                currentIndex--;
+                if (currentIndex < 0) currentIndex = totalSlides - 1;
+                updateDisplay(true);
+            } 
+            else if (e.key === 'ArrowRight') {
+                e.preventDefault();
+                e.stopPropagation();
+                if (typeof initialPlayTimeout !== 'undefined') clearTimeout(initialPlayTimeout);
+
+                currentIndex++;
+                if (currentIndex >= totalSlides) currentIndex = 0;
+                updateDisplay(true);
+            }
         }
     };
 
-    window.currentSceneKeyHandler = handleReplayKey;
-    document.addEventListener('keydown', handleReplayKey);
+    window.currentSceneKeyHandler = handleSceneShortcuts;
+    document.addEventListener('keydown', handleSceneShortcuts);
 
     function updateDisplay(shouldPlayAudio = false) {
       const currentFieldImages = document.querySelectorAll('.picture-container img');
@@ -2686,6 +2733,73 @@
     });
   }
 
+  // Enables custom shortcuts
+  function enableCustomShortcuts() {
+    document.addEventListener('keydown', (e) => {
+      if (document.activeElement && ['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
+
+      const rootStyle = getComputedStyle(document.documentElement);
+      
+      const lightboxConfig = parseKeyConfig(rootStyle.getPropertyValue('--toggle-picture-lightbox-key').trim());
+      const gridConfig = parseKeyConfig(rootStyle.getPropertyValue('--toggle-picture-lightbox-grid-key').trim());
+
+      if (isKeyMatch(e, gridConfig)) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const lightbox = document.getElementById("lightbox");
+        const showAllBtn = document.getElementById("show-all");
+
+        if (lightbox && !lightbox.classList.contains("active")) {
+             const visibleImage = document.querySelector('.picture-container img[style*="display: block"]') 
+                               || document.querySelector('.picture-container img');
+             if (visibleImage) visibleImage.click();
+             
+             if (showAllBtn) showAllBtn.click();
+        } 
+        else if (lightbox && lightbox.classList.contains("active")) {
+             if (showAllBtn) showAllBtn.click();
+        }
+        return;
+      }
+
+      if (isKeyMatch(e, lightboxConfig)) {
+        e.preventDefault();
+        
+        const lightbox = document.getElementById("lightbox");
+        
+        if (lightbox && lightbox.classList.contains("active")) {
+          lightbox.classList.remove("active");
+          
+          const grid = document.querySelector(".lightbox-grid");
+          if(grid) grid.remove();
+          const showAll = document.getElementById("show-all");
+          if(showAll) showAll.textContent = "Show All";
+          const lightboxImg = document.getElementById("lightbox-img");
+          if(lightboxImg) lightboxImg.style.display = "block";
+          const navs = document.querySelectorAll(".lightbox-nav");
+          navs.forEach(n => n.style.display = "");
+        } 
+        else {
+          const images = document.querySelectorAll('.picture-container img');
+          let visibleImage = Array.from(images).find(img => window.getComputedStyle(img).display !== 'none');
+          if (!visibleImage && images.length > 0) visibleImage = images[0];
+
+          if (visibleImage) {
+            visibleImage.click();
+          }
+        }
+      }
+      
+      const dmConfig = parseKeyConfig(rootStyle.getPropertyValue('--toggle-custom-dark-mode-key').trim());
+      if (isKeyMatch(e, dmConfig)) {
+         e.preventDefault();
+         const dmBtn = document.querySelector(".toggle-custom-dark-mode");
+         if (dmBtn) dmBtn.click();
+      }
+    });
+  }
+
   // Initializes immediate functions
   function init() {
     markFieldImages(); 
@@ -2718,6 +2832,7 @@
     enableImageSwitching();
     enableLightbox();
     nsfw();
+    enableCustomShortcuts();
 
     const isMobile = document.documentElement.classList.contains('mobile') || document.body.classList.contains('mobile');
     if (!isMobile) {
