@@ -40,5 +40,5 @@ You can change how the **pitch downstep**, **word**, and **sentence highlight** 
 ```
 
 - Pitch downstep coloring is enabled by default. To completely disable pitch colors, set `-pitch-colors` to `false`
-- With the pitch style set to `default`. only the downstep is colored. To apply the pitch color to the entire word and its reading, set `--pitch-style` to `Alt`.
+- With the pitch style set to `default`. only the downstep is colored. To apply the pitch color to the entire word and its reading, set `--pitch-style` to `alt`.
 - By default, the target word in sentences uses the theme’s standard highlight color. To instead highlight it using the word’s pitch color, set `--sentence-pitch-highlight` to `true`.
