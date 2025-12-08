@@ -12,3 +12,11 @@ Easily toggle between the default theme (light or original dark mode) and a high
     ```css
     --toggle-custom-dark-mode-key: s; /* Set the key to toggle custom dark mode */
     ```
+
+*   **Visibility**
+    You can hide the custom dark mode toggle in the `/* Component Visibility */` section of the CSS:
+    ```
+    --custom-dark-mode-visibility: 1; /* "0" to hide custom dark mode toggle */
+    ```
+
+    Set this value to `0` to remove it entirely.
