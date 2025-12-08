@@ -14,7 +14,18 @@ Click the image to view it in an enlarged, focused lightbox overlay.
         ![Lightbox Preview GIF 2](assets/images/Lightbox Preview 2.gif)
 
     === "Default View"
-        ![Lightbox Default View](assets/images/Lightbox_Default_View.png)
+        ![Lightbox Default View](assets/imhs/Lightbox_Default_View.png)
 
     === "Grid View"
         ![Lightbox Grid View](assets/images/Lightbox_Grid_View.png)
+
+*   **Default Shortcuts:** 
+    * **Q**: Toggle lightbox
+    * **Shift+Q**: Toggle lightbox grid view
+
+    You can change these in the `/* CUSTOM SHORTCUTS */` section of the CSS:
+
+    ```css
+    --toggle-picture-lightbox-key:      q;       /* Set the key to toggle lightbox */
+    --toggle-picture-lightbox-grid-key: shift+q; /* Set the key to toggle lightbox grid */
+    ```
