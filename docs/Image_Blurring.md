@@ -1,4 +1,4 @@
-# Image Blurring
+# NSFW Cards
 
 Add the `NSFW` tag to any card, and its associated image will be automatically blurred on display. Clicking the image reveals it.
 
