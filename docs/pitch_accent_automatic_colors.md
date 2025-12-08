@@ -1,6 +1,7 @@
 # Automatic Colors for Pitch Accent
 
-The pitch accent downstep (lines and number) are automatically colored according to the pitch accent pattern type.
+The pitch accent downstep (lines and drop number) is automatically colored based on the word’s pitch accent pattern.
+Depending on your settings, this coloring can apply only to the downstep itself, extend to the entire word and its reading, or be fully disabled. Sentence highlights can also optionally inherit the word’s pitch color.
 
 ### Word Pitch Coloring
 === "Enabled"
@@ -21,7 +22,7 @@ The pitch accent downstep (lines and number) are automatically colored according
 
 ### Customization
 
-You can change how the pitch downstep, word, and sentence highlight are colored via the variables in the `/* PITCH ACCENT SETTINGS */` section of the CSS:
+You can change how the **pitch downstep**, **word**, and **sentence highlight** are colored via the variables in the `/* PITCH ACCENT SETTINGS */` section of the CSS:
 ```css
 --pitch-style:              default; /* "alt" to color the entire word + reading instead of only the downstep */
 --pitch-colors:             true;    /* "false" to disable pitch downstep coloring */
