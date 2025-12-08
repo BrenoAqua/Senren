@@ -143,7 +143,7 @@
 
   /* CUSTOM SHORTCUTS
   ============================================ */
-  --scene-replay-shortcut-key:        w;       /* Set the custom replay to replay active scene */
+  --scene-replay-shortcut-key:        w;       /* Set the key to replay active scene */
   --toggle-custom-dark-mode-key:      s;       /* Set the key to toggle custom dark mode */
   --toggle-picture-lightbox-key:      q;       /* Set the key to toggle lightbox */
   --toggle-picture-lightbox-grid-key: shift+q; /* Set the key to toggle lightbox grid */
