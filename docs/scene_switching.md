@@ -43,7 +43,9 @@ Switch between immersive "Scenes" where the Sentences, Audio, Images and Misc In
     --scene-replay-shortcut-key: w; /* Set the key to replay active scene */
     ```
 
--    **Scene Navigation Shortcuts**
 
-     **Front:** Use **Left / Right Arrow** keys.
-     **Back:** Use **Ctrl + Left / Right Arrow** keys (Ctrl is required here to prevent conflicts with Dictionary navigation).
+*   **Scene Navigation Shortcuts**
+
+    **Front:** Use **Left / Right Arrow** keys.
+    
+    **Back:** Use **Ctrl + Left / Right Arrow** keys (Ctrl is required here to prevent conflicts with Dictionary navigation).
