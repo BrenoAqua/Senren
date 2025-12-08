@@ -15,7 +15,7 @@ Easily toggle between the default theme (light or original dark mode) and a high
 
 *   **Visibility**
     You can hide the custom dark mode toggle in the `/* Component Visibility */` section of the CSS:
-    ```
+    ```css
     --custom-dark-mode-visibility: 1; /* "0" to hide custom dark mode toggle */
     ```
 
