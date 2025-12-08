@@ -1,6 +1,12 @@
 # Dictionary Preference & Definition Toggle
 This controls which definition pops up first when you reveal the answer, and how you flip through different dictionaries.
 
+=== "Definition Toggle"
+    ![type:video](assets/definition_toggle_preview.mp4) }
+
+=== "Dictionary Preference"
+    ![type:video](assets/dictionary_preference_preview.mp4) }
+
 *   **Priority Logic:** The card decides what to show based on the following priority order:
     <ol type="1">
         <li><strong>Selection Text:</strong> If you highlighted text while creating the card (using Yomitan), that shows up first.</li>
@@ -15,11 +21,5 @@ This controls which definition pops up first when you reveal the answer, and how
     *   **Cycle Order:** Selection Text ↔ Definition ↔ Glossary Dictionary 1... ↔ Glossary Dictionary 2...
     *   **Keyboard Shortcuts:** Left Arrow and Right Arrow keys perform the same toggling action.
     *   **Counter:** After you cycle at least once, a small indicator (e.g., `1 / 4`) appears in the top right, showing the current and total dictionaries.
-
-    === "Definition Toggle"
-        ![type:video](assets/definition_toggle_preview.mp4) }
-
-    === "Dictionary Preference"
-        ![type:video](assets/dictionary_preference_preview.mp4) }
 
 Use the [Batch Editing](https://ankiweb.net/shared/info/291119185) add-on to update multiple cards at once.
