@@ -8,9 +8,8 @@ Hover over any kanji within a word to display up to five other words in your col
 === "Without Pitch Colors"
     ![Without Pitch Colors](assets/images/kanji_hover_no_pitch_preview.gif){ width="450" }
 
-* Unreviewed cards appear greyed out.
-
-    ![Kanji Hover Unreviewed Preview](assets/images/kanji_hover_unreviewed_preview.png)
+=== "Unreviewed cards"
+    ![Unreviewed cards](assets/images/kanji_hover_unreviewed_preview.png){ width="450" }
 
 ### Customization
 
