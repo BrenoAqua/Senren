@@ -2,10 +2,10 @@
 
 Hides the reading when a word is written entirely in kana while keeping the pitch accent, preventing redundant information and maintaining a clean layout.
 
-=== "Before"
+=== "Disabled"
     ![Before](assets/images/No_Duplicate_Kana_Before.png)
 
-=== "After"
+=== "Enabled"
     ![After](assets/images/No_Duplicate_Kana.png)
 
 **How to Use:**
