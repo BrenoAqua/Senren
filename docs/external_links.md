@@ -52,7 +52,7 @@ If you want to add or remove any of the supported sites, go to the `<!-- Externa
 Template for adding a new site:
 
 ```html
-    <!-- Site Name -->
+      <!-- Site Name -->
       <a data-details="example.com" href="https://example.com/search?q={{text:word}}">
         <img class="light-icon" src="_icon_example_light.png"> 
         <img class="dark-icon" src="_icon_example_dark.png">
