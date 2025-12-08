@@ -25,7 +25,7 @@ If you want to add or remove any of the supported sites, go to the `<!-- Externa
 </a>
 
 <!-- Jisho -->
-a data-details="jisho.org" href="https://jisho.org/search/{{text:word}}">
+<a data-details="jisho.org" href="https://jisho.org/search/{{text:word}}">
   <img class="light-icon" src="_icon_jisho_lightmode.png">
   <img class="dark-icon" src="_icon_jisho_darkmode.png">
 </a>
