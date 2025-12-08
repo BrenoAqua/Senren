@@ -1,8 +1,8 @@
 # Scene Switching
 
-![type:video](assets/Scene_Switching_Preview.mp4)
-
 Switch between immersive "Scenes" where the Sentences, Audio, Images and Misc Info are synchronized.
+
+![type:video](assets/Scene_Switching_Preview.mp4)
 
 - **Grouped Navigation:** Supports splitting sentences into segments using `<span class="group">...</span>` tags in the Anki field.
 - To use this feature, update the `sentence` and `sentenceFurigana` fields in Yomitan’s "**Configure Anki flashcards…**" settings:
