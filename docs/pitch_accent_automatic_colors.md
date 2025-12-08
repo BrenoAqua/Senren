@@ -27,7 +27,7 @@ The pitch accent markers (lines and number) are automatically colored according 
 === "Disabled"
     ![Disabled](assets/images/pitch_sentence_highlight_off_preview.png)
 
-### Customizations
+### Customization
 
 You can change how the pitch downstep, word, and sentence highlight are colored via the variables in the `/* PITCH ACCENT SETTINGS */` section of the CSS:
 ```css
