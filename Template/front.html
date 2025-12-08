@@ -106,6 +106,38 @@
 <div id="hiddenReading" style="display: none !important;">{{reading}}</div>
 
 <script>
+  if (window.currentSceneKeyHandler) {
+    document.removeEventListener('keydown', window.currentSceneKeyHandler);
+    window.currentSceneKeyHandler = null;
+  }
+
+  // Helper functions for shortcuts
+  function parseKeyConfig(configStr) {
+    if (!configStr) return null;
+    const parts = configStr.toLowerCase().split(/[\s+]+/).filter(p => p);
+    if (parts.length === 0) return null;
+
+    const key = parts.pop();
+    return {
+      key: key,
+      ctrl: parts.includes('ctrl') || parts.includes('control'),
+      alt: parts.includes('alt'),
+      shift: parts.includes('shift'),
+      meta: parts.includes('meta') || parts.includes('cmd')
+    };
+  }
+
+  function isKeyMatch(event, config) {
+    if (!config) return false;
+    return (
+      event.key.toLowerCase() === config.key &&
+      event.ctrlKey === config.ctrl &&
+      event.altKey === config.alt &&
+      event.shiftKey === config.shift &&
+      event.metaKey === config.meta
+    );
+  }
+
   // Toggles visibility of word/sentence
   function toggleVisibility(wrapperId, innerElementId) {
     const wrapper = document.getElementById(wrapperId);
@@ -196,6 +228,7 @@
   // Groups text and audio into navigable scenes
   function enableFrontSceneSwitching() {
     let initialPlayTimeout;
+    let replayTimeout;
 
     const textContainers = document.querySelectorAll('#sentence, #sentence-audio');
     
@@ -276,6 +309,77 @@
       updateDisplay(true);
     }
 
+    const baseWaitTime = 100;  
+    const timePerChar = 150;  
+    
+    const readingEl = document.getElementById('hiddenReading');
+    const targetEl = readingEl.querySelector('li') || readingEl;
+
+    const charCount = (targetEl.textContent || "")
+        .replace(/[\s\u3099\u309A\u309B\u309C]/g, '') 
+        .replace(/[ぁぃぅぇぉゃゅょゎァィゥェォャュョヮ]/g, '') 
+        .length;
+
+    let SENTENCE_DELAY;
+
+    if (charCount === 2) SENTENCE_DELAY = 500; 
+    else if (charCount === 3) SENTENCE_DELAY = 550;
+    else if (charCount === 4) SENTENCE_DELAY = 700;
+    else if (charCount === 5) SENTENCE_DELAY = 850;
+    else if (charCount === 6) SENTENCE_DELAY = 1000;
+    else if (charCount === 7) SENTENCE_DELAY = 1080; 
+    else if (charCount === 8) SENTENCE_DELAY = 1150; 
+    else SENTENCE_DELAY = baseWaitTime + (charCount * timePerChar);
+
+    const handleFrontShortcuts = (e) => {
+        if (document.activeElement && ['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
+
+        const rootStyle = getComputedStyle(document.documentElement);
+        const cssVal = rootStyle.getPropertyValue('--scene-replay-shortcut-key').trim();
+        const replayConfig = parseKeyConfig(cssVal) || { key: 'w', ctrl: false, alt: false, shift: false, meta: false };
+
+        if (isKeyMatch(e, replayConfig)) {
+            e.preventDefault();
+            e.stopPropagation();
+            if (initialPlayTimeout) clearTimeout(initialPlayTimeout);
+            if (replayTimeout) clearTimeout(replayTimeout);
+            
+            document.querySelectorAll('audio').forEach(a => {
+                try { a.pause(); a.currentTime = 0; } catch(e){}
+            });
+
+            const wordAudioContainer = document.getElementById('wordAudio');
+            const wordAudioBtn = wordAudioContainer ? wordAudioContainer.querySelector('.soundLink, .replaybutton') : null;
+            
+            if (wordAudioBtn) {
+                wordAudioBtn.click();
+            }
+
+            const delay = wordAudioBtn ? SENTENCE_DELAY : 0;
+            
+            replayTimeout = setTimeout(() => {
+                updateDisplay(true); 
+            }, delay);
+
+            return;
+        }
+
+        if (e.key === 'ArrowLeft') {
+            e.preventDefault(); e.stopPropagation();
+            if (initialPlayTimeout) clearTimeout(initialPlayTimeout);
+            if (replayTimeout) clearTimeout(replayTimeout);
+            changeScene(-1);
+        } else if (e.key === 'ArrowRight') {
+            e.preventDefault(); e.stopPropagation();
+            if (initialPlayTimeout) clearTimeout(initialPlayTimeout);
+            if (replayTimeout) clearTimeout(replayTimeout);
+            changeScene(1);
+        }
+    };
+
+    window.currentSceneKeyHandler = handleFrontShortcuts;
+    document.addEventListener('keydown', handleFrontShortcuts);
+
     function updateDisplay(playAudio) {
       textContainers.forEach(container => {
         const parts = container.querySelectorAll('.split-sentence-part');
@@ -300,10 +404,6 @@
       }
 
       if (playAudio && audioParts.length > 0) {
-          document.querySelectorAll('audio').forEach(a => {
-              try { a.pause(); a.currentTime = 0; } catch(e){}
-          });
-
           let target = audioParts[currentIndex];
           if (!target && audioParts.length === 1) target = audioParts[0];
 
@@ -316,56 +416,6 @@
           }
       }
     }
-
-    const baseWaitTime = 100;  
-    const timePerChar = 150;  
-    
-    let charCount = 5; 
-    let foundReading = false;
-
-    const readingEl = document.getElementById('hiddenReading');
-    if (readingEl && readingEl.textContent.trim().length > 0) {
-        const firstLi = readingEl.querySelector('li');
-        const targetEl = firstLi || readingEl;
-        charCount = (targetEl.textContent || "")
-          .replace(/[\s\u3099\u309A\u309B\u309C]/g, '') 
-          .replace(/[ぁぃぅぇぉゃゅょゎァィゥェォャュョヮ]/g, '') 
-          .length;
-        foundReading = true;
-    }
-
-    if (!foundReading) {
-        const potentialWords = document.querySelectorAll('#word');
-        let wordEl = null;
-        for (let el of potentialWords) {
-            if (el.offsetParent !== null) { wordEl = el; break; }
-        }
-        
-        if (wordEl) {
-            const rt = wordEl.querySelector('rt');
-            if (rt) {
-                const innerItem = rt.querySelector('li');
-                const targetElement = innerItem || rt;
-                charCount = targetElement.textContent
-                  .replace(/[\s\u3099\u309A\u309B\u309C]/g, '')
-                  .replace(/[ぁぃぅぇぉゃゅょゎァィゥェォャュョヮ]/g, '')
-                  .length;
-            } else {
-                charCount = wordEl.textContent.replace(/\s+/g, '').length;
-            }
-        }
-    }
-
-    let SENTENCE_DELAY;
-
-    if (charCount === 2) SENTENCE_DELAY = 600; 
-    else if (charCount === 3) SENTENCE_DELAY = 550;
-    else if (charCount === 4) SENTENCE_DELAY = 700;
-    else if (charCount === 5) SENTENCE_DELAY = 850;
-    else if (charCount === 6) SENTENCE_DELAY = 1000;
-    else if (charCount === 7) SENTENCE_DELAY = 1080; 
-    else if (charCount === 8) SENTENCE_DELAY = 1150; 
-    else SENTENCE_DELAY = baseWaitTime + (charCount * timePerChar);
 
     updateDisplay(false); 
 
@@ -381,7 +431,22 @@
     }
   }
 
+  // Enables custom shortcuts
+  function enableCustomShortcuts() {
+    document.addEventListener('keydown', (e) => {
+      const rootStyle = getComputedStyle(document.documentElement);
+      const dmConfig = parseKeyConfig(rootStyle.getPropertyValue('--toggle-custom-dark-mode-key').trim());
+      
+      if (isKeyMatch(e, dmConfig)) {
+         e.preventDefault();
+         const dmBtn = document.querySelector(".toggle-custom-dark-mode");
+         if (dmBtn) dmBtn.click();
+      }
+    });
+  }
+
   enableFrontSceneSwitching();
   initializeAudioSentenceState();
   initializeSentenceState();
+  enableCustomShortcuts();
 </script>	
