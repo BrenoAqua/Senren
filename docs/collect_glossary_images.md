@@ -3,10 +3,10 @@
 Displays images from glossary dictionaries in the picture container. You can use the left and right buttons on the image to browse through them without needing to search the dictionaries directly. If the card has no image but a glossary dictionary does, that image will be shown automatically in the picture container.
 
 === "Enabled"
-    ![light](assets/images/collect_glossary_images_enabled.png)
+    ![light](assets/images/collect_glossary_images_enabled.png){ width="450" }
 
 === "Disabled"
-    ![dark](assets/images/collect_glossary_images_disabled.png)
+    ![dark](assets/images/collect_glossary_images_disabled.png){ width="450" }
 
 This feature may cause issues with dictionaries that require additional CSS in Anki. If you run into problems, it’s recommended to disable it via the variables in the `/* Default States (true/false) */` section of the CSS:
 ```css
