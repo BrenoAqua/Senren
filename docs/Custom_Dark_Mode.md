@@ -10,5 +10,5 @@ Easily toggle between the default theme (light or original dark mode) and a high
     You can change this in the `/* CUSTOM SHORTCUTS */` section of the CSS:
 
     ```css
-    --toggle-custom-dark-mode-key:      s;       /* Set the key to toggle custom dark mode */
+    --toggle-custom-dark-mode-key: s; /* Set the key to toggle custom dark mode */
     ```
