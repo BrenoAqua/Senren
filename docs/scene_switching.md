@@ -17,10 +17,10 @@ Switch between immersive "Scenes" where the Sentences, Audio, Images and Misc In
 
     <img width="671" height="204" alt="image" src="https://github.com/user-attachments/assets/2f7a705f-ab9d-4f0d-a9b2-ad3a1e0a49e2" />
     
-- `sentenceEng` and `miscInfo` are also supported. However, you'll need to manually edit the field to group it correctly with each scene using `<span class="group">...</span>`.
-  - You can choose which scene it belongs to by numbering the group, e.g., `<span class="group2">...</span>`. This skips the first scene and groups it with the second.
-  - If you have multiple scenes but only one `sentenceEng`, it will appear only in the first scene unless you assign it to a specific group as shown above.
-  > It’s not necessary to number the groups if the number of translations is the same as the number of sentences.
+-   `sentenceEng` and `miscInfo` are also supported. However, you'll need to manually edit the field to group it correctly with each scene using `<span class="group">...</span>`.
+    - You can choose which scene it belongs to by numbering the group, e.g., `<span class="group2">...</span>`. This skips the first scene and groups it with the second.
+    - If you have multiple scenes but only one `sentenceEng`, it will appear only in the first scene unless you assign it to a specific group as shown above.
+    > It’s not necessary to number the groups if the number of translations is the same as the number of sentences.
 
   - This is how it would look inside the field’s HTML:
   ```html
@@ -39,10 +39,10 @@ Switch between immersive "Scenes" where the Sentences, Audio, Images and Misc In
 
 - **Auto-Detection:** Automatically detects if a card has multiple audio files. If found, it enables the Scene Navigation mode; otherwise, it defaults to standard behavior. Multiple sentences are not split if the card doesn’t contain at least 2 audio files.
 - **Custom Audio Replay Shortcut:** By default, Anki plays every audio file when you press **R**. This custom shortcut plays only the audio for the active scene. The default key is **W**, amd you can change this in the `/* CUSTOM SHORTCUTS */` section of the CSS:
-  ```css
+    ```css
     --scene-replay-shortcut-key: w; /* Set the key to replay active scene */
-  ```
+    ```
 
 - **Scene Navigation Shortcuts**
-  *   **Front:** Use **Left / Right Arrow** keys.
-  *   **Back:** Use **Ctrl + Left / Right Arrow** keys (Ctrl is required here to prevent conflicts with Dictionary navigation).
+     **Front:** Use **Left / Right Arrow** keys.
+     **Back:** Use **Ctrl + Left / Right Arrow** keys (Ctrl is required here to prevent conflicts with Dictionary navigation).
