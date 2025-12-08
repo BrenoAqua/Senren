@@ -3,10 +3,10 @@
 Hover over any kanji within a word to display up to five other words in your collection that use the same kanji. If more matching cards exist, a “**Show More**” option appears. Clicking a related word in the tooltip opens the corresponding card in Anki’s Card Browser.
 
 === "With Pitch Colors"
-     ![With Pitch Colors](assets/images/kanji_hover_pitch_preview.gif){ width="400" }
+     ![With Pitch Colors](assets/images/kanji_hover_pitch_preview.gif){ width="450" }
 
 === "Without Pitch Colors"
-    ![Without Pitch Colors](assets/images/kanji_hover_no_pitch_preview.gif){ width="400" }
+    ![Without Pitch Colors](assets/images/kanji_hover_no_pitch_preview.gif){ width="450" }
 
 * Unreviewed cards appear greyed out.
 
