@@ -16,7 +16,7 @@ To completely remove the External Links go to the `/* Component Visibility */` s
 ```
 It’s enabled by default. Change to `0` to disable.
 
-If you want to add or remove any of the supported sites, go to the `<!-- External Links -->` section of the Back Template.
+If you want to add or remove any of the supported sites, go to the `<!-- External Links -->` section of the Back Template:
 ```html
       <!-- Jpdb -->
       <a data-details="jpdb.io" href="https://jpdb.io/search?q={{text:word}}">
@@ -59,4 +59,4 @@ Template for adding a new site:
       </a>
 ```
 !!! warning "Icon Location Folder"
-Your new site icon should be placed inside the `%appdata%\Anki2\[YourUsername]\collection.media` folder, Don’t forget to add an underscore (`_`) at the start of the file name, like `_icon_example_dark.png`.
+    Your new site icon should be placed inside the `%appdata%\Anki2\[YourUsername]\collection.media` folder, Don’t forget to add an underscore (`_`) at the start of the file name, like `_icon_example_dark.png`.
