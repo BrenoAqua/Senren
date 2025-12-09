@@ -26,6 +26,7 @@
   --collect-glossary-images:          true;    /* Enable glossary images to be collected into the picture container */
   --no-duplicate-kana:                false;   /* Replace kana-only word with its reading */
   --blur-nsfw-picture:                true;    /* Blur picture on NSFW cards */
+  --mute-sentence-audio:              false;   /* Mute any sentence audio */
   --mute-nsfw-audio:                  false;   /* Mute sentence audio on NSFW cards */
 
   /* Component Visibility */
