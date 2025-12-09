@@ -14,7 +14,7 @@ Click the image to view it in an enlarged, focused lightbox overlay.
         ![Lightbox Preview GIF 2](assets/images/Lightbox Preview 2.gif)
 
     === "Default View"
-        ![Lightbox Default View](assets/imhs/Lightbox_Default_View.png)
+        ![Lightbox Default View](assets/images/Lightbox_Default_View.png)
 
     === "Grid View"
         ![Lightbox Grid View](assets/images/Lightbox_Grid_View.png)
