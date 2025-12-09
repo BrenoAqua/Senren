@@ -175,7 +175,7 @@
   /* Background Colors */
   --background-light:                 #f5f5f5;
   --card-bg-light:                    rgba(255, 255, 255, 0.4);
-  --card-shadow-light:                0 10px 25px rgba(0, 0, 0, 0.1), 0 5px 10px rgba(0, 0, 0, 0.05);
+  --card-shadow-light:                rgba(0, 0, 0, 0.05);
   --word-bg-light:                    rgba(0, 0, 0, 0.03);
   --pitch-position-bg-light:          rgba(255,255,255,0.8);
   --picture-bg-light:                 rgba(0, 0, 0, 0.03);
@@ -216,7 +216,7 @@
   /* Background Colors */
   --background:                       #2c2c2c;
   --card-bg:                          rgba(0, 0, 0, 0.4);
-  --card-shadow:                      0 10px 25px rgba(0, 0, 0, 0.5), 0 5px 10px rgba(0, 0, 0, 0.3);
+  --card-shadow:                      rgba(0, 0, 0, 0.3);
   --word-bg:                          rgba(0, 0, 0, 0.3);
   --pitch-position-bg:                rgba(0, 0, 0, 0.2);
   --picture-bg:                       rgba(0, 0, 0, 0.3);
