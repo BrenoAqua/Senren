@@ -1208,6 +1208,7 @@
     }
   }
 
+  // Enables NSFW options
   function nsfw() {
     const tags = `{{Tags}}`.toLowerCase();
     const isNsfwCard = tags.includes('nsfw');
@@ -1236,6 +1237,23 @@
     }
   }
 
+  // Mutes the sentence audio playback based on CSS variables
+  function muteSentence() {
+    // Get the value of the CSS variable
+    const muteAudio = getComputedStyle(document.documentElement)
+      .getPropertyValue('--mute-sentence-audio')
+      .trim()
+      .toLowerCase();
+
+    if (muteAudio === 'true') {
+      const wordAudioButton = document.querySelector(".audio .soundLink, .audio .replaybutton");
+    
+      if (wordAudioButton) {
+        wordAudioButton.click();
+      }
+    }
+  }  
+  
   // Adds titles to dictionaries
   function dictionaryTitle() {
     let processedDictionaries = new Set();
@@ -2808,6 +2826,8 @@
 
   // Initializes immediate functions
   function init() {
+    nsfw();
+    muteSentence();
     markFieldImages(); 
     noDuplicateKana();
     splitTags();
@@ -2837,7 +2857,6 @@
     jitendexHover();
     enableImageSwitching();
     enableLightbox();
-    nsfw();
     enableCustomShortcuts();
 
     const isMobile = document.documentElement.classList.contains('mobile') || document.body.classList.contains('mobile');
