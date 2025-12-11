@@ -1313,9 +1313,9 @@
     entries.forEach(li => {
       const rt = li.querySelector('rt');
       const numberSpan = li.querySelector('.pitch-number');
-      
+
       if (!rt || !numberSpan) return;
-      if (rt.querySelector('.pronunciation')) return; 
+      if (rt.querySelector('.pronunciation')) return;
 
       const readingText = rt.textContent.trim();
       const morae = readingText.match(moraRegex) || [];
@@ -1328,13 +1328,13 @@
       let pattern = [];
       for (let i = 0; i < moraCount; i++) {
         if (pitchNum === 0) {
-           pattern.push(i === 0 ? 'L' : 'H');
+          pattern.push(i === 0 ? 'L' : 'H');
         } else if (pitchNum === 1) {
-           pattern.push(i === 0 ? 'H' : 'L');
-        } else { 
-           if (i === 0) pattern.push('L');
-           else if (i < pitchNum) pattern.push('H');
-           else pattern.push('L');
+          pattern.push(i === 0 ? 'H' : 'L');
+        } else {
+          if (i === 0) pattern.push('L');
+          else if (i < pitchNum) pattern.push('H');
+          else pattern.push('L');
         }
       }
 
@@ -1355,7 +1355,7 @@
         span.dataset.pitch = type;
 
         if (type === 'high') {
-          if ((i + 1 < moraCount && pattern[i+1] === 'L') || (pClass === 'odaka' && i === moraCount - 1)) {
+          if ((i + 1 < moraCount && pattern[i + 1] === 'L') || (pClass === 'odaka' && i === moraCount - 1)) {
             span.dataset.pitchNext = 'low';
           }
         }
@@ -1416,7 +1416,7 @@
       }
     }
     if (!readingText) {
-        wordText = rubyElement.textContent.trim();
+      wordText = rubyElement.textContent.trim();
     }
 
     if (!/[一-龯]/.test(wordText)) {
@@ -1579,6 +1579,22 @@
       for (const wordInfo of relatedWords) {
         const wordHtml = wordInfo.word.replace(kanjiHighlightRegex, highlightSpan);
 
+        let sentenceHtml = '';
+        if (wordInfo.sentence) {
+          const autoQuote = getComputedStyle(document.documentElement)
+            .getPropertyValue('--kanji-hover-auto-quote').trim() === 'true';
+
+          const s = wordInfo.sentence.trim();
+          const plainText = s.replace(/<[^>]*>/g, '').trim();
+          const alreadyQuoted = plainText.startsWith('「') || plainText.startsWith('『');
+
+          if (autoQuote && !alreadyQuoted) {
+            sentenceHtml = `<div class="related-sentence">「${s}」</div>`;
+          } else {
+            sentenceHtml = `<div class="related-sentence">${wordInfo.sentence}</div>`;
+          }
+        }
+
         let formattedPositionHtml = '';
         let firstPitchCategory = '';
         let fullCategoriesHtml = '';
@@ -1636,7 +1652,7 @@
                 ${firstPitchCategory ? `<div class="categories" data-first-category="${firstPitchCategory}" data-full-categories="${fullCategoriesHtml}">${firstPitchCategory}</div>` : ''}
               </span>
             </div>
-            ${wordInfo.sentence ? `<div class="related-sentence">「${wordInfo.sentence}」</div>` : ''}
+            ${sentenceHtml}
           </li>
         `;
 
