@@ -28,6 +28,7 @@
   --blur-nsfw-picture:                true;    /* Blur picture on NSFW cards */
   --mute-sentence-audio:              false;   /* Mute any sentence audio */
   --mute-nsfw-audio:                  false;   /* Mute sentence audio on NSFW cards */
+  --kanji-hover-auto-quote:           true;    /* Enable automatic quoting in Kanji Hover sentences */
 
   /* Component Visibility */
   --main-bg-visibility:               1; /* "0" to disable main bg */
