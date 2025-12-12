@@ -1,0 +1,289 @@
+/* _senren_defaults_v4.6.0.css */
+:root {
+  /* CARD SETTINGS
+  ============================================ */
+  /* Default States (true/false) */
+  --word-sentence-default-expanded:   false;   /* Show sentence on word cards immediately */
+  --audio-sentence-default-expanded:  false;   /* Show sentence on audio cards immediately */
+  --notes-default-expanded:           false;   /* Show notes immediately */
+  --collect-glossary-images:          true;    /* Enable glossary images to be collected into the picture container */
+  --no-duplicate-kana:                false;   /* Replace kana-only word with its reading */
+  --blur-nsfw-picture:                true;    /* Blur picture on NSFW cards */
+  --mute-sentence-audio:              false;   /* Mute any sentence audio */
+  --mute-nsfw-audio:                  false;   /* Mute sentence audio on NSFW cards */
+  --kanji-hover-auto-quote:           true;    /* Enable automatic quoting in Kanji Hover sentences */
+
+  /* Component Visibility */
+  --settings-visibility:              1; /* "0" to hide settings toggle */
+  --main-bg-visibility:               1; /* "0" to disable main bg */
+  --main-bg-shadow-visibility:        0; /* "1" to enable box shadow on cards */
+  --custom-dark-mode-visibility:      1; /* "0" to hide custom dark mode toggle */
+  --audio-visibility:                 1; /* "0" to hide audio button */
+  --freq-visibility:                  1; /* "0" to hide frequency */
+  --definition-title-visibility:      1; /* "0" to hide dict title */  
+  --glossary-title-visibility:        1; /* "0" to hide glossary title */
+  --tag-visibility:                   1; /* "0" to hide tags */
+  --external-links-visibility:        1; /* "0" to hide external links */
+
+  /* Component Visibility (Card Size ≤ 1050px) */
+  --settings-visibility-header:       1; /* "0" to hide settings toggle */
+  --main-bg-1050-visibility:          1; /* "0" to disable main bg */
+  --main-bg-shadow-1050-visibility:   0; /* "1" to enable box shadow on cards */
+  --custom-dm-header-visibility:      1; /* "0" to hide custom dark mode toggle */
+  --audio-header-visibility:          1; /* "0" to hide audio button */
+  --freq-header-visibility:           1; /* "0" to hide frequency */
+
+
+  /* TYPOGRAPHY & FONTS
+  ============================================ */
+  /* Global Settings */
+  --base-size:                        clamp(19px, 3vw, 24px);
+  --base-line-height:                 1.5;
+  
+  /* Font Families */
+  --serif:                            "Klee One", klee, "Hiragino Mincho ProN", "Noto Serif CJK JP", notoserifjp, "Yu Mincho", serif;
+  --sans:                             "Hiragino Kaku Gothic ProN", "Noto Sans CJK JP", notosansjp, "Segoe UI", sans-serif;
+
+  /* Word Sizes (Dynamic Scaling) */
+  --word-size-base:                   2.5rem;
+  --word-size-4:                      2.1rem;  /* 4 chars */
+  --word-size-5:                      2.0rem;  /* 5 chars */
+  --word-size-6:                      1.7rem;  /* 6 chars */
+  --word-size-7:                      1.6rem;  /* 7 chars */
+  --word-size-8:                      1.3rem;  /* 8 chars */
+  --word-size-9:                      1.15rem; /* 9+ chars */
+
+  /* Word Furigana */
+  --reading-position:                 over;    /* "under" to display reading under word */
+  --furigana-size:                    1rem;    
+  --furigana-height:                  0.0rem;  /* Negative value moves it UP (e.g., -0.05rem), Positive moves it DOWN */
+
+  /* Sentence Furigana */
+  --sentence-furigana-display:        1;       /* "0" to disable furigana in sentences */
+  --sentence-furigana-height:         0.0rem;  /* Negative value moves it UP (e.g., -0.05rem), Positive moves it DOWN */
+
+  /* Text Sizes */
+  --sentence-size:                    1.3rem;
+  --sentence-eng-size:                0.8rem;
+  --definition-size:                  0.8rem;
+  --misc-info-size:                   15px;
+  --tag-font-size:                    0.7rem;
+  --frequency-size:                   20px;
+  --frequency-content-size:           14px;
+
+
+  /* DICTIONARY & GLOSSARY STYLING
+  ============================================ */
+  /* Colorizer Settings */
+  --dictionary-colorizer:             0;       /* "1" to enable Dictionary Colorizer */
+  --dict-bg-enabled:                  1;       /* "0" to disable bg color */
+  --dict-back-bg:                     0;       /* "1" to enable bg on entire card */
+  --dict-bg-opacity:                  0.03;    /* Opacity of the bg color */
+  --dict-border-width:                5px;     /* Width of colored border */
+  
+  /* Dictionary Title Styles */
+  --dict-size:                        0.5rem;
+  --dict-display:                     inline-block;
+  --light-dict-color:                 rgba(0, 0, 0, 0.4);
+  --dict-color-dark:                  rgba(255, 255, 255, 0.4);
+
+  /* Collapse Settings */
+  --dictionary-collapse:              0;       /* "1" to enable */
+  --dictionary-max-height:            390px;   /* Max height before collapse */
+
+  /* PITCH ACCENT SETTINGS
+  ============================================ */
+  --pitch-style:                      default; /* "alt" to color the entire word + reading instead of only the downstep */
+  --pitch-colors:                     true;    /* "false" to disable pitch downstep coloring */
+  --sentence-pitch-highlight:         false;   /* "true" to make pitch colors overwrite sentence highlights */
+  --kanji-hover-pitch-colors:         true;    /* "false" to disable pitch downstep coloring in Kanji Hover */
+  --kanji-hover-pitch-highlight:      true;    /* "false" to make pitch colors stop overwriting word + sentence highlights in Kanji Hover */
+  --only-kana-pitch-size:             0.08em;  /* Border thickness for kana-only words */
+
+
+  /* RESPONSIVE GRID CONTROL
+  ============================================ */
+  /* Global Grid Settings */
+  --grid-gap:                         var(--spacing-xl);
+  --grid-column-min-width:            390px;
+
+  /* Default Layout (> 1050px) */
+  --grid-order:                       1; /* "2" to flip grid horizontally */
+  --vertical-grid-order:              0; /* "1" to enable,  "2" to flip vertically */
+
+  /* Large Screens */
+  --horizontal-grid-large:            1; /* "0" to disable, "2" to flip horizontally */
+  --vertical-grid-large:              0; /* "1" to enable,  "2" to flip vertically */
+
+  /* Medium Screens */
+  --horizontal-grid-medium:           1; /* "0" to disable, "2" to flip horizontally */
+  --vertical-grid-medium:             0; /* "1" to enable,  "2" to flip vertically */
+
+  /* Small Screens */
+  --horizontal-grid-small:            0; /* "1" to enable,  "2" to flip horizontally */
+  --vertical-grid-small:              1; /* "0" to disable, "2" to flip vertically */
+
+  /* ==================================================================================
+     Note: You cannot enable the horizontal grid while the vertical grid is enabled.
+  ================================================================================== */ 
+
+
+  /* CUSTOM SHORTCUTS
+  ============================================ */
+  --toggle-settings-key:              p;       /* Set the key to toggle settings */
+  --scene-replay-shortcut-key:        w;       /* Set the key to replay active scene */
+  --toggle-custom-dark-mode-key:      c;       /* Set the key to toggle custom dark mode */
+  --toggle-picture-lightbox-key:      q;       /* Set the key to toggle lightbox */
+  --toggle-picture-lightbox-grid-key: shift+q; /* Set the key to toggle lightbox grid */
+
+
+  /* COLOR PALETTE
+  ============================================ */
+  /* Light Theme
+  -------------------------------------------- */
+  /* Text Colors */
+  --text-light:                       #020202;
+  --light-devoiced-color:             RoyalBlue;
+  --light-highlight:                  #E20033;
+  --freq-text-light:                  rgba(105, 105, 105, 0.3);
+  --freq-text-hover-light:            rgba(0, 0, 0, 1);
+  --tag-color-light:                  rgba(105, 105, 105, 0.26);
+  --tag-color-hover-light:            rgba(255, 255, 255, 1);
+
+  /* Pitch Colors */
+  --pitch-red-light:                  #D62839;
+  --pitch-blue-light:                 #3474FF;
+  --pitch-orange-light:               #FF6E03;
+  --pitch-green-light:                #2BAF7E;
+  --pitch-purple-light:               #8A5EDE;
+
+  /* Icon Colors */
+  --svg-color-light:                  rgba(105, 105, 105, 0.3);
+  --svg-hover-light:                  rgba(255, 255, 255, 1);
+
+  /* Background Colors */
+  --background-light:                 #f5f5f5;
+  --card-bg-light:                    rgba(255, 255, 255, 0.4);
+  --card-shadow-light:                rgba(0, 0, 0, 0.05);
+  --word-bg-light:                    rgba(0, 0, 0, 0.03);
+  --pitch-position-bg-light:          rgba(255, 255, 255, 0.8);
+  --picture-bg-light:                 rgba(0, 0, 0, 0.03);
+  --notes-bg-light:                   rgba(0, 0, 0, 0.03);
+  --definition-bg-light:              rgba(0, 0, 0, 0.03);
+  --dictionary-collapse-fade-light:   linear-gradient(to bottom, rgba(245,245,245,0), rgba(245,245,245,0.5));
+  --buttons-bg-light:                 rgba(0, 0, 0, 0.03);
+  --buttons-bg-hover-light:           rgba(0, 0, 0, 0.63);
+  --lightbox-bg-light:                rgba(0, 0, 0, 0.8);
+  --frequency-bg-light:               rgba(255, 255, 255, 0.8);
+  --tag-bg-light:                     rgba(0, 0, 0, 0.03);
+  --tag-bg-hover-light:               rgba(0, 0, 0, 0.63);
+  --external-links-bg-light:          rgba(0, 0, 0, 0.1);
+  --external-links-bg-hover-light:    rgba(255, 255, 255, 0.4);
+
+
+  /* Dark Theme
+  -------------------------------------------- */
+  /* Text Colors */
+  --text:                             #fcfcfc;
+  --dark-devoiced-color:              cornflowerBlue;
+  --dark-highlight:                   #FCFF61;
+  --freq-text:                        rgba(255, 255, 255, 0.2);
+  --freq-text-hover:                  rgba(255, 255, 255, 1);
+  --tag-color:                        rgba(255, 255, 255, 0.21);
+  --tag-color-hover:                  rgba(255, 255, 255, 1);
+
+  /* Pitch Colors */
+  --pitch-red:                        #F5436D;
+  --pitch-blue:                       #39C1FF;
+  --pitch-orange:                     #fca311;
+  --pitch-green:                      #40D4A6;
+  --pitch-purple:                     #afa2ff;
+
+  /* Icon Colors */
+  --svg-color:                        rgba(255, 255, 255, 0.2);
+  --svg-hover:                        rgba(255, 255, 255, 1);
+
+  /* Background Colors */
+  --background:                       #2c2c2c;
+  --card-bg:                          rgba(0, 0, 0, 0.4);
+  --card-shadow:                      rgba(0, 0, 0, 0.3);
+  --word-bg:                          rgba(0, 0, 0, 0.3);
+  --pitch-position-bg:                rgba(0, 0, 0, 0.2);
+  --picture-bg:                       rgba(0, 0, 0, 0.3);
+  --notes-bg:                         rgba(0, 0, 0, 0.3);
+  --definition-bg:                    rgba(0, 0, 0, 0.3);
+  --dictionary-collapse-fade:         linear-gradient(to bottom, rgba(44, 44, 44, 0), rgba(26, 26, 26, 0.5));
+  --buttons-bg:                       rgba(0, 0, 0, 0.1);
+  --buttons-bg-hover:                 rgba(0, 0, 0, 0.63);
+  --lightbox-bg:                      rgba(0, 0, 0, 0.8);
+  --frequency-bg:                     rgba(0, 0, 0, 0.63);
+  --tag-bg:                           rgba(0, 0, 0, 0.1);
+  --tag-bg-hover:                     rgba(0, 0, 0, 0.63);
+  --external-links-bg:                rgba(0, 0, 0, 0.4);
+  --external-links-bg-hover:          rgba(0, 0, 0, 0.63);
+
+
+  /* DIMENSIONS & SPACING
+  ============================================ */
+  /* Spacing Scale */
+  --spacing-xs:                       2px;
+  --spacing-sm:                       3px;
+  --spacing-ms:                       8px;
+  --spacing-md:                       10px;
+  --spacing-lg:                       15px;
+  --spacing-xl:                       20px;
+  --spacing-xxl:                      24px;
+  --spacing-xxml:                     27px;
+  --spacing-xxxl:                     34px;
+  --base-padding:                     20px;
+
+  /* Border Radius */
+  --border-radius-sm:                 4px;
+  --border-radius-ms:                 5px;
+  --border-radius-md:                 10px;
+  --border-radius-lg:                 12px;
+  --tag-border-radius:                5px;
+
+  /* Dimensions */
+  --card-max-width:                   800px;
+  --front-top-offset:                 104px;
+  --back-top-offset:                  26px;
+  
+  /* UI Elements */
+  --button-size:                      20px;
+  --toggle-width-large:               60px;
+  --toggle-width-medium:              20px;
+  --picture-height:                   220px;
+  --picture-height-small:             330px; /* Max picture container height */
+  --picture-max-height-small:         100%;  /* Max picture img height */
+  --lightbox-nav-width:               100px;
+  --external-links-icon-size:         25px;
+  --frequency-max-height:             500px;
+
+  /* Margins & Padding */
+  --tag-padding:                      5px 10px;
+  --tag-margin-top:                   5px;
+  --tag-margin-bottom:                0;
+  --tags-container-gap:               0 5px;
+  
+  --external-links-padding:           5px 10px;
+  --external-links-margin-top:        5px;
+  --external-links-margin-bottom:     0; 
+
+
+  /* EFFECTS & ANIMATION
+  ============================================ */
+  /* Transitions */
+  --base-transition:                  0.3s ease;
+  --fast-transition:                  0.2s ease;
+
+  /* Shadows */
+  --button-shadow:                    0 0 5px 2.5px rgba(0, 0, 0, 0.1);
+  --button-shadow-dark:               0 0 5px 2.5px rgba(255, 255, 255, 0.1);
+  --lightbox-shadow:                  0 1px 8px rgba(0, 0, 0, 0.15);
+
+  /* Z-Index Layers */
+  --z-index-base:                     3;
+  --z-index-toggle:                   2;
+  --z-index-lightbox:                 1000;
+}
