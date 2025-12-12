@@ -1329,12 +1329,6 @@ body.senren-docked-mode .header {
     margin-bottom: 5px;
 }
 
-body.senren-docked-mode .audio-hint {
-    position: absolute; display: flex; left: 75px; top: 20px;
-}
-body.senren-docked-mode .toggle-custom-dark-mode {
-    position: absolute; display: flex; left: 20px; top: 20px;
-}
 body.senren-docked-mode .back .toggle-custom-dark-mode {
     position: unset;
 }
@@ -1372,4 +1366,5 @@ body.senren-docked-mode .back:not(:has(.audio)) .sentenceaudio {
     position: relative !important;
     top: auto !important; left: auto !important;         
     right: auto !important; bottom: auto !important;
+
 }
