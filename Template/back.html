@@ -601,21 +601,23 @@
     };
 
     toggleAreas.forEach(area => {
-      area.addEventListener('click', (e) => {
+      area.onclick = (e) => {
         if (totalVisibleItemsCount <= 1) return;
-
         if (area.classList.contains('right') || area.classList.contains('right-larger')) {
           handleToggle('right');
         } else if (area.classList.contains('left') || area.classList.contains('left-larger')) {
           handleToggle('left');
         }
-      });
+      };
     });
 
-    document.addEventListener('keydown', (e) => {
+    if (window.senrenDefinitionKeyHandler) {
+      document.removeEventListener('keydown', window.senrenDefinitionKeyHandler);
+    }
+
+    window.senrenDefinitionKeyHandler = (e) => {
       if (totalVisibleItemsCount <= 1) return;
       if (e.ctrlKey) return;
-
       if (typeof lightbox !== 'undefined' && lightbox.classList.contains('active')) return;
       if (document.activeElement && (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA')) {
         return;
@@ -628,7 +630,9 @@
         e.preventDefault();
         handleToggle('right');
       }
-    });
+    };
+
+    document.addEventListener('keydown', window.senrenDefinitionKeyHandler);
   }
 
   // Adds hover effects to Jitendex dictionary content 
