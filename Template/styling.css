@@ -1,18 +1,18 @@
-/* FONT DECLARATIONS
+/* MOBILE FONTS
 ============================================ */
 @font-face {
-    font-family: klee;
-    src: url("_KleeOne-SemiBold.ttf");
+  font-family: klee;
+  src: url("_KleeOne-SemiBold.ttf");
 }
 
 @font-face {
-    font-family: notosansjp;
-    src: url("_NotoSansJP.ttf");
+  font-family: notosansjp;
+  src: url("_NotoSansJP.ttf");
 }
 
 @font-face {
-    font-family: notoserifjp;
-    src: url("_NotoSerifJP.ttf");
+  font-family: notoserifjp;
+  src: url("_NotoSerifJP.ttf");
 }
 
 /* Custom Variables for Styling */
@@ -31,6 +31,7 @@
   --kanji-hover-auto-quote:           true;    /* Enable automatic quoting in Kanji Hover sentences */
 
   /* Component Visibility */
+  --settings-visibility:              1; /* "0" to hide settings toggle */
   --main-bg-visibility:               1; /* "0" to disable main bg */
   --main-bg-shadow-visibility:        0; /* "1" to enable box shadow on cards */
   --custom-dark-mode-visibility:      1; /* "0" to hide custom dark mode toggle */
@@ -42,6 +43,7 @@
   --external-links-visibility:        1; /* "0" to hide external links */
 
   /* Component Visibility (Card Size ≤ 1050px) */
+  --settings-visibility-header:       1; /* "0" to hide settings toggle */
   --main-bg-1050-visibility:          1; /* "0" to disable main bg */
   --main-bg-shadow-1050-visibility:   0; /* "1" to enable box shadow on cards */
   --custom-dm-header-visibility:      1; /* "0" to hide custom dark mode toggle */
@@ -56,8 +58,8 @@
   --base-line-height:                 1.5;
   
   /* Font Families */
-  --sans:                             hiragino kaku gothic proN, notosansjp, Noto Sans JP;
-  --serif:                            klee, Klee One SemiBold, notoserifjp, Noto Serif JP;
+  --serif:                            "Klee One", klee, "Hiragino Mincho ProN", "Noto Serif CJK JP", notoserifjp, "Yu Mincho", serif;
+  --sans:                             "Hiragino Kaku Gothic ProN", "Noto Sans CJK JP", notosansjp, "Segoe UI", sans-serif;
 
   /* Word Sizes (Dynamic Scaling) */
   --word-size-base:                   2.5rem;
@@ -145,6 +147,7 @@
 
   /* CUSTOM SHORTCUTS
   ============================================ */
+  --toggle-settings-key:              p;       /* Set the key to toggle settings */
   --scene-replay-shortcut-key:        w;       /* Set the key to replay active scene */
   --toggle-custom-dark-mode-key:      c;       /* Set the key to toggle custom dark mode */
   --toggle-picture-lightbox-key:      q;       /* Set the key to toggle lightbox */
@@ -160,8 +163,9 @@
   --light-devoiced-color:             RoyalBlue;
   --light-highlight:                  #E20033;
   --freq-text-light:                  rgba(105, 105, 105, 0.3);
+  --freq-text-hover-light:            rgba(0, 0, 0, 1);
   --tag-color-light:                  rgba(105, 105, 105, 0.26);
-  --tag-color-hover-light:            white;
+  --tag-color-hover-light:            rgba(255, 255, 255, 1);
 
   /* Pitch Colors */
   --pitch-red-light:                  #D62839;
@@ -172,14 +176,14 @@
 
   /* Icon Colors */
   --svg-color-light:                  rgba(105, 105, 105, 0.3);
-  --svg-hover-light:                  white; 
+  --svg-hover-light:                  rgba(255, 255, 255, 1);
 
   /* Background Colors */
   --background-light:                 #f5f5f5;
   --card-bg-light:                    rgba(255, 255, 255, 0.4);
   --card-shadow-light:                rgba(0, 0, 0, 0.05);
   --word-bg-light:                    rgba(0, 0, 0, 0.03);
-  --pitch-position-bg-light:          rgba(255,255,255,0.8);
+  --pitch-position-bg-light:          rgba(255, 255, 255, 0.8);
   --picture-bg-light:                 rgba(0, 0, 0, 0.03);
   --notes-bg-light:                   rgba(0, 0, 0, 0.03);
   --definition-bg-light:              rgba(0, 0, 0, 0.03);
@@ -187,7 +191,7 @@
   --buttons-bg-light:                 rgba(0, 0, 0, 0.03);
   --buttons-bg-hover-light:           rgba(0, 0, 0, 0.63);
   --lightbox-bg-light:                rgba(0, 0, 0, 0.8);
-  --frequency-bg-light:               rgba(255, 255,255, 0.8);
+  --frequency-bg-light:               rgba(255, 255, 255, 0.8);
   --tag-bg-light:                     rgba(0, 0, 0, 0.03);
   --tag-bg-hover-light:               rgba(0, 0, 0, 0.63);
   --external-links-bg-light:          rgba(0, 0, 0, 0.1);
@@ -201,8 +205,9 @@
   --dark-devoiced-color:              cornflowerBlue;
   --dark-highlight:                   #FCFF61;
   --freq-text:                        rgba(255, 255, 255, 0.2);
+  --freq-text-hover:                  rgba(255, 255, 255, 1);
   --tag-color:                        rgba(255, 255, 255, 0.21);
-  --tag-color-hover:                  white;
+  --tag-color-hover:                  rgba(255, 255, 255, 1);
 
   /* Pitch Colors */
   --pitch-red:                        #F5436D;
@@ -213,7 +218,7 @@
 
   /* Icon Colors */
   --svg-color:                        rgba(255, 255, 255, 0.2);
-  --svg-hover:                        white; 
+  --svg-hover:                        rgba(255, 255, 255, 1);
 
   /* Background Colors */
   --background:                       #2c2c2c;
@@ -735,7 +740,6 @@ ul, ol {
 
   #position {
     top: auto !important;
-    transform: none !important;
     align-content: center;
   }
 
@@ -1104,16 +1108,10 @@ img {
   display: none;
 }
 
-#glossary {
-  display: grid;
-  place-items: left;
-  text-align: center;
-  line-height: var(--base-line-height);
-}
-
 #definition, #glossary {
   position: relative;
   display: none;
+  line-height: var(--base-line-height);
 }
 
 #definition.show, #glossary.show {
@@ -1645,6 +1643,7 @@ span[style*="display:inline"]:has(+ span[style*="border:1.5px dotted #c83c28"]) 
   left: 100%;
   color: var(--text-light);
   margin-left: var(--spacing-ms);
+  transform: translateY(var(--furigana-height)); 
   font-size: 0.5rem;
   padding: 5px 5px 5px 5px;
   border-radius: 5px;
@@ -2692,13 +2691,13 @@ li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br)
 }
 
 .frequency-box:hover .freqbt {
-  color: black;
+  color: var(--freq-text-hover-light);
   text-shadow: 0 0 5px white;
 }
 
 :is(.card.nightMode, .custom-dark-mode) 
 .frequency-box:hover .freqbt {
-  color: white;
+  color: var(--freq-text-hover);
   text-shadow: 0 0 5px black;
 }
 
@@ -2706,7 +2705,7 @@ li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br)
   opacity: 0;
   max-height: 0;
   padding: 0 var(--spacing-lg);
-  color: black;
+  color: var(--freq-text-hover-light);
   background: var(--frequency-bg-light);
   border-radius: var(--border-radius-ms);
   font-size: var(--frequency-content-size);
@@ -2719,7 +2718,7 @@ li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br)
 
 :is(.card.nightMode, .custom-dark-mode) 
 .frequency-content {
-  color: white;
+  color: var(--freq-text-hover);
   background: var(--frequency-bg);
 }
 
@@ -2817,9 +2816,6 @@ li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br)
   display: inline-block;
 }
 
-
-
-
 .external-links a {
   margin-top: var(--external-links-margin-top);
   margin-bottom: var(--tag-margin-bottom);
@@ -2855,10 +2851,6 @@ li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br)
 .external-links a:hover {
   background: var(--external-links-bg-hover);
 }
-
-
-
-
 
 .external-links a:first-child {
   border-top-left-radius: 5px;
@@ -3163,8 +3155,8 @@ li.is-new-card:not(:hover) rt,
 li.is-new-card:not(:hover) .related-sentence,
 li.is-new-card:not(:hover) .highlight,
 li.is-new-card:not(:hover) .pitch-number,
-li.is-new-card:not(:hover) .pronunciation-mora-line,
-li.is-new-card:not(:hover) span[style*="border-color"] {
+li.is-new-card:not(:hover) span[style*="border-color"],
+li.is-new-card:not(:hover) .pronunciation-mora[data-pitch="high"] .pronunciation-mora-line {
   color: #999 !important;
   border-color: #999 !important;
 }
@@ -4038,6 +4030,13 @@ li.is-new-card:not(:hover) .related-word {
   display: none;
 }
 
+/* Hide settings toggle */
+@container style(--settings-visibility: 0) {
+  .toggle-settings-btn {
+    display: none;
+  }
+}
+
 @media (min-width:1051px){
   @container style(--main-bg-visibility: 0) {
     .back::before {
@@ -4047,11 +4046,11 @@ li.is-new-card:not(:hover) .related-word {
 
   @container style(--main-bg-shadow-visibility: 1) {
     .front::before, .back::before {
-      box-shadow: var(--card-shadow-light);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1), 0 5px 10px var(--card-shadow-light);
     }
 
     :is(.card.nightMode, .custom-dark-mode) :is(.front, .back)::before {
-      box-shadow: var(--card-shadow);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5), 0 5px 10px var(--card-shadow);
     }
   }
 
@@ -4083,6 +4082,12 @@ li.is-new-card:not(:hover) .related-word {
   :root {
     --horizontal-layout: var(--horizontal-grid-large);
     --vertical-layout: var(--vertical-grid-large);
+  }
+
+  @container style(--settings-visibility-header: 0) {
+    .toggle-settings-btn {
+      display: none;
+    }
   }
 
   .dictionary-counter {
@@ -4171,11 +4176,11 @@ li.is-new-card:not(:hover) .related-word {
 
   @container style(--main-bg-shadow-1050-visibility: 1) {
     .front::before, .back::before {
-      box-shadow: var(--card-shadow-light);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1), 0 5px 10px var(--card-shadow-light);
     }
 
     :is(.card.nightMode, .custom-dark-mode) :is(.front, .back)::before {
-      box-shadow: var(--card-shadow);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5), 0 5px 10px var(--card-shadow);
     }
   }
 
