@@ -68,14 +68,14 @@
         {{/frequency}}
       </div>
     </div>
-    </div>
+  </div>
 
-    <script>
-      document.querySelectorAll('label.freqbt').forEach(lbl => {
-        if (lbl.childNodes[0]?.nodeType === 3 && lbl.childNodes[0].nodeValue.trim() === "9999999")
-          lbl.style.display = 'none';
-      });
-    </script>
+  <script>
+    document.querySelectorAll('label.freqbt').forEach(lbl => {
+      if (lbl.childNodes[0]?.nodeType === 3 && lbl.childNodes[0].nodeValue.trim() === "9999999")
+        lbl.style.display = 'none';
+    });
+  </script>
   <!-- /HEADER -->
 
   <!-- GRID LAYOUT -->
@@ -142,11 +142,11 @@
 
   <!-- Definition -->
   <div id="definition" class="card-b" data-type="definition">
-      <div class="dictionary-counter"></div>
-      <div class="toggle-area left-larger tappable"></div>
-      <div class="toggle-area right-larger tappable"></div>
-      <div class="toggle-area left tappable"></div>
-      <div class="toggle-area right tappable"></div>
+    <div class="dictionary-counter"></div>
+    <div class="toggle-area left-larger tappable"></div>
+    <div class="toggle-area right-larger tappable"></div>
+    <div class="toggle-area left tappable"></div>
+    <div class="toggle-area right tappable"></div>
     <div class="definition-box">
 
       <span>{{definition}}</span>
@@ -155,11 +155,11 @@
 
   <!-- Glossary -->
   <div id="glossary" class="card-b yomitan-glossary" data-type="glossary">
-      <div class="dictionary-counter"></div>
-      <div class="toggle-area left-larger tappable"></div>
-      <div class="toggle-area right-larger tappable"></div>
-      <div class="toggle-area left tappable"></div>
-      <div class="toggle-area right tappable"></div>
+    <div class="dictionary-counter"></div>
+    <div class="toggle-area left-larger tappable"></div>
+    <div class="toggle-area right-larger tappable"></div>
+    <div class="toggle-area left tappable"></div>
+    <div class="toggle-area right tappable"></div>
     <div class="glossary-box">
       <span>{{glossary}}</span>
     </div>
@@ -358,10 +358,10 @@
     if (hasSelectionText) currentVisibleItems.push({ type: 'selectionText', element: selectionText, container: selectionText });
     if (hasDefinition) {
       const defLi = definition.querySelector('.definition-box li[data-dictionary]');
-      currentVisibleItems.push({ 
-        type: 'definition', 
+      currentVisibleItems.push({
+        type: 'definition',
         element: defLi || definition,
-        container: definition 
+        container: definition
       });
     }
 
@@ -614,7 +614,7 @@
 
     document.addEventListener('keydown', (e) => {
       if (totalVisibleItemsCount <= 1) return;
-      if (e.ctrlKey) return; 
+      if (e.ctrlKey) return;
 
       if (typeof lightbox !== 'undefined' && lightbox.classList.contains('active')) return;
       if (document.activeElement && (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA')) {
@@ -846,7 +846,7 @@
 
     if (notesElement) {
       const expandByDefault = getComputedStyle(document.documentElement)
-                              .getPropertyValue('--notes-default-expanded').trim();
+        .getPropertyValue('--notes-default-expanded').trim();
 
       if (expandByDefault === 'true') {
         const originalTransition = notesElement.style.transition;
@@ -879,9 +879,9 @@
       if (images.length === 0) return;
 
       const visibleIndex = Array.from(images).findIndex(img => {
-          return window.getComputedStyle(img).display !== 'none';
+        return window.getComputedStyle(img).display !== 'none';
       });
-      
+
       if (visibleIndex !== -1) currentImageIndex = visibleIndex;
 
       images.forEach(img => img.style.setProperty('display', 'none', 'important'));
@@ -1247,13 +1247,13 @@
 
     if (muteAudio === 'true') {
       const wordAudioButton = document.querySelector(".audio .soundLink, .audio .replaybutton");
-    
+
       if (wordAudioButton) {
         wordAudioButton.click();
       }
     }
-  }  
-  
+  }
+
   // Adds titles to dictionaries
   function dictionaryTitle() {
     let processedDictionaries = new Set();
@@ -1793,96 +1793,93 @@
 
   // Format pitch accent positions and categories 
   function cleanPitchPositions() {
-    const allSpans = document.querySelectorAll("span");
-    allSpans.forEach(spanElement => {
-      const classList = spanElement.classList;
-      let classToModify = "";
-      classList.forEach(cls => {
-        if (cls.includes(",")) {
-          classToModify = cls;
-        }
-      });
+    const targetSpans = document.querySelectorAll(".pitch span, #word span");
 
-      if (classToModify) {
-        const commaIndex = classToModify.indexOf(",");
-        const newClassValue = commaIndex !== -1 ? classToModify.substring(0, commaIndex).trim() : classToModify;
-        spanElement.classList.remove(classToModify);
-        spanElement.classList.add(newClassValue);
+    targetSpans.forEach(spanElement => {
+      const classList = spanElement.classList;
+      if (spanElement.className.indexOf(',') > -1) {
+        const classes = [...classList];
+        const dirtyClass = classes.find(c => c.includes(','));
+        if (dirtyClass) {
+          const newClass = dirtyClass.split(',')[0].trim();
+          spanElement.classList.replace(dirtyClass, newClass);
+        }
       }
     });
 
     const positionElements = document.querySelectorAll('#position');
+    if (positionElements.length === 0) return;
+
     const rubyElement = document.querySelector("#word > span > ruby");
     const mainWordSpan = document.querySelector("#word > span");
     const sentenceSpan = document.getElementById("formattedSentence");
     const rtElement = rubyElement?.querySelector('rt');
 
+    const updates = [];
     let potentialFallbackClass = null;
-    let runFallbackCheck = false;
+    let applyFallback = false;
+
+    const hasPitchClass = mainWordSpan && ['heiban', 'atamadaka', 'nakadaka', 'odaka', 'kifuku']
+      .some(cls => mainWordSpan.classList.contains(cls));
 
     positionElements.forEach(element => {
       if (element.dataset.cleaned || !element.innerHTML.trim()) return;
 
       const content = element.innerHTML.trim();
-      const numbers = Array.from(content.matchAll(/\d+/g))
-        .map(match => parseInt(match[0], 10))
-        .filter((num, index, arr) => arr.indexOf(num) === index);
+      const numbers = [...new Set(content.match(/\d+/g)?.map(n => parseInt(n, 10)) || [])];
 
       if (numbers.length === 0) return;
 
-      if (!runFallbackCheck && mainWordSpan && rtElement) {
-        const hasPitchClass = ['heiban', 'atamadaka', 'nakadaka', 'odaka', 'kifuku']
-          .some(cls => mainWordSpan.classList.contains(cls));
-        if (!hasPitchClass) {
-          const firstNumber = numbers[0];
-          const calculatedClass = getPitchType(firstNumber, rtElement);
-          if (calculatedClass && calculatedClass !== 'unknown') {
-            potentialFallbackClass = calculatedClass;
-            runFallbackCheck = true;
-          }
+      if (!applyFallback && mainWordSpan && rtElement && !hasPitchClass) {
+        const calculated = getPitchType(numbers[0], rtElement);
+        if (calculated && calculated !== 'unknown') {
+          potentialFallbackClass = calculated;
+          applyFallback = true;
         }
       }
 
       const categoriesElement = element.closest('.pitch')?.querySelector('#categories');
       const pitchTypes = categoriesElement?.textContent.split(',') || [];
 
-      const resolvedPitchTypes = [];
-      const newContent = numbers.map((num, index) => {
+      const resolvedTypes = [];
+      const newContentHTML = numbers.map((num, index) => {
         let pitchType = pitchTypes[index]?.trim() || getPitchType(num, rtElement);
         let cleanPitchType = pitchType.split(',')[0].trim();
-        resolvedPitchTypes.push(cleanPitchType);
+        resolvedTypes.push(cleanPitchType);
         return `<span class="pitch-number ${cleanPitchType}">${num}</span>`;
       }).join('・');
 
-      if (resolvedPitchTypes.length > 0) {
-        categoriesElement.dataset.fullCategories = resolvedPitchTypes.join('<br>');
-        categoriesElement.innerHTML = resolvedPitchTypes[0];
-      } else {
-        categoriesElement.dataset.fullCategories = '';
-        categoriesElement.innerHTML = '';
-      }
-
-      element.innerHTML = newContent;
-      element.dataset.cleaned = 'true';
+      updates.push({
+        element: element,
+        newHTML: newContentHTML,
+        catElement: categoriesElement,
+        fullCat: resolvedTypes.join('<br>'),
+        shortCat: resolvedTypes[0]
+      });
     });
 
-    if (runFallbackCheck && potentialFallbackClass) {
-      const hasPitchClassNow = ['heiban', 'atamadaka', 'nakadaka', 'odaka', 'kifuku']
-        .some(cls => mainWordSpan.classList.contains(cls));
-      if (!hasPitchClassNow) {
-        mainWordSpan.classList.add(potentialFallbackClass);
-        sentenceSpan.classList.add(potentialFallbackClass);
+    updates.forEach(update => {
+      update.element.innerHTML = update.newHTML;
+      update.element.dataset.cleaned = 'true';
+
+      if (update.catElement) {
+        if (update.fullCat) {
+          update.catElement.dataset.fullCategories = update.fullCat;
+          update.catElement.innerHTML = update.shortCat;
+          update.element.addEventListener('mouseenter', () => {
+            update.catElement.innerHTML = update.catElement.dataset.fullCategories;
+          });
+        } else {
+          update.catElement.dataset.fullCategories = '';
+          update.catElement.innerHTML = '';
+        }
       }
+    });
+
+    if (applyFallback && potentialFallbackClass) {
+      mainWordSpan.classList.add(potentialFallbackClass);
+      if (sentenceSpan) sentenceSpan.classList.add(potentialFallbackClass);
     }
-
-    positionElements.forEach(pos => {
-      const cat = pos.closest('.pitch')?.querySelector('#categories');
-      if (cat?.dataset.fullCategories) {
-        pos.addEventListener('mouseenter', () => {
-          cat.innerHTML = cat.dataset.fullCategories;
-        });
-      }
-    });
   }
 
   // Highlight the target word in the furigana sentence
@@ -1896,7 +1893,7 @@
     }
 
     sentenceFurigana = sentenceFurigana.replace(
-      /([\u3005\u4e00-\u9faf]+)\[([^\]]+)\]/g, 
+      /([\u3005\u4e00-\u9faf]+)\[([^\]]+)\]/g,
       '<ruby><rb>$1</rb><rt>$2</rt></ruby>'
     );
 
@@ -1928,7 +1925,7 @@
 
     function collectTextAndRubyNodes(node) {
       if (node.nodeType === Node.TEXT_NODE) {
-        if (node.textContent.length > 0) { 
+        if (node.textContent.length > 0) {
           allNodes.push({ type: 'text', node: node });
         }
       } else if (node.tagName === 'RUBY') {
@@ -1967,32 +1964,32 @@
     highlightedWords.forEach(word => {
       let searchStartIndex = 0;
       let wordStart;
-      
+
       while ((wordStart = plainText.indexOf(word, searchStartIndex)) !== -1) {
         const wordEnd = wordStart + word.length;
-        
+
         const affectedNodes = nodePositions.filter(pos =>
           pos.start < wordEnd && pos.end > wordStart
         );
 
         affectedNodes.forEach(pos => {
           const node = pos.node;
-          if (!node.parentNode) return; 
+          if (!node.parentNode) return;
 
           const relativeStart = Math.max(0, wordStart - pos.start);
           let relativeEnd = Math.min(pos.end - pos.start, wordEnd - pos.start);
-          
-          if(pos.type === 'ruby') {
-             const rb = node.querySelector('rb') || node.firstChild;
-             relativeEnd = Math.min(relativeEnd, rb.textContent.length);
+
+          if (pos.type === 'ruby') {
+            const rb = node.querySelector('rb') || node.firstChild;
+            relativeEnd = Math.min(relativeEnd, rb.textContent.length);
           } else {
-             relativeEnd = Math.min(relativeEnd, node.textContent.length);
+            relativeEnd = Math.min(relativeEnd, node.textContent.length);
           }
 
           if (pos.start >= wordStart && pos.end <= wordEnd) {
             const wrapper = document.createElement('span');
             wrapper.className = 'highlight';
-            
+
             if (pos.type === 'ruby') {
               const clone = node.cloneNode(true);
               wrapper.appendChild(clone);
@@ -2001,7 +1998,7 @@
               wrapper.textContent = node.textContent;
               node.parentNode.replaceChild(wrapper, node);
             }
-          } 
+          }
           else {
             if (pos.type === 'ruby') {
               const ruby = node;
@@ -2025,7 +2022,7 @@
               const startRtIdx = Math.round(rtText.length * relativeStart / baseText.length);
               const endRtIdx = Math.round(rtText.length * relativeEnd / baseText.length);
               const midRt = rtText.substring(startRtIdx, endRtIdx);
-              
+
               newHTML += `<span class="highlight"><ruby><rb>${midRb}</rb><rt>${midRt}</rt></ruby></span>`;
 
               if (relativeEnd < baseText.length) {
@@ -2046,12 +2043,12 @@
 
               const fragment = document.createDocumentFragment();
               if (beforeText) fragment.appendChild(document.createTextNode(beforeText));
-              
+
               const hlSpan = document.createElement('span');
               hlSpan.className = 'highlight';
               hlSpan.textContent = highlightedText;
               fragment.appendChild(hlSpan);
-              
+
               if (afterText) fragment.appendChild(document.createTextNode(afterText));
 
               node.parentNode.replaceChild(fragment, node);
@@ -2262,7 +2259,7 @@
       listItems.forEach(li => {
         const dictName = li.getAttribute('data-dictionary');
         if (!dictName) return;
-        
+
         if (!groupedItems[dictName]) {
           groupedItems[dictName] = [];
         }
@@ -2271,16 +2268,16 @@
 
       Object.keys(groupedItems).forEach(dictName => {
         const items = groupedItems[dictName];
-        
+
         if (items.length > 1) {
           const firstItem = items[0];
-          
+
           const consolidatedLi = firstItem.cloneNode(false);
-          
+
           const combinedHtml = items
             .map(li => li.innerHTML.trim())
             .join('<hr class="consolidated-entry-separator">');
-            
+
           consolidatedLi.innerHTML = combinedHtml;
 
           olElement.replaceChild(consolidatedLi, firstItem);
@@ -2339,7 +2336,7 @@
         readingWrapper.innerHTML = readingHTML;
 
         rubyElement.replaceChild(readingWrapper, wordTextNode);
-        
+
         rtElement.style.display = "none";
 
         document.getElementById('word').classList.add('reading-is-word');
@@ -2397,8 +2394,8 @@
       return;
     }
 
-    const baseWaitTime = 100;  
-    const timePerChar = 150;  
+    const baseWaitTime = 100;
+    const timePerChar = 150;
 
     const wordEl = document.getElementById('word');
     let charCount = 5;
@@ -2406,7 +2403,7 @@
     if (wordEl) {
       const rt = wordEl.querySelector('rt');
       const targetElement = (rt && rt.querySelector('li')) ? rt.querySelector('li') : (rt || wordEl);
-      
+
       let rawText = targetElement.textContent;
       let cleanedText = rawText.replace(/[\s\u3099\u309A\u309B\u309C]/g, '');
 
@@ -2416,25 +2413,25 @@
 
       const narrowVowelRegex = /[いきしちにひみりぎじぢびぴイキシチニヒミリギジヂビピうくすつぬふむるぐずづぶぷウクスツヌフムルグズヅブプ]/g;
       const narrowMatches = cleanedText.match(narrowVowelRegex);
-      
+
       if (narrowMatches) {
         effectiveCount -= (narrowMatches.length * 0.3);
       }
 
       charCount = Math.round(effectiveCount);
-      
+
       if (charCount < 1) charCount = 1;
     }
 
     let SENTENCE_DELAY;
 
-    if (charCount === 2) SENTENCE_DELAY = 550; 
+    if (charCount === 2) SENTENCE_DELAY = 550;
     else if (charCount === 3) SENTENCE_DELAY = 650;
     else if (charCount === 4) SENTENCE_DELAY = 700;
     else if (charCount === 5) SENTENCE_DELAY = 850;
     else if (charCount === 6) SENTENCE_DELAY = 1000;
-    else if (charCount === 7) SENTENCE_DELAY = 1080; 
-    else if (charCount === 8) SENTENCE_DELAY = 1150; 
+    else if (charCount === 7) SENTENCE_DELAY = 1080;
+    else if (charCount === 8) SENTENCE_DELAY = 1150;
     else SENTENCE_DELAY = baseWaitTime + (charCount * timePerChar);
 
     let initialPlayTimeout;
@@ -2460,7 +2457,7 @@
     const sentenceContainer = document.querySelector('.sentence-container #formattedSentence');
     if (sentenceContainer && !sentenceContainer.getAttribute('data-split-done')) {
       const groupWrappers = Array.from(sentenceContainer.querySelectorAll('.group'))
-                                .filter(el => el.textContent.trim().length > 0);
+        .filter(el => el.textContent.trim().length > 0);
 
       if (groupWrappers.length > 0) {
         const parts = groupWrappers.map(el => el.outerHTML);
@@ -2481,12 +2478,12 @@
     if (engContainer && !engContainer.getAttribute('data-split-done')) {
       const allSpans = Array.from(engContainer.querySelectorAll('span'));
       const groupWrappers = allSpans.filter(el => {
-         return el.className.split(/\s+/).some(c => /^group\d*$/.test(c));
+        return el.className.split(/\s+/).some(c => /^group\d*$/.test(c));
       });
 
       if (groupWrappers.length > 0) {
         engContainer.innerHTML = '';
-        
+
         groupWrappers.forEach((el) => {
           const div = document.createElement('div');
           div.classList.add('split-sentence-eng');
@@ -2495,7 +2492,7 @@
 
           const match = el.className.match(/group(\d+)/);
           if (match) {
-             div.setAttribute('data-target-index', parseInt(match[1], 10) - 1);
+            div.setAttribute('data-target-index', parseInt(match[1], 10) - 1);
           }
 
           engContainer.appendChild(div);
@@ -2505,17 +2502,17 @@
     }
 
     // Misc Info Group
-    const miscInfoContainer = document.querySelector('.misc-info'); 
-    
+    const miscInfoContainer = document.querySelector('.misc-info');
+
     if (miscInfoContainer && !miscInfoContainer.getAttribute('data-split-done')) {
       const allSpans = Array.from(miscInfoContainer.querySelectorAll('span'));
       const groupWrappers = allSpans.filter(el => {
-         return el.className.split(/\s+/).some(c => /^group\d*$/.test(c));
+        return el.className.split(/\s+/).some(c => /^group\d*$/.test(c));
       });
 
       if (groupWrappers.length > 0) {
         miscInfoContainer.innerHTML = '';
-        
+
         groupWrappers.forEach((el) => {
           const div = document.createElement('div');
           div.classList.add('split-misc-info');
@@ -2524,7 +2521,7 @@
 
           const match = el.className.match(/group(\d+)/);
           if (match) {
-             div.setAttribute('data-target-index', parseInt(match[1], 10) - 1);
+            div.setAttribute('data-target-index', parseInt(match[1], 10) - 1);
           }
 
           miscInfoContainer.appendChild(div);
@@ -2534,13 +2531,13 @@
     }
 
     const sentenceParts = document.querySelectorAll('.sentence-container #formattedSentence .split-sentence');
-    const engParts = document.querySelectorAll('#sentenceEng .split-sentence-eng'); 
-    const miscInfoParts = document.querySelectorAll('.misc-info .split-misc-info'); 
+    const engParts = document.querySelectorAll('#sentenceEng .split-sentence-eng');
+    const miscInfoParts = document.querySelectorAll('.misc-info .split-misc-info');
     const images = document.querySelectorAll('.picture-container img.field-img');
 
     let totalSlides = 1;
     if (audioParts.length > 0) {
-        totalSlides = audioParts.length;
+      totalSlides = audioParts.length;
     }
 
     let currentIndex = 0;
@@ -2549,7 +2546,7 @@
       if (audioParts.length === 0) return;
 
       document.querySelectorAll('audio').forEach(a => {
-        try { a.pause(); a.currentTime = 0; } catch(e){}
+        try { a.pause(); a.currentTime = 0; } catch (e) { }
       });
 
       let audioToPlay = null;
@@ -2564,57 +2561,57 @@
       }
     }
 
-    let replayTimeout; 
+    let replayTimeout;
 
     const handleSceneShortcuts = (e) => {
-        if (document.activeElement && ['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
+      if (document.activeElement && ['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
 
-        const rootStyle = getComputedStyle(document.documentElement);
-        const cssVal = rootStyle.getPropertyValue('--scene-replay-shortcut-key').trim();
+      const rootStyle = getComputedStyle(document.documentElement);
+      const cssVal = rootStyle.getPropertyValue('--scene-replay-shortcut-key').trim();
 
-        const replayConfig = parseKeyConfig(cssVal) || { key: 'w', ctrl: false, alt: false, shift: false, meta: false };
+      const replayConfig = parseKeyConfig(cssVal) || { key: 'w', ctrl: false, alt: false, shift: false, meta: false };
 
-        if (isKeyMatch(e, replayConfig)) { 
-            e.preventDefault();
-            e.stopPropagation();
+      if (isKeyMatch(e, replayConfig)) {
+        e.preventDefault();
+        e.stopPropagation();
 
-            if (replayTimeout) clearTimeout(replayTimeout);
-            if (typeof initialPlayTimeout !== 'undefined') clearTimeout(initialPlayTimeout);
+        if (replayTimeout) clearTimeout(replayTimeout);
+        if (typeof initialPlayTimeout !== 'undefined') clearTimeout(initialPlayTimeout);
 
-            document.querySelectorAll('audio').forEach(a => {
-                try { a.pause(); a.currentTime = 0; } catch(e){}
-            });
+        document.querySelectorAll('audio').forEach(a => {
+          try { a.pause(); a.currentTime = 0; } catch (e) { }
+        });
 
-            const wordAudioBtn = document.querySelector('.audio .soundLink, .audio .replaybutton');
-            if (wordAudioBtn) {
-                wordAudioBtn.click();
-            }
-
-          replayTimeout = setTimeout(() => {
-                playActiveAudio(); 
-          }, SENTENCE_DELAY);
+        const wordAudioBtn = document.querySelector('.audio .soundLink, .audio .replaybutton');
+        if (wordAudioBtn) {
+          wordAudioBtn.click();
         }
 
-        if (e.ctrlKey) {
-            if (e.key === 'ArrowLeft') {
-                e.preventDefault();
-                e.stopPropagation();
-                if (typeof initialPlayTimeout !== 'undefined') clearTimeout(initialPlayTimeout);
+        replayTimeout = setTimeout(() => {
+          playActiveAudio();
+        }, SENTENCE_DELAY);
+      }
 
-                currentIndex--;
-                if (currentIndex < 0) currentIndex = totalSlides - 1;
-                updateDisplay(true);
-            } 
-            else if (e.key === 'ArrowRight') {
-                e.preventDefault();
-                e.stopPropagation();
-                if (typeof initialPlayTimeout !== 'undefined') clearTimeout(initialPlayTimeout);
+      if (e.ctrlKey) {
+        if (e.key === 'ArrowLeft') {
+          e.preventDefault();
+          e.stopPropagation();
+          if (typeof initialPlayTimeout !== 'undefined') clearTimeout(initialPlayTimeout);
 
-                currentIndex++;
-                if (currentIndex >= totalSlides) currentIndex = 0;
-                updateDisplay(true);
-            }
+          currentIndex--;
+          if (currentIndex < 0) currentIndex = totalSlides - 1;
+          updateDisplay(true);
         }
+        else if (e.key === 'ArrowRight') {
+          e.preventDefault();
+          e.stopPropagation();
+          if (typeof initialPlayTimeout !== 'undefined') clearTimeout(initialPlayTimeout);
+
+          currentIndex++;
+          if (currentIndex >= totalSlides) currentIndex = 0;
+          updateDisplay(true);
+        }
+      }
     };
 
     window.currentSceneKeyHandler = handleSceneShortcuts;
@@ -2622,21 +2619,21 @@
 
     function updateDisplay(shouldPlayAudio = false) {
       const currentFieldImages = document.querySelectorAll('.picture-container img');
-      
+
       if (currentFieldImages.length > 0) {
         let indexToShow = 0;
         if (currentFieldImages.length > 1) {
-            indexToShow = Math.min(currentIndex, currentFieldImages.length - 1);
+          indexToShow = Math.min(currentIndex, currentFieldImages.length - 1);
         }
         const targetImage = currentFieldImages[indexToShow];
 
         const allImagesInContainer = document.querySelectorAll('.picture-container img');
         allImagesInContainer.forEach(img => {
-            img.style.setProperty('display', 'none', 'important');
+          img.style.setProperty('display', 'none', 'important');
         });
 
         if (targetImage) {
-            targetImage.style.setProperty('display', 'block', 'important');
+          targetImage.style.setProperty('display', 'block', 'important');
         }
       }
 
@@ -2656,35 +2653,35 @@
           let shouldShow = false;
 
           if (part.hasAttribute('data-target-index')) {
-             const targetIndex = parseInt(part.getAttribute('data-target-index'), 10);
-             shouldShow = (targetIndex === currentIndex);
-          } 
+            const targetIndex = parseInt(part.getAttribute('data-target-index'), 10);
+            shouldShow = (targetIndex === currentIndex);
+          }
           else {
-             if (miscInfoParts.length === 1) {
-                 shouldShow = (currentIndex === 0);
-             } else {
-                 shouldShow = (i === currentIndex);
-             }
+            if (miscInfoParts.length === 1) {
+              shouldShow = (currentIndex === 0);
+            } else {
+              shouldShow = (i === currentIndex);
+            }
           }
 
           if (shouldShow) {
-              part.style.setProperty('display', 'flex', 'important');
-              isAnyChildVisible = true;
+            part.style.setProperty('display', 'flex', 'important');
+            isAnyChildVisible = true;
           } else {
-              part.style.setProperty('display', 'none', 'important');
+            part.style.setProperty('display', 'none', 'important');
           }
         });
 
         if (mainMiscContainer) {
-            const displayValue = isAnyChildVisible ? 'flex' : 'none';
-            mainMiscContainer.style.setProperty('display', displayValue, 'important');
+          const displayValue = isAnyChildVisible ? 'flex' : 'none';
+          mainMiscContainer.style.setProperty('display', displayValue, 'important');
         }
 
       } else if (mainMiscContainer) {
         if (currentIndex === 0) {
-            mainMiscContainer.style.setProperty('display', 'flex', 'important');
+          mainMiscContainer.style.setProperty('display', 'flex', 'important');
         } else {
-            mainMiscContainer.style.setProperty('display', 'none', 'important');
+          mainMiscContainer.style.setProperty('display', 'none', 'important');
         }
       }
 
@@ -2694,15 +2691,15 @@
           let shouldShow = false;
 
           if (part.hasAttribute('data-target-index')) {
-             const targetIndex = parseInt(part.getAttribute('data-target-index'), 10);
-             shouldShow = (targetIndex === currentIndex);
-          } 
+            const targetIndex = parseInt(part.getAttribute('data-target-index'), 10);
+            shouldShow = (targetIndex === currentIndex);
+          }
           else {
-             if (engParts.length === 1) {
-                 shouldShow = (currentIndex === 0);
-             } else {
-                 shouldShow = (i === currentIndex);
-             }
+            if (engParts.length === 1) {
+              shouldShow = (currentIndex === 0);
+            } else {
+              shouldShow = (i === currentIndex);
+            }
           }
 
           part.style.display = shouldShow ? 'flex' : 'none';
@@ -2718,9 +2715,9 @@
         audioParts.forEach((btn, i) => {
           const shouldShow = (audioParts.length === 1) || (i === currentIndex);
           if (shouldShow) {
-              btn.style.setProperty('display', 'inline-block', 'important');
+            btn.style.setProperty('display', 'inline-block', 'important');
           } else {
-              btn.style.setProperty('display', 'none', 'important');
+            btn.style.setProperty('display', 'none', 'important');
           }
         });
       }
@@ -2746,11 +2743,11 @@
           currentIndex = totalSlides - 1;
         }
 
-        updateDisplay(true); 
+        updateDisplay(true);
       });
     });
-    
-    updateDisplay(false); 
+
+    updateDisplay(false);
 
     const muteNsfw = getComputedStyle(document.documentElement)
       .getPropertyValue('--mute-nsfw-audio')
@@ -2759,9 +2756,9 @@
 
     if (muteNsfw === 'true') {
     } else {
-       initialPlayTimeout = setTimeout(() => {
-         playActiveAudio();
-       }, SENTENCE_DELAY);
+      initialPlayTimeout = setTimeout(() => {
+        playActiveAudio();
+      }, SENTENCE_DELAY);
     }
   }
 
@@ -2775,76 +2772,104 @@
 
   // Enables custom shortcuts
   function enableCustomShortcuts() {
-    document.addEventListener('keydown', (e) => {
+    if (window.senrenFrontSettingsHandler) {
+      document.removeEventListener('keydown', window.senrenFrontSettingsHandler);
+      window.senrenFrontSettingsHandler = null;
+    }
+    
+    if (window.senrenBackKeyHandler) {
+      document.removeEventListener('keydown', window.senrenBackKeyHandler);
+      window.senrenBackKeyHandler = null;
+    }
+    
+    window.senrenBackKeyHandler = (e) => {
       if (document.activeElement && ['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
 
-      const rootStyle = getComputedStyle(document.documentElement);
-      
-      const lightboxConfig = parseKeyConfig(rootStyle.getPropertyValue('--toggle-picture-lightbox-key').trim());
-      const gridConfig = parseKeyConfig(rootStyle.getPropertyValue('--toggle-picture-lightbox-grid-key').trim());
+      const getVar = (name) => {
+          let val = '';
+          const card = document.querySelector('.card');
+          if (card) val = getComputedStyle(card).getPropertyValue(name).trim();
+          if (!val) val = getComputedStyle(document.body).getPropertyValue(name).trim();
+          if (!val) val = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+          return val.replace(/['"]/g, '');
+      };
+
+      const settingsKey = getVar('--toggle-settings-key');
+      const settingsConfig = parseKeyConfig(settingsKey);
+
+      if (isKeyMatch(e, settingsConfig)) {
+        e.preventDefault();
+        const modal = document.getElementById('senren-settings-modal');
+        const btn = document.querySelector('.toggle-settings-btn');
+        if (modal) {
+          modal.classList.toggle('active');
+        } else if (btn) {
+          btn.click();
+        }
+        return; 
+      }
+
+      const lightboxKey = getVar('--toggle-picture-lightbox-key');
+      const lightboxConfig = parseKeyConfig(lightboxKey);
+      const gridKey = getVar('--toggle-picture-lightbox-grid-key');
+      const gridConfig = parseKeyConfig(gridKey);
 
       if (isKeyMatch(e, gridConfig)) {
         e.preventDefault();
         e.stopPropagation();
-
         const lightbox = document.getElementById("lightbox");
         const showAllBtn = document.getElementById("show-all");
-
         if (lightbox && !lightbox.classList.contains("active")) {
-             const visibleImage = document.querySelector('.picture-container img[style*="display: block"]') 
-                               || document.querySelector('.picture-container img');
-             if (visibleImage) visibleImage.click();
-             
-             if (showAllBtn) showAllBtn.click();
-        } 
+          const visibleImage = document.querySelector('.picture-container img[style*="display: block"]')
+            || document.querySelector('.picture-container img');
+          if (visibleImage) visibleImage.click();
+          if (showAllBtn) showAllBtn.click();
+        }
         else if (lightbox && lightbox.classList.contains("active")) {
-             if (showAllBtn) showAllBtn.click();
+          if (showAllBtn) showAllBtn.click();
         }
         return;
       }
 
       if (isKeyMatch(e, lightboxConfig)) {
         e.preventDefault();
-        
         const lightbox = document.getElementById("lightbox");
-        
         if (lightbox && lightbox.classList.contains("active")) {
           lightbox.classList.remove("active");
-          
           const grid = document.querySelector(".lightbox-grid");
-          if(grid) grid.remove();
+          if (grid) grid.remove();
           const showAll = document.getElementById("show-all");
-          if(showAll) showAll.textContent = "Show All";
+          if (showAll) showAll.textContent = "Show All";
           const lightboxImg = document.getElementById("lightbox-img");
-          if(lightboxImg) lightboxImg.style.display = "block";
+          if (lightboxImg) lightboxImg.style.display = "block";
           const navs = document.querySelectorAll(".lightbox-nav");
           navs.forEach(n => n.style.display = "");
-        } 
-        else {
+        } else {
           const images = document.querySelectorAll('.picture-container img');
           let visibleImage = Array.from(images).find(img => window.getComputedStyle(img).display !== 'none');
           if (!visibleImage && images.length > 0) visibleImage = images[0];
-
-          if (visibleImage) {
-            visibleImage.click();
-          }
+          if (visibleImage) visibleImage.click();
         }
+        return;
       }
-      
-      const dmConfig = parseKeyConfig(rootStyle.getPropertyValue('--toggle-custom-dark-mode-key').trim());
+
+      const dmKey = getVar('--toggle-custom-dark-mode-key');
+      const dmConfig = parseKeyConfig(dmKey);
       if (isKeyMatch(e, dmConfig)) {
-         e.preventDefault();
-         const dmBtn = document.querySelector(".toggle-custom-dark-mode");
-         if (dmBtn) dmBtn.click();
+        e.preventDefault();
+        const dmBtn = document.querySelector(".toggle-custom-dark-mode");
+        if (dmBtn) dmBtn.click();
       }
-    });
+    };
+
+    document.addEventListener('keydown', window.senrenBackKeyHandler);
   }
 
   // Initializes immediate functions
   function init() {
     nsfw();
     muteSentence();
-    markFieldImages(); 
+    markFieldImages();
     noDuplicateKana();
     splitTags();
     highlightFurigana();
@@ -2852,20 +2877,12 @@
     createDownstepNotation();
     dynamicWordSize();
     alternativePitchStyle();
-
-    // Enable lazy-loading for all images inside #glossary
-    document.querySelectorAll('#glossary img').forEach(img => {
-      img.setAttribute('loading', 'lazy');
-    });
-
-    requestAnimationFrame(() => {
-      dictionaryTitle();
-      collectGlossaryImages();
-      consolidateYomitanGlossaryEntries();
-      toggleDefinition();
-      enableInteractions();
-      enableSceneSwitching(); 
-    });
+    dictionaryTitle();
+    collectGlossaryImages();
+    consolidateYomitanGlossaryEntries();
+    toggleDefinition();
+    enableInteractions();
+    enableSceneSwitching();
   }
 
   // initializes deferred functions
@@ -2874,18 +2891,17 @@
     enableImageSwitching();
     enableLightbox();
     enableCustomShortcuts();
-
     const isMobile = document.documentElement.classList.contains('mobile') || document.body.classList.contains('mobile');
     if (!isMobile) {
       wrapKanjiInWordField();
     }
-
-    // Prevent specified image links from opening
-    document.querySelectorAll('a[target="_blank"][href*="yomitan_dictionary_media_"]').forEach(link => {
-      if (link.href && /\.(png|jpe?g|gif|webp|svg)$/i.test(link.href)) link.onclick = e => e.preventDefault();
-    });
   }
 
   init();
   setTimeout(initDeferred, 0);
+  setTimeout(() => {
+    const script = document.createElement('script');
+    script.src = "_senren_settings_v4.6.0.js";
+    document.body.appendChild(script);
+  }, 0);
 </script>
