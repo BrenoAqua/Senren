@@ -106,9 +106,13 @@
 <div id="hiddenReading" style="display: none !important;">{{reading}}</div>
 
 <script>
-  if (window.currentSceneKeyHandler) {
-    document.removeEventListener('keydown', window.currentSceneKeyHandler);
-    window.currentSceneKeyHandler = null;
+  if (window.senrenFrontSettingsHandler) {
+    document.removeEventListener('keydown', window.senrenFrontSettingsHandler);
+    window.senrenFrontSettingsHandler = null;
+  }
+  if (window.senrenBackKeyHandler) {
+    document.removeEventListener('keydown', window.senrenBackKeyHandler);
+    window.senrenBackKeyHandler = null;
   }
 
   // Helper functions for shortcuts
@@ -372,7 +376,8 @@
                 wordAudioBtn.click();
             }
 
-            const delay = wordAudioBtn ? SENTENCE_DELAY : 0;
+            const replayLoadOffset = 200; 
+            const delay = wordAudioBtn ? (SENTENCE_DELAY + replayLoadOffset) : 0;
             
             replayTimeout = setTimeout(() => {
                 updateDisplay(true); 
@@ -450,20 +455,49 @@
 
   // Enables custom shortcuts
   function enableCustomShortcuts() {
-    document.addEventListener('keydown', (e) => {
-      const rootStyle = getComputedStyle(document.documentElement);
-      const dmConfig = parseKeyConfig(rootStyle.getPropertyValue('--toggle-custom-dark-mode-key').trim());
+    window.senrenFrontSettingsHandler = (e) => {
+      if (document.activeElement && ['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
+
+      const rootStyle = getComputedStyle(document.body);
+      
+      const settingsKey = rootStyle.getPropertyValue('--toggle-settings-key').replace(/['"]/g, '').trim();
+      const settingsConfig = parseKeyConfig(settingsKey);
+      
+      if (isKeyMatch(e, settingsConfig)) {
+         e.preventDefault();
+         const modal = document.getElementById('senren-settings-modal');
+         if (modal) {
+             modal.classList.toggle('active');
+         } else {
+             const btn = document.querySelector('.toggle-settings-btn');
+             if (btn) btn.click();
+         }
+         return; 
+      }
+
+      const dmKey = rootStyle.getPropertyValue('--toggle-custom-dark-mode-key').replace(/['"]/g, '').trim();
+      const dmConfig = parseKeyConfig(dmKey);
       
       if (isKeyMatch(e, dmConfig)) {
          e.preventDefault();
          const dmBtn = document.querySelector(".toggle-custom-dark-mode");
          if (dmBtn) dmBtn.click();
       }
-    });
+    };
+    
+    document.addEventListener('keydown', window.senrenFrontSettingsHandler);
   }
 
   enableFrontSceneSwitching();
   initializeAudioSentenceState();
   initializeSentenceState();
   enableCustomShortcuts();
+  setTimeout(() => {
+    const script = document.createElement('script');
+    script.src = "_senren_settings_v4.6.0.js";
+    document.body.appendChild(script);
+  }, 0);
+
+  void "_senren_settings_v4.6.0.css";
+  void "_senren_defaults_v4.6.0.css";
 </script>	
