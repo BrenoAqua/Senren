@@ -2587,9 +2587,12 @@
           wordAudioBtn.click();
         }
 
+        const replayLoadOffset = 200; 
+        const delay = wordAudioBtn ? (SENTENCE_DELAY + replayLoadOffset) : 0;
+            
         replayTimeout = setTimeout(() => {
-          playActiveAudio();
-        }, SENTENCE_DELAY);
+          updateDisplay(true); 
+        }, delay);
       }
 
       if (e.ctrlKey) {
