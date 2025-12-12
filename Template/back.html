@@ -1797,26 +1797,37 @@
 
   // Format pitch accent positions and categories 
   function cleanPitchPositions() {
-    const targetSpans = document.querySelectorAll(".pitch span, #word span");
-
-    targetSpans.forEach(spanElement => {
-      const classList = spanElement.classList;
-      if (spanElement.className.indexOf(',') > -1) {
-        const classes = [...classList];
-        const dirtyClass = classes.find(c => c.includes(','));
-        if (dirtyClass) {
-          const newClass = dirtyClass.split(',')[0].trim();
-          spanElement.classList.replace(dirtyClass, newClass);
-        }
-      }
-    });
-
     const positionElements = document.querySelectorAll('#position');
-    if (positionElements.length === 0) return;
-
     const rubyElement = document.querySelector("#word > span > ruby");
     const mainWordSpan = document.querySelector("#word > span");
     const sentenceSpan = document.getElementById("formattedSentence");
+  
+    const elementsToClean = [
+      mainWordSpan, 
+      sentenceSpan, 
+      rubyElement, 
+      ...positionElements 
+    ];
+
+    elementsToClean.forEach(element => {
+      if (!element) return; 
+
+      const classList = element.classList;
+      let classToModify = "";
+
+      classList.forEach(cls => {
+        if (cls.includes(",")) {
+          classToModify = cls;
+        }
+      });
+
+      if (classToModify) {
+        const commaIndex = classToModify.indexOf(",");
+        const newClassValue = commaIndex !== -1 ? classToModify.substring(0, commaIndex).trim() : classToModify;
+        element.classList.remove(classToModify);
+        element.classList.add(newClassValue);
+      }
+    });
     const rtElement = rubyElement?.querySelector('rt');
 
     const updates = [];
@@ -2302,48 +2313,63 @@
 
   // Replaces the word with its reading when the word is written only in kana
   function noDuplicateKana() {
-    const substituteSetting = getComputedStyle(document.documentElement).getPropertyValue('--no-duplicate-kana').trim().toLowerCase();
+    const wordContainer = document.getElementById('word');
+    if (!wordContainer) return;
 
-    if (substituteSetting !== 'true') {
+    const rubyElement = wordContainer.querySelector("ruby");
+    if (!rubyElement) return;
+
+    const substituteSetting = getComputedStyle(document.documentElement).getPropertyValue('--no-duplicate-kana').trim().toLowerCase();
+    const shouldBeEnabled = (substituteSetting === 'true');
+    const isCurrentlyEnabled = wordContainer.classList.contains('reading-is-word');
+
+    if (!shouldBeEnabled) {
+      if (isCurrentlyEnabled && rubyElement.dataset.originalHtml) {
+        rubyElement.innerHTML = rubyElement.dataset.originalHtml;
+        delete rubyElement.dataset.originalHtml; // Clear memory
+        wordContainer.classList.remove('reading-is-word');
+      }
       return;
     }
 
-    const rubyElement = document.querySelector("#word ruby");
-    if (!rubyElement) return;
+    if (shouldBeEnabled && isCurrentlyEnabled) return;
 
-    const rtElement = rubyElement.querySelector("rt");
-    let wordTextNode = null;
+    let fullWordText = "";
+    let nodesToRemove = [];
+
     for (const node of rubyElement.childNodes) {
-      if (node.nodeType === Node.TEXT_NODE && node.textContent.trim()) {
-        wordTextNode = node;
-        break;
+      if (node.nodeName === "RT" || node.nodeName === "RP") continue;
+
+      if (node.nodeType === Node.TEXT_NODE || node.nodeType === Node.ELEMENT_NODE) {
+        fullWordText += node.textContent;
+        nodesToRemove.push(node);
       }
     }
 
-    if (!wordTextNode || !rtElement) return;
+    if (!fullWordText.trim()) return;
 
-    const word = wordTextNode.textContent.trim();
-    const hasKanji = /[一-龯]/.test(word);
+    const hasKanji = /[\u4E00-\u9FFF\u3400-\u4DBF\u3005\u3007]/.test(fullWordText);
 
     if (!hasKanji) {
+      const rtElement = rubyElement.querySelector("rt");
+      if (!rtElement) return;
+
       let readingHTML = '';
       const firstLi = rtElement.querySelector("li");
-
-      if (firstLi) {
-        readingHTML = firstLi.innerHTML;
-      } else {
-        readingHTML = rtElement.innerHTML;
-      }
+      readingHTML = firstLi ? firstLi.innerHTML : rtElement.innerHTML;
 
       if (readingHTML.trim()) {
+        rubyElement.dataset.originalHtml = rubyElement.innerHTML;
+
         const readingWrapper = document.createElement('span');
         readingWrapper.innerHTML = readingHTML;
 
-        rubyElement.replaceChild(readingWrapper, wordTextNode);
+        nodesToRemove.forEach(node => node.remove());
 
+        rubyElement.insertBefore(readingWrapper, rtElement);
         rtElement.style.display = "none";
-
-        document.getElementById('word').classList.add('reading-is-word');
+        
+        wordContainer.classList.add('reading-is-word');
       }
     }
   }
