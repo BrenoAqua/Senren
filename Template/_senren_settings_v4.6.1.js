@@ -1,4 +1,4 @@
-/* _senren_settings_v4.6.0.js */
+/* _senren_settings_v4.6.1.js */
 (function () {
   const ANKI_CONNECT_URL = "http://127.0.0.1:8765";
   const PRESET_FILENAME = "_senren_presets.json";
@@ -305,7 +305,7 @@
     link.id = 'senren-styles-injected';
     link.rel = 'stylesheet';
     link.type = 'text/css';
-    link.href = '_senren_settings_v4.6.0.css';
+    link.href = '_senren_settings_v4.6.1.css';
 
     link.onload = function () {
       const temp = document.getElementById('senren-anti-flash');
@@ -1202,8 +1202,8 @@
     statusBtn.disabled = true;
 
     try {
-      const response = await fetch('_senren_defaults_v4.6.0.css');
-      if (!response.ok) throw new Error("File '_senren_defaults_v4.6.0.css' not found in media folder.");
+      const response = await fetch('_senren_defaults_v4.6.1.css');
+      if (!response.ok) throw new Error("File '_senren_defaults_v4.6.1.css' not found in media folder.");
       const defaultsCss = await response.text();
 
       const cardInfo = await invokeAnkiConnect('guiCurrentCard');
