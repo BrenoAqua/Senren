@@ -62,6 +62,10 @@
   --sentence-furigana-display:        1;       /* "0" to disable furigana in sentences */
   --sentence-furigana-height:         0.0rem;  /* Negative value moves it UP (e.g., -0.05rem), Positive moves it DOWN */
 
+  /* Wrapped Text Alignment */
+  --sentence-alignment:               center;  /* "left" or "right" to align wrapped sentences */
+  --misc-info-alignment:              center;  /* "left" or "right" to align wrapped misc info */
+  
   /* Text Sizes */
   --sentence-size:                    1.3rem;
   --sentence-eng-size:                0.8rem;
