@@ -79,6 +79,10 @@
   --sentence-furigana-display:        1;       /* "0" to disable furigana in sentences */
   --sentence-furigana-height:         0.0rem;  /* Negative value moves it UP (e.g., -0.05rem), Positive moves it DOWN */
 
+  /* Wrapped Text Alignment */
+  --sentence-alignment:               center;  /* "left" or "right" to align wrapped sentences */
+  --misc-info-alignment:              center;  /* "left" or "right" to align wrapped misc info */
+	
   /* Text Sizes */
   --sentence-size:                    1.3rem;
   --sentence-eng-size:                0.8rem;
@@ -996,25 +1000,38 @@ img {
 
 /* Sentence */
 .sentence-container {
-  margin: var(--spacing-xl) 0;
-  text-align: center; 
-  direction: rtl; 
-  unicode-bidi: bidi-override; 
+  margin: 0.85rem 0;
   margin-left: 5px;
   margin-right: 5px;
 }
 
-#sentence, 
+#sentence,
 #sentence-audio {
   font-size: var(--sentence-size);
   display: inline-block; 
-  direction: ltr;
-  unicode-bidi: normal; 
-  text-align: left;
+  text-align: center;
+}
+
+@container style(--sentence-alignment: left) {
+  #sentence,
+  #sentence-audio {
+    direction: ltr;
+    unicode-bidi: normal; 
+    text-align: left;
+  }
+}
+
+@container style(--sentence-alignment: right) {
+  #sentence,
+  #sentence-audio {
+    direction: ltr;
+    unicode-bidi: normal; 
+    text-align: right;
+  }
 }
 
 .sentence-container:has(#sentence rb) {
-  margin-top: 8px;
+  margin-top: 8px;  
 }
 
 #sentence rb {
@@ -1045,16 +1062,32 @@ img {
 
 #sentenceEng {
   font-size: var(--sentence-eng-size);
+  display: flex;
+  justify-content: center;
   max-height: 0;
   overflow: hidden;
   will-change: max-height;
-  display: flex;
-  justify-content: center;
-  direction: ltr;
-  unicode-bidi: normal;
-  visibility: visible;
-  text-align: left;
   transition: max-height var(--base-transition);
+  visibility: visible;
+  text-align: center; 
+}
+
+@container style(--sentence-alignment: left) {
+  #sentenceEng {
+    text-align: left;
+    justify-content: flex;
+    direction: ltr;
+    unicode-bidi: normal;
+  }
+}
+
+@container style(--sentence-alignment: right) {
+  #sentenceEng {
+    text-align: right;
+    justify-content: flex;
+    direction: ltr;
+    unicode-bidi: normal;
+  }
 }
 
 #sentenceEng:has(> b) {
@@ -1237,6 +1270,10 @@ img {
 
   .sentenceaudio {
     top: 74px;
+  }
+
+  .toggle-notes {
+    top: 124px !important;
   }
 }
 
@@ -2884,19 +2921,37 @@ li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br)
   font-size: var(--misc-info-size);
   font-weight: bold;
   width: 100%;
-  z-index: var(--z-index-base);
-  box-sizing: border-box;
-  overflow: hidden;
-  max-height: 0;
-  padding-bottom: 0;
   display: flex;
   justify-content: center;
-  direction: ltr;
-  unicode-bidi: normal;
-  text-align: left;
+  max-height: 0;
+  padding-bottom: 0;
+  overflow: hidden;
+  will-change: max-height;
+  visibility: visible;
+  text-align: center; 
+  box-sizing: border-box;
+  z-index: var(--z-index-base);
   transition: max-height var(--base-transition), 
               padding-top var(--base-transition), 
               opacity var(--base-transition);
+}
+
+@container style(--misc-info-alignment: left) {
+  .misc-info {
+    text-align: left;
+    justify-content: flex;
+    direction: ltr;
+    unicode-bidi: normal;
+  }
+}
+
+@container style(--misc-info-alignment: right) {
+  .misc-info {
+    text-align: right;
+    justify-content: flex;
+    direction: ltr;
+    unicode-bidi: normal;
+  }
 }
 
 .misc-info:has(> b) {
@@ -4162,6 +4217,15 @@ li.is-new-card:not(:hover) .related-word {
     display: flex;
     left: 20px;
     top: 20px;
+  }
+
+  @container style(--custom-dark-mode-visibility: 0) {
+    .audio-hint {
+      position: absolute;
+      display: flex;
+      left: 20px;
+      top: 20px;
+    }
   }
 
   .back .toggle-custom-dark-mode {
