@@ -2087,6 +2087,15 @@ span[data-sc-content="example-keyword"], span[style*="color-mix(in srgb, lime"] 
   font-size: var(--dict-size);
 }
 
+/* JMdict */
+[data-dictionary^="JMdict"] .dictionary-title {
+  font-size: 0;
+}
+[data-dictionary^="JMdict"] .dictionary-title::after {
+  content: "JMdict";
+  font-size: var(--dict-size);
+}
+
 /* JA Wikipedia */
 [data-dictionary^="JA Wikipedia"] .dictionary-title {
   font-size: 0;
