@@ -53,6 +53,8 @@
           { label: "Segoe", val: '"Segoe UI", "Hiragino Kaku Gothic ProN", "Noto Sans CJK JP", notosansjp, sans-serif' }
         ]
       },
+      { label: "Wrapped Sentence Alignment", var: "--sentence-alignment", type: "segment", options: [{ val: "left", label: "Left" }, { val: "center", label: "Center" }, { val: "right", label: "Right" }], desc: "Alignment for multi-line sentences." },
+      { label: "Wrapped Misc Info Alignment", var: "--misc-info-alignment", type: "segment", options: [{ val: "left", label: "Left" }, { val: "center", label: "Center" }, { val: "right", label: "Right" }], desc: "Alignment for multi-line misc info." },
 
       { type: "sub-header", label: "Word Scaling" },
       { label: "Base", var: "--word-size-base", type: "text", desc: "1-3 chars." },
@@ -613,6 +615,15 @@
   };
 
   window.senrenUpdateCurrentPreset = async function () {
+    if (!activePreset) {
+      try {
+        const tempPresets = await loadPresetsFromFile();
+        if (tempPresets && tempPresets["_active"]) {
+          activePreset = tempPresets["_active"];
+        }
+      } catch (e) { }
+    }
+
     if (!activePreset) {
       window.senrenAddPreset();
       return;
