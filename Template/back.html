@@ -2332,7 +2332,7 @@
     if (!shouldBeEnabled) {
       if (isCurrentlyEnabled && rubyElement.dataset.originalHtml) {
         rubyElement.innerHTML = rubyElement.dataset.originalHtml;
-        delete rubyElement.dataset.originalHtml; // Clear memory
+        delete rubyElement.dataset.originalHtml;
         wordContainer.classList.remove('reading-is-word');
       }
       return;
@@ -2424,7 +2424,9 @@
     }
 
     const audioContainer = document.querySelector('.sentenceaudio');
-    const audioParts = audioContainer ? Array.from(audioContainer.children) : [];
+    const audioParts = audioContainer 
+      ? Array.from(audioContainer.children).filter(el => el.tagName !== 'BR') 
+      : [];
 
     if (audioParts.length <= 1) {
       return;
