@@ -867,7 +867,13 @@
     applyClickToggleEffect(".toggle-notes", ".notes");
 
     const isTouchDevice = window.matchMedia("(pointer: coarse)").matches;
-    const pictureHoverTriggerSelector = isTouchDevice ? ".background-box" : ".picture-container";
+    const pictureContainer = document.querySelector('.picture-container');
+    const hasPicture = pictureContainer && pictureContainer.querySelector('img');
+
+    const pictureHoverTriggerSelector = (isTouchDevice || !hasPicture) 
+      ? ".background-box" 
+      : ".picture-container";
+
     applyHoverEffect(pictureHoverTriggerSelector, ".misc-info", 20);
   }
 
