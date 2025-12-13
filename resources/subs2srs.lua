@@ -307,7 +307,7 @@ local function construct_note_fields(sub_text, secondary_text, snapshot_filename
         [config.sentence_field] = subs_observer.maybe_remove_all_spaces(prepare_for_exporting(sub_text)),
     }
     if not h.is_empty(config.secondary_field) then
-        ret[config.secondary_field] = string.format("<span class=\"group\">%s</span>", prepare_for_exporting(secondary_text))
+        ret[config.secondary_field] = '<span class="group">' .. prepare_for_exporting(secondary_text) .. '</span>'
     end
     if not h.is_empty(config.image_field) and not h.is_empty(snapshot_filename) then
         ret[config.image_field] = string.format(config.image_template, snapshot_filename)
@@ -323,7 +323,7 @@ end
 
 local function join_field_content(new_text, old_text, separator)
     -- By default, join fields with a HTML newline.
-    separator = separator or ""
+    separator = separator or "<br>"
 
     if h.is_empty(old_text) then
         -- If 'old_text' is empty, there's no need to join content with the separator.
