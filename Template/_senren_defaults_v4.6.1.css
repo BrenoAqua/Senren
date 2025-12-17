@@ -1,4 +1,4 @@
-/* _senren_defaults_v4.6.1.css */
+/* _senren_defaults_v4.6.2.css */
 :root {
   /* CARD SETTINGS
   ============================================ */
@@ -11,7 +11,6 @@
   --blur-nsfw-picture:                true;    /* Blur picture on NSFW cards */
   --mute-sentence-audio:              false;   /* Mute any sentence audio */
   --mute-nsfw-audio:                  false;   /* Mute sentence audio on NSFW cards */
-  --kanji-hover-auto-quote:           true;    /* Enable automatic quoting in Kanji Hover sentences */
 
   /* Component Visibility */
   --settings-visibility:              1; /* "0" to hide settings toggle */
@@ -24,6 +23,7 @@
   --glossary-title-visibility:        1; /* "0" to hide glossary title */
   --tag-visibility:                   1; /* "0" to hide tags */
   --external-links-visibility:        1; /* "0" to hide external links */
+  --pitch-position-visibility:        1; /* "0" to hide pitch downstep position */
 
   /* Component Visibility (Card Size ≤ 1050px) */
   --settings-visibility-header:       1; /* "0" to hide settings toggle */
@@ -52,9 +52,10 @@
   --word-size-7:                      1.6rem;  /* 7 chars */
   --word-size-8:                      1.3rem;  /* 8 chars */
   --word-size-9:                      1.15rem; /* 9+ chars */
+  --word-transition:                  0;       /* "1" to animate word resizing between front and back */
 
   /* Word Furigana */
-  --reading-position:                 over;    /* "under" to display reading under word */
+  --reading-position:                 above;   /* "below" to display reading below word */
   --furigana-size:                    1rem;    
   --furigana-height:                  0.0rem;  /* Negative value moves it UP (e.g., -0.05rem), Positive moves it DOWN */
 
@@ -65,7 +66,7 @@
   /* Wrapped Text Alignment */
   --sentence-alignment:               center;  /* "left" or "right" to align wrapped sentences */
   --misc-info-alignment:              center;  /* "left" or "right" to align wrapped misc info */
-  
+
   /* Text Sizes */
   --sentence-size:                    1.3rem;
   --sentence-eng-size:                0.8rem;
@@ -95,14 +96,35 @@
   --dictionary-collapse:              0;       /* "1" to enable */
   --dictionary-max-height:            390px;   /* Max height before collapse */
 
+  /* Jitendex Settings */
+  --jitendex-hide-examples:           0;       /* Hide Example Sentences */
+  --jitendex-hide-xref:               0;       /* Hide Cross References */
+  --jitendex-hide-graphic:            0;       /* Hide Graphics/Images */
+  --jitendex-hide-notes:              0;       /* Hide Sense Notes */
+  --jitendex-hide-antonyms:           0;       /* Hide Antonyms */
+  --jitendex-hide-forms:              1;       /* Hide Forms */
+  --jitendex-hide-attribution:        1;       /* Hide Attribution */
+
+  
   /* PITCH ACCENT SETTINGS
   ============================================ */
   --pitch-style:                      default; /* "alt" to color the entire word + reading instead of only the downstep */
   --pitch-colors:                     true;    /* "false" to disable pitch downstep coloring */
   --sentence-pitch-highlight:         false;   /* "true" to make pitch colors overwrite sentence highlights */
-  --kanji-hover-pitch-colors:         true;    /* "false" to disable pitch downstep coloring in Kanji Hover */
-  --kanji-hover-pitch-highlight:      true;    /* "false" to make pitch colors stop overwriting word + sentence highlights in Kanji Hover */
   --only-kana-pitch-size:             0.08em;  /* Border thickness for kana-only words */
+
+
+  /* KANJI HOVER SETTINGS
+  ============================================ */
+  --kanji-hover-sentence-visibility:  1;            /* "0" to hide kanji hover sentences */
+  --kanji-hover-auto-quote:           true;         /* Wrap the example sentences in quotation marks */
+  --kanji-hover-word-font:            var(--serif); /* Select the font style for the word */
+  --kanji-hover-word-size:            1rem;         /* Adjust the scale of the word */
+  --kanji-hover-word-reading-size:    0.65rem;      /* Adjust the scale of the reading */
+
+  /* Pitch Accent Options */
+  --kanji-hover-pitch-colors:         true;         /* "false" to disable pitch downstep coloring in Kanji Hover */
+  --kanji-hover-pitch-highlight:      true;         /* "false" to make pitch colors stop overwriting word + sentence highlights in Kanji Hover */
 
 
   /* RESPONSIVE GRID CONTROL
@@ -131,6 +153,41 @@
      Note: You cannot enable the horizontal grid while the vertical grid is enabled.
   ================================================================================== */ 
 
+  /* BACKDROP LAYOUT (Depth Control)
+  ============================================ */
+  /* 0 = Standard Grid, 1 = Backdrop Layout */
+  --enable-backdrop-layout:           0;
+  --bd-card-bg-front-offset:          55px;
+  --bd-word-bg-front-offset:          119px;
+
+  /* 0 = Card BG (Full), 1 = Word BG (Container) */
+  --backdrop-style:                   1;
+
+  /* Image Min Height */
+  --backdrop-background-height:       250px;
+
+  /* 1 = Enable background box behind text (Works in both modes) */
+  --word-background-box:              0;
+  
+  /* Image Opacity */
+  --backdrop-opacity:                 0.5; 
+
+  /* Fade Switches (0 = Off, 1 = On) */
+  --card-background-fade:             1;
+  --word-background-fade:             0;
+
+  /* Fade Gradients (Masks) */
+  --card-fade-strenght:               50%;
+  --word-fade-strenght:               60%;
+
+  /* Text Shadows */
+  --bd-text-shadow-opacity-light:     0.6;
+  --bd-text-shadow-opacity:           0.6;
+
+  /* Text Shadow Colors */
+  --bd-text-shadow-color-light:       255, 255, 255; 
+  --bd-text-shadow-color:             0, 0, 0;
+
 
   /* CUSTOM SHORTCUTS
   ============================================ */
@@ -139,7 +196,7 @@
   --toggle-custom-dark-mode-key:      c;       /* Set the key to toggle custom dark mode */
   --toggle-picture-lightbox-key:      q;       /* Set the key to toggle lightbox */
   --toggle-picture-lightbox-grid-key: shift+q; /* Set the key to toggle lightbox grid */
-
+  --toggle-image-key:                 l;       /* Set the key to show or hide the image */
 
   /* COLOR PALETTE
   ============================================ */
