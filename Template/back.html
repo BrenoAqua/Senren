@@ -48,6 +48,11 @@
     <div class="{{Tags}}"><span class="sentenceaudio">{{sentenceAudio}}</span></div>
     {{/sentenceAudio}}
 
+    <!-- Image Toggle -->
+    <span class="toggle-image-visibility show-btn tappable" style="display: none;">
+      <i class="fas fa-image"></i>
+    </span>
+
     <!-- Notes Toggle -->
     {{#notes}}
     <span class="toggle-notes tappable">
@@ -95,6 +100,11 @@
     <!-- Picture -->
     <div class="picture-container {{Tags}} clickable-image tappable">
       {{picture}}
+
+      <div class="toggle-image-visibility hide-btn tappable">
+        <i class="fas fa-times"></i>
+      </div>
+
       <div class="nav-arrow left tappable"></div>
       <div class="nav-arrow right tappable"></div>
     </div>
@@ -491,10 +501,18 @@
               currentVisibleItems[initialIndex].element.style.display = 'block';
               initialStateSet = true;
             }
-          } else if (dictionaryMap.has(dictionaryPreference)) {
+          } else {
             // Preference is a specific dictionary name
-            const preferredLiElement = dictionaryMap.get(dictionaryPreference);
-            if (visibleGlossaryItems.includes(preferredLiElement)) {
+            let preferredLiElement = null;
+
+            for (const [name, li] of dictionaryMap) {
+              if (name.toLowerCase().includes(lowerCasePref)) {
+                preferredLiElement = li;
+                break;
+              }
+            }
+
+            if (preferredLiElement && visibleGlossaryItems.includes(preferredLiElement)) {
               initialIndex = currentVisibleItems.findIndex(item => item.type === 'glossary' && item.element === preferredLiElement);
               if (initialIndex !== -1) {
                 preferredLiElement.style.display = 'block';
@@ -2901,9 +2919,75 @@
         const dmBtn = document.querySelector(".toggle-custom-dark-mode");
         if (dmBtn) dmBtn.click();
       }
+
+      const imageKey = getVar('--toggle-image-key');
+      const imageConfig = parseKeyConfig(imageKey);
+
+      if (isKeyMatch(e, imageConfig)) {
+        e.preventDefault();
+        const backWrapper = document.querySelector('.back');
+        const showBtn = document.querySelector('.header .show-btn');
+
+        if (backWrapper && showBtn) {
+          backWrapper.classList.toggle('image-removed');
+          const isHidden = backWrapper.classList.contains('image-removed');
+
+          localStorage.setItem("senrenImageHidden", isHidden ? "true" : "false");
+
+          if (isHidden) {
+            showBtn.style.setProperty('display', 'flex', 'important');
+          } else {
+            showBtn.style.setProperty('display', 'none', 'important');
+          }
+        }
+      }
     };
 
     document.addEventListener('keydown', window.senrenBackKeyHandler);
+  }
+
+  // Toggle Image
+  function enableImageToggle() {
+    const hideBtn = document.querySelector('.picture-container .hide-btn');
+    const showBtn = document.querySelector('.header .show-btn');
+    const backWrapper = document.querySelector('.back');
+
+    if (!hideBtn || !showBtn || !backWrapper) return;
+
+    const savedState = localStorage.getItem("senrenImageHidden");
+    
+    if (savedState === "true") {
+      backWrapper.classList.add('image-removed');
+      showBtn.style.setProperty('display', 'flex', 'important');
+    } else {
+      backWrapper.classList.remove('image-removed');
+      showBtn.style.setProperty('display', 'none', 'important');
+    }
+
+    const toggle = () => {
+      backWrapper.classList.toggle('image-removed');
+      const isHidden = backWrapper.classList.contains('image-removed');
+
+      localStorage.setItem("senrenImageHidden", isHidden ? "true" : "false");
+
+      if (isHidden) {
+        showBtn.style.setProperty('display', 'flex', 'important');
+      } else {
+        showBtn.style.setProperty('display', 'none', 'important');
+      }
+    };
+
+    hideBtn.addEventListener('click', (e) => {
+      e.stopPropagation(); 
+      e.preventDefault();
+      toggle();
+    });
+
+    showBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      e.preventDefault();
+      toggle();
+    });
   }
 
   // Initializes immediate functions
@@ -2924,6 +3008,7 @@
     toggleDefinition();
     enableInteractions();
     enableSceneSwitching();
+    enableImageToggle();
   }
 
   // initializes deferred functions
@@ -2941,8 +3026,12 @@
   init();
   setTimeout(initDeferred, 0);
   setTimeout(() => {
-    const script = document.createElement('script');
-    script.src = "_senren_settings_v4.6.1.js";
-    document.body.appendChild(script);
+    if (window.senrenBuildMenu) {
+      window.senrenBuildMenu();
+    } else {
+      const script = document.createElement('script');
+      script.src = "_senren_settings_v4.6.2.js";
+      document.body.appendChild(script);
+    }
   }, 0);
 </script>
