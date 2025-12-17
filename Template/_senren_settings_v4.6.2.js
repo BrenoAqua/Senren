@@ -1,4 +1,4 @@
-/* _senren_settings_v4.6.1.js */
+/* _senren_settings_v4.6.2.js */
 (function () {
   const ANKI_CONNECT_URL = "http://127.0.0.1:8765";
   const PRESET_FILENAME = "_senren_presets.json";
@@ -16,6 +16,7 @@
       { label: "Frequency", var: "--freq-visibility", type: "switch-int", desc: "Show the frequency rank indicator." },
       { label: "Tags", var: "--tag-visibility", type: "switch-int", desc: "Show tags in the bottom-left area of the card footer." },
       { label: "External Links", var: "--external-links-visibility", type: "switch-int", desc: "Show icons for external links such as Jisho, JPDB, Immersion Kit, etc." },
+      { label: "Pitch Position", var: "--pitch-position-visibility", type: "switch-int", desc: "Show pitch downstep position." },
 
       { type: "header", label: "Smaller Screens (≤ 1050px)" },
       { label: "Settings Toggle", var: "--settings-visibility-header", type: "switch-int", desc: "Show the gear icon in the header to open the settings." },
@@ -32,7 +33,6 @@
       { label: "Collect Glossary Images", var: "--collect-glossary-images", type: "switch-bool", desc: "Automatically collect glossary images into the picture container." },
       { label: "No Duplicate Kana", var: "--no-duplicate-kana", type: "switch-bool", desc: "Hide the reading for words written entirely in kana." },
       { label: "Mute Sentence Audio", var: "--mute-sentence-audio", type: "switch-bool", desc: "Disable automatic sentence audio playback." },
-      { label: "Auto-Quote Sentence in Kanji Hover", var: "--kanji-hover-auto-quote", type: "switch-bool", desc: "Enable automatic quoting in Kanji Hover sentences." },
     ],
     "Typography": [
       { type: "header", label: "General Settings" },
@@ -64,9 +64,10 @@
       { label: "7 Chars", var: "--word-size-7", type: "text" },
       { label: "8 Chars", var: "--word-size-8", type: "text" },
       { label: "9+ Chars", var: "--word-size-9", type: "text" },
+      { label: "Word Transition", var: "--word-transition", type: "switch-int", desc: "Enable transition effect when flipping card." },
 
       { type: "header", label: "Reading / Furigana" },
-      { label: "Reading Position", var: "--reading-position", type: "segment", options: [{ val: "over", label: "Over" }, { val: "under", label: "Under" }], desc: "Display the reading above or below the target word." },
+      { label: "Reading Position", var: "--reading-position", type: "segment", options: [{ val: "above", label: "Above" }, { val: "below", label: "Below" }], desc: "Display the reading above or below the target word." },
       { label: "Word Furigana Size", var: "--furigana-size", type: "text", desc: "Size relative to the target word." },
       { label: "Word Furigana Height", var: "--furigana-height", type: "text", desc: "Vertical distance from the word; a negative value moves it up (e.g., -0.05rem)." },
       { label: "Show Sentence Furigana", var: "--sentence-furigana-display", type: "switch-int" },
@@ -129,7 +130,16 @@
       { label: "Show Background", var: "--dict-bg-enabled", type: "switch-int", desc: "Adds a background color to individual dictionary boxes." },
       { label: "Full Card Background", var: "--dict-back-bg", type: "switch-int", desc: "Applies the dictionary background to the entire card." },
       { label: "Background Opacity", var: "--dict-bg-opacity", type: "text" },
-      { label: "Border Width", var: "--dict-border-width", type: "text" }
+      { label: "Border Width", var: "--dict-border-width", type: "text" },
+
+      { type: "header", label: "Jitendex" },
+      { label: "Hide Example Sentences", var: "--jitendex-hide-examples", type: "switch-int" },
+      { label: "Hide Cross References", var: "--jitendex-hide-xref", type: "switch-int" },
+      { label: "Hide Graphics", var: "--jitendex-hide-graphic", type: "switch-int" },
+      { label: "Hide Notes", var: "--jitendex-hide-notes", type: "switch-int" },
+      { label: "Hide Antonyms", var: "--jitendex-hide-antonyms", type: "switch-int" },
+      { label: "Hide Forms", var: "--jitendex-hide-forms", type: "switch-int" },
+      { label: "Hide Attribution", var: "--jitendex-hide-attribution", type: "switch-int" }
     ],
     "Pitch Accent": [
       { type: "header", label: "Word" },
@@ -142,6 +152,19 @@
       { label: "Pitch Colors", var: "--kanji-hover-pitch-colors", type: "switch-bool", desc: "Enables pitch downstep coloring." },
       { label: "Word / Sentence Highlight", var: "--kanji-hover-pitch-highlight", type: "switch-bool", desc: "Highlights the target kanji and word in the sentence using pitch colors." }
     ],
+    "Kanji Hover": [
+      { type: "header", label: "General" },
+      { label: "Show Example Sentences", var: "--kanji-hover-sentence-visibility", type: "switch-int", desc: "Display context sentences within the hover tooltip."  },
+      { label: "Auto-Quote Example Sentences", var: "--kanji-hover-auto-quote", type: "switch-bool", desc: "Wrap the example sentences in quotation marks." },
+      { label: "Word Font", var: "--kanji-hover-word-font", type: "segment", options: [{ val: "var(--serif)", label: "Serif" }, { val: "var(--sans)", label: "Sans" }], desc: "Select the font style for the word." },
+      { label: "Word Size", var: "--kanji-hover-word-size", type: "slider", min: "1", max: "2", step: "0.1", unit: "rem", desc: "Adjust the scale of the word." },
+      { label: "Reading Size", var: "--kanji-hover-word-reading-size", type: "slider", min: "0.65", max: "1.25", step: "0.1", unit: "rem", desc: "Adjust the scale of the reading." },
+
+      { type: "header", label: "Pitch Accent" },
+      { label: "Pitch Colors", var: "--kanji-hover-pitch-colors", type: "switch-bool", desc: "Enables pitch downstep coloring." },
+      { label: "Word / Sentence Highlight", var: "--kanji-hover-pitch-highlight", type: "switch-bool", desc: "Highlights the target kanji and word in the sentence using pitch colors." }
+    ],
+
     "Grid Control": [
       { type: "header", label: "Global" },
       {
@@ -178,6 +201,26 @@
       { label: "Horizontal", var: "--horizontal-grid-small", type: "segment", options: [{ val: "0", label: "Off" }, { val: "1", label: "On" }, { val: "2", label: "Flip" }] },
       { label: "Vertical", var: "--vertical-grid-small", type: "segment", options: [{ val: "0", label: "Off" }, { val: "1", label: "On" }, { val: "2", label: "Flip" }] }
     ],
+    "Backdrop Layout": [
+      { type: "header", label: "Depth Control" },
+      { label: "Enable Layout", var: "--enable-backdrop-layout", type: "switch-int", desc: "Layers the image behind the text instead of placing it beside it." },
+      { label: "Backdrop Mode", var: "--backdrop-style", type: "segment", options: [{ val: "0", label: "Card BG" }, { val: "1", label: "Word BG" }], desc: "Determines if the image fills the whole card or just the word box." },
+
+      { type: "header", label: "Visual Adjustments" },
+      { label: "Background Box", var: "--word-background-box", type: "switch-int", desc: "Enable the background box behind the text area." },
+      { label: "Image Opacity", var: "--backdrop-opacity", type: "slider", min: "0", max: "1", step: "0.1", desc: "Opacity of the background image." },
+      { label: "Image Min Height", var: "--backdrop-background-height", type: "slider", min: "0", max: "500", step: "10", unit: "px", desc: "Minimum height of the background image area." },
+      { label: "Text Shadow Color", var: "--bd-text-shadow-color-light", theme: "light", type: "color", desc: "Changes the color of the text shadow." },
+      { label: "Text Shadow Color", var: "--bd-text-shadow-color", theme: "dark", type: "color", desc: "Changes the color of the text shadow." },
+      { label: "Text Shadow Intensity", var: "--bd-text-shadow-opacity-light", theme: "light", type: "slider", min: "0", max: "1", step: "0.1", desc: "Increases text readability against dark images." },
+      { label: "Text Shadow Intensity", var: "--bd-text-shadow-opacity", theme: "dark", type: "slider", min: "0", max: "1", step: "0.1", desc: "Increases text readability against bright images." },
+
+      { type: "header", label: "Fade Effects" },
+      { label: "Card Fade", var: "--card-background-fade", type: "switch-int", desc: "Applies a bottom fade to the image in Card Background mode." },
+      { label: "Card Fade Intensity", var: "--card-fade-strenght", type: "slider", min: "0", max: "100", step: "5", unit: "%", desc: "Visible percentage of the image." },
+      { label: "Word Fade", var: "--word-background-fade", type: "switch-int", desc: "Applies a bottom fade to the image in Word Background mode." },
+      { label: "Word Fade Intensity", var: "--word-fade-strenght", type: "slider", min: "0", max: "100", step: "5", unit: "%", desc: "Visible percentage of the image." }
+    ],
     "NSFW": [
       { label: "Blur NSFW Pictures", var: "--blur-nsfw-picture", type: "switch-bool", desc: "Blur images tagged as NSFW until clicked." },
       { label: "Mute NSFW Audio", var: "--mute-nsfw-audio", type: "switch-bool", desc: "Disable automatic sentence audio playback on NSFW-tagged cards." }
@@ -187,7 +230,8 @@
       { label: "Replay Scene", var: "--scene-replay-shortcut-key", type: "keybind", desc: "Key to replay the active scene (only for cards with multiple scenes)." },
       { label: "Toggle Dark Mode", var: "--toggle-custom-dark-mode-key", type: "keybind", desc: "Key to toggle the custom dark mode." },
       { label: "Toggle Lightbox", var: "--toggle-picture-lightbox-key", type: "keybind", desc: "Key to open the image viewer." },
-      { label: "Toggle Grid", var: "--toggle-picture-lightbox-grid-key", type: "keybind", desc: "Key to toggle the image grid view." }
+      { label: "Toggle Grid", var: "--toggle-picture-lightbox-grid-key", type: "keybind", desc: "Key to toggle the image grid view." },
+      { label: "Toggle Image", var: "--toggle-image-key", type: "keybind", desc: "key to show or hide the image." }
     ],
     "Theme": [
       { type: "header", label: "General Colors" },
@@ -262,12 +306,15 @@
   // =========================================================================
   function getSafeHexColor(str) {
     if (!str) return '#000000';
-    const match = str.match(/(rgba?\(.*?\)|#[0-9a-f]{6}|#[0-9a-f]{3}|[a-z]+)/i);
-    const color = match ? match[0] : str;
 
-    if (/^#[0-9A-F]{6}$/i.test(color)) return color;
+    str = str.trim();
 
-    const rgba = color.match(/rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/i);
+    if (/^#[0-9A-F]{6}$/i.test(str)) return str;
+    if (/^#[0-9A-F]{3}$/i.test(str)) {
+      return '#' + str[1] + str[1] + str[2] + str[2] + str[3] + str[3];
+    }
+
+    const rgba = str.match(/rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/i);
     if (rgba) {
       const r = parseInt(rgba[1]).toString(16).padStart(2, '0');
       const g = parseInt(rgba[2]).toString(16).padStart(2, '0');
@@ -275,19 +322,52 @@
       return `#${r}${g}${b}`;
     }
 
+    const triplet = str.match(/^(\d+)\s*,\s*(\d+)\s*,\s*(\d+)$/);
+    if (triplet) {
+      const r = parseInt(triplet[1]).toString(16).padStart(2, '0');
+      const g = parseInt(triplet[2]).toString(16).padStart(2, '0');
+      const b = parseInt(triplet[3]).toString(16).padStart(2, '0');
+      return `#${r}${g}${b}`;
+    }
+
     const d = document.createElement("div");
-    d.style.color = color;
+    d.style.color = str;
     d.style.display = "none";
     document.body.appendChild(d);
     const computed = window.getComputedStyle(d).color;
     document.body.removeChild(d);
 
-    if (computed && computed !== color) return getSafeHexColor(computed);
+    if (computed && computed !== str && computed !== 'rgba(0, 0, 0, 0)') {
+      return getSafeHexColor(computed);
+    }
+
     return '#000000';
   }
 
   function utf8_to_b64(str) {
     return window.btoa(unescape(encodeURIComponent(str)));
+  }
+
+  // UPDATE BACKDROP STATE CLASSES
+  // =========================================================================
+  function updateBackdropState() {
+    const doc = document.documentElement;
+
+    let enabled = doc.style.getPropertyValue('--enable-backdrop-layout').trim();
+    if (!enabled) enabled = getComputedStyle(doc).getPropertyValue('--enable-backdrop-layout').trim();
+
+    let style = doc.style.getPropertyValue('--backdrop-style').trim();
+    if (!style) style = getComputedStyle(doc).getPropertyValue('--backdrop-style').trim();
+
+    document.body.classList.remove('senren-bd-card', 'senren-bd-word');
+
+    if (enabled === '1' || enabled === 'true') {
+      if (style === '1') {
+        document.body.classList.add('senren-bd-word');
+      } else {
+        document.body.classList.add('senren-bd-card');
+      }
+    }
   }
 
   // STYLING
@@ -307,7 +387,7 @@
     link.id = 'senren-styles-injected';
     link.rel = 'stylesheet';
     link.type = 'text/css';
-    link.href = '_senren_settings_v4.6.1.css';
+    link.href = '_senren_settings_v4.6.2.css';
 
     link.onload = function () {
       const temp = document.getElementById('senren-anti-flash');
@@ -810,6 +890,8 @@
     if (typeof window.noDuplicateKana === 'function') window.noDuplicateKana();
     if (typeof window.initializeAudioSentenceState === 'function') window.initializeAudioSentenceState();
     if (typeof window.initializeSentenceState === 'function') window.initializeSentenceState();
+
+    updateBackdropState();
   }
 
   function restoreState() {
@@ -846,8 +928,18 @@
       const audioSelectors = '.audio, .sentenceaudio, #wordAudio, #sentenceAudio';
       const allAudio = header.querySelectorAll(audioSelectors);
       const notesToggle = header.querySelector('.toggle-notes');
+      const imageVisBtn = header.querySelector('.toggle-image-visibility');
 
-      if (notesToggle) {
+      if (imageVisBtn) {
+        let insertionPoint = imageVisBtn;
+
+        while (insertionPoint.parentElement && insertionPoint.parentElement !== header) {
+          insertionPoint = insertionPoint.parentElement;
+        }
+        header.insertBefore(btn, insertionPoint.nextSibling);
+      }
+
+      else if (notesToggle) {
         let insertionPoint = notesToggle;
 
         while (insertionPoint.parentElement && insertionPoint.parentElement !== header) {
@@ -904,7 +996,7 @@
         }
 
         items.forEach(item => {
-          if (groupName === 'Theme' && item.theme && item.theme !== (isDark ? 'dark' : 'light')) {
+          if (item.theme && item.theme !== (isDark ? 'dark' : 'light')) {
             return;
           }
 
@@ -1060,12 +1152,17 @@
           const g = parseInt(newHex.slice(3, 5), 16);
           const b = parseInt(newHex.slice(5, 7), 16);
           const rgbaMatch = currentVal.match(/rgba\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*,\s*([0-9.]+)\s*\)/i);
+          const tripletMatch = currentVal.match(/^\s*\d+\s*,\s*\d+\s*,\s*\d+\s*$/);
+
           if (rgbaMatch) {
             const alpha = rgbaMatch[1];
             textInput.value = `rgba(${r}, ${g}, ${b}, ${alpha})`;
+          } else if (tripletMatch) {
+            textInput.value = `${r}, ${g}, ${b}`;
           } else {
             textInput.value = newHex;
           }
+
           textInput.dispatchEvent(new Event('input'));
           textInput.dispatchEvent(new Event('change'));
         });
@@ -1076,7 +1173,17 @@
         let newVal;
         if (input.type === 'checkbox') {
           newVal = input.checked ? (type === 'switch-bool' ? 'true' : '1') : (type === 'switch-bool' ? 'false' : '0');
-        } else {
+        }
+
+        else if (type === 'slider') {
+          const unit = input.getAttribute('data-unit') || '';
+          newVal = input.value + unit;
+          if (input.nextElementSibling) {
+            input.nextElementSibling.textContent = newVal;
+          }
+        }
+
+        else {
           newVal = input.value;
           if (input.previousElementSibling && input.previousElementSibling.type === 'color') {
             const rgbaMatch = newVal.match(/rgba\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/i);
@@ -1096,10 +1203,16 @@
         triggerUpdates();
       };
       input.addEventListener('change', handler);
-      if (input.type === 'text') input.addEventListener('input', handler);
+      if (input.type === 'text' || input.type === 'range') {
+        input.addEventListener('input', handler);
+      }
     });
 
-    modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('active'); });
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        window.senrenCloseSettings();
+      }
+    });
   }
 
   function generateControlHtml(item, rowStyle) {
@@ -1172,6 +1285,23 @@
                 style="cursor: pointer; text-align: center; font-family: "Segoe UI"; font-weight: bold;" 
                 placeholder="Click to Set">`;
 
+    } else if (item.type === 'slider') {
+      let numericVal = parseFloat(currentVal);
+      if (isNaN(numericVal)) numericVal = item.min || 0;
+
+      const unit = item.unit || '';
+
+      controlHtml = `
+        <div class="senren-range-wrapper">
+            <input type="range" class="senren-range" 
+                   data-var="${item.var}" 
+                   data-type="slider" 
+                   data-unit="${unit}"
+                   min="${item.min}" max="${item.max}" step="${item.step}" 
+                   value="${numericVal}">
+            <span class="senren-range-value">${numericVal}${unit}</span>
+        </div>`;
+
     } else {
       controlHtml = `<input type="text" class="senren-input" data-var="${item.var}" value="${currentVal}">`;
     }
@@ -1213,8 +1343,8 @@
     statusBtn.disabled = true;
 
     try {
-      const response = await fetch('_senren_defaults_v4.6.1.css');
-      if (!response.ok) throw new Error("File '_senren_defaults_v4.6.1.css' not found in media folder.");
+      const response = await fetch('_senren_defaults_v4.6.2.css');
+      if (!response.ok) throw new Error("File '_senren_defaults_v4.6.2.css' not found in media folder.");
       const defaultsCss = await response.text();
 
       const cardInfo = await invokeAnkiConnect('guiCurrentCard');
@@ -1331,6 +1461,7 @@
     }
   };
 
+  window.senrenBuildMenu = buildMenu;
   buildMenu();
 
   window.senrenToggleDock = function () {
@@ -1338,6 +1469,8 @@
     const body = document.body;
     modal.classList.toggle('docked');
     body.classList.toggle('senren-docked-mode');
+
+    updateBackdropState();
   };
 
   window.senrenCloseSettings = function () {
@@ -1346,7 +1479,20 @@
     if (modal) {
       modal.classList.remove('active');
       modal.classList.remove('docked');
+
       document.body.classList.remove('senren-docked-mode');
+
+      if (typeof updateBackdropState === 'function') {
+        updateBackdropState();
+      }
+
+      document.body.style.display = 'none';
+      void document.body.offsetHeight;
+      document.body.style.display = '';
+
+      if (typeof window.triggerUpdates === 'function') {
+        window.triggerUpdates();
+      }
     }
   };
 })();
