@@ -30,6 +30,6 @@ To apply your changes permanently, click **"Save to Anki"**.
 To avoid errors on Mobile devices, reviewing at least one card on PC with **AnkiConnect** enabled is required. This allows the `_senren_presets.json` file to generate correctly.
 If access to a PC with AnkiConnect is not possible, the file can be manually downloaded [here](https://github.com/BrenoAqua/Senren/blob/main/Template/Presets%20File/_senren_presets.json).
 
-> [!WARNING]
+!!! WARNING
 > **Do not download this file if you already have it.**
 > Overwriting it will **delete your saved presets**. Only download this file if errors are occurring on AnkiMobile or AnkiDroid specifically because this file is missing.
