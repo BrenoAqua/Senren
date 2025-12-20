@@ -19,7 +19,7 @@ To apply your changes permanently, click **"Save to Anki"**.
     *  After saving, temporary storage is cleared to ensure that future manual edits to your card CSS in Anki’s editor are not overridden by outdated settings.
 
 ###  Preset System
-*  Presets are stored in a dedicated file: (`_senren_presets.json`)located in your Anki `collection.media` folder.
+*  Presets are stored in a dedicated file: (`_senren_presets.json`) located in your Anki `collection.media` folder.
 *  The presets file is user-managed. Updating the card template in future versions will not overwrite your presets. They remain untouched unless you explicitly create, rename, or delete a preset via the settings menu.
 *  Because the presets file is stored in the media folder, presets sync across devices. (They can only be edited on PC.)
 
