@@ -2,7 +2,7 @@
 
 A menu that allows you to customize the note type directly inside the reviewer, no CSS knowledge required!
 
-![type:video]([assets/demo.mp4](https://github.com/user-attachments/assets/c833977b-381d-4722-bc7b-7c84984c6775))
+![type:video]([https://github.com/user-attachments/assets/c833977b-381d-4722-bc7b-7c84984c6775])
 
 ### How it Works
 
