@@ -66,6 +66,7 @@ nav:
       - JL Setup: JL.md
       - Anki Setup: anki.md
   - Features:
+      - Preference Settings: Preferences.md
       - Pitch Accent Automatic Colors: pitch_accent_automatic_colors.md
       - Dictionary Preference & Definition Toggle: defnition_toggle.md
       - Kanji Hover: kanji_hover.md
