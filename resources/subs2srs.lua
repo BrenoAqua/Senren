@@ -186,6 +186,11 @@ local config = {
     use_forvo = "yes", -- 'yes', 'no', 'always'
     vocab_field = "VocabKanji", -- target word field
     vocab_audio_field = "VocabAudio", -- target word audio
+
+    -- Custom Sub Filter
+    custom_sub_filter_enabled = false, -- True to enable custom sub preprocessing be default
+    custom_sub_filter_notification = "Custom Sub Filter", -- Notification prefix for toggle
+    use_custom_trim = false  -- True to use a custom trim instead of the built in one
 }
 
 -- Defines config profiles
@@ -296,7 +301,7 @@ end)()
 
 local function prepare_for_exporting(sub_text)
     if not h.is_empty(sub_text) then
-        sub_text = h.trim(sub_text)
+        sub_text = subs_observer.clipboard_prepare(sub_text)
         sub_text = h.escape_special_characters(sub_text)
     end
     return sub_text
@@ -304,7 +309,7 @@ end
 
 local function construct_note_fields(sub_text, secondary_text, snapshot_filename, audio_filename)
     local ret = {
-        [config.sentence_field] = subs_observer.maybe_remove_all_spaces(prepare_for_exporting(sub_text)),
+        [config.sentence_field] = prepare_for_exporting(sub_text),
     }
     if not h.is_empty(config.secondary_field) then
         ret[config.secondary_field] = '<span class="group">' .. prepare_for_exporting(secondary_text) .. '</span>'
@@ -437,11 +442,22 @@ local function notify_user_on_finish(note_ids)
     local query = table.concat(queries, " OR ")
     ankiconnect.gui_browse(query)
 
+    local first_field = ankiconnect.get_first_field(config.model_name)
+
     -- Notify the user.
     if #note_ids > 1 then
         h.notify(string.format("Updated %i notes.", #note_ids))
     else
-        h.notify(string.format("Updated note #%s.", tostring(note_ids[1])))
+        field_data = ankiconnect.get_note_fields(note_ids[1])[first_field]
+        if not h.is_empty(field_data) then
+          local max_len = 20
+          if string.len(field_data) > max_len then
+            field_data = field_data:sub(1, max_len) .. "…"
+          end
+          h.notify(string.format("Updated note: %s.", field_data))
+        else
+          h.notify(string.format("Updated note #%s.", tostring(note_ids[1])))
+        end
     end
 end
 
