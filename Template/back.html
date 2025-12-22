@@ -39,6 +39,11 @@
       darkMode();
     </script>
 
+    <!-- Settings Toggle -->
+    <span class="toggle-settings-btn tappable">
+      <i class="fas fa-cog"></i>
+    </span>
+
     <!-- Audios -->
     {{#wordAudio}}
     <div class="{{Tags}}"><span class="audio">{{wordAudio}}</span></div>
@@ -48,17 +53,17 @@
     <div class="{{Tags}}"><span class="sentenceaudio">{{sentenceAudio}}</span></div>
     {{/sentenceAudio}}
 
-    <!-- Image Toggle -->
-    <span class="toggle-image-visibility show-btn tappable" style="display: none;">
-      <i class="fas fa-image"></i>
-    </span>
-
     <!-- Notes Toggle -->
     {{#notes}}
     <span class="toggle-notes tappable">
       <div class="toggle-notes-svg"></div>
     </span>
     {{/notes}}
+
+    <!-- Image Toggle -->
+    <span class="toggle-image-visibility show-btn tappable" style="display: none;">
+      <i class="fas fa-image"></i>
+    </span>
 
     <!-- Frequency Dropdown -->
     <div id="frequency">
@@ -825,40 +830,35 @@
     }
 
     function applyHoverEffect(containerSelector, targetSelector, extraPadding = 0) {
-      const container = document.querySelector(containerSelector);
+      const containers = document.querySelectorAll(containerSelector);
       const target = document.querySelector(targetSelector);
 
-      if (container && target) {
-
+      if (containers.length > 0 && target) {
         if (window.matchMedia("(pointer: coarse)").matches) {
-          container.classList.add('tappable');
+          containers.forEach(c => c.classList.add('tappable'));
         }
 
-        container.addEventListener("mouseenter", () => {
-          requestAnimationFrame(() => {
-            if (target.textContent.trim() !== "") {
-              target.style.maxHeight = target.scrollHeight + extraPadding + "px";
-              if (extraPadding) {
-                target.style.opacity = "1";
-                target.style.paddingTop = extraPadding + "px";
+        containers.forEach(container => {
+          container.addEventListener("mouseenter", () => {
+            requestAnimationFrame(() => {
+              if (target.textContent.trim() !== "") {
+                target.style.maxHeight = target.scrollHeight + extraPadding + "px";
+                if (extraPadding) {
+                  target.style.opacity = "1";
+                  target.style.paddingTop = extraPadding + "px";
+                }
               }
-            } else {
+            });
+          });
+
+          container.addEventListener("mouseleave", () => {
+            requestAnimationFrame(() => {
               target.style.maxHeight = "0";
               if (extraPadding) {
                 target.style.opacity = "0";
                 target.style.paddingTop = "0px";
               }
-            }
-          });
-        });
-
-        container.addEventListener("mouseleave", () => {
-          requestAnimationFrame(() => {
-            target.style.maxHeight = "0";
-            if (extraPadding) {
-              target.style.opacity = "0";
-              target.style.paddingTop = "0px";
-            }
+            });
           });
         });
       }
@@ -887,12 +887,41 @@
     const isTouchDevice = window.matchMedia("(pointer: coarse)").matches;
     const pictureContainer = document.querySelector('.picture-container');
     const hasPicture = pictureContainer && pictureContainer.querySelector('img');
+    const rootStyles = getComputedStyle(document.documentElement);
+    const backdropEnabled = rootStyles.getPropertyValue('--enable-backdrop-layout').trim() === '1';
+    const backdropStyle = rootStyles.getPropertyValue('--backdrop-style').trim();
 
-    const pictureHoverTriggerSelector = (isTouchDevice || !hasPicture) 
-      ? ".background-box" 
-      : ".picture-container";
+    let pictureHoverTriggerSelector;
 
-    applyHoverEffect(pictureHoverTriggerSelector, ".misc-info", 20);
+    if (backdropEnabled && backdropStyle === '0') {
+      let selectors = [".background-box", ".picture-container", ".sentence-container", ".tags-and-links-wrapper", ".misc-info"];
+
+      // Add .header ONLY if the screen width is 1050px or LESS
+      if (window.matchMedia("(max-width: 1050px)").matches) {
+        selectors.unshift(".header");
+      }
+
+      pictureHoverTriggerSelector = selectors.join(", ");
+    } else {
+      pictureHoverTriggerSelector = (isTouchDevice || !hasPicture)
+        ? ".background-box"
+        : ".picture-container";
+    }
+
+    const miscExpanded = rootStyles.getPropertyValue('--misc-info-default-expanded').trim();
+    const miscInfoEl = document.querySelector(".misc-info");
+
+    if (miscInfoEl) {
+      if (miscInfoEl.textContent.trim() !== "") {
+        miscInfoEl.classList.add("has-content");
+      } else {
+        miscInfoEl.classList.remove("has-content");
+      }
+    }
+
+    if (miscExpanded !== 'true') {
+      applyHoverEffect(pictureHoverTriggerSelector, ".misc-info", 20);
+    }
   }
 
   // Allows cycling through images
@@ -1825,16 +1854,16 @@
     const rubyElement = document.querySelector("#word > span > ruby");
     const mainWordSpan = document.querySelector("#word > span");
     const sentenceSpan = document.getElementById("formattedSentence");
-  
+
     const elementsToClean = [
-      mainWordSpan, 
-      sentenceSpan, 
-      rubyElement, 
-      ...positionElements 
+      mainWordSpan,
+      sentenceSpan,
+      rubyElement,
+      ...positionElements
     ];
 
     elementsToClean.forEach(element => {
-      if (!element) return; 
+      if (!element) return;
 
       const classList = element.classList;
       let classToModify = "";
@@ -2392,7 +2421,7 @@
 
         rubyElement.insertBefore(readingWrapper, rtElement);
         rtElement.style.display = "none";
-        
+
         wordContainer.classList.add('reading-is-word');
       }
     }
@@ -2442,8 +2471,8 @@
     }
 
     const audioContainer = document.querySelector('.sentenceaudio');
-    const audioParts = audioContainer 
-      ? Array.from(audioContainer.children).filter(el => el.tagName !== 'BR') 
+    const audioParts = audioContainer
+      ? Array.from(audioContainer.children).filter(el => el.tagName !== 'BR')
       : [];
 
     if (audioParts.length <= 1) {
@@ -2589,7 +2618,6 @@
     const sentenceParts = document.querySelectorAll('.sentence-container #formattedSentence .split-sentence');
     const engParts = document.querySelectorAll('#sentenceEng .split-sentence-eng');
     const miscInfoParts = document.querySelectorAll('.misc-info .split-misc-info');
-    const images = document.querySelectorAll('.picture-container img.field-img');
 
     let totalSlides = 1;
     if (audioParts.length > 0) {
@@ -2643,11 +2671,11 @@
           wordAudioBtn.click();
         }
 
-        const replayLoadOffset = 200; 
+        const replayLoadOffset = 200;
         const delay = wordAudioBtn ? (SENTENCE_DELAY + replayLoadOffset) : 0;
-            
+
         replayTimeout = setTimeout(() => {
-          updateDisplay(true); 
+          updateDisplay(true);
         }, delay);
       }
 
@@ -2677,22 +2705,14 @@
     document.addEventListener('keydown', handleSceneShortcuts);
 
     function updateDisplay(shouldPlayAudio = false) {
-      const currentFieldImages = document.querySelectorAll('.picture-container img');
-
-      if (currentFieldImages.length > 0) {
-        let indexToShow = 0;
-        if (currentFieldImages.length > 1) {
-          indexToShow = Math.min(currentIndex, currentFieldImages.length - 1);
-        }
-        const targetImage = currentFieldImages[indexToShow];
-
-        const allImagesInContainer = document.querySelectorAll('.picture-container img');
-        allImagesInContainer.forEach(img => {
-          img.style.setProperty('display', 'none', 'important');
-        });
-
-        if (targetImage) {
-          targetImage.style.setProperty('display', 'block', 'important');
+      const pictureContainer = document.querySelector('.picture-container');
+      if (pictureContainer) {
+        const pictureParts = Array.from(pictureContainer.children).filter(el => el.tagName !== 'BR');
+        if (pictureParts.length > 0) {
+          pictureParts.forEach((part, i) => {
+            const shouldShow = (i === currentIndex);
+            part.style.setProperty('display', shouldShow ? 'block' : 'none', 'important');
+          });
         }
       }
 
@@ -2702,7 +2722,6 @@
           part.style.display = shouldShow ? 'block' : 'none';
         });
       }
-
 
       const mainMiscContainer = document.querySelector('.misc-info');
       if (miscInfoParts.length > 0) {
@@ -2821,124 +2840,121 @@
     }
   }
 
-  // Marks the original Anki images
-  function markFieldImages() {
-    const images = document.querySelectorAll('.picture-container > img');
-    images.forEach(img => {
-      img.classList.add('field-img');
-    });
-  }
-
   // Enables custom shortcuts
   function enableCustomShortcuts() {
-    if (window.senrenFrontSettingsHandler) {
-      document.removeEventListener('keydown', window.senrenFrontSettingsHandler);
-      window.senrenFrontSettingsHandler = null;
-    }
-    
-    if (window.senrenBackKeyHandler) {
-      document.removeEventListener('keydown', window.senrenBackKeyHandler);
-      window.senrenBackKeyHandler = null;
-    }
-    
-    window.senrenBackKeyHandler = (e) => {
-      if (document.activeElement && ['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
+    ['senrenFrontSettingsHandler', 'senrenBackKeyHandler'].forEach(h => {
+      if (window[h]) document.removeEventListener('keydown', window[h]);
+      window[h] = null;
+    });
 
-      const getVar = (name) => {
-          let val = '';
-          const card = document.querySelector('.card');
-          if (card) val = getComputedStyle(card).getPropertyValue(name).trim();
-          if (!val) val = getComputedStyle(document.body).getPropertyValue(name).trim();
-          if (!val) val = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
-          return val.replace(/['"]/g, '');
-      };
+    const utils = {
+      isTyping: () => {
+        const active = document.activeElement;
+        return active && ['INPUT', 'TEXTAREA'].includes(active.tagName);
+      },
 
-      const settingsKey = getVar('--toggle-settings-key');
-      const settingsConfig = parseKeyConfig(settingsKey);
+      getVar: (name) => {
+        const el = document.querySelector('.card') || document.body || document.documentElement;
+        const val = getComputedStyle(el).getPropertyValue(name).trim();
 
-      if (isKeyMatch(e, settingsConfig)) {
-        e.preventDefault();
+        return val.replace(/['"]/g, '');
+      }
+    };
+
+    const actions = {
+      settings: () => {
         const modal = document.getElementById('senren-settings-modal');
         const btn = document.querySelector('.toggle-settings-btn');
+
         if (modal) {
           modal.classList.toggle('active');
         } else if (btn) {
           btn.click();
         }
-        return; 
-      }
+      },
 
-      const lightboxKey = getVar('--toggle-picture-lightbox-key');
-      const lightboxConfig = parseKeyConfig(lightboxKey);
-      const gridKey = getVar('--toggle-picture-lightbox-grid-key');
-      const gridConfig = parseKeyConfig(gridKey);
+      lightboxGrid: () => {
+        const lb = document.getElementById("lightbox");
+        const btn = document.getElementById("show-all");
 
-      if (isKeyMatch(e, gridConfig)) {
-        e.preventDefault();
-        e.stopPropagation();
-        const lightbox = document.getElementById("lightbox");
-        const showAllBtn = document.getElementById("show-all");
-        if (lightbox && !lightbox.classList.contains("active")) {
-          const visibleImage = document.querySelector('.picture-container img[style*="display: block"]')
-            || document.querySelector('.picture-container img');
-          if (visibleImage) visibleImage.click();
-          if (showAllBtn) showAllBtn.click();
+        if (lb && !lb.classList.contains("active")) {
+          const img = document.querySelector('.picture-container img[style*="display: block"]') ||
+            document.querySelector('.picture-container img');
+
+          img?.click();
+          setTimeout(() => btn?.click(), 10);
+        } else if (btn) {
+          btn.click();
         }
-        else if (lightbox && lightbox.classList.contains("active")) {
-          if (showAllBtn) showAllBtn.click();
-        }
-        return;
-      }
+      },
 
-      if (isKeyMatch(e, lightboxConfig)) {
-        e.preventDefault();
-        const lightbox = document.getElementById("lightbox");
-        if (lightbox && lightbox.classList.contains("active")) {
-          lightbox.classList.remove("active");
+      lightbox: () => {
+        const lb = document.getElementById("lightbox");
+
+        if (lb?.classList.contains("active")) {
+          lb.classList.remove("active");
+
           const grid = document.querySelector(".lightbox-grid");
           if (grid) grid.remove();
+
           const showAll = document.getElementById("show-all");
           if (showAll) showAll.textContent = "Show All";
-          const lightboxImg = document.getElementById("lightbox-img");
-          if (lightboxImg) lightboxImg.style.display = "block";
+
           const navs = document.querySelectorAll(".lightbox-nav");
           navs.forEach(n => n.style.display = "");
         } else {
-          const images = document.querySelectorAll('.picture-container img');
-          let visibleImage = Array.from(images).find(img => window.getComputedStyle(img).display !== 'none');
-          if (!visibleImage && images.length > 0) visibleImage = images[0];
-          if (visibleImage) visibleImage.click();
+          const imgs = document.querySelectorAll('.picture-container img');
+          const visible = Array.from(imgs).find(i => getComputedStyle(i).display !== 'none') || imgs[0];
+
+          visible?.click();
         }
-        return;
-      }
+      },
 
-      const dmKey = getVar('--toggle-custom-dark-mode-key');
-      const dmConfig = parseKeyConfig(dmKey);
-      if (isKeyMatch(e, dmConfig)) {
-        e.preventDefault();
+      customDarkMode: () => {
         const dmBtn = document.querySelector(".toggle-custom-dark-mode");
+
         if (dmBtn) dmBtn.click();
+      },
+
+      imageToggle: () => {
+        const wrap = document.querySelector('.back');
+        const btn = document.querySelector('.header .show-btn');
+
+        if (wrap && btn) {
+          const isHidden = wrap.classList.toggle('image-removed');
+
+          localStorage.setItem("senrenImageHidden", isHidden);
+          btn.style.setProperty('display', isHidden ? 'flex' : 'none', 'important');
+
+          dynamicCardHeight();
+        }
       }
+    };
 
-      const imageKey = getVar('--toggle-image-key');
-      const imageConfig = parseKeyConfig(imageKey);
+    window.senrenBackKeyHandler = (e) => {
+      if (utils.isTyping()) return;
 
-      if (isKeyMatch(e, imageConfig)) {
-        e.preventDefault();
-        const backWrapper = document.querySelector('.back');
-        const showBtn = document.querySelector('.header .show-btn');
+      const shortcuts = [
+        { var: '--toggle-settings-key', action: actions.settings },
+        { var: '--toggle-picture-lightbox-grid-key', action: actions.lightboxGrid },
+        { var: '--toggle-picture-lightbox-key', action: actions.lightbox },
+        { var: '--toggle-custom-dark-mode-key', action: actions.customDarkMode },
+        { var: '--toggle-image-key', action: actions.imageToggle }
+      ];
 
-        if (backWrapper && showBtn) {
-          backWrapper.classList.toggle('image-removed');
-          const isHidden = backWrapper.classList.contains('image-removed');
+      for (const item of shortcuts) {
+        const keyStr = utils.getVar(item.var);
 
-          localStorage.setItem("senrenImageHidden", isHidden ? "true" : "false");
+        if (!keyStr) continue;
 
-          if (isHidden) {
-            showBtn.style.setProperty('display', 'flex', 'important');
-          } else {
-            showBtn.style.setProperty('display', 'none', 'important');
-          }
+        const config = parseKeyConfig(keyStr);
+
+        if (isKeyMatch(e, config)) {
+          e.preventDefault();
+          e.stopPropagation();
+
+          item.action();
+          break;
         }
       }
     };
@@ -2955,7 +2971,7 @@
     if (!hideBtn || !showBtn || !backWrapper) return;
 
     const savedState = localStorage.getItem("senrenImageHidden");
-    
+
     if (savedState === "true") {
       backWrapper.classList.add('image-removed');
       showBtn.style.setProperty('display', 'flex', 'important');
@@ -2975,10 +2991,12 @@
       } else {
         showBtn.style.setProperty('display', 'none', 'important');
       }
+
+      dynamicCardHeight();
     };
 
     hideBtn.addEventListener('click', (e) => {
-      e.stopPropagation(); 
+      e.stopPropagation();
       e.preventDefault();
       toggle();
     });
@@ -2990,48 +3008,109 @@
     });
   }
 
-  // Initializes immediate functions
-  function init() {
-    nsfw();
-    muteSentence();
-    markFieldImages();
-    noDuplicateKana();
-    splitTags();
-    highlightFurigana();
-    cleanPitchPositions();
-    createDownstepNotation();
-    dynamicWordSize();
-    alternativePitchStyle();
-    dictionaryTitle();
-    collectGlossaryImages();
-    consolidateYomitanGlossaryEntries();
-    toggleDefinition();
-    enableInteractions();
-    enableSceneSwitching();
-    enableImageToggle();
-  }
+  // Adjusts the height of the card to match the picture in Backdrop Layout (BG Card mode)
+  function dynamicCardHeight() {
+    const back = document.querySelector('.back');
+    const img = document.querySelector('.picture-container img');
 
-  // initializes deferred functions
-  function initDeferred() {
-    jitendexHover();
-    enableImageSwitching();
-    enableLightbox();
-    enableCustomShortcuts();
-    const isMobile = document.documentElement.classList.contains('mobile') || document.body.classList.contains('mobile');
-    if (!isMobile) {
-      wrapKanjiInWordField();
+    if (!back || !img) return;
+
+    const applyHeight = () => {
+      if (back.classList.contains('image-removed')) {
+        back.style.removeProperty('min-height');
+        return;
+      }
+
+      const rootStyle = getComputedStyle(document.documentElement);
+      const enabled = rootStyle.getPropertyValue('--enable-backdrop-layout').trim();
+      const dynamicHeight = rootStyle.getPropertyValue('--backdrop-dynamic-height').trim();
+      const backdropStyle = rootStyle.getPropertyValue('--backdrop-style').trim();
+
+      const isActive = (enabled === '1' && dynamicHeight === '1' && backdropStyle === '0');
+
+      if (!isActive) {
+        back.style.removeProperty('min-height');
+        return;
+      }
+
+      if (img.offsetHeight > 0) {
+        const style = window.getComputedStyle(back);
+        const paddingTop = parseFloat(style.paddingTop) || 0;
+        const paddingBottom = parseFloat(style.paddingBottom) || 0;
+        const totalPadding = paddingTop + paddingBottom;
+
+        const targetHeight = (img.offsetHeight - totalPadding) + "px";
+
+        back.style.setProperty('min-height', targetHeight, 'important');
+      } else if (img.complete) {
+        requestAnimationFrame(applyHeight);
+      }
+    };
+
+    applyHeight();
+
+    if (!window._senren_height_init) {
+      window.addEventListener('resize', dynamicCardHeight);
+      window._senren_height_init = true;
     }
   }
 
-  init();
-  setTimeout(initDeferred, 0);
-  setTimeout(() => {
-    if (window.senrenBuildMenu) {
-      window.senrenBuildMenu();
-    } else {
-      const script = document.createElement('script');
-      script.src = "_senren_settings_v4.6.2.js";
-      document.body.appendChild(script);
+  (function () {
+    const IS_MOBILE = document.documentElement.classList.contains('mobile') ||
+                      document.body.classList.contains('mobile');
+
+    const delayedFunctions = window.requestIdleCallback || function (cb) { return setTimeout(cb, 1); };
+
+    // Initializes immediate functions
+    function init() {
+      if (!IS_MOBILE) {
+        dynamicCardHeight();
+      }
+
+      nsfw();
+      muteSentence();
+      noDuplicateKana();
+      splitTags();
+      highlightFurigana();
+      cleanPitchPositions();
+      createDownstepNotation();
+      dynamicWordSize();
+      alternativePitchStyle();
+      dictionaryTitle();
+      collectGlossaryImages();
+      consolidateYomitanGlossaryEntries();
+      toggleDefinition();
+      enableInteractions();
+      enableSceneSwitching();
+      enableImageToggle();
     }
-  }, 0);
+
+    // initializes deferred functions
+    function initDeferred() {
+      delayedFunctions(() => {
+        jitendexHover();
+        enableImageSwitching();
+        enableLightbox();
+
+
+        if (!IS_MOBILE) {
+          enableCustomShortcuts();
+          wrapKanjiInWordField();
+        }
+
+        setTimeout(() => {
+          if (window.senrenBuildMenu) {
+            window.senrenBuildMenu();
+          } else {
+            const script = document.createElement('script');
+            script.src = "_senren_settings_v4.6.3.js";
+            document.body.appendChild(script);
+          }
+        }, 0);
+      });
+    }
+
+    init();
+    initDeferred();
+  })();
 </script>
