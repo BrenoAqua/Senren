@@ -23,11 +23,13 @@
   --word-sentence-default-expanded:   false;   /* Show sentence on word cards immediately */
   --audio-sentence-default-expanded:  false;   /* Show sentence on audio cards immediately */
   --notes-default-expanded:           false;   /* Show notes immediately */
-  --collect-glossary-images:          true;    /* Enable glossary images to be collected into the picture container */
+  --misc-info-default-expanded:       false;   /* Show misc info immediately */
+  --collect-glossary-images:          false;   /* Enable glossary images to be collected into the picture container */
   --no-duplicate-kana:                false;   /* Replace kana-only word with its reading */
   --blur-nsfw-picture:                true;    /* Blur picture on NSFW cards */
   --mute-sentence-audio:              false;   /* Mute any sentence audio */
   --mute-nsfw-audio:                  false;   /* Mute sentence audio on NSFW cards */
+  --enable-animations:                true;    /* Enable transition animations */
 
   /* Component Visibility */
   --settings-visibility:              1; /* "0" to hide settings toggle */
@@ -56,6 +58,8 @@
   /* Global Settings */
   --base-size:                        clamp(19px, 3vw, 24px);
   --base-line-height:                 1.5;
+  --bold-highlight:                   0;       /* "1" to bold highlights */
+  --bold-misc-info:                   0;       /* "1" to bold misc info text */
   
   /* Font Families */
   --serif:                            "Klee One", klee, "Hiragino Mincho ProN", "Noto Serif CJK JP", notoserifjp, "Yu Mincho", serif;
@@ -69,10 +73,10 @@
   --word-size-7:                      1.6rem;  /* 7 chars */
   --word-size-8:                      1.3rem;  /* 8 chars */
   --word-size-9:                      1.15rem; /* 9+ chars */
-  --word-transition:                  0;       /* "1" to animate word resizing between front and back */
 
   /* Word Furigana */
   --reading-position:                 above;   /* "below" to display reading below word */
+  --dynamic-furigana-size:            0;       /* "1" to use automatic browser sizing for furigana */
   --furigana-size:                    1rem;    
   --furigana-height:                  0.0rem;  /* Negative value moves it UP (e.g., -0.05rem), Positive moves it DOWN */
 
@@ -115,6 +119,7 @@
 
   /* Jitendex Settings */
   --jitendex-hide-examples:           0;       /* Hide Example Sentences */
+  --jitendex-hide-info-gloss:         1;       /* Hide Explanations */
   --jitendex-hide-xref:               0;       /* Hide Cross References */
   --jitendex-hide-graphic:            0;       /* Hide Graphics/Images */
   --jitendex-hide-notes:              0;       /* Hide Sense Notes */
@@ -174,13 +179,22 @@
   ============================================ */
   /* 0 = Standard Grid, 1 = Backdrop Layout */
   --enable-backdrop-layout:           0;
+
+  /* Offsets */
   --bd-card-bg-front-offset:          55px;
   --bd-word-bg-front-offset:          119px;
+
+  /* Front Side Word Alignment (Smaller Screens) */
+  --enable-custom-offsets:            0;       /* "1" to enable manual overrides to align the front word with the back side */
+  --bd-word-bg-front-offset-1050:     5.45rem; /* Front word offset for Word BG mode at 1050px max width */
+  --bd-card-bg-front-offset-1050:     2.8rem;  /* Front word offset for Card BG mode at 1050px max width */
+  --bd-word-bg-front-offset-mobile:   11.5rem; /* Front word offset for Word BG mode on mobile devices */
 
   /* 0 = Card BG (Full), 1 = Word BG (Container) */
   --backdrop-style:                   1;
 
   /* Image Min Height */
+  --backdrop-dynamic-height:          0;
   --backdrop-background-height:       250px;
 
   /* 1 = Enable background box behind text (Works in both modes) */
@@ -194,8 +208,8 @@
   --word-background-fade:             0;
 
   /* Fade Gradients (Masks) */
-  --card-fade-strenght:               50%;
-  --word-fade-strenght:               60%;
+  --card-fade-strength:               50%;
+  --word-fade-strength:               60%;
 
   /* Text Shadows */
   --bd-text-shadow-opacity-light:     0.6;
@@ -248,7 +262,7 @@
   --picture-bg-light:                 rgba(0, 0, 0, 0.03);
   --notes-bg-light:                   rgba(0, 0, 0, 0.03);
   --definition-bg-light:              rgba(0, 0, 0, 0.03);
-  --dictionary-collapse-fade-light:   linear-gradient(to bottom, rgba(245,245,245,0), rgba(245,245,245,0.5));
+  --dictionary-collapse-fade-light:   linear-gradient(to bottom, rgba(245,245,245,0), rgba(245,245,245,0.9));
   --buttons-bg-light:                 rgba(0, 0, 0, 0.03);
   --buttons-bg-hover-light:           rgba(0, 0, 0, 0.63);
   --lightbox-bg-light:                rgba(0, 0, 0, 0.8);
@@ -290,7 +304,7 @@
   --picture-bg:                       rgba(0, 0, 0, 0.3);
   --notes-bg:                         rgba(0, 0, 0, 0.3);
   --definition-bg:                    rgba(0, 0, 0, 0.3);
-  --dictionary-collapse-fade:         linear-gradient(to bottom, rgba(44, 44, 44, 0), rgba(26, 26, 26, 0.5));
+  --dictionary-collapse-fade:         linear-gradient(to bottom, rgba(44, 44, 44, 0), rgba(26, 26, 26, 9));
   --buttons-bg:                       rgba(0, 0, 0, 0.1);
   --buttons-bg-hover:                 rgba(0, 0, 0, 0.63);
   --lightbox-bg:                      rgba(0, 0, 0, 0.8);
@@ -489,7 +503,7 @@ body {
 }
 
 #wordAudio {
-  margin-right: 10px;
+  margin-right: 5px;
 }
 
 #wordAudio, #sentenceAudio, .playImage path {
@@ -608,6 +622,12 @@ b {
   color: var(--dark-highlight);
 }
 
+@container style(--bold-highlight: 1) {
+  b, .highlight {
+    font-weight: bold;
+  }
+}
+
 /* List Style */
 ul, ol {
   list-style: none;
@@ -717,6 +737,52 @@ ul, ol {
   color: black;
 }
 
+/* Settings Toggle */
+.toggle-settings-btn {
+  position: fixed;
+  left: var(--spacing-xxxl);
+  bottom: 30px;
+  padding: var(--spacing-ms) var(--spacing-lg);
+  color: var(--svg-color-light);
+  background: var(--buttons-bg-light);
+  cursor: pointer;
+  border: none;
+  border-radius: var(--border-radius-ms);
+  user-select: none;
+  font-size: var(--button-size);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: var(--z-index-base);
+  transition: box-shadow var(--fast-transition), 
+              background var(--fast-transition), 
+              color var(--fast-transition);
+}
+
+:is(.card.nightMode, .custom-dark-mode) 
+.toggle-settings-btn {
+  color: var(--svg-color);
+  background: var(--buttons-bg); 
+}
+
+.toggle-settings-btn:hover {
+  box-shadow: var(--button-shadow);
+  background: var(--buttons-bg-hover-light);
+  color: var(--svg-hover-light);
+}
+
+.card.nightMode .toggle-settings-btn:hover {
+  box-shadow: var(--button-shadow);
+  background: var(--buttons-bg-hover);
+  color: var(--svg-hover);
+}
+
+.custom-dark-mode .toggle-settings-btn:hover {
+  box-shadow: var(--button-shadow-dark);
+  background: white;
+  color: black;
+}
+
 /* Word + Grid Settings */
 #word.reading-is-word span[style*="border-top-width"],
 #word.reading-is-word span[style*="border-right-width"],
@@ -741,12 +807,6 @@ ul, ol {
   text-align: center;
 }
 
-@container style(--word-transition: 1) {
-  #word {
-    transition: font-size var(--base-transition);
-  }
-}
-
 #word.length-4 { font-size: var(--word-size-4); }
 #word.length-5 { font-size: var(--word-size-5); }
 #word.length-6 { font-size: var(--word-size-6); }
@@ -766,6 +826,12 @@ ul, ol {
 #word ruby rt {
   font-family: var(--sans);
   font-size: var(--furigana-size);
+}
+
+@container style(--dynamic-furigana-size: 1) {
+  #word ruby rt {
+    font-size: revert
+  }
 }
 
 .background-box {
@@ -1062,6 +1128,14 @@ img {
 }
 
 /* Image Toggle Styling  */
+@container style(--enable-backdrop-layout: 0) {
+  .back.image-removed .grid-container {
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-areas: "word";
+    gap: unset;
+  }
+}
+
 .toggle-image-visibility.show-btn {
   position: fixed;
   top: 174px;
@@ -1117,7 +1191,7 @@ img {
   top: 0;
   left: 0;
   right: 0;
-  height: 40px;
+  height: 25px;
   background: linear-gradient(to bottom, rgba(0,0,0,0.4), transparent);
   color: rgba(255, 255, 255, 0.5);
   display: flex;
@@ -1138,17 +1212,35 @@ img {
   display: none !important;
 }
 
-.back.image-removed .grid-container {
-  grid-template-columns: 1fr !important;
-  grid-template-areas: "word" !important;
-  height: var(--picture-height);
+@container not style(--enable-backdrop-layout: 1) and not style(--backdrop-style: 0) {
+  .back.image-removed .grid-container {
+    grid-template-columns: 1fr !important;
+    grid-template-areas: "word" !important;
+    height: var(--picture-height);
+  }
 }
 
 .back.image-removed .nav-arrow {
   display: none;
 }
 
+@container style(--enable-backdrop-layout: 1) and style(--backdrop-style: 0) {
+  @media (max-width: 1050px) {
+    .toggle-image-visibility.hide-btn {
+      left: auto !important;
+      right: auto !important;
+      width: 250px;
+      background: radial-gradient(ellipse at top, rgba(0,0,0,0.4) 0%, 
+                  transparent 70%);
+    }
+  }
+}
+
 /* Sentence */
+#formattedSentence {
+  user-select: none;
+}
+
 .sentence-container {
   margin: 0.85rem 0;
   margin-left: 5px;
@@ -2244,6 +2336,13 @@ span[data-sc-content="example-keyword"], span[style*="color-mix(in srgb, lime"] 
   }
 }
 
+/* Hide Explanations */
+@container style(--jitendex-hide-info-gloss: 1) {
+  [data-sc-content="info-gloss"] {
+    display: none;
+  }
+}
+
 /* Hide Antonyms */
 @container style(--jitendex-hide-antonyms: 1) {
   [data-sc-content="antonym"] {
@@ -3146,10 +3245,20 @@ li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br)
 }
 
 /* Misc Info */
+@container style(--misc-info-default-expanded: true) {
+  .misc-info.has-content {
+    color: var(--tag-color);
+    max-height: 500px !important;
+    padding-top: 20px !important;
+    opacity: 1 !important;
+    transition: opacity var(--base-transition), 
+                color var(--base-transition) !important;
+  }
+}
+
 .misc-info {
   font-family: var(--sans);
   font-size: var(--misc-info-size);
-  font-weight: bold;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -3163,7 +3272,12 @@ li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br)
   z-index: var(--z-index-base);
   transition: max-height var(--base-transition), 
               padding-top var(--base-transition), 
-              opacity var(--base-transition);
+              opacity var(--base-transition),
+              color var(--base-transition);
+}
+
+.misc-info:hover {
+  color: white !important;
 }
 
 @container style(--misc-info-alignment: left) {
@@ -3191,6 +3305,12 @@ li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br)
 
 .misc-info b {
   margin: 0 0.25rem;
+}
+
+@container style(--bold-misc-info: 1) {
+  .misc-info {
+    font-weight: bold !important;
+  }
 }
 
 /* Kanji Hover */
@@ -3704,7 +3824,7 @@ li.is-new-card:not(:hover) .related-word {
   cursor: pointer;
 }
 
-/* --- DICTIONARY COLORIZER --- */
+/* Dictionary Colorizer */
 @container style(--dictionary-colorizer: 1) {
   :is(
     div[data-sc-name="使い方"],
@@ -3837,7 +3957,7 @@ li.is-new-card:not(:hover) .related-word {
   z-index: 0;
 }
 
-/* --- DICTIONARY THEME MAPPING --- */
+/* Dictionary Theme Mapping */
 /* Light Theme Colors */
 .card {
   --selection-text-color: var(--selection-text-color-light);
@@ -3920,6 +4040,8 @@ li.is-new-card:not(:hover) .related-word {
   --goiryoku-nijijukugo-color-rgb: var(--goiryoku-nijijukugo-color-rgb-light);
   --shogakukan-reikai-12-color: var(--shogakukan-reikai-12-color-light);
   --shogakukan-reikai-12-color-rgb: var(--shogakukan-reikai-12-color-rgb-light);
+  --weblio-kogo-jiten-color: var(--weblio-kogo-jiten-color-light);
+  --weblio-kogo-jiten-color-rgb: var(--weblio-kogo-jiten-color-rgb-light);
 }
 
 /* Dark Theme Colors */
@@ -4005,6 +4127,8 @@ li.is-new-card:not(:hover) .related-word {
   --goiryoku-nijijukugo-color-rgb: var(--goiryoku-nijijukugo-color-dark-rgb);
   --shogakukan-reikai-12-color: var(--shogakukan-reikai-12-color-dark);
   --shogakukan-reikai-12-color-rgb: var(--shogakukan-reikai-12-color-dark-rgb);
+  --weblio-kogo-jiten-color: var(--weblio-kogo-jiten-color-dark);
+  --weblio-kogo-jiten-color-rgb: var(--weblio-kogo-jiten-color-dark-rgb);
 }
 
 /* Specific Color Definitions for Each Dictionary */
@@ -4338,6 +4462,53 @@ li.is-new-card:not(:hover) .related-word {
   }
 }
 
+.back:not(:has(.sentenceaudio))
+.toggle-notes {
+  top: 124px !important;
+}
+
+.back:not(:has(.sentenceaudio)) 
+.toggle-image-visibility.show-btn {
+  top: 174px !important;
+}
+
+.back:not(:has(.sentenceaudio)):not(:has(.toggle-notes)) .toggle-image-visibility.show-btn { 
+    top: 124px !important; 
+}
+
+@container style(--custom-dark-mode-visibility: 0) {
+  .audio {
+    top: var(--spacing-xxl);
+  }
+
+  .sentenceaudio {
+    top: 74px;
+  }
+
+  .toggle-notes {
+    top: 124px !important;
+  }
+
+  .back:has(.toggle-notes) 
+  .toggle-image-visibility.show-btn {
+    top: 174px !important;
+  }
+
+  .back:not(:has(.sentenceaudio)):not(:has(.toggle-notes)) 
+  .toggle-image-visibility.show-btn { 
+    top: 124px !important; 
+  }
+
+  .toggle-image-visibility.show-btn {
+    top: 124px;
+  }
+
+  .back:not(:has(.sentenceaudio)) 
+  .toggle-notes { 
+    top: 74px !important;
+  }
+}
+
 @media (min-width:1051px){
   @container style(--main-bg-visibility: 0) {
     .back::before {
@@ -4390,9 +4561,21 @@ li.is-new-card:not(:hover) .related-word {
     position: relative;
   }
 
+  .back:has(.toggle-notes) .toggle-image-visibility.show-btn {
+    top: 0 !important;
+  }
+
+  .back:not(:has(.sentenceaudio)) .toggle-image-visibility.show-btn {
+    top: 0 !important;
+  }
+
+  .toggle-image-visibility.show-btn {
+    top: 0 !important;
+  }
+
   @container style(--settings-visibility-header: 0) {
     .toggle-settings-btn {
-      display: none;
+      display: none !important;
     }
   }
 
@@ -4409,6 +4592,20 @@ li.is-new-card:not(:hover) .related-word {
   }
 
   .front:has(#sentence-wrapper) .toggle-custom-dark-mode { 
+    position: absolute;
+  }
+
+  .front:not(:has(#wordAudio)) .toggle-settings-btn { 
+    position: unset;
+  }
+
+  .front:has(#wordAudio) .toggle-settings-btn { 
+    position: absolute;
+    left: auto;
+    right: 20px;
+  }
+
+  .front:has(#sentence-wrapper) .toggle-settings-btn { 
     position: absolute;
   }
 
@@ -4472,16 +4669,29 @@ li.is-new-card:not(:hover) .related-word {
     top: 20px;
   }
 
-  @container style(--custom-dark-mode-visibility: 0) {
-    .audio-hint {
-      position: absolute;
-      display: flex;
+  .toggle-settings-btn {
+    position: absolute;
+    display: flex;
+    left: 75px;
+    top: 20px;
+    bottom: auto;
+  }
+
+  @container style(--custom-dm-header-visibility: 0) {
+    .front .toggle-settings-btn { 
       left: 20px;
-      top: 20px;
     }
   }
 
+  .front:has(.toggle-custom-dark-mode) .audio-hint {
+    left: 75px;
+  }
+
   .back .toggle-custom-dark-mode {
+    position: unset;
+  }
+
+  .back .toggle-settings-btn {
     position: unset;
   }
 
@@ -4627,6 +4837,10 @@ li.is-new-card:not(:hover) .related-word {
     border-radius: 0 0 var(--border-radius-lg) var(--border-radius-lg) !important;
   }
 
+  .nav-arrow {
+    border-radius: 0 0 var(--border-radius-lg) var(--border-radius-lg) !important;
+  }
+
   /* sentence wrapping fix */
   #sentence {
     display: block !important;
@@ -4651,6 +4865,10 @@ li.is-new-card:not(:hover) .related-word {
   }
 
   .front:not(:has(#wordAudio)) .toggle-custom-dark-mode { 
+    position: unset;
+  }
+
+  .front:not(:has(#wordAudio)) .toggle-settings-btn { 
     position: unset;
   }
 
@@ -4767,17 +4985,19 @@ li.is-new-card:not(:hover) .related-word {
     opacity: var(--backdrop-opacity);
     border-radius: var(--border-radius-ms);
     height: 100%;
+    will-change: mask-image, -webkit-mask-image;
+    transform: translateZ(0);
     transition: none;
   }
 
   @container style(--card-background-fade: 1) {
     .picture-container img {
-      -webkit-mask-image: linear-gradient(to bottom, black var(--card-fade-strenght), transparent 100%);
-      mask-image: linear-gradient(to bottom, black var(--card-fade-strenght), transparent 100%);
+      -webkit-mask-image: linear-gradient(to bottom, black var(--card-fade-strength), transparent 100%);
+      mask-image: linear-gradient(to bottom, black var(--card-fade-strength), transparent 100%);
     }
   }
 
-  .background-box {
+  .back .background-box {
     position: relative;
     z-index: 2;
     background: transparent !important;
@@ -4786,11 +5006,18 @@ li.is-new-card:not(:hover) .related-word {
   }
 
   :is(.card.nightMode, .custom-dark-mode) 
-  .background-box{
+  .back .background-box {
     text-shadow: 0 1px 5px rgba(var(--bd-text-shadow-color), var(--bd-text-shadow-opacity));
   }
 
+  /* Card BG */
   @container style(--backdrop-style: 0) {
+    .misc-info {
+      color: var(--tag-color);
+      will-change: max-height, opacity;
+      transform: translateZ(0);
+    }
+
     @media (min-width: 1050px) {
       .front {
         top: var(--bd-card-bg-front-offset);
@@ -4805,20 +5032,93 @@ li.is-new-card:not(:hover) .related-word {
     #sentence {
       text-shadow: 0 1px 5px rgba(var(--bd-text-shadow-color), var(--bd-text-shadow-opacity));
     }
+
+    /* Force Tags & Links to Bottom of Card */
+    @container style(--backdrop-dynamic-height: 1) {
+      .back {
+        display: flex !important;
+        flex-direction: column !important;
+      }
+
+      .tags-and-links-wrapper {
+        position: relative !important;
+        margin-top: auto !important;
+        width: 100%;
+        box-sizing: border-box;
+        bottom: auto !important;
+        left: auto !important;
+      }
+    }
+
+    /* Card BG Fixes */
+    #sentence, #sentenceEng, .misc-info {
+      position: relative;
+      z-index: 2;
+    }
+
+    @media (max-width: 1050px) {
+      .audio, 
+      .sentenceaudio {
+        position: relative;
+        z-index: 2;
+      }
+    }
+
+    .sentence-container,
+    .notes,
+    .card-b,
+    .back .background-box,
+    .misc-info {
+      pointer-events: none !important;
+    }
+
+    .sentence-container > *,
+    .notes > *,
+    .card-b > *,
+    .misc-info > *,
+    #word span,
+    #word ruby,
+    #formattedSentence,
+    #formattedSentence *,
+    .definition-box *,
+    .glossary-box *,
+    .tags-container *,
+    .external-links a {
+      pointer-events: auto !important;
+    }
+
+    .picture-container {
+      pointer-events: auto !important;
+      z-index: 0 !important;
+    }
+
+    .misc-info {
+      pointer-events: auto !important;
+    }
+
+    @media (max-width: 768px) {
+      .picture-container, .picture-container img {
+        border-radius: 0 0 var(--border-radius-lg) var(--border-radius-lg) !important;  
+      }
+    }
   }
 
   @container style(--word-background-box: 1) {
-    .background-box {
+    .back .background-box {
       background: var(--word-bg-light) !important;
     }
     :is(.card.nightMode, .custom-dark-mode)
-    .background-box {
+    .back .background-box {
       background: var(--word-bg) !important;
     }
   }
 
   /* Word Background */
   @container style(--backdrop-style: 1) {
+   .toggle-image-visibility.hide-btn {
+     pointer-events: auto !important;
+   }
+
     @media (min-width: 1050px) {
       .front {
         top: var(--bd-word-bg-front-offset);
@@ -4923,6 +5223,40 @@ li.is-new-card:not(:hover) .related-word {
   }
 }
 
+/* Custom OFfsets to Align Front Word With Back Word */
+@container style(--enable-custom-offsets: 1) {
+  @media (max-width: 1050px) {
+    @container style(--enable-backdrop-layout: 1) and style(--backdrop-style: 1) {
+      .desktop-word-layout > #word {
+        margin-top: var(--bd-word-bg-front-offset-1050);
+      }
+    }
+
+    @container style(--enable-backdrop-layout: 1) and style(--backdrop-style: 0) {
+      .desktop-word-layout > #word {
+        margin-top: var(--bd-card-bg-front-offset-1050);  
+      }
+    }
+  }
+
+  @media (max-width: 624px) { 
+    @container style(--enable-backdrop-layout: 1) and style(--backdrop-style: 1) {
+      .mobile-word-layout > .background-box {
+        line-height: var(--bd-word-bg-front-offset-mobile);
+      }
+    }
+  }
+}
+
+/* Fix Fade on Mobile */
+@media (max-width: 624px) {
+  @container style(--enable-backdrop-layout: 1) {
+    .picture-container img {
+      max-height: inherit !important;
+    }
+  } 
+}
+
 @supports (-webkit-touch-callout: none) {
   #sentenceEng {
     max-height: 0.5px;
@@ -4932,26 +5266,18 @@ li.is-new-card:not(:hover) .related-word {
   }
 }
 
-@container style(--custom-dark-mode-visibility: 0) {
-  .audio {
-    top: var(--spacing-xxl);
-  }
-
-  .sentenceaudio {
-    top: 74px;
-  }
-
-  .toggle-notes {
-    top: 124px !important;
-  }
-
-  .back:has(.toggle-notes) 
-  .toggle-image-visibility.show-btn {
-    top: 174px !important;
-  }
-
-  .toggle-image-visibility.show-btn {
-    top: 124px;
+/* Disable Animations */
+@container style(--enable-animations: false) {
+  *, *::before, *::after, .misc-info.has-content {
+    -webkit-transition: none !important;
+    -moz-transition: none !important;
+    -o-transition: none !important;
+    transition: none !important;
+  
+    -webkit-animation: none !important;
+    -moz-animation: none !important;
+    -o-animation: none !important;
+    animation: none !important;
   }
 }
 
@@ -5117,4 +5443,8 @@ li.is-new-card:not(:hover) .related-word {
   --shogakukan-reikai-12-color-rgb-light:   0, 172, 193;
   --shogakukan-reikai-12-color-dark:        #4DD0E1;
   --shogakukan-reikai-12-color-dark-rgb:    77, 208, 225;
+  --weblio-kogo-jiten-color-light:          #385499;
+  --weblio-kogo-jiten-color-rgb-light:      56, 84, 153;
+  --weblio-kogo-jiten-color-dark:           #8DA7E6;
+  --weblio-kogo-jiten-color-dark-rgb:       141, 167, 230;
 }
