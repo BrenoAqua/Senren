@@ -44,8 +44,13 @@
       }
       darkMode();
     </script>
+
+    <!-- Settings Toggle -->
+    <span class="toggle-settings-btn tappable">
+      <i class="fas fa-cog"></i>
+    </span>
+    <!-- /HEADER -->
   </div>
-  <!-- /HEADER -->
 
   <!-- Audio Card -->
   {{#audioCard}}{{#wordAudio}}
@@ -454,40 +459,73 @@
   }
 
   // Enables custom shortcuts
-  function enableCustomShortcuts() {
-    window.senrenFrontSettingsHandler = (e) => {
-      if (document.activeElement && ['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
+	function enableCustomShortcuts() {
+		['senrenFrontSettingsHandler', 'senrenBackKeyHandler'].forEach(h => {
+			if (window[h]) document.removeEventListener('keydown', window[h]);
+			window[h] = null;
+		});
 
-      const rootStyle = getComputedStyle(document.body);
-      
-      const settingsKey = rootStyle.getPropertyValue('--toggle-settings-key').replace(/['"]/g, '').trim();
-      const settingsConfig = parseKeyConfig(settingsKey);
-      
-      if (isKeyMatch(e, settingsConfig)) {
-         e.preventDefault();
-         const modal = document.getElementById('senren-settings-modal');
-         if (modal) {
-             modal.classList.toggle('active');
-         } else {
-             const btn = document.querySelector('.toggle-settings-btn');
-             if (btn) btn.click();
-         }
-         return; 
-      }
+		const utils = {
+			isTyping: () => {
+				const active = document.activeElement;
+				return active && ['INPUT', 'TEXTAREA'].includes(active.tagName);
+			},
 
-      const dmKey = rootStyle.getPropertyValue('--toggle-custom-dark-mode-key').replace(/['"]/g, '').trim();
-      const dmConfig = parseKeyConfig(dmKey);
-      
-      if (isKeyMatch(e, dmConfig)) {
-         e.preventDefault();
-         const dmBtn = document.querySelector(".toggle-custom-dark-mode");
-         if (dmBtn) dmBtn.click();
-      }
-    };
-    
-    document.addEventListener('keydown', window.senrenFrontSettingsHandler);
-  }
-  
+			getVar: (name) => {
+				const el = document.querySelector('.card') || document.body || document.documentElement;
+				const val = getComputedStyle(el).getPropertyValue(name).trim();
+				
+				return val.replace(/['"]/g, '');
+			}
+		};
+
+		const actions = {
+			settings: () => {
+				const modal = document.getElementById('senren-settings-modal');
+				const btn = document.querySelector('.toggle-settings-btn');
+
+				if (modal) {
+					modal.classList.toggle('active');
+				} else if (btn) {
+					btn.click();
+				}
+			},
+
+			customDarkMode: () => {
+				const dmBtn = document.querySelector(".toggle-custom-dark-mode");
+				
+				if (dmBtn) dmBtn.click();
+			}
+		};
+
+		window.senrenFrontSettingsHandler = (e) => {
+			if (utils.isTyping()) return;
+
+			const shortcuts = [
+				{ var: '--toggle-settings-key', action: actions.settings },
+				{ var: '--toggle-custom-dark-mode-key', action: actions.customDarkMode }
+			];
+
+			for (const item of shortcuts) {
+				const keyStr = utils.getVar(item.var);
+
+				if (!keyStr) continue;
+
+				const config = parseKeyConfig(keyStr);
+
+				if (isKeyMatch(e, config)) {
+					e.preventDefault();
+					e.stopPropagation();
+
+					item.action();
+					break;
+				}
+			}
+		};
+
+		document.addEventListener('keydown', window.senrenFrontSettingsHandler);
+	}
+
   // Adjusts word size based on character length
   function dynamicWordSize() {
     const wordElement = document.querySelectorAll("#word");
@@ -511,21 +549,43 @@
     });
   }
 
-  dynamicWordSize();
-  enableFrontSceneSwitching();
-  initializeAudioSentenceState();
-  initializeSentenceState();
-  enableCustomShortcuts();
-  setTimeout(() => {
-    if (window.senrenBuildMenu) {
-      window.senrenBuildMenu();
-    } else {
-      const script = document.createElement('script');
-      script.src = "_senren_settings_v4.6.2.js";
-      document.body.appendChild(script);
-    }
-  }, 0);
+  (function () {
+    const IS_MOBILE = document.documentElement.classList.contains('mobile') || 
+                      document.body.classList.contains('mobile');
 
-  void "_senren_settings_v4.6.2.css";
-  void "_senren_defaults_v4.6.2.css";
-</script>	
+    const delayedFunctions = window.requestIdleCallback || function(cb) { return setTimeout(cb, 1); };
+
+    // Initializes immediate functions
+    function init() {
+      dynamicWordSize();
+      initializeAudioSentenceState();
+      initializeSentenceState();
+      enableFrontSceneSwitching();
+    }
+
+    // initializes deferred functions
+    function initDeferred() {
+      delayedFunctions(() => {
+        if (!IS_MOBILE) {
+          enableCustomShortcuts();
+        }
+
+        setTimeout(() => {
+          if (window.senrenBuildMenu) {
+            window.senrenBuildMenu();
+          } else {
+            const script = document.createElement('script');
+            script.src = "_senren_settings_v4.6.3.js";
+            document.body.appendChild(script);
+          }
+        }, 0);
+      });
+    }
+
+    init();
+    initDeferred();
+  })();
+
+void "_senren_settings_v4.6.3.css";
+void "_senren_defaults_v4.6.3.css";
+</script>
