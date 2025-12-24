@@ -169,7 +169,6 @@
       { label: "Pitch Colors", var: "--kanji-hover-pitch-colors", type: "switch-bool", desc: "Enables pitch downstep coloring." },
       { label: "Word / Sentence Highlight", var: "--kanji-hover-pitch-highlight", type: "switch-bool", desc: "Highlights the target kanji and word in the sentence using pitch colors." }
     ],
-
     "Grid Control": [
       { type: "header", label: "Global" },
       {
@@ -267,6 +266,10 @@
       { label: "Tag Text Hover", var: "--tag-color-hover", type: "color", theme: "dark" },
       { label: "External Links BG", var: "--external-links-bg-light", type: "color", theme: "light" },
       { label: "External Links BG", var: "--external-links-bg", type: "color", theme: "dark" },
+      { label: "Misc Info Text", var: "--misc-info-text-light", type: "color", theme: "light" },
+      { label: "Misc Info Text", var: "--misc-info-text", type: "color", theme: "dark" },
+      { label: "Misc Info Text Hover", var: "--misc-info-text-hover-light", type: "color", theme: "light" },
+      { label: "Misc Info Text Hover", var: "--misc-info-text-hover", type: "color", theme: "dark" },
 
       { type: "header", label: "Controls" },
       { label: "Icons", var: "--svg-color-light", type: "color", theme: "light" },
