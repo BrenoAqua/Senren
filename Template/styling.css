@@ -241,6 +241,8 @@
   --freq-text-hover-light:            rgba(0, 0, 0, 1);
   --tag-color-light:                  rgba(105, 105, 105, 0.26);
   --tag-color-hover-light:            rgba(255, 255, 255, 1);
+  --misc-info-text-light:             rgba(105, 105, 105, 0.3);
+  --misc-info-text-hover-light:       black;
 
   /* Pitch Colors */
   --pitch-red-light:                  #D62839;
@@ -283,6 +285,8 @@
   --freq-text-hover:                  rgba(255, 255, 255, 1);
   --tag-color:                        rgba(255, 255, 255, 0.21);
   --tag-color-hover:                  rgba(255, 255, 255, 1);
+  --misc-info-text:                   rgba(255, 255, 255, 0.2);
+  --misc-info-text-hover:             white;
 
   /* Pitch Colors */
   --pitch-red:                        #F5436D;
@@ -3247,12 +3251,17 @@ li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br)
 /* Misc Info */
 @container style(--misc-info-default-expanded: true) {
   .misc-info.has-content {
-    color: var(--tag-color);
+    color: var(--misc-info-text-light);
     max-height: 500px !important;
     padding-top: 20px !important;
     opacity: 1 !important;
     transition: opacity var(--base-transition), 
                 color var(--base-transition) !important;
+  }
+
+  :is(.card.nightMode, .custom-dark-mode)
+  .misc-info.has-content {
+    color: var(--misc-info-text);
   }
 }
 
@@ -3277,7 +3286,12 @@ li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br)
 }
 
 .misc-info:hover {
-  color: white !important;
+  color: var(--misc-info-text-hover-light) !important;
+}
+
+:is(.card.nightMode, .custom-dark-mode)
+.misc-info:hover {
+  color: var(--misc-info-text-hover) !important;
 }
 
 @container style(--misc-info-alignment: left) {
@@ -5013,9 +5027,14 @@ li.is-new-card:not(:hover) .related-word {
   /* Card BG */
   @container style(--backdrop-style: 0) {
     .misc-info {
-      color: var(--tag-color);
+      color: var(--misc-info-text-light);
       will-change: max-height, opacity;
       transform: translateZ(0);
+    }
+
+    :is(.card.nightMode, .custom-dark-mode)
+    .misc-info {
+      color: var(--misc-info-text);
     }
 
     @media (min-width: 1050px) {
