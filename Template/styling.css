@@ -4587,6 +4587,10 @@ li.is-new-card:not(:hover) .related-word {
     top: 0 !important;
   }
 
+  .back:not(:has(.sentenceaudio)):not(:has(.toggle-notes)) .toggle-image-visibility.show-btn {
+    top: 0 !important;
+  }
+	
   @container style(--settings-visibility-header: 0) {
     .toggle-settings-btn {
       display: none !important;
