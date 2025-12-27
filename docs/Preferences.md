@@ -17,7 +17,9 @@ Settings are stored locally during your session. They remain active as long as y
 To apply your changes permanently, click **"Save to Anki"**.
     *  This immediately writes the updated values to the card model.
     *  After saving, temporary storage is cleared to ensure that future manual edits to your card CSS in Anki’s editor are not overridden by outdated settings.
-
+    
+Some previous options may persist after you save and close the Preferences, so it is recommended to leave and re-enter the deck reviewer.
+ 
 ###  Preset System
 *  Presets are stored in a dedicated file: (`_senren_presets.json`) located in your Anki `collection.media` folder.
 *  The presets file is user-managed. Updating the card template in future versions will not overwrite your presets. They remain untouched unless you explicitly create, rename, or delete a preset via the settings menu.
