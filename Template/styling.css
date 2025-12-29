@@ -5169,8 +5169,8 @@ li.is-new-card:not(:hover) .related-word {
 
     @container style(--word-background-fade: 1) {
       .picture-container {
-        -webkit-mask-image: linear-gradient(to bottom, black var(--word-fade-strenght), transparent 100%);
-        mask-image: linear-gradient(to bottom, black var(--word-fade-strenght), transparent 100%);
+        -webkit-mask-image: linear-gradient(to bottom, black var(--word-fade-strength), transparent 100%);
+        mask-image: linear-gradient(to bottom, black var(--word-fade-strength), transparent 100%);
       }
     }
 
