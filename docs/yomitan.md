@@ -604,6 +604,7 @@ This Handlebars template displays the **Reading (kana)** as fallback for words l
     --dict-color-opacity: 100%;
     --dict-color: var(--tag-dictionary-background-color);
     --dict-bg-opacity: 0;
+    --example-keyword: #FCFF61;
     --tag-text-color: white;
     --tag-border-color: transparent; 
     --tag-default-background-color: rgba(0, 0, 0, 0.4);
