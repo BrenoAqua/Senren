@@ -259,7 +259,7 @@
 
   // Collect images from the glossary and add them to the picture container
   function collectGlossaryImages() {
-    const glossaryItems = document.querySelectorAll("#glossary img");
+    const glossaryItems = document.querySelectorAll("#glossary img, #definition img");
     const pictureContainer = document.querySelector(".picture-container");
 
     if (!glossaryItems.length || !pictureContainer) return;
@@ -270,8 +270,15 @@
     if (collectSetting !== 'true') {
       return;
     }
-
+    
+    const existingSrcs = new Set(
+      Array.from(pictureContainer.querySelectorAll('img')).map(img => img.src)
+    );
+    
     glossaryItems.forEach(img => {
+      if (!img.src || existingSrcs.has(img.src)) {
+      return;
+      }
       if (!img.src ||
         img.src === window.location.href ||
         img.src.toLowerCase().endsWith('.svg') ||
@@ -283,6 +290,8 @@
       ) {
         return;
       }
+
+      existingSrcs.add(img.src);
 
       const aspectRatio = img.naturalWidth / img.naturalHeight;
       const tooTall = aspectRatio < 0.7;
