@@ -564,6 +564,7 @@ This Handlebars template displays the **Reading (kana)** as fallback for words l
     --tag-part-of-speech-background-color: #88C0D0;
     --tag-search-background-color: #88C0D0;
     --tag-pitch-accent-dictionary-background-color: #5E81AC;
+    --jitendex-separators: rgba(105, 105, 105, 0.3);
     --text-color: #2e3440;
     --pitch-accent-annotation-color: #4c566a;
     --reason-text-color: #5E81AC;
@@ -616,6 +617,7 @@ This Handlebars template displays the **Reading (kana)** as fallback for words l
     --tag-part-of-speech-background-color: #88C0D0;
     --tag-search-background-color: #88C0D0;
     --tag-pitch-accent-dictionary-background-color: #5E81AC;
+    --jitendex-separators: rgba(255, 255, 255, 0.5);
     --text-color: white;
     --pitch-accent-annotation-color: #ebffff;
     --reason-text-color: #5E81AC;
@@ -1080,6 +1082,10 @@ This Handlebars template displays the **Reading (kana)** as fallback for words l
     }
 
     /* Jitendex Settings */
+    [data-glossary-layout-mode="default"] [data-sc-content="glossary"] li:not(:last-child)::after {
+      color: var(--jitendex-separators) !important;
+    }
+    
     [data-dictionary*="Jitendex.org"] {
     li[data-sc-content="sense-group"],
     li[data-sc-content="forms"],
@@ -1392,6 +1398,7 @@ This Handlebars template displays the **Reading (kana)** as fallback for words l
     --tag-part-of-speech-background-color: #88C0D0;
     --tag-search-background-color: #88C0D0;
     --tag-pitch-accent-dictionary-background-color: #5E81AC;
+    --jitendex-separators: rgba(105, 105, 105, 0.3);
     --text-color: #2e3440;
     --pitch-accent-annotation-color: #4c566a;
     --reason-text-color: #5E81AC;
@@ -1444,6 +1451,7 @@ This Handlebars template displays the **Reading (kana)** as fallback for words l
     --tag-part-of-speech-background-color: #88C0D0;
     --tag-search-background-color: #88C0D0;
     --tag-pitch-accent-dictionary-background-color: #5E81AC;
+    --jitendex-separators: rgba(255, 255, 255, 0.5);
     --text-color: white;
     --pitch-accent-annotation-color: #ebffff;
     --reason-text-color: #5E81AC;
@@ -1885,6 +1893,10 @@ This Handlebars template displays the **Reading (kana)** as fallback for words l
     }
 
     /* Jitendex Settings */
+    [data-glossary-layout-mode="default"] [data-sc-content="glossary"] li:not(:last-child)::after {
+      color: var(--jitendex-separators) !important;
+    }
+
     [data-dictionary*="Jitendex.org"] li[data-sc-content="sense-group"],
     [data-dictionary*="Jitendex.org"] li[data-sc-content="forms"],
     [data-dictionary*="Jitendex.org"] li[data-sc-content="sense"],
