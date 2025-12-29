@@ -17,40 +17,54 @@
 
 /* Custom Variables for Styling */
 :root {
-  /* CARD SETTINGS
+  /* CARD SETTINGS - Default States (true/false)
   ============================================ */
-  /* Default States (true/false) */
-  --word-sentence-default-expanded:   false;   /* Show sentence on word cards immediately */
-  --audio-sentence-default-expanded:  false;   /* Show sentence on audio cards immediately */
-  --notes-default-expanded:           false;   /* Show notes immediately */
-  --misc-info-default-expanded:       false;   /* Show misc info immediately */
-  --collect-glossary-images:          false;   /* Enable glossary images to be collected into the picture container */
-  --no-duplicate-kana:                false;   /* Replace kana-only word with its reading */
-  --blur-nsfw-picture:                true;    /* Blur picture on NSFW cards */
-  --mute-sentence-audio:              false;   /* Mute any sentence audio */
-  --mute-nsfw-audio:                  false;   /* Mute sentence audio on NSFW cards */
+  /* General */
   --enable-animations:                true;    /* Enable transition animations */
 
-  /* Component Visibility */
-  --settings-visibility:              1; /* "0" to hide settings toggle */
-  --main-bg-visibility:               1; /* "0" to disable main bg */
-  --main-bg-shadow-visibility:        0; /* "1" to enable box shadow on cards */
-  --custom-dark-mode-visibility:      1; /* "0" to hide custom dark mode toggle */
-  --audio-visibility:                 1; /* "0" to hide audio button */
-  --freq-visibility:                  1; /* "0" to hide frequency */
-  --definition-title-visibility:      1; /* "0" to hide dict title */  
-  --glossary-title-visibility:        1; /* "0" to hide glossary title */
-  --tag-visibility:                   1; /* "0" to hide tags */
-  --external-links-visibility:        1; /* "0" to hide external links */
-  --pitch-position-visibility:        1; /* "0" to hide pitch downstep position */
+  /* Front
+  -------------------------------------------- */
+  --word-sentence-default-expanded:   false;   /* Show sentence on word cards immediately */
+  --audio-sentence-default-expanded:  false;   /* Show sentence on audio cards immediately */
 
-  /* Component Visibility (Card Size ≤ 1050px) */
-  --settings-visibility-header:       1; /* "0" to hide settings toggle */
-  --main-bg-1050-visibility:          1; /* "0" to disable main bg */
-  --main-bg-shadow-1050-visibility:   0; /* "1" to enable box shadow on cards */
-  --custom-dm-header-visibility:      1; /* "0" to hide custom dark mode toggle */
-  --audio-header-visibility:          1; /* "0" to hide audio button */
-  --freq-header-visibility:           1; /* "0" to hide frequency */
+  /* Back
+  -------------------------------------------- */
+  --notes-default-expanded:           false;   /* Show notes immediately */
+  --collect-glossary-images:          false;   /* Enable glossary images to be collected into the picture box */
+  --no-duplicate-kana:                false;   /* Replace kana-only word with its reading */
+  --mute-sentence-audio:              false;   /* Mute any sentence audio */
+
+  /* Misc Info */
+  --misc-info-default-expanded:       false;   /* Show misc info immediately */
+  --misc-info-above:                  false;   /* Display Misc Info above or below tags and external links */
+
+  /* NSFW */
+  --blur-nsfw-picture:                true;    /* Blur picture on NSFW cards */
+  --mute-nsfw-audio:                  false;   /* Mute sentence audio on NSFW cards */
+
+
+  /* COMPONENT VISIBILITY ("1" to show, "0" to Hide)
+  ============================================ */
+  --settings-visibility:              1; /* Settings toggle */
+  --main-bg-visibility:               1; /* Main bg */
+  --main-bg-shadow-visibility:        0; /* Box shadow around the main bg */
+  --custom-dark-mode-visibility:      1; /* Custom dark mode toggle */
+  --audio-visibility:                 1; /* Audio button */
+  --freq-visibility:                  1; /* Frequency */
+  --definition-title-visibility:      1; /* Dict title in the definition box */  
+  --glossary-title-visibility:        1; /* Dict title in the glossary box */
+  --tag-visibility:                   1; /* Tags */
+  --external-links-visibility:        1; /* External links */
+  --pitch-position-visibility:        1; /* Pitch downstep position */
+  --misc-info-bg-visibility:          1; /* Misc info background */
+
+  /* Header/Mobile Visibility (≤ 1050px) */
+  --settings-visibility-header:       1; /* Settings toggle */
+  --main-bg-1050-visibility:          1; /* Main bg */
+  --main-bg-shadow-1050-visibility:   0; /* Shadow around the main bg */
+  --custom-dm-header-visibility:      1; /* Custom dark mode toggle */
+  --audio-header-visibility:          1; /* Audio button */
+  --freq-header-visibility:           1; /* Frequency */
 
 
   /* TYPOGRAPHY & FONTS
@@ -76,7 +90,7 @@
 
   /* Word Furigana */
   --reading-position:                 above;   /* "below" to display reading below word */
-  --dynamic-furigana-size:            0;       /* "1" to use automatic browser sizing for furigana */
+  --dynamic-furigana-size:            0;       /* "1" to use automatic sizing for furigana */
   --furigana-size:                    1rem;    
   --furigana-height:                  0.0rem;  /* Negative value moves it UP (e.g., -0.05rem), Positive moves it DOWN */
 
@@ -175,10 +189,9 @@
      Note: You cannot enable the horizontal grid while the vertical grid is enabled.
   ================================================================================== */ 
 
-  /* BACKDROP LAYOUT (Depth Control)
+  /* BACKDROP LAYOUT
   ============================================ */
-  /* 0 = Standard Grid, 1 = Backdrop Layout */
-  --enable-backdrop-layout:           0;
+  --enable-backdrop-layout:           0;       /* "1" to enable backdrop layout */
 
   /* Offsets */
   --bd-card-bg-front-offset:          55px;
@@ -190,32 +203,28 @@
   --bd-card-bg-front-offset-1050:     2.8rem;  /* Front word offset for Card BG mode at 1050px max width */
   --bd-word-bg-front-offset-mobile:   11.5rem; /* Front word offset for Word BG mode on mobile devices */
 
-  /* 0 = Card BG (Full), 1 = Word BG (Container) */
-  --backdrop-style:                   1;
+  /* Mode */
+  --backdrop-style:                   1;       /* "0" to Card BG, "1" to Word BG */
 
-  /* Image Min Height */
-  --backdrop-dynamic-height:          0;
+  /* Image Height */
+  --backdrop-dynamic-height:          0;       /* "1" to enable Dynamic Height */
   --backdrop-background-height:       250px;
 
-  /* 1 = Enable background box behind text (Works in both modes) */
-  --word-background-box:              0;
+  /* Word Background Box */
+  --word-background-box:              0;       /* "1" to enable background box behind text */
   
   /* Image Opacity */
   --backdrop-opacity:                 0.5; 
 
-  /* Fade Switches (0 = Off, 1 = On) */
-  --card-background-fade:             1;
-  --word-background-fade:             0;
-
-  /* Fade Gradients (Masks) */
+  /* Fade Gradients */
+  --card-background-fade:             1;       /* "0" to disable */
+  --word-background-fade:             0;       /* "1" to enable */
   --card-fade-strength:               50%;
   --word-fade-strength:               60%;
 
   /* Text Shadows */
   --bd-text-shadow-opacity-light:     0.6;
   --bd-text-shadow-opacity:           0.6;
-
-  /* Text Shadow Colors */
   --bd-text-shadow-color-light:       255, 255, 255; 
   --bd-text-shadow-color:             0, 0, 0;
 
@@ -241,8 +250,8 @@
   --freq-text-hover-light:            rgba(0, 0, 0, 1);
   --tag-color-light:                  rgba(105, 105, 105, 0.26);
   --tag-color-hover-light:            rgba(255, 255, 255, 1);
-  --misc-info-text-light:             rgba(105, 105, 105, 0.3);
-  --misc-info-text-hover-light:       black;
+  --misc-info-text-light:             rgba(105, 105, 105, 0.26);
+  --misc-info-text-hover-light:       rgba(255, 255, 255, 1);
 
   /* Pitch Colors */
   --pitch-red-light:                  #D62839;
@@ -273,7 +282,8 @@
   --tag-bg-hover-light:               rgba(0, 0, 0, 0.63);
   --external-links-bg-light:          rgba(0, 0, 0, 0.1);
   --external-links-bg-hover-light:    rgba(255, 255, 255, 0.4);
-
+  --misc-info-bg-light:               rgba(0, 0, 0, 0.03);
+  --misc-info-bg-hover-light:         rgba(0, 0, 0, 0.63);
 
   /* Dark Theme
   -------------------------------------------- */
@@ -285,8 +295,8 @@
   --freq-text-hover:                  rgba(255, 255, 255, 1);
   --tag-color:                        rgba(255, 255, 255, 0.21);
   --tag-color-hover:                  rgba(255, 255, 255, 1);
-  --misc-info-text:                   rgba(255, 255, 255, 0.2);
-  --misc-info-text-hover:             white;
+  --misc-info-text:                   rgba(255, 255, 255, 0.21);
+  --misc-info-text-hover:             rgba(255, 255, 255, 1);
 
   /* Pitch Colors */
   --pitch-red:                        #F5436D;
@@ -314,9 +324,11 @@
   --lightbox-bg:                      rgba(0, 0, 0, 0.8);
   --frequency-bg:                     rgba(0, 0, 0, 0.63);
   --tag-bg:                           rgba(0, 0, 0, 0.1);
-  --tag-bg-hover:                     rgba(0, 0, 0, 0.63);
+  --tag-bg-hover:                     rgba(0, 0, 0, 0.3);
   --external-links-bg:                rgba(0, 0, 0, 0.4);
   --external-links-bg-hover:          rgba(0, 0, 0, 0.63);
+  --misc-info-bg:                     rgba(0, 0, 0, 0.1);
+  --misc-info-bg-hover:               rgba(0, 0, 0, 0.3);
 
 
   /* DIMENSIONS & SPACING
@@ -407,7 +419,11 @@ body {
 }
 
 .front { top: var(--front-top-offset); }
-.back { top: var(--back-top-offset); }
+.back { 
+  top: var(--back-top-offset); 
+  display: flex;
+  flex-direction: column;
+}
 
 .front::before, .back::before {
   content: "";
@@ -1401,7 +1417,6 @@ img {
   position: relative;
   padding: var(--spacing-lg); 
   border-radius: var(--border-radius-ms);
-  will-change: transform;
   text-align: left;
 }
 
@@ -1917,7 +1932,7 @@ span[style*="display:inline"]:has(+ span[style*="border:1.5px dotted #c83c28"]) 
   transform: translateY(var(--furigana-height)); 
   font-size: 0.5rem;
   padding: 5px 5px 5px 5px;
-  border-radius: 5px;
+  border-radius: var(--border-radius-ms);
   z-index: var(--z-index-base);
   text-align: center;
   line-height: 16px;
@@ -2657,7 +2672,7 @@ li[data-dictionary="小学館例解学習国語 第十二版"] img {
   height: auto !important;
   max-height: 300px;
   margin: 0 !important;
-  border-radius: 5px;
+  border-radius: var(--border-radius-ms);
 }
 
 li[data-dictionary="小学館例解学習国語 第十二版"] table[data-sc-image] {
@@ -3250,22 +3265,39 @@ li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br)
 
 /* Misc Info */
 @container style(--misc-info-default-expanded: true) {
-  .misc-info.has-content {
-    color: var(--misc-info-text-light);
+  .misc-info {
+    color: var(--misc-info-text-light) !important;
+    background: var(--misc-info-bg-light) !important;
     max-height: 500px !important;
-    padding-top: 20px !important;
+    padding: var(--spacing-md) !important;
+    margin-top: 5px !important;
     opacity: 1 !important;
     transition: opacity var(--base-transition), 
-                color var(--base-transition) !important;
+                color var(--base-transition),
+                background var(--base-transition) !important;
   }
 
   :is(.card.nightMode, .custom-dark-mode)
-  .misc-info.has-content {
-    color: var(--misc-info-text);
+  .misc-info {
+    color: var(--misc-info-text) !important;
+    background: var(--misc-info-bg) !important;
+  }
+ 
+  .misc-info:hover {
+    color: var(--misc-info-text-light) !important;
+    background: var(--misc-info-bg-hover-light) !important;
+  }
+
+  :is(.card.nightMode, .custom-dark-mode)
+  .misc-info:hover {
+    color: var(--misc-info-text-hover) !important;
+    background: var(--misc-info-bg-hover) !important;
   }
 }
 
 .misc-info {
+  display: none !important;
+  margin-top: 0px;
   font-family: var(--sans);
   font-size: var(--misc-info-size);
   width: 100%;
@@ -3275,14 +3307,31 @@ li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br)
   padding-bottom: 0;
   overflow: hidden;
   will-change: max-height;
+  flex-wrap: wrap;
+  word-break: break-all;
+  overflow-wrap: anywhere;
+  padding-left: var(--spacing-lg); 
+  padding-right: var(--spacing-lg); 
+  border-radius: var(--border-radius-ms);
   visibility: visible;
   text-align: center; 
   box-sizing: border-box;
+  background: var(--misc-info-bg-light);
   z-index: var(--z-index-base);
   transition: max-height var(--base-transition), 
-              padding-top var(--base-transition), 
+              padding var(--base-transition), 
               opacity var(--base-transition),
-              color var(--base-transition);
+              color var(--base-transition),
+              margin-top var(--base-transition);
+}
+
+.misc-info.has-content {
+  display: flex !important;
+}
+
+:is(.card.nightMode, .custom-dark-mode)
+.misc-info {
+  background: var(--misc-info-bg); !important;
 }
 
 .misc-info:hover {
@@ -3324,6 +3373,55 @@ li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br)
 @container style(--bold-misc-info: 1) {
   .misc-info {
     font-weight: bold !important;
+  }
+}
+
+/* Misc Info Positioning */
+.tags-and-links-wrapper {
+  order: 50;
+}
+
+.misc-info {
+  order: 60;
+}
+
+@container style(--misc-info-above: true) {
+  .misc-info {
+    order: 49;
+  }
+}
+
+@container style(--misc-info-above: false) {
+  .misc-info {
+    order: 51;
+  }
+}
+
+/* Hide Misc Info background */
+@container style(--misc-info-bg-visibility: 0) {
+  .misc-info {
+    background: transparent !important;
+    padding-bottom: 0 !important;
+  }
+
+  @container style(--misc-info-default-expanded: true) {
+    .misc-info {
+      background: transparent !important;
+    }
+
+    :is(.card.nightMode, .custom-dark-mode)
+    .misc-info {
+      background: transparent !important;
+    }
+ 
+    .misc-info:hover {
+      background: transparent !important;
+    }
+
+    :is(.card.nightMode, .custom-dark-mode)
+    .misc-info:hover {
+      background: transparent !important;
+    }
   }
 }
 
@@ -3485,7 +3583,7 @@ li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br)
   margin-left: var(--spacing-ms);
   font-size: 0.5rem;
   padding: 5px 5px 5px 5px;
-  border-radius: 5px;
+  border-radius: var(--border-radius-ms);
   z-index: var(--z-index-base);
   text-align: center;
   line-height: 16px;
@@ -4590,7 +4688,7 @@ li.is-new-card:not(:hover) .related-word {
   .back:not(:has(.sentenceaudio)):not(:has(.toggle-notes)) .toggle-image-visibility.show-btn {
     top: 0 !important;
   }
-	
+
   @container style(--settings-visibility-header: 0) {
     .toggle-settings-btn {
       display: none !important;
@@ -4806,6 +4904,11 @@ li.is-new-card:not(:hover) .related-word {
     right: auto !important;
     bottom: auto !important;
   }
+
+  .misc-info {
+    padding-left: var(--spacing-md); 
+    padding-right: var(--spacing-md); 
+  }
 }
 
 @media (max-width: 768px) {
@@ -4935,12 +5038,14 @@ li.is-new-card:not(:hover) .related-word {
     }
   }
 
-  .picture-container {
-    max-height: var(--picture-height-small);
-  }
+  @container style(--backdrop-style: 0) and style(--enable-backdrop-layout: 0) {
+    .picture-container {
+      max-height: var(--picture-height-small);
+    }
 
-  .picture-container img {
-    max-height: var(--picture-max-height-small);
+    .picture-container img {
+      max-height: var(--picture-max-height-small);
+    }
   }
 
   .front, .back {
@@ -5031,14 +5136,31 @@ li.is-new-card:not(:hover) .related-word {
   /* Card BG */
   @container style(--backdrop-style: 0) {
     .misc-info {
+      background: var(--misc-info-bg-light);
       color: var(--misc-info-text-light);
       will-change: max-height, opacity;
       transform: translateZ(0);
+      transition: max-height var(--base-transition), 
+                  padding var(--base-transition), 
+                  opacity var(--base-transition),
+                  color var(--base-transition),
+                  margin-top var(--base-transition),
+                  background var(--base-transition);
     }
 
     :is(.card.nightMode, .custom-dark-mode)
     .misc-info {
+      background: var(--misc-info-bg);
       color: var(--misc-info-text);
+    }
+
+    .misc-info:hover {
+      background: var(--misc-info-bg-hover-light);
+    }
+
+    :is(.card.nightMode, .custom-dark-mode)
+    .misc-info:hover {
+      background: var(--misc-info-bg-hover);
     }
 
     @media (min-width: 1050px) {
@@ -5291,7 +5413,7 @@ li.is-new-card:not(:hover) .related-word {
 
 /* Disable Animations */
 @container style(--enable-animations: false) {
-  *, *::before, *::after, .misc-info.has-content {
+  *, *::before, *::after {
     -webkit-transition: none !important;
     -moz-transition: none !important;
     -o-transition: none !important;
