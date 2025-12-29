@@ -348,14 +348,20 @@
 
     let SENTENCE_DELAY;
 
+    const hasWordAudio = !!document.querySelector('#wordAudio .soundLink, #wordAudio .replaybutton, #wordAudio audio');
+
+    if (!hasWordAudio) {
+      SENTENCE_DELAY = 0;
+    } else {
     if (charCount === 2) SENTENCE_DELAY = 550; 
-    else if (charCount === 3) SENTENCE_DELAY = 650;
-    else if (charCount === 4) SENTENCE_DELAY = 700;
-    else if (charCount === 5) SENTENCE_DELAY = 850;
-    else if (charCount === 6) SENTENCE_DELAY = 1000;
-    else if (charCount === 7) SENTENCE_DELAY = 1080; 
-    else if (charCount === 8) SENTENCE_DELAY = 1150; 
-    else SENTENCE_DELAY = baseWaitTime + (charCount * timePerChar);
+      else if (charCount === 3) SENTENCE_DELAY = 650;
+      else if (charCount === 4) SENTENCE_DELAY = 700;
+      else if (charCount === 5) SENTENCE_DELAY = 850;
+      else if (charCount === 6) SENTENCE_DELAY = 1000;
+      else if (charCount === 7) SENTENCE_DELAY = 1080; 
+      else if (charCount === 8) SENTENCE_DELAY = 1150; 
+      else SENTENCE_DELAY = baseWaitTime + (charCount * timePerChar);
+    }
 
     const handleFrontShortcuts = (e) => {
         if (document.activeElement && ['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
@@ -575,7 +581,7 @@
             window.senrenBuildMenu();
           } else {
             const script = document.createElement('script');
-            script.src = "_senren_settings_v4.6.3.js";
+            script.src = "_senren_settings_v4.6.4.js";
             document.body.appendChild(script);
           }
         }, 0);
@@ -586,6 +592,7 @@
     initDeferred();
   })();
 
-void "_senren_settings_v4.6.3.css";
-void "_senren_defaults_v4.6.3.css";
+void "_senren_settings_v4.6.4.css";
+void "_senren_defaults_v4.6.4.css";
+void "_senren_presets.js";
 </script>
