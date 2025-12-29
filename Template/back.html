@@ -221,9 +221,7 @@
   </div>
 
   <!-- Misc Info -->
-  <div class="misc-info">
-    {{miscInfo}}
-  </div>
+  <div class="misc-info">{{miscInfo}}</div>
   <!-- /FOOTER -->
 
   <div id="dictionaryPreference" style="display: none;">{{dictionaryPreference}}</div>
@@ -832,6 +830,7 @@
     function applyHoverEffect(containerSelector, targetSelector, extraPadding = 0) {
       const containers = document.querySelectorAll(containerSelector);
       const target = document.querySelector(targetSelector);
+      const marginTopValue = "5px";
 
       if (containers.length > 0 && target) {
         if (window.matchMedia("(pointer: coarse)").matches) {
@@ -842,10 +841,12 @@
           container.addEventListener("mouseenter", () => {
             requestAnimationFrame(() => {
               if (target.textContent.trim() !== "") {
-                target.style.maxHeight = target.scrollHeight + extraPadding + "px";
+                target.style.maxHeight = target.scrollHeight + (extraPadding * 2) + "px";
                 if (extraPadding) {
                   target.style.opacity = "1";
                   target.style.paddingTop = extraPadding + "px";
+                  target.style.paddingBottom = extraPadding + "px";
+                  target.style.marginTop = marginTopValue;
                 }
               }
             });
@@ -857,6 +858,8 @@
               if (extraPadding) {
                 target.style.opacity = "0";
                 target.style.paddingTop = "0px";
+                target.style.paddingBottom = "0px";
+                target.style.marginTop = "0px";
               }
             });
           });
@@ -896,7 +899,6 @@
     if (backdropEnabled && backdropStyle === '0') {
       let selectors = [".background-box", ".picture-container", ".sentence-container", ".tags-and-links-wrapper", ".misc-info"];
 
-      // Add .header ONLY if the screen width is 1050px or LESS
       if (window.matchMedia("(max-width: 1050px)").matches) {
         selectors.unshift(".header");
       }
@@ -920,7 +922,7 @@
     }
 
     if (miscExpanded !== 'true') {
-      applyHoverEffect(pictureHoverTriggerSelector, ".misc-info", 20);
+      applyHoverEffect(pictureHoverTriggerSelector, ".misc-info", 10);
     }
   }
 
@@ -2510,14 +2512,20 @@
 
     let SENTENCE_DELAY;
 
-    if (charCount === 2) SENTENCE_DELAY = 550;
-    else if (charCount === 3) SENTENCE_DELAY = 650;
-    else if (charCount === 4) SENTENCE_DELAY = 700;
-    else if (charCount === 5) SENTENCE_DELAY = 850;
-    else if (charCount === 6) SENTENCE_DELAY = 1000;
-    else if (charCount === 7) SENTENCE_DELAY = 1080;
-    else if (charCount === 8) SENTENCE_DELAY = 1150;
-    else SENTENCE_DELAY = baseWaitTime + (charCount * timePerChar);
+    const hasWordAudio = !!document.querySelector('.audio .soundLink, .audio .replaybutton, .audio audio');
+
+    if (!hasWordAudio) {
+      SENTENCE_DELAY = 0;
+    } else {
+      if (charCount === 2) SENTENCE_DELAY = 550;
+      else if (charCount === 3) SENTENCE_DELAY = 650;
+      else if (charCount === 4) SENTENCE_DELAY = 700;
+      else if (charCount === 5) SENTENCE_DELAY = 850;
+      else if (charCount === 6) SENTENCE_DELAY = 1000;
+      else if (charCount === 7) SENTENCE_DELAY = 1080;
+      else if (charCount === 8) SENTENCE_DELAY = 1150;
+      else SENTENCE_DELAY = baseWaitTime + (charCount * timePerChar);
+    }
 
     let initialPlayTimeout;
 
@@ -3103,7 +3111,7 @@
             window.senrenBuildMenu();
           } else {
             const script = document.createElement('script');
-            script.src = "_senren_settings_v4.6.3.js";
+            script.src = "_senren_settings_v4.6.4.js";
             document.body.appendChild(script);
           }
         }, 0);
