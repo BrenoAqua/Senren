@@ -2238,28 +2238,28 @@ This Handlebars template displays the **Reading (kana)** as fallback for words l
 
     ```css
     iframe.yomitan-popup[data-theme="light"] {
-    color-scheme: light !important; /* forces light theme so it works on google.com*/
-    --outer-bg: rgba(255, 255, 255, 0.90);
-    --outer-border: rgba(0, 0, 0, 0.2);
+      color-scheme: light !important; /* forces light theme so it works on google.com */
+      --outer-bg: rgba(255, 255, 255, 0.90);
+      --outer-border: rgba(0, 0, 0, 0.2);
     }
 
     iframe.yomitan-popup[data-theme="dark"] {
-    color-scheme: dark !important; /* forces dark theme so it works on google.com*/
-    --outer-bg: rgba(16, 16, 16, 0.85);
-    --outer-border: rgba(0, 0, 0, 0.2);
+      color-scheme: dark !important; /* forces dark theme so it works on google.com */
+      --outer-bg: rgba(16, 16, 16, 0.85);
+      --outer-border: rgba(0, 0, 0, 0.2);
     }
 
     iframe.yomitan-popup {
-    background: var(--outer-bg) !important;
-    backdrop-filter: blur(1px) !important;
-    -webkit-backdrop-filter: blur(1px) !important;
-    border-radius: 15px !important;
-    border: 0 solid var(--outer-border) !important;
-    /* forced-color-adjust: none !important; */
+      background: var(--outer-bg) !important;
+      backdrop-filter: blur(1px) !important;
+      -webkit-backdrop-filter: blur(1px) !important;
+      border-radius: 15px !important;
+      border: 0 solid var(--outer-border) !important;
+      /* forced-color-adjust: none !important; */
 
-    /* hide scrollbar */
-    scrollbar-width: none !important; /* Firefox */
-    -ms-overflow-style: none !important; /* IE, Edge (legacy) */
+      /* hide scrollbar */
+      scrollbar-width: none !important; /* Firefox */
+      -ms-overflow-style: none !important;/* IE, Edge (legacy) */
     }
     ```
     
