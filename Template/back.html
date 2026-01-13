@@ -866,8 +866,7 @@
   function nsfw() {
     if (senrenConfig.muteNsfwAudio !== 'true' && senrenConfig.blurNsfwPicture !== 'true') return;
 
-    const tags = `{{Tags}}`.toLowerCase();
-    if (!tags.includes('nsfw')) return;
+    if (!window.IS_NSFW) return;
 
     if (senrenConfig.muteNsfwAudio === 'true') {
       const wordAudioButton = document.querySelector(".audio .soundLink, .audio .replaybutton");
@@ -1948,7 +1947,7 @@
 
     const muteNsfw = senrenConfig.muteNsfwAudio;
 
-    if (muteNsfw !== 'true') {
+    if (muteNsfw !== 'true' || !window.IS_NSFW) {
       initialPlayTimeout = setTimeout(() => {
         playActiveAudio();
       }, SENTENCE_DELAY);
@@ -2062,6 +2061,9 @@
         COMBINING_MARK: /([ぁ-ゖァ-ヺ])[\u3099\u309A]/g,
         SMALL_KANA: /[ぁぃぅぇぉゃゅょゎァィゥェォャゅョヮ]/g
       };
+
+      // NSFW Cache
+      window.IS_NSFW = `{{Tags}}`.toLowerCase().includes('nsfw');
 
       // DOM Cache
       window.ELS = {
