@@ -3412,7 +3412,7 @@ li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br)
 
 :is(.card.nightMode, .custom-dark-mode)
 .misc-info {
-  background: var(--misc-info-bg) !important;
+  background: var(--misc-info-bg);
 }
 
 .misc-info:hover {
