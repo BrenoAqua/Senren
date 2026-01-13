@@ -86,6 +86,8 @@ nav:
       - Sentence Translation: sentence_translation.md
       - Tag Display: tags.md
       - Misc Info: misc_info.md
+      - Deck Presets: Deck_Presets.md
+      - Custom CSS: Custom_CSS.md
       - Mobile Support: mobile.md
   - Resources:
       - ShareX: sharex.md
