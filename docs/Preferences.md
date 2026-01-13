@@ -7,6 +7,7 @@ A menu that allows you to customize the note type directly inside the reviewer, 
 ### How it Works
 
 **1. Real-Time Preview**
+
 All adjustments made in the Preferences menu are applied instantly to the current card. You can modify font sizes, colors, spacing, layout options, and more, and see the results immediately, just as you would in the editor. (The preview doesn't reflect 100% of the available options, some have limitations that cause them to update correctly only after you close the modal.)
 
 **2. Saving Your Changes**
@@ -17,6 +18,7 @@ Settings are stored locally during your session. They remain active as long as y
 
 *   **Permanent:** 
 To apply your changes permanently, click **"Save to Anki"**.
+
     *  This immediately writes the updated values to the card model.
     *  After saving, temporary storage is cleared to ensure that future manual edits to your card CSS in Anki’s editor are not overridden by outdated settings.
     
