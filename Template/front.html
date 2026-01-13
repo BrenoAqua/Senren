@@ -1,6 +1,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
 <!-- FRONT -->
+<div id="senren-metadata" data-deck="{{Deck}}"></div>
 <div class="front">
 
   <!-- HEADER -->
@@ -11,44 +12,23 @@
       <i class="fas fa-sun sun-icon"></i>
       <i class="fas fa-moon moon-icon"></i>
     </span>
-    
+
     {{#audioCard}}
     <span class="audio-hint toggle-trigger tappable" onclick="toggleVisibility('sentence-wrapper-audio', 'sentence-audio')">
-        <i class="fas fa-lightbulb"></i>
+      <i class="fas fa-lightbulb"></i>
     </span>
     {{/audioCard}}
-
-    <script>
-      function darkMode() {
-        const button = document.querySelector(".toggle-custom-dark-mode");
-        const body = document.querySelector("html");
-        const sunIcon = document.querySelector(".sun-icon");
-        const moonIcon = document.querySelector(".moon-icon");
-
-        const applyDarkMode = () => {
-          const isDarkMode = localStorage.getItem("darkMode") === "enabled";
-          body.classList.toggle("custom-dark-mode", isDarkMode);
-          button.classList.toggle("dark-mode", isDarkMode);
-
-          sunIcon.style.display = isDarkMode ? "inline" : "none";
-          moonIcon.style.display = isDarkMode ? "none" : "inline";
-        };
-
-        requestAnimationFrame(applyDarkMode);
-
-        button.addEventListener("click", () => {
-          const isCurrentlyDark = body.classList.contains("custom-dark-mode");
-          localStorage.setItem("darkMode", isCurrentlyDark ? "disabled" : "enabled");
-          requestAnimationFrame(applyDarkMode);
-        });
-      }
-      darkMode();
-    </script>
 
     <!-- Settings Toggle -->
     <span class="toggle-settings-btn tappable">
       <i class="fas fa-cog"></i>
     </span>
+
+    {{#hint}}
+    <span class="hint-btn toggle-trigger tappable" onclick="toggleVisibility('hint-wrapper', 'hint-content')">
+      <i class="fas fa-question"></i>
+    </span>
+    {{/hint}}
     <!-- /HEADER -->
   </div>
 
@@ -104,6 +84,14 @@
     </div>
   </div>
   {{/sentenceCard}}{{/audioCard}}
+
+  {{#hint}}
+  <div id="hint-wrapper">
+    <div id="hint-content">
+      {{hint}}
+    </div>
+  </div>
+  {{/hint}}
 </div>
 <!-- /FRONT -->
 
@@ -111,6 +99,77 @@
 <div id="hiddenReading" style="display: none !important;">{{reading}}</div>
 
 <script>
+  var senrenConfig = {};
+
+  // Deck Presets
+  (function () {
+    // Apply cached settings
+    const meta = document.getElementById('senren-metadata');
+    const currentDeck = meta ? meta.getAttribute('data-deck') : null;
+
+    if (!currentDeck) return;
+
+    try {
+      const linksJson = localStorage.getItem('senren_deck_presets_cache');
+      const presetsJson = localStorage.getItem('senren_presets_cache');
+
+      if (linksJson && presetsJson) {
+        const links = JSON.parse(linksJson);
+        const presets = JSON.parse(presetsJson);
+        const targetPresetName = links[currentDeck];
+
+        if (targetPresetName && presets[targetPresetName]) {
+          const settings = presets[targetPresetName];
+          for (const [key, val] of Object.entries(settings)) {
+            if (key.startsWith('--')) {
+              document.documentElement.style.setProperty(key, val);
+              localStorage.setItem("senren_" + key, val);
+            }
+          }
+        } else if (sessionStorage.getItem('senren_deck_preset_applied') === 'true') {
+          const activeName = presets["_active"] || "Default";
+          if (presets[activeName]) {
+            const settings = presets[activeName];
+            for (const [key, val] of Object.entries(settings)) {
+              if (key.startsWith('--')) {
+                document.documentElement.style.setProperty(key, val);
+                localStorage.setItem("senren_" + key, val);
+              }
+            }
+          }
+        }
+      }
+    } catch (e) { console.error("Sync deck style error:", e); }
+
+    // Update cache if deck changed
+    (async function () {
+      const lastDeck = sessionStorage.getItem('senren_last_deck');
+      if (currentDeck === lastDeck) return;
+
+      try {
+        const linksRes = await fetch(`_senren_deck_presets.js?t=${Date.now()}`);
+        const presetsRes = await fetch(`_senren_presets.js?t=${Date.now()}`);
+
+        if (linksRes.ok && presetsRes.ok) {
+          const links = await linksRes.json();
+          const presets = await presetsRes.json();
+
+          localStorage.setItem('senren_deck_presets_cache', JSON.stringify(links));
+          localStorage.setItem('senren_presets_cache', JSON.stringify(presets));
+
+          const targetPresetName = links[currentDeck];
+          if (targetPresetName && presets[targetPresetName]) {
+            sessionStorage.setItem('senren_deck_preset_applied', 'true');
+          } else {
+            sessionStorage.removeItem('senren_deck_preset_applied');
+          }
+        }
+      } catch (e) { console.error("Async deck sync error:", e); }
+      sessionStorage.setItem('senren_last_deck', currentDeck);
+    })();
+  })();
+
+  // Remove duplicate listeners
   if (window.senrenFrontSettingsHandler) {
     document.removeEventListener('keydown', window.senrenFrontSettingsHandler);
     window.senrenFrontSettingsHandler = null;
@@ -147,6 +206,34 @@
     );
   }
 
+  // Custom dark mode
+  function darkMode() {
+    const button = document.querySelector(".toggle-custom-dark-mode");
+    const body = document.querySelector("html");
+    const sunIcon = document.querySelector(".sun-icon");
+    const moonIcon = document.querySelector(".moon-icon");
+
+    const applyDarkMode = () => {
+      const isDarkMode = localStorage.getItem("darkMode") === "enabled";
+      body.classList.toggle("custom-dark-mode", isDarkMode);
+      button.classList.toggle("dark-mode", isDarkMode);
+
+      sunIcon.style.display = isDarkMode ? "inline" : "none";
+      moonIcon.style.display = isDarkMode ? "none" : "inline";
+    };
+
+    requestAnimationFrame(applyDarkMode);
+
+    if (button && !button.dataset.hasClickListener) {
+      button.addEventListener("click", () => {
+        const isCurrentlyDark = body.classList.contains("custom-dark-mode");
+        localStorage.setItem("darkMode", isCurrentlyDark ? "disabled" : "enabled");
+        requestAnimationFrame(applyDarkMode);
+      });
+      button.dataset.hasClickListener = 'true';
+    }
+  }
+
   // Toggles visibility of word/sentence
   function toggleVisibility(wrapperId, innerElementId) {
     const wrapper = document.getElementById(wrapperId);
@@ -171,17 +258,16 @@
 
   // Shows or hides the audio card sentence based on CSS variables
   function initializeAudioSentenceState() {
-    const isAudioCard = {{#audioCard}}true{{/audioCard}}{{^audioCard}}false{{/audioCard}};
+    const isAudioCard = "{{#audioCard}}true{{/audioCard}}{{^audioCard}}false{{/audioCard}}" === "true";
     if (!isAudioCard) {
       return;
     }
 
-    const wrapper = document.getElementById('sentence-wrapper-audio');
-    const innerElement = document.getElementById('sentence-audio');
+    const wrapper = ELS.sentenceWrapperAudio;
+    const innerElement = ELS.sentenceAudio;
 
     if (wrapper && innerElement) {
-      const expandByDefault = getComputedStyle(document.documentElement)
-                              .getPropertyValue('--audio-sentence-default-expanded').trim();
+      const expandByDefault = senrenConfig.audioSentenceDefaultExpanded;
 
       if (expandByDefault === 'true') {
         const originalWrapperTransition = wrapper.style.transition;
@@ -191,14 +277,14 @@
         innerElement.style.transition = 'none';
 
         requestAnimationFrame(() => {
-            const scrollHeight = innerElement.scrollHeight + 'px';
-            wrapper.style.maxHeight = scrollHeight;
-            wrapper.classList.add('expanded');
+          const scrollHeight = innerElement.scrollHeight + 'px';
+          wrapper.style.maxHeight = scrollHeight;
+          wrapper.classList.add('expanded');
 
-            requestAnimationFrame(() => {
-                wrapper.style.transition = originalWrapperTransition;
-                innerElement.style.transition = originalInnerElementTransition;
-            });
+          requestAnimationFrame(() => {
+            wrapper.style.transition = originalWrapperTransition;
+            innerElement.style.transition = originalInnerElementTransition;
+          });
         });
       }
     }
@@ -206,12 +292,11 @@
 
   // Shows or hides the word card sentence based on CSS variables
   function initializeSentenceState() {
-    const wrapper = document.getElementById('sentence-wrapper');
-    const innerElement = document.getElementById('sentence');
+    const wrapper = ELS.sentenceWrapper;
+    const innerElement = ELS.sentence;
 
     if (wrapper && innerElement) {
-      const expandByDefault = getComputedStyle(document.documentElement)
-                              .getPropertyValue('--word-sentence-default-expanded').trim();
+      const expandByDefault = senrenConfig.wordSentenceDefaultExpanded;
 
       if (expandByDefault === 'true') {
         const originalWrapperTransition = wrapper.style.transition;
@@ -221,14 +306,43 @@
         innerElement.style.transition = 'none';
 
         requestAnimationFrame(() => {
-            const scrollHeight = innerElement.scrollHeight + 'px';
-            wrapper.style.maxHeight = scrollHeight;
-            wrapper.classList.add('expanded');
+          const scrollHeight = innerElement.scrollHeight + 'px';
+          wrapper.style.maxHeight = scrollHeight;
+          wrapper.classList.add('expanded');
 
-            requestAnimationFrame(() => {
-                wrapper.style.transition = originalWrapperTransition;
-                innerElement.style.transition = originalInnerElementTransition;
-            });
+          requestAnimationFrame(() => {
+            wrapper.style.transition = originalWrapperTransition;
+            innerElement.style.transition = originalInnerElementTransition;
+          });
+        });
+      }
+    }
+  }
+
+  // Shows or hides the hint based on CSS variables
+  function initializeHintState() {
+    const wrapper = ELS.hintWrapper;
+    const innerElement = ELS.hintContent;
+
+    if (wrapper && innerElement) {
+      const expandByDefault = senrenConfig.hintDefaultExpanded;
+
+      if (expandByDefault === 'true') {
+        const originalWrapperTransition = wrapper.style.transition;
+        const originalInnerElementTransition = innerElement.style.transition;
+
+        wrapper.style.transition = 'none';
+        innerElement.style.transition = 'none';
+
+        requestAnimationFrame(() => {
+          const scrollHeight = innerElement.scrollHeight + 'px';
+          wrapper.style.maxHeight = scrollHeight;
+          wrapper.classList.add('expanded');
+
+          requestAnimationFrame(() => {
+            wrapper.style.transition = originalWrapperTransition;
+            innerElement.style.transition = originalInnerElementTransition;
+          });
         });
       }
     }
@@ -239,16 +353,16 @@
     let initialPlayTimeout;
     let replayTimeout;
 
-    const textContainers = document.querySelectorAll('#sentence, #sentence-audio');
-    
-    const audioWrapper = document.getElementById('sentenceAudio'); 
+    const textContainers = [ELS.sentence, ELS.sentenceAudio].filter(Boolean);
+
+    const audioWrapper = ELS.sentenceAudioContainer;
     let audioParts = [];
     if (audioWrapper) {
-        audioParts = Array.from(audioWrapper.children).filter(el => {
-            return el.classList.contains('soundLink') || 
-                  el.classList.contains('replay-button') || 
-                  el.tagName === 'AUDIO';
-        });
+      audioParts = Array.from(audioWrapper.children).filter(el => {
+        return el.classList.contains('soundLink') ||
+          el.classList.contains('replay-button') ||
+          el.tagName === 'AUDIO';
+      });
     }
 
     let hasSplitText = false;
@@ -256,20 +370,20 @@
 
     textContainers.forEach(container => {
       if (container.getAttribute('data-split-done')) {
-          const existingParts = container.querySelectorAll('.split-sentence-part');
-          if (existingParts.length > 0) {
-              hasSplitText = true;
-              textSlideCount = Math.max(textSlideCount, existingParts.length);
-          }
-          return;
+        const existingParts = container.querySelectorAll('.split-sentence-part');
+        if (existingParts.length > 0) {
+          hasSplitText = true;
+          textSlideCount = Math.max(textSlideCount, existingParts.length);
+        }
+        return;
       }
 
       const groupWrappers = Array.from(container.querySelectorAll('.group'))
-                              .filter(el => el.textContent.trim().length > 0);
+        .filter(el => el.textContent.trim().length > 0);
 
       if (groupWrappers.length > 0) {
         const parts = groupWrappers.map(el => el.outerHTML);
-        container.innerHTML = ''; 
+        container.innerHTML = '';
         parts.forEach((partHTML, index) => {
           const div = document.createElement('div');
           div.classList.add('split-sentence-part');
@@ -284,18 +398,18 @@
     });
 
     let totalSlides = Math.max(textSlideCount, audioParts.length);
-    
+
     if (totalSlides <= 1) {
-        return; 
+      return;
     }
 
-    const frontContainer = document.querySelector('.front');
+    const frontContainer = ELS.front;
     if (frontContainer && !frontContainer.querySelector('.sentence-nav')) {
       const arrowLeft = document.createElement('div');
-      arrowLeft.className = 'sentence-nav left'; 
+      arrowLeft.className = 'sentence-nav left';
       frontContainer.appendChild(arrowLeft);
       const arrowRight = document.createElement('div');
-      arrowRight.className = 'sentence-nav right'; 
+      arrowRight.className = 'sentence-nav right';
       frontContainer.appendChild(arrowRight);
 
       [arrowLeft, arrowRight].forEach(arrow => {
@@ -318,98 +432,100 @@
       updateDisplay(true);
     }
 
-    const baseWaitTime = 100;  
-    const timePerChar = 150;  
-    
-    const readingEl = document.getElementById('hiddenReading');
+    const baseWaitTime = 100;
+    const timePerChar = 150;
+
+    const readingEl = ELS.hiddenReading;
     let charCount = 5;
 
     if (readingEl) {
-        const targetEl = readingEl.querySelector('li') || readingEl;
-        let rawText = targetEl.textContent || "";
+      const targetEl = readingEl.querySelector('li') || readingEl;
+      let rawText = targetEl.textContent || "";
 
-        let cleanedText = rawText.replace(/[\s\u3099\u309A\u309B\u309C]/g, '');
+      let cleanedText = rawText.replace(REGEX.KANA_MODIFIERS, '');
 
-        cleanedText = cleanedText.replace(/[ぁぃぅぇぉゃゅょゎァィゥェォャュョヮ]/g, '');
+      cleanedText = cleanedText.replace(/[ぁぃぅぇぉゃゅょゎァィゥェォャュョヮ]/g, '');
 
-        let effectiveCount = cleanedText.length;
+      let effectiveCount = cleanedText.length;
 
-        const narrowVowelRegex = /[いきしちにひみりぎじぢびぴイキシチニヒミリギジヂビピうくすつぬふむるぐずづぶぷウクスツヌフムルグズヅブプ]/g;
-        const narrowMatches = cleanedText.match(narrowVowelRegex);
-        
-        if (narrowMatches) {
-            effectiveCount -= (narrowMatches.length * 0.3);
-        }
+      const narrowMatches = cleanedText.match(REGEX.NARROW_VOWELS);
 
-        charCount = Math.round(effectiveCount);
+      if (narrowMatches) {
+        effectiveCount -= (narrowMatches.length * 0.3);
+      }
 
-        if (charCount < 1) charCount = 1;
+      charCount = Math.round(effectiveCount);
+
+      if (charCount < 1) charCount = 1;
     }
 
     let SENTENCE_DELAY;
 
-    const hasWordAudio = !!document.querySelector('#wordAudio .soundLink, #wordAudio .replaybutton, #wordAudio audio');
+    const hasWordAudio = !!ELS.wordAudio?.querySelector('.soundLink, .replaybutton, audio');
 
     if (!hasWordAudio) {
       SENTENCE_DELAY = 0;
     } else {
-    if (charCount === 2) SENTENCE_DELAY = 550; 
+      if (charCount === 2) SENTENCE_DELAY = 550;
       else if (charCount === 3) SENTENCE_DELAY = 650;
       else if (charCount === 4) SENTENCE_DELAY = 700;
       else if (charCount === 5) SENTENCE_DELAY = 850;
       else if (charCount === 6) SENTENCE_DELAY = 1000;
-      else if (charCount === 7) SENTENCE_DELAY = 1080; 
-      else if (charCount === 8) SENTENCE_DELAY = 1150; 
+      else if (charCount === 7) SENTENCE_DELAY = 1080;
+      else if (charCount === 8) SENTENCE_DELAY = 1150;
       else SENTENCE_DELAY = baseWaitTime + (charCount * timePerChar);
     }
 
     const handleFrontShortcuts = (e) => {
-        if (document.activeElement && ['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
+      if (document.activeElement && ['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
 
-        const rootStyle = getComputedStyle(document.documentElement);
-        const cssVal = rootStyle.getPropertyValue('--scene-replay-shortcut-key').trim();
-        const replayConfig = parseKeyConfig(cssVal) || { key: 'w', ctrl: false, alt: false, shift: false, meta: false };
+      const cssVal = senrenConfig.sceneReplayShortcutKey;
+      const replayConfig = parseKeyConfig(cssVal) || { key: 'w', ctrl: false, alt: false, shift: false, meta: false };
 
-        if (isKeyMatch(e, replayConfig)) {
-            e.preventDefault();
-            e.stopPropagation();
-            if (initialPlayTimeout) clearTimeout(initialPlayTimeout);
-            if (replayTimeout) clearTimeout(replayTimeout);
-            
-            document.querySelectorAll('audio').forEach(a => {
-                try { a.pause(); a.currentTime = 0; } catch(e){}
-            });
+      if (isKeyMatch(e, replayConfig)) {
+        e.preventDefault();
+        e.stopPropagation();
+        if (initialPlayTimeout) clearTimeout(initialPlayTimeout);
+        if (replayTimeout) clearTimeout(replayTimeout);
 
-            const wordAudioContainer = document.getElementById('wordAudio');
-            const wordAudioBtn = wordAudioContainer ? wordAudioContainer.querySelector('.soundLink, .replaybutton') : null;
-            
-            if (wordAudioBtn) {
-                wordAudioBtn.click();
-            }
+        document.querySelectorAll('audio').forEach(a => {
+          try { a.pause(); a.currentTime = 0; } catch (e) { }
+        });
 
-            const replayLoadOffset = 200; 
-            const delay = wordAudioBtn ? (SENTENCE_DELAY + replayLoadOffset) : 0;
-            
-            replayTimeout = setTimeout(() => {
-                updateDisplay(true); 
-            }, delay);
+        const wordAudioContainer = ELS.wordAudio;
+        const wordAudioBtn = wordAudioContainer ? wordAudioContainer.querySelector('.soundLink, .replaybutton') : null;
 
-            return;
+        if (wordAudioBtn) {
+          wordAudioBtn.click();
         }
 
-        if (e.key === 'ArrowLeft') {
-            e.preventDefault(); e.stopPropagation();
-            if (initialPlayTimeout) clearTimeout(initialPlayTimeout);
-            if (replayTimeout) clearTimeout(replayTimeout);
-            changeScene(-1);
-        } else if (e.key === 'ArrowRight') {
-            e.preventDefault(); e.stopPropagation();
-            if (initialPlayTimeout) clearTimeout(initialPlayTimeout);
-            if (replayTimeout) clearTimeout(replayTimeout);
-            changeScene(1);
-        }
+        const replayLoadOffset = 200;
+        const delay = wordAudioBtn ? (SENTENCE_DELAY + replayLoadOffset) : 0;
+
+        replayTimeout = setTimeout(() => {
+          updateDisplay(true);
+        }, delay);
+
+        return;
+      }
+
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault(); e.stopPropagation();
+        if (initialPlayTimeout) clearTimeout(initialPlayTimeout);
+        if (replayTimeout) clearTimeout(replayTimeout);
+        changeScene(-1);
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault(); e.stopPropagation();
+        if (initialPlayTimeout) clearTimeout(initialPlayTimeout);
+        if (replayTimeout) clearTimeout(replayTimeout);
+        changeScene(1);
+      }
     };
 
+    if (window.currentSceneKeyHandler) {
+      document.removeEventListener('keydown', window.currentSceneKeyHandler);
+      window.currentSceneKeyHandler = null;
+    }
     window.currentSceneKeyHandler = handleFrontShortcuts;
     document.addEventListener('keydown', handleFrontShortcuts);
 
@@ -417,45 +533,42 @@
       textContainers.forEach(container => {
         const parts = container.querySelectorAll('.split-sentence-part');
         if (parts.length > 0) {
-            parts.forEach((part, i) => {
-                part.style.display = (i === currentIndex) ? 'block' : 'none';
-            });
-            const wrapper = container.closest('.expanded'); 
-            if (wrapper) wrapper.style.maxHeight = container.scrollHeight + 'px';
+          parts.forEach((part, i) => {
+            part.style.display = (i === currentIndex) ? 'block' : 'none';
+          });
+          const wrapper = container.closest('.expanded');
+          if (wrapper) wrapper.style.maxHeight = container.scrollHeight + 'px';
         }
       });
 
       if (audioParts.length > 0) {
-          audioParts.forEach((btn, i) => {
-              const shouldShow = (i === currentIndex) || (audioParts.length === 1);
-              if (shouldShow) {
-                  btn.style.setProperty('display', 'inline-flex', 'important');
-              } else {
-                  btn.style.setProperty('display', 'none', 'important');
-              }
-          });
+        audioParts.forEach((btn, i) => {
+          const shouldShow = (i === currentIndex) || (audioParts.length === 1);
+          if (shouldShow) {
+            btn.style.setProperty('display', 'inline-flex', 'important');
+          } else {
+            btn.style.setProperty('display', 'none', 'important');
+          }
+        });
       }
 
       if (playAudio && audioParts.length > 0) {
-          let target = audioParts[currentIndex];
-          if (!target && audioParts.length === 1) target = audioParts[0];
+        let target = audioParts[currentIndex];
+        if (!target && audioParts.length === 1) target = audioParts[0];
 
-          if (target) {
-              if (typeof target.click === 'function') target.click();
-              else {
-                const trigger = target.querySelector('.soundLink, .replaybutton');
-                if (trigger) trigger.click();
-              }
+        if (target) {
+          if (typeof target.click === 'function') target.click();
+          else {
+            const trigger = target.querySelector('.soundLink, .replaybutton');
+            if (trigger) trigger.click();
           }
+        }
       }
     }
 
-    updateDisplay(false); 
+    updateDisplay(false);
 
-    const muteNsfw = getComputedStyle(document.documentElement)
-      .getPropertyValue('--mute-nsfw-audio')
-      .trim()
-      .toLowerCase();
+    const muteNsfw = senrenConfig.muteNsfwAudio;
 
     if (muteNsfw !== 'true') {
       initialPlayTimeout = setTimeout(() => {
@@ -465,82 +578,84 @@
   }
 
   // Enables custom shortcuts
-	function enableCustomShortcuts() {
-		['senrenFrontSettingsHandler', 'senrenBackKeyHandler'].forEach(h => {
-			if (window[h]) document.removeEventListener('keydown', window[h]);
-			window[h] = null;
-		});
+  function enableCustomShortcuts() {
+    ['senrenFrontSettingsHandler', 'senrenBackKeyHandler'].forEach(h => {
+      if (window[h]) document.removeEventListener('keydown', window[h]);
+      window[h] = null;
+    });
 
-		const utils = {
-			isTyping: () => {
-				const active = document.activeElement;
-				return active && ['INPUT', 'TEXTAREA'].includes(active.tagName);
-			},
+    const utils = {
+      isTyping: () => {
+        const active = document.activeElement;
+        return active && ['INPUT', 'TEXTAREA'].includes(active.tagName);
+      },
 
-			getVar: (name) => {
-				const el = document.querySelector('.card') || document.body || document.documentElement;
-				const val = getComputedStyle(el).getPropertyValue(name).trim();
-				
-				return val.replace(/['"]/g, '');
-			}
-		};
+      getVar: (name) => {
+        const map = {
+          '--toggle-settings-key': 'toggleSettingsKey',
+          '--toggle-custom-dark-mode-key': 'toggleCustomDarkModeKey'
+        };
+        const key = map[name];
+        return key ? senrenConfig[key] : '';
+      }
+    };
 
-		const actions = {
-			settings: () => {
-				const modal = document.getElementById('senren-settings-modal');
-				const btn = document.querySelector('.toggle-settings-btn');
+    const actions = {
+      settings: () => {
+        const modal = document.getElementById('senren-settings-modal');
+        const btn = document.querySelector('.toggle-settings-btn');
 
-				if (modal) {
-					modal.classList.toggle('active');
-				} else if (btn) {
-					btn.click();
-				}
-			},
+        if (modal) {
+          modal.classList.toggle('active');
+        } else if (btn) {
+          btn.click();
+        }
+      },
 
-			customDarkMode: () => {
-				const dmBtn = document.querySelector(".toggle-custom-dark-mode");
-				
-				if (dmBtn) dmBtn.click();
-			}
-		};
+      customDarkMode: () => {
+        const dmBtn = document.querySelector(".toggle-custom-dark-mode");
 
-		window.senrenFrontSettingsHandler = (e) => {
-			if (utils.isTyping()) return;
+        if (dmBtn) dmBtn.click();
+      }
+    };
 
-			const shortcuts = [
-				{ var: '--toggle-settings-key', action: actions.settings },
-				{ var: '--toggle-custom-dark-mode-key', action: actions.customDarkMode }
-			];
+    window.senrenFrontSettingsHandler = (e) => {
+      if (utils.isTyping()) return;
 
-			for (const item of shortcuts) {
-				const keyStr = utils.getVar(item.var);
+      const shortcuts = [
+        { key: senrenConfig.toggleSettingsKey, action: actions.settings },
+        { key: senrenConfig.toggleCustomDarkModeKey, action: actions.customDarkMode }
+      ];
 
-				if (!keyStr) continue;
+      for (const item of shortcuts) {
+        const keyStr = item.key;
 
-				const config = parseKeyConfig(keyStr);
+        if (!keyStr) continue;
 
-				if (isKeyMatch(e, config)) {
-					e.preventDefault();
-					e.stopPropagation();
+        const config = parseKeyConfig(keyStr);
 
-					item.action();
-					break;
-				}
-			}
-		};
+        if (isKeyMatch(e, config)) {
+          e.preventDefault();
+          e.stopPropagation();
 
-		document.addEventListener('keydown', window.senrenFrontSettingsHandler);
-	}
+          item.action();
+          break;
+        }
+      }
+    };
+
+    document.addEventListener('keydown', window.senrenFrontSettingsHandler);
+  }
 
   // Adjusts word size based on character length
   function dynamicWordSize() {
-    const wordElement = document.querySelectorAll("#word");
-    
-    wordElement.forEach(wordElement => {
+    const wordElements = ELS.words;
+
+    wordElements.forEach(wordElement => {
       if (wordElement) {
         const rubyElement = wordElement.querySelector('ruby');
         let content = "";
-        
+
         if (rubyElement) {
           content = rubyElement.childNodes[0].textContent.trim();
         } else {
@@ -549,42 +664,94 @@
 
         const contentLength = content.length;
         const classNumber = Math.min(contentLength, 9);
-        
+
         wordElement.classList.add(`length-${classNumber}`);
       }
     });
   }
 
   (function () {
-    const IS_MOBILE = document.documentElement.classList.contains('mobile') || 
-                      document.body.classList.contains('mobile');
+    window.senrenUpdateConfig = function () {
+      // Regex Cache
+      window.REGEX = {
+        KANA_MODIFIERS: /[\s\u3099\u309A\u309B\u309C]/g,
+        NARROW_VOWELS: /[いきしちにひみりぎじぢびぴイキシチニヒミリギジヂビピうくすつぬふむるぐずづぶぷウクスツヌフムルグズヅブプ]/g
+      };
 
-    const delayedFunctions = window.requestIdleCallback || function(cb) { return setTimeout(cb, 1); };
+      // DOM Cache
+      window.ELS = {
+        word: document.getElementById('word'),
+        sentence: document.getElementById('sentence'),
+        sentenceAudio: document.getElementById('sentence-audio'),
+        sentenceWrapper: document.getElementById('sentence-wrapper'),
+        sentenceWrapperAudio: document.getElementById('sentence-wrapper-audio'),
+        hiddenReading: document.getElementById('hiddenReading'),
+        sentenceAudioContainer: document.getElementById('sentenceAudio'),
+        wordAudio: document.getElementById('wordAudio'),
+        words: document.querySelectorAll("#word"),
+        front: document.querySelector('.front'),
+        hintWrapper: document.getElementById('hint-wrapper'),
+        hintContent: document.getElementById('hint-content'),
+      };
+
+      const style = getComputedStyle(document.documentElement);
+      const getVar = (prop) => style.getPropertyValue(prop).trim().toLowerCase();
+
+      // Sentence
+      senrenConfig.audioSentenceDefaultExpanded = getVar('--audio-sentence-default-expanded');
+      senrenConfig.wordSentenceDefaultExpanded = getVar('--word-sentence-default-expanded');
+
+      // Hint
+      senrenConfig.hintDefaultExpanded = getVar('--hint-default-expanded');
+
+      // Audio
+      senrenConfig.muteNsfwAudio = getVar('--mute-nsfw-audio');
+
+      // Keys
+      senrenConfig.sceneReplayShortcutKey = getVar('--scene-replay-shortcut-key');
+      senrenConfig.toggleSettingsKey = getVar('--toggle-settings-key');
+      senrenConfig.toggleCustomDarkModeKey = getVar('--toggle-custom-dark-mode-key');
+    };
+
+    // Initial load
+    window.senrenUpdateConfig();
+
+    window.IS_MOBILE = document.documentElement.classList.contains('mobile') ||
+      document.body.classList.contains('mobile');
+
+    const delayedFunctions = window.requestIdleCallback ||
+      function (cb) { return setTimeout(cb, 1); };
 
     // Initializes immediate functions
     function init() {
+      darkMode();
       dynamicWordSize();
       initializeAudioSentenceState();
       initializeSentenceState();
+      initializeHintState();
       enableFrontSceneSwitching();
     }
 
     // initializes deferred functions
     function initDeferred() {
       delayedFunctions(() => {
-        if (!IS_MOBILE) {
+        if (!window.IS_MOBILE) {
           enableCustomShortcuts();
         }
 
-        setTimeout(() => {
-          if (window.senrenBuildMenu) {
-            window.senrenBuildMenu();
-          } else {
-            const script = document.createElement('script');
-            script.src = "_senren_settings_v4.6.4.js";
-            document.body.appendChild(script);
-          }
-        }, 0);
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            setTimeout(() => {
+              if (window.senrenBuildMenu) {
+                window.senrenBuildMenu();
+              } else {
+                const script = document.createElement('script');
+                script.src = "_senren_settings_v4.7.0.js";
+                document.body.appendChild(script);
+              }
+            }, 50);
+          });
+        });
       });
     }
 
@@ -592,7 +759,8 @@
     initDeferred();
   })();
 
-void "_senren_settings_v4.6.4.css";
-void "_senren_defaults_v4.6.4.css";
-void "_senren_presets.js";
+  void "_senren_settings_v4.7.0.css";
+  void "_senren_defaults_v4.7.0.css";
+  void "_senren_deck_presets.js";
+  void "_senren_presets.js";
 </script>
