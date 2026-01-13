@@ -11,8 +11,10 @@ All adjustments made in the Preferences menu are applied instantly to the curren
 
 **2. Saving Your Changes**
 There are two kinds of changes:
+
 *   **Temporary:** 
 Settings are stored locally during your session. They remain active as long as you continue reviewing.
+
 *   **Permanent:** 
 To apply your changes permanently, click **"Save to Anki"**.
     *  This immediately writes the updated values to the card model.
