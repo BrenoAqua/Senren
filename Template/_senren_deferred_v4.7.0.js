@@ -41,6 +41,16 @@
         elementB.addEventListener('mouseout', hideContent);
         parentElement.addEventListener('mouseout', hideContent);
 
+        const preventFlipAndLinks = (e) => {
+          e.stopPropagation();
+          if (e.target.tagName === 'A' || e.target.closest('a')) {
+            e.preventDefault();
+          }
+        };
+
+        parentElement.addEventListener('click', preventFlipAndLinks);
+        elementB.addEventListener('click', preventFlipAndLinks);
+
         parentElement.dataset.hasHoverListener = 'true';
       }
     };
@@ -97,6 +107,13 @@
         sentenceA.addEventListener('mouseleave', () => {
           if (!isSentenceBVisible) {
             sentenceA.style.opacity = '0.5';
+          }
+        });
+
+        sentenceB.addEventListener('click', (e) => {
+          e.stopPropagation();
+          if (e.target.tagName === 'A' || e.target.closest('a')) {
+            e.preventDefault();
           }
         });
 
