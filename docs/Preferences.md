@@ -26,17 +26,10 @@ To apply your changes permanently, click **"Save to Anki"**.
 Some previous options may persist after you save and close the Preferences, so it is recommended to leave and re-enter the deck reviewer.
  
 ###  Preset System
-*  Presets are stored in a dedicated file: (`_senren_presets.json`) located in your Anki `collection.media` folder.
+*  Presets are stored in a dedicated file: (`_senren_presets.js`) located in your Anki `collection.media` folder.
 *  The presets file is user-managed. Updating the card template in future versions will not overwrite your presets. They remain untouched unless you explicitly create, rename, or delete a preset via the settings menu.
 *  Because the presets file is stored in the media folder, presets sync across devices. (They can only be edited on PC.)
 
 !!! note "Requirements"
     As with Kanji Hover, the **AnkiConnect** add-on is required for the  **"Save to Anki"** functionality and for saving presets.
     On mobile, the settings menu still works, but any changes are temporary and only persist for the current session.
-
-To avoid errors on Mobile devices, reviewing at least one card on PC with **AnkiConnect** enabled is required. This allows the `_senren_presets.json` file to generate correctly.
-If access to a PC with AnkiConnect is not possible, the file can be manually downloaded [here](https://github.com/BrenoAqua/Senren/blob/main/Template/Presets%20File/_senren_presets.json).
-
-!!! WARNING
-> **Do not download this file if you already have it.**
-> Overwriting it will **delete your saved presets**. Only download this file if errors are occurring on AnkiMobile or AnkiDroid specifically because this file is missing.
