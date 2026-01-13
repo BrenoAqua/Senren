@@ -12,33 +12,6 @@
       <i class="fas fa-moon moon-icon"></i>
     </span>
 
-    <script>
-      function darkMode() {
-        const button = document.querySelector(".toggle-custom-dark-mode");
-        const body = document.querySelector("html");
-        const sunIcon = document.querySelector(".sun-icon");
-        const moonIcon = document.querySelector(".moon-icon");
-
-        const applyDarkMode = () => {
-          const isDarkMode = localStorage.getItem("darkMode") === "enabled";
-          body.classList.toggle("custom-dark-mode", isDarkMode);
-          button.classList.toggle("dark-mode", isDarkMode);
-
-          sunIcon.style.display = isDarkMode ? "inline" : "none";
-          moonIcon.style.display = isDarkMode ? "none" : "inline";
-        };
-
-        requestAnimationFrame(applyDarkMode);
-
-        button.addEventListener("click", () => {
-          const isCurrentlyDark = body.classList.contains("custom-dark-mode");
-          localStorage.setItem("darkMode", isCurrentlyDark ? "disabled" : "enabled");
-          requestAnimationFrame(applyDarkMode);
-        });
-      }
-      darkMode();
-    </script>
-
     <!-- Settings Toggle -->
     <span class="toggle-settings-btn tappable">
       <i class="fas fa-cog"></i>
@@ -68,7 +41,7 @@
     <!-- Frequency Dropdown -->
     <div id="frequency">
       <div class="frequency-box tappable">
-        <label class="freqbt">
+        <label class="freqbt" data-freq="{{freqSort}}">
           {{freqSort}} <i class="fas fa-chevron-down arrow"></i>
         </label>
         {{#frequency}}
@@ -79,13 +52,6 @@
       </div>
     </div>
   </div>
-
-  <script>
-    document.querySelectorAll('label.freqbt').forEach(lbl => {
-      if (lbl.childNodes[0]?.nodeType === 3 && lbl.childNodes[0].nodeValue.trim() === "9999999")
-        lbl.style.display = 'none';
-    });
-  </script>
   <!-- /HEADER -->
 
   <!-- GRID LAYOUT -->
@@ -130,7 +96,7 @@
     <div id="sentence">
       <span id="formattedSentence" class="{{pitch}} tappable"></span>
     </div>
-    <div id="sentenceEng">
+    <div id="sentenceEng" class="is-collapsed">
       {{sentenceEng}}
     </div>
   </div>
@@ -230,8 +196,10 @@
 <!-- /BACK -->
 
 <script>
+  var senrenConfig = {};
+
   // Helper functions for shortcuts
-  function parseKeyConfig(configStr) {
+  window.parseKeyConfig = function (configStr) {
     if (!configStr) return null;
     const parts = configStr.toLowerCase().split(/[\s+]+/).filter(p => p);
     if (parts.length === 0) return null;
@@ -246,7 +214,7 @@
     };
   }
 
-  function isKeyMatch(event, config) {
+  window.isKeyMatch = function (event, config) {
     if (!config) return false;
     return (
       event.key.toLowerCase() === config.key &&
@@ -257,77 +225,97 @@
     );
   }
 
+  // Custom dark mode
+  function darkMode() {
+    const button = document.querySelector(".toggle-custom-dark-mode");
+    const body = document.querySelector("html");
+    const sunIcon = document.querySelector(".sun-icon");
+    const moonIcon = document.querySelector(".moon-icon");
+
+    const applyDarkMode = () => {
+      const isDarkMode = localStorage.getItem("darkMode") === "enabled";
+      body.classList.toggle("custom-dark-mode", isDarkMode);
+      button.classList.toggle("dark-mode", isDarkMode);
+
+      sunIcon.style.display = isDarkMode ? "inline" : "none";
+      moonIcon.style.display = isDarkMode ? "none" : "inline";
+    };
+
+    requestAnimationFrame(applyDarkMode);
+
+    if (button && !button.dataset.hasClickListener) {
+      button.addEventListener("click", () => {
+        const isCurrentlyDark = body.classList.contains("custom-dark-mode");
+        localStorage.setItem("darkMode", isCurrentlyDark ? "disabled" : "enabled");
+        requestAnimationFrame(applyDarkMode);
+      });
+      button.dataset.hasClickListener = 'true';
+    }
+  }
+
   // Collect images from the glossary and add them to the picture container
-  function collectGlossaryImages() {
+  function collectGlossaryImages(deferred = false) {
+    if (senrenConfig.collectGlossaryImages !== 'true') return;
+
     const glossaryItems = document.querySelectorAll("#glossary img, #definition img");
-    const pictureContainer = document.querySelector(".picture-container");
+    const pictureContainer = ELS.pictureContainer;
 
     if (!glossaryItems.length || !pictureContainer) return;
 
-    const computedStyles = window.getComputedStyle(document.documentElement);
-    const collectSetting = computedStyles.getPropertyValue('--collect-glossary-images').trim().toLowerCase();
-
-    if (collectSetting !== 'true') {
+    if (!deferred && pictureContainer.querySelector('img')) {
       return;
     }
-    
+
     const existingSrcs = new Set(
       Array.from(pictureContainer.querySelectorAll('img')).map(img => img.src)
     );
-    
+
+    const fragment = document.createDocumentFragment();
+    let addedCount = 0;
+
     glossaryItems.forEach(img => {
-      if (!img.src || existingSrcs.has(img.src)) {
-      return;
-      }
-      if (!img.src ||
-        img.src === window.location.href ||
-        img.src.toLowerCase().endsWith('.svg') ||
+      const src = img.src;
+      if (!src || existingSrcs.has(src)) return;
+
+      if (src === window.location.href ||
+        src.toLowerCase().endsWith('.svg') ||
         img.closest('span[data-sc-pixiv="read-more-link"] a') ||
-        img.closest(`
-          [data-dictionary*="漢字でGo!"],
-          [data-dictionary*="現代国語例解辞典"]
-        `)
+        img.closest('[data-dictionary*="漢字でGo!"], [data-dictionary*="現代国語例解辞典"]')
       ) {
         return;
       }
 
-      existingSrcs.add(img.src);
-
-      const aspectRatio = img.naturalWidth / img.naturalHeight;
-      const tooTall = aspectRatio < 0.7;
-      const tooSmall = img.naturalWidth < 120 || img.naturalHeight < 180;
-
-      if (img.naturalHeight > 0 && (tooTall || tooSmall)) {
-        return;
-      }
+      existingSrcs.add(src);
 
       const newImg = new Image();
-      newImg.src = img.src;
+      newImg.src = src;
       newImg.loading = "lazy";
 
       newImg.onload = () => {
-
         const w = newImg.naturalWidth;
         const h = newImg.naturalHeight;
         const finalAspectRatio = w / h;
 
-        if (w < 120 || h < 180 || finalAspectRatio < 0.7 || finalAspectRatio > 1.6) {
-          return;
-        } else {
+        if (w >= 120 && h >= 180 && finalAspectRatio >= 0.7 && finalAspectRatio <= 1.6) {
           newImg.classList.add('tappable');
         }
       };
 
-      pictureContainer.appendChild(newImg);
+      fragment.appendChild(newImg);
+      addedCount++;
     });
+
+    if (addedCount > 0) {
+      pictureContainer.appendChild(fragment);
+    }
   }
 
   // Manages cycling between Selection Text, Definition, and Glossary
   function toggleDefinition() {
     const toggleAreas = document.querySelectorAll('.toggle-area');
-    const selectionText = document.getElementById('selectionText');
-    const definition = document.getElementById('definition');
-    const glossary = document.getElementById('glossary');
+    const selectionText = ELS.selectionText;
+    const definition = ELS.definition;
+    const glossary = ELS.glossary;
     const allGlossaryListItems = Array.from(document.querySelectorAll("#glossary > .glossary-box > span > div li[data-dictionary], #glossary > div > span > div > i"));
     const dictionaryPreference = document.getElementById('dictionaryPreference')?.textContent.trim() || '';
 
@@ -665,133 +653,6 @@
     document.addEventListener('keydown', window.senrenDefinitionKeyHandler);
   }
 
-  // Adds hover effects to Jitendex dictionary content 
-  function jitendexHover() {
-    const sentencePairs = document.querySelectorAll('[data-sc-content="example-sentence-a"]');
-    const xrefPairs = document.querySelectorAll('[data-sc-content="xref"]');
-    const antonymPairs = document.querySelectorAll('[data-sc-content="antonym"]');
-    const notePairs = document.querySelectorAll('[data-sc-content="sense-note"]');
-    const explanationPairs = document.querySelectorAll('[data-sc-content="info-gloss"]');
-    const langPairs = document.querySelectorAll('[data-sc-content="lang-source"]');
-
-    const handleHover = (parentElement, elementB) => {
-      if (parentElement && elementB) {
-        parentElement.classList.add('tappable');
-        parentElement.style.opacity = '0.5';
-        parentElement.style.transition = 'opacity 0.3s ease';
-        elementB.style.maxHeight = '0';
-        elementB.style.overflow = 'hidden';
-        elementB.style.transition = 'max-height 0.3s ease, opacity 0.3s ease';
-        elementB.style.display = 'block';
-
-        const showContent = () => {
-          requestAnimationFrame(() => {
-            parentElement.style.opacity = '1';
-            elementB.style.maxHeight = elementB.scrollHeight + 'px';
-            elementB.style.opacity = '1';
-          });
-        };
-
-        const hideContent = () => {
-          requestAnimationFrame(() => {
-            parentElement.style.opacity = '0.5';
-            elementB.style.maxHeight = '0';
-            elementB.style.opacity = '0';
-          });
-        };
-
-        elementB.addEventListener('mouseover', showContent);
-        parentElement.addEventListener('mouseover', showContent);
-
-        elementB.addEventListener('mouseout', hideContent);
-        parentElement.addEventListener('mouseout', hideContent);
-      }
-    };
-
-    sentencePairs.forEach(sentenceA => {
-      const sentenceB = sentenceA.nextElementSibling;
-      if (sentenceA && sentenceB) {
-        sentenceA.classList.add('tappable');
-        sentenceA.style.opacity = '0.5';
-        sentenceA.style.transition = 'opacity 0.3s ease';
-        sentenceA.style.cursor = 'pointer';
-        sentenceB.style.maxHeight = '0';
-        sentenceB.style.overflow = 'hidden';
-        sentenceB.style.transition = 'max-height 0.3s ease, opacity 0.3s ease';
-        sentenceB.style.display = 'block';
-        sentenceB.style.opacity = '0';
-
-        let isSentenceBVisible = false;
-
-        sentenceA.addEventListener('click', (event) => {
-          event.stopPropagation();
-          isSentenceBVisible = !isSentenceBVisible;
-
-          const sentenceContainer = sentenceA.closest('[data-sc-content="example-sentence"]');
-
-          requestAnimationFrame(() => {
-            if (isSentenceBVisible) {
-              sentenceA.style.opacity = '1';
-              sentenceB.style.maxHeight = sentenceB.scrollHeight + 'px';
-              sentenceB.style.opacity = '1';
-
-              if (sentenceContainer) {
-                sentenceContainer.classList.add('sentence-active');
-              }
-
-            } else {
-              if (!sentenceA.matches(':hover')) {
-                sentenceA.style.opacity = '0.5';
-              }
-              sentenceB.style.maxHeight = '0';
-              sentenceB.style.opacity = '0';
-
-              if (sentenceContainer) {
-                sentenceContainer.classList.remove('sentence-active');
-              }
-            }
-          });
-        });
-
-        sentenceA.addEventListener('mouseenter', () => {
-          sentenceA.style.opacity = '1';
-        });
-
-        sentenceA.addEventListener('mouseleave', () => {
-          if (!isSentenceBVisible) {
-            sentenceA.style.opacity = '0.5';
-          }
-        });
-
-      }
-    });
-
-    xrefPairs.forEach(xref => {
-      const xrefGlossary = xref.querySelector('[data-sc-content="xref-glossary"]');
-      handleHover(xref, xrefGlossary);
-    });
-
-    antonymPairs.forEach(antonym => {
-      const antonymGlossary = antonym.querySelector('[data-sc-content="antonym-glossary"]');
-      handleHover(antonym, antonymGlossary);
-    });
-
-    notePairs.forEach(note => {
-      const noteGlossary = note.querySelector('div:last-child');
-      handleHover(note, noteGlossary);
-    });
-
-    explanationPairs.forEach(explanation => {
-      const infoGloss = explanation.querySelector('div:last-child');
-      handleHover(explanation, infoGloss);
-    });
-
-    langPairs.forEach(lang => {
-      const langSource = lang.querySelector('div:last-child');
-      handleHover(lang, langSource);
-    });
-  }
-
   // Enables interaction effects
   function enableInteractions() {
 
@@ -802,11 +663,13 @@
       if (trigger && target) {
         const clickable = 'is-clickable';
 
-        if (target.textContent.trim() !== "") {
+        if (target.innerHTML.trim() !== "") {
           trigger.classList.add(clickable);
         } else {
           trigger.classList.remove(clickable);
         }
+        if (trigger.dataset.hasToggleListener) return;
+        trigger.dataset.hasToggleListener = 'true';
 
         trigger.addEventListener("click", () => {
           if (!trigger.classList.contains(clickable)) {
@@ -814,7 +677,7 @@
           }
 
           requestAnimationFrame(() => {
-            const isCollapsed = !target.style.maxHeight || target.style.maxHeight === "0px";
+            const isCollapsed = target.classList.contains("is-collapsed");
 
             if (isCollapsed) {
               target.classList.remove("is-collapsed");
@@ -840,14 +703,18 @@
       const containers = document.querySelectorAll(containerSelector);
       const target = document.querySelector(targetSelector);
       const marginTopValue = "5px";
+      const isTouch = window.matchMedia("(pointer: coarse)").matches;
 
       if (containers.length > 0 && target) {
-        if (window.matchMedia("(pointer: coarse)").matches) {
-          containers.forEach(c => c.classList.add('tappable'));
-        }
-
         containers.forEach(container => {
-          container.addEventListener("mouseenter", () => {
+          if (container.dataset.hasHoverListener) return;
+          container.dataset.hasHoverListener = 'true';
+
+          if (isTouch) {
+            container.classList.add('tappable');
+          }
+
+          const expand = () => {
             requestAnimationFrame(() => {
               if (target.textContent.trim() !== "") {
                 target.style.maxHeight = target.scrollHeight + (extraPadding * 2) + "px";
@@ -859,9 +726,9 @@
                 }
               }
             });
-          });
+          };
 
-          container.addEventListener("mouseleave", () => {
+          const collapse = () => {
             requestAnimationFrame(() => {
               target.style.maxHeight = "0";
               if (extraPadding) {
@@ -871,25 +738,70 @@
                 target.style.marginTop = "0px";
               }
             });
+          };
+
+          // Mouse Hover
+          container.addEventListener("pointerenter", (e) => {
+            if (e.pointerType === 'mouse') expand();
+          });
+
+          container.addEventListener("pointerleave", (e) => {
+            if (e.pointerType === 'mouse') collapse();
+          });
+
+          // Touch Interaction
+          container.addEventListener("click", (e) => {
+            if (e.pointerType === 'touch' || isTouch) {
+              if (e.target.closest('a, button, .tappable') && e.target.closest('a, button, .tappable') !== container) {
+                return;
+              }
+
+              const isCollapsed = !target.style.maxHeight || target.style.maxHeight === "0px";
+              if (isCollapsed) {
+                expand();
+              } else {
+                collapse();
+              }
+            }
           });
         });
       }
     }
 
     const notesElement = document.querySelector('.back .notes');
+    const sentenceEng = document.querySelector('#sentenceEng');
 
     if (notesElement) {
-      const expandByDefault = getComputedStyle(document.documentElement)
-        .getPropertyValue('--notes-default-expanded').trim();
+      const expandByDefault = senrenConfig.notesDefaultExpanded;
 
       if (expandByDefault === 'true') {
-        const originalTransition = notesElement.style.transition;
-        notesElement.style.transition = 'none';
-
         if (notesElement.classList.contains('is-collapsed')) {
+          notesElement.style.transition = 'none';
           notesElement.classList.remove('is-collapsed');
           notesElement.style.maxHeight = notesElement.scrollHeight + 'px';
+
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              notesElement.style.transition = '';
+            });
+          });
         }
+      }
+    }
+
+    if (sentenceEng) {
+      const expandByDefault = senrenConfig.translationDefaultExpanded;
+
+      if (expandByDefault === 'true') {
+        sentenceEng.style.transition = 'none';
+        sentenceEng.classList.remove('is-collapsed');
+        sentenceEng.style.maxHeight = sentenceEng.scrollHeight + 'px';
+
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            sentenceEng.style.transition = '';
+          });
+        });
       }
     }
 
@@ -899,9 +811,8 @@
     const isTouchDevice = window.matchMedia("(pointer: coarse)").matches;
     const pictureContainer = document.querySelector('.picture-container');
     const hasPicture = pictureContainer && pictureContainer.querySelector('img');
-    const rootStyles = getComputedStyle(document.documentElement);
-    const backdropEnabled = rootStyles.getPropertyValue('--enable-backdrop-layout').trim() === '1';
-    const backdropStyle = rootStyles.getPropertyValue('--backdrop-style').trim();
+    const backdropEnabled = senrenConfig.enableBackdropLayout === '1';
+    const backdropStyle = senrenConfig.backdropStyle;
 
     let pictureHoverTriggerSelector;
 
@@ -919,7 +830,7 @@
         : ".picture-container";
     }
 
-    const miscExpanded = rootStyles.getPropertyValue('--misc-info-default-expanded').trim();
+    const miscExpanded = senrenConfig.miscInfoDefaultExpanded;
     const miscInfoEl = document.querySelector(".misc-info");
 
     if (miscInfoEl) {
@@ -933,331 +844,6 @@
     if (miscExpanded !== 'true') {
       applyHoverEffect(pictureHoverTriggerSelector, ".misc-info", 10);
     }
-  }
-
-  // Allows cycling through images
-  function enableImageSwitching() {
-    let currentImageIndex = 0;
-
-    function switchImage(direction, event) {
-      if (event) event.preventDefault();
-      if (event) event.stopPropagation();
-
-      const images = document.querySelectorAll('.picture-container img');
-      if (images.length === 0) return;
-
-      const visibleIndex = Array.from(images).findIndex(img => {
-        return window.getComputedStyle(img).display !== 'none';
-      });
-
-      if (visibleIndex !== -1) currentImageIndex = visibleIndex;
-
-      images.forEach(img => img.style.setProperty('display', 'none', 'important'));
-
-      currentImageIndex += direction;
-
-      if (currentImageIndex >= images.length) {
-        currentImageIndex = 0;
-      } else if (currentImageIndex < 0) {
-        currentImageIndex = images.length - 1;
-      }
-
-      images[currentImageIndex].style.setProperty('display', 'block', 'important');
-    }
-
-    const arrows = document.querySelectorAll('.nav-arrow');
-    const images = document.querySelectorAll('.picture-container img');
-
-    if (images.length <= 1) {
-      arrows.forEach(arrow => arrow.classList.add('hidden'));
-    } else {
-      arrows.forEach(arrow => arrow.classList.remove('hidden'));
-    }
-
-    arrows.forEach(arrow => {
-      arrow.addEventListener('click', (event) => {
-        const direction = arrow.classList.contains('left') ? -1 : 1;
-        switchImage(direction, event);
-      });
-    });
-  }
-
-  // Creates lightbox for image viewing
-  function enableLightbox() {
-    const images = document.querySelectorAll(".picture-container img");
-    if (!images.length) return;
-
-    let currentIndex = 0;
-    let scale = 1, translateX = 0, translateY = 0;
-    let isPanning = false, startX = 0, startY = 0;
-    let isGridView = false;
-
-    const lightbox = document.getElementById("lightbox");
-    const lightboxImg = document.getElementById("lightbox-img");
-    const leftButton = document.querySelector(".lightbox-nav.left");
-    const rightButton = document.querySelector(".lightbox-nav.right");
-    const showAll = document.getElementById("show-all");
-
-    if (images.length <= 1) {
-      leftButton.classList.add("hidden");
-      rightButton.classList.add("hidden");
-      showAll.remove();
-    } else {
-      leftButton.classList.remove("hidden");
-      rightButton.classList.remove("hidden");
-    }
-
-    function showGridView() {
-      isGridView = true;
-      const gridContainer = document.createElement("div");
-      gridContainer.className = "lightbox-grid";
-
-      images.forEach((img, index) => {
-        const gridImg = document.createElement("img");
-        gridImg.src = img.src;
-        gridImg.alt = `Image ${index + 1}`;
-        gridImg.classList.add('tappable');
-        gridImg.addEventListener("click", () => {
-          showImage(index);
-          hideGridView();
-        });
-        gridContainer.appendChild(gridImg);
-      });
-
-      const imgCount = images.length;
-      if (imgCount <= 4) {
-        gridContainer.style.gridTemplateColumns = `repeat(${imgCount}, 1fr)`;
-      } else if (imgCount <= 9) {
-        gridContainer.style.gridTemplateColumns = "repeat(3, 1fr)";
-      } else {
-        gridContainer.style.gridTemplateColumns = "repeat(4, 1fr)";
-      }
-
-      lightbox.appendChild(gridContainer);
-      lightboxImg.style.display = "none";
-      leftButton.style.display = "none";
-      rightButton.style.display = "none";
-      showAll.textContent = "Back";
-    }
-
-    function hideGridView() {
-      isGridView = false;
-      const grid = document.querySelector(".lightbox-grid");
-      if (grid) {
-        grid.remove();
-      }
-      lightboxImg.style.display = "block";
-      leftButton.style.display = "";
-      rightButton.style.display = "";
-      showAll.textContent = "Show All";
-    }
-
-    const showImage = (index) => {
-      if (isGridView) hideGridView();
-      currentIndex = index;
-      lightboxImg.src = images[index].src;
-      resetTransform();
-      showAll.style.display = "block";
-      lightbox.classList.add("active");
-    };
-
-    const resetTransform = () => {
-      scale = 1;
-      translateX = 0;
-      translateY = 0;
-      updateTransform();
-    };
-
-    const updateTransform = () => {
-      lightboxImg.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
-    };
-
-    images.forEach((img, index) => {
-      const container = img.closest('.picture-container');
-      const isNSFW = container && container.className.toLowerCase().includes('nsfw');
-
-      if (isNSFW) {
-        img.addEventListener("click", (e) => {
-          if (img.classList.contains('clicked')) {
-            showImage(index);
-          } else {
-            img.classList.add('clicked');
-          }
-        });
-      } else {
-        img.addEventListener("click", () => showImage(index));
-      }
-    });
-
-    showAll.addEventListener("click", (e) => {
-      e.stopPropagation();
-      if (isGridView) {
-        hideGridView();
-      } else {
-        showGridView();
-      }
-    });
-
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") {
-        if (isGridView) {
-          hideGridView();
-        } else {
-          lightbox.classList.remove("active");
-        }
-      }
-
-      if (lightbox.classList.contains("active") && !isGridView) {
-        if (e.key === "ArrowLeft") {
-          showImage(currentIndex = (currentIndex > 0) ? currentIndex - 1 : images.length - 1);
-        }
-        if (e.key === "ArrowRight") {
-          showImage(currentIndex = (currentIndex < images.length - 1) ? currentIndex + 1 : 0);
-        }
-      }
-    });
-
-    lightboxImg.addEventListener("wheel", (e) => {
-      e.preventDefault();
-      const prevScale = scale;
-      scale = Math.min(Math.max(1, scale + e.deltaY * -0.001), 3);
-
-      if (scale === 1) {
-        resetTransform();
-        showAll.style.display = "block";
-      } else {
-        const rect = lightboxImg.getBoundingClientRect();
-        const offsetX = (e.clientX - rect.left) / rect.width;
-        const offsetY = (e.clientY - rect.top) / rect.height;
-        translateX -= (offsetX - 0.5) * (scale - prevScale) * rect.width;
-        translateY -= (offsetY - 0.5) * (scale - prevScale) * rect.height;
-        updateTransform();
-        showAll.style.display = "none";
-      }
-    });
-
-    lightboxImg.addEventListener("mousedown", (e) => {
-      if (scale === 1) return;
-      e.preventDefault();
-      isPanning = true;
-      startX = e.clientX - translateX;
-      startY = e.clientY - translateY;
-      lightboxImg.style.cursor = "grabbing";
-    });
-
-    let initialDistance = null;
-
-    lightboxImg.addEventListener('touchstart', (e) => {
-      if (e.touches.length === 2) {
-        initialDistance = Math.hypot(
-          e.touches[0].pageX - e.touches[1].pageX,
-          e.touches[0].pageY - e.touches[1].pageY
-        );
-        isPanning = false;
-      } else if (e.touches.length === 1 && scale > 1) {
-        isPanning = true;
-        startX = e.touches[0].pageX - translateX;
-        startY = e.touches[0].pageY - translateY;
-        initialDistance = null;
-      } else {
-        isPanning = false;
-        initialDistance = null;
-      }
-    });
-
-    lightboxImg.addEventListener('touchmove', (e) => {
-      if (e.touches.length === 2 && initialDistance !== null) {
-        e.preventDefault();
-        const newDistance = Math.hypot(
-          e.touches[0].pageX - e.touches[1].pageX,
-          e.touches[0].pageY - e.touches[1].pageY
-        );
-        const newScale = scale * (newDistance / initialDistance);
-        const prevScale = scale;
-
-        scale = Math.min(Math.max(1, newScale), 3);
-
-        if (scale > 1) {
-          const rect = lightboxImg.getBoundingClientRect();
-          const touchCenterX = (e.touches[0].pageX + e.touches[1].pageX) / 2;
-          const touchCenterY = (e.touches[0].pageY + e.touches[1].pageY) / 2;
-
-          const offsetX = (touchCenterX - rect.left) / rect.width;
-          const offsetY = (touchCenterY - rect.top) / rect.height;
-
-          translateX -= (offsetX - 0.5) * (scale - prevScale) * rect.width;
-          translateY -= (offsetY - 0.5) * (scale - prevScale) * rect.height;
-
-          updateTransform();
-          showAll.style.display = "none";
-        } else {
-          resetTransform();
-          showAll.style.display = "block";
-        }
-        initialDistance = newDistance;
-
-      } else if (e.touches.length === 1 && isPanning) {
-        e.preventDefault();
-        translateX = e.touches[0].pageX - startX;
-        translateY = e.touches[0].pageY - startY;
-        updateTransform();
-      }
-    });
-
-    lightboxImg.addEventListener('touchend', (e) => {
-      if (e.touches.length < 2) {
-        initialDistance = null;
-      }
-      if (e.touches.length < 1) {
-        isPanning = false;
-      }
-    });
-
-    const moveImage = (e) => {
-      if (!isPanning) return;
-      translateX = e.clientX - startX;
-      translateY = e.clientY - startY;
-      updateTransform();
-    };
-
-    document.addEventListener("mousemove", (e) => {
-      if (isPanning) requestAnimationFrame(() => moveImage(e));
-    });
-
-    document.addEventListener("mouseup", () => {
-      isPanning = false;
-      lightboxImg.style.cursor = "grab";
-    });
-
-    lightbox.addEventListener("click", (e) => {
-      if (e.target === lightbox ||
-        (isGridView && !e.target.closest('.lightbox-grid img') && e.target !== showAll)) {
-        if (isGridView) {
-          lightbox.classList.remove("active");
-        } else {
-          lightbox.classList.remove("active");
-        }
-      }
-    });
-
-    lightbox.addEventListener("touchend", (e) => {
-      if (e.target === lightbox ||
-        (isGridView && !e.target.closest('.lightbox-grid img') && e.target !== showAll)) {
-        if (isGridView) {
-          lightbox.classList.remove("active");
-        } else {
-          lightbox.classList.remove("active");
-        }
-      }
-    });
-
-    leftButton.addEventListener("click", () => {
-      showImage(currentIndex = (currentIndex > 0) ? currentIndex - 1 : images.length - 1);
-    });
-
-    rightButton.addEventListener("click", () => {
-      showImage(currentIndex = (currentIndex < images.length - 1) ? currentIndex + 1 : 0);
-    });
   }
 
   // Adjusts word size based on character length
@@ -1278,21 +864,19 @@
 
   // Enables NSFW options
   function nsfw() {
+    if (senrenConfig.muteNsfwAudio !== 'true' && senrenConfig.blurNsfwPicture !== 'true') return;
+
     const tags = `{{Tags}}`.toLowerCase();
-    const isNsfwCard = tags.includes('nsfw');
+    if (!tags.includes('nsfw')) return;
 
-    const muteNsfw = getComputedStyle(document.documentElement)
-      .getPropertyValue('--mute-nsfw-audio')
-      .trim()
-      .toLowerCase();
-
-    if (isNsfwCard && muteNsfw === 'true') {
-
+    if (senrenConfig.muteNsfwAudio === 'true') {
       const wordAudioButton = document.querySelector(".audio .soundLink, .audio .replaybutton");
       if (wordAudioButton) {
         wordAudioButton.click();
       }
+    }
 
+    if (senrenConfig.blurNsfwPicture === 'true') {
       document.querySelectorAll('.picture-container').forEach(container => {
         if (container.classList.contains('nsfw')) {
           container.querySelectorAll('img').forEach(img => {
@@ -1307,11 +891,9 @@
 
   // Mutes the sentence audio playback based on CSS variables
   function muteSentence() {
-    // Get the value of the CSS variable
-    const muteAudio = getComputedStyle(document.documentElement)
-      .getPropertyValue('--mute-sentence-audio')
-      .trim()
-      .toLowerCase();
+    if (senrenConfig.muteSentenceAudio !== 'true') return;
+
+    const muteAudio = senrenConfig.muteSentenceAudio;
 
     if (muteAudio === 'true') {
       const wordAudioButton = document.querySelector(".audio .soundLink, .audio .replaybutton");
@@ -1340,491 +922,17 @@
 
   // Splits tags into separate elements
   function splitTags() {
-    const tagsContainer = document.querySelector(".tags-container");
+    const tagsContainer = ELS.tagsContainer;
     if (tagsContainer) {
-      tagsContainer.innerHTML = "";
       const tags = `{{Tags}}`.split(" ");
-      tags.forEach(tag => {
+      const elements = tags.map(tag => {
         const tagElem = document.createElement("div");
         tagElem.className = "tags";
         tagElem.innerText = tag;
-        tagsContainer.appendChild(tagElem);
+        return tagElem;
       });
+      tagsContainer.replaceChildren(...elements);
     }
-  }
-
-  // Kanji Hover
-  var ankiConnectUrl = "http://localhost:8765";
-  var tooltipElement = document.getElementById("kanji-tooltip");
-  var hideTooltipTimeout;
-  var preloadedKanjiData = {};
-
-  function isKanji(char) {
-    return /[一-龯㐀-䶿]/.test(char);
-  }
-
-  // Helper function to draw the pitch downstep (fallback)
-  function drawTooltipPitchLines(tooltip) {
-    if (!tooltip) return;
-
-    const moraRegexParts = [
-      '[きしちにひみりぎじぢびぴゔ][ゃゅょ]', '[うくすつぬふむゆるぐずづぶゔ][ぁぃぅぇぉ]',
-      '[てで][ぃ]', '[とど][ぅ]', '[キシチニヒミリギジヂビピヴ][ャュョ]',
-      '[ウクスツヌフムユルグズヅブプヴ][ァィゥェォ]', '[テデ][ィ]', '[トド][ゥ]',
-      '[クグ][ヮ]', '[フ][ォ]', '[っッ]', 'ー', '[んン]',
-      '[\u3041-\u3096\u30A1-\u30F6\u30FD\u30FE]', '\\S'
-    ];
-    const moraRegex = new RegExp(moraRegexParts.join('|'), 'g');
-
-    const entries = tooltip.querySelectorAll('li');
-
-    entries.forEach(li => {
-      const rt = li.querySelector('rt');
-      const numberSpan = li.querySelector('.pitch-number');
-
-      if (!rt || !numberSpan) return;
-      if (rt.querySelector('.pronunciation')) return;
-
-      const readingText = rt.textContent.trim();
-      const morae = readingText.match(moraRegex) || [];
-      const moraCount = morae.length;
-      if (moraCount === 0) return;
-
-      const pitchNum = parseInt(numberSpan.textContent.trim(), 10);
-      if (isNaN(pitchNum)) return;
-
-      let pattern = [];
-      for (let i = 0; i < moraCount; i++) {
-        if (pitchNum === 0) {
-          pattern.push(i === 0 ? 'L' : 'H');
-        } else if (pitchNum === 1) {
-          pattern.push(i === 0 ? 'H' : 'L');
-        } else {
-          if (i === 0) pattern.push('L');
-          else if (i < pitchNum) pattern.push('H');
-          else pattern.push('L');
-        }
-      }
-
-      let pClass = 'heiban';
-      if (pitchNum === 1) pClass = 'atamadaka';
-      else if (pitchNum === 0) pClass = 'heiban';
-      else if (pitchNum === moraCount) pClass = 'odaka';
-      else pClass = 'nakadaka';
-
-      const container = document.createElement('span');
-      container.className = `pronunciation ${pClass}`;
-
-      for (let i = 0; i < moraCount; i++) {
-        const type = pattern[i] === 'H' ? 'high' : 'low';
-        const span = document.createElement('span');
-        span.className = 'pronunciation-mora';
-        span.textContent = morae[i];
-        span.dataset.pitch = type;
-
-        if (type === 'high') {
-          if ((i + 1 < moraCount && pattern[i + 1] === 'L') || (pClass === 'odaka' && i === moraCount - 1)) {
-            span.dataset.pitchNext = 'low';
-          }
-        }
-
-        const line = document.createElement('span');
-        line.className = 'pronunciation-mora-line';
-        span.appendChild(line);
-        container.appendChild(span);
-      }
-
-      rt.innerHTML = '';
-      rt.appendChild(container);
-    });
-  }
-
-  async function ankiConnectRequest(action, params = {}) {
-    try {
-      const response = await fetch(ankiConnectUrl, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ action, version: 6, params }),
-      });
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const data = await response.json();
-      if (data.error) {
-        throw new Error(`AnkiConnect error: ${data.error}`);
-      }
-      return data.result;
-    } catch (error) {
-      return null;
-    }
-  }
-
-  async function wrapKanjiInWordField() {
-    const wordContainer = document.getElementById("word");
-    if (!wordContainer) return;
-
-    const mainSpan = wordContainer.querySelector(':scope > span');
-    if (!mainSpan) return;
-
-    const rubyElement = mainSpan.querySelector('ruby');
-    if (!rubyElement) return;
-
-    let wordText = '';
-    let readingText = '';
-    for (const node of rubyElement.childNodes) {
-      if (node.nodeName.toLowerCase() === 'rt') {
-        readingText = node.textContent.trim();
-        const wordNode = node.previousSibling;
-        if (wordNode) {
-          wordText = wordNode.textContent.trim();
-        }
-        break;
-      }
-    }
-    if (!readingText) {
-      wordText = rubyElement.textContent.trim();
-    }
-
-    if (!/[一-龯]/.test(wordText)) {
-      return;
-    }
-
-    const uniqueKanji = new Set();
-    for (const char of wordText) {
-      if (isKanji(char)) {
-        uniqueKanji.add(char);
-      }
-    }
-
-    for (const kanji of uniqueKanji) {
-      if (preloadedKanjiData[kanji]) continue;
-
-      const query = `note:Senren "word:*${kanji}*"`;
-      const noteIds = await ankiConnectRequest("findNotes", { query });
-
-      if (!noteIds || noteIds.length === 0) continue;
-
-      const notesInfo = await ankiConnectRequest("notesInfo", { notes: noteIds });
-      const allCardIds = [];
-      notesInfo.forEach(n => { if (n.cards && n.cards.length) allCardIds.push(...n.cards); });
-
-      const cardTypeMap = {};
-      if (allCardIds.length > 0) {
-        const cardsInfo = await ankiConnectRequest("cardsInfo", { cards: allCardIds });
-        if (cardsInfo) {
-          cardsInfo.forEach(c => cardTypeMap[c.cardId] = c.type);
-        }
-      }
-
-      if (!notesInfo) continue;
-
-      const relatedWords = [];
-      const uniqueWords = new Set();
-
-      for (const note of notesInfo) {
-        const fields = note.fields;
-        if (fields && fields.word && fields.word.value) {
-          const wordValueRaw = fields.word.value;
-
-          const tempDiv = document.createElement('div');
-          tempDiv.innerHTML = wordValueRaw;
-          const wordValue = tempDiv.textContent || tempDiv.innerText || "";
-
-          if (wordValue.trim() !== wordText && !uniqueWords.has(wordValue.trim())) {
-            const readingValueFull = fields.reading ? fields.reading.value : '';
-            const sentenceValue = fields.sentence ? fields.sentence.value : '';
-            let readingHtml = '';
-
-            if (readingValueFull && readingValueFull.includes('<li')) {
-              try {
-                const tempDiv = document.createElement('div');
-                tempDiv.innerHTML = readingValueFull;
-                const firstLi = tempDiv.querySelector('li');
-                if (firstLi) {
-                  readingHtml = firstLi.innerHTML;
-                }
-              } catch (e) {
-                readingHtml = readingValueFull.split(/[,、・]/)[0].trim();
-              }
-            } else {
-              readingHtml = readingValueFull.split(/[,、・]/)[0].trim();
-            }
-
-            const pitchValue = fields.pitch ? fields.pitch.value : '';
-            const pitchPositionValue = fields.pitchPosition ? fields.pitchPosition.value : '';
-            const tagsValue = fields.Tags ? fields.Tags.value : '';
-            const isNewCard = !note.cards.some(cid => cardTypeMap[cid] > 0)
-
-            relatedWords.push({
-              word: wordValue,
-              reading: readingHtml,
-              sentence: sentenceValue,
-              pitch: pitchValue,
-              pitchPosition: pitchPositionValue,
-              tags: tagsValue,
-              isNew: isNewCard,
-              noteId: note.noteId
-            });
-
-            uniqueWords.add(wordValue.trim());
-          }
-        }
-      }
-      preloadedKanjiData[kanji] = relatedWords;
-    }
-
-    const textContent = wordText;
-    const fragment = document.createDocumentFragment();
-    let lastIndex = 0;
-
-    for (let i = 0; i < textContent.length; i++) {
-      if (isKanji(textContent[i])) {
-        if (lastIndex < i) {
-          fragment.appendChild(document.createTextNode(textContent.slice(lastIndex, i)));
-        }
-        const span = document.createElement("span");
-        span.textContent = textContent[i];
-        span.className = "kanji";
-        span.addEventListener("mouseover", () => {
-          showKanjiInfo(span);
-        });
-        span.addEventListener("mouseout", () => {
-          hideKanjiInfo();
-        });
-        fragment.appendChild(span);
-        lastIndex = i + 1;
-      }
-    }
-
-    if (lastIndex < textContent.length) {
-      fragment.appendChild(document.createTextNode(textContent.slice(lastIndex)));
-    }
-
-    const rtElement = rubyElement.querySelector('rt');
-    while (rubyElement.firstChild) {
-      rubyElement.removeChild(rubyElement.firstChild);
-    }
-
-    rubyElement.appendChild(fragment);
-    if (rtElement) {
-      rubyElement.appendChild(rtElement);
-    }
-  }
-
-  function hideKanjiInfo(force = false) {
-    if (tooltipElement) {
-      clearTimeout(hideTooltipTimeout);
-      hideTooltipTimeout = setTimeout(() => {
-        const isOverKanji = document.querySelector('.kanji:hover');
-        const isOverTooltip = tooltipElement.matches(':hover');
-
-        if (!isOverKanji && !isOverTooltip) {
-          tooltipElement.classList.remove('active');
-          tooltipElement.style.display = 'none';
-        }
-      }, force ? 0 : 100);
-    }
-  }
-
-  async function showKanjiInfo(element) {
-    if (!tooltipElement) return;
-    clearTimeout(hideTooltipTimeout);
-    const kanji = element.textContent;
-
-    tooltipElement.innerHTML = "";
-
-    if (preloadedKanjiData[kanji]) {
-      const relatedWords = preloadedKanjiData[kanji];
-      let relatedWordsHtml = "<ul class=\"kanji-tooltip-list\">";
-      let count = 0;
-      const maxInitialWords = 5;
-
-      const kanjiHighlightRegex = new RegExp(kanji.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'), 'g');
-      const highlightSpan = `<span class="kanji-highlight">${kanji}</span>`;
-
-      for (const wordInfo of relatedWords) {
-        const wordHtml = wordInfo.word.replace(kanjiHighlightRegex, highlightSpan);
-
-        let sentenceHtml = '';
-        if (wordInfo.sentence) {
-          const autoQuote = getComputedStyle(document.documentElement)
-            .getPropertyValue('--kanji-hover-auto-quote').trim() === 'true';
-
-          const s = wordInfo.sentence.trim();
-          const plainText = s.replace(/<[^>]*>/g, '').trim();
-          const alreadyQuoted = plainText.startsWith('「') || plainText.startsWith('『');
-
-          if (autoQuote && !alreadyQuoted) {
-            sentenceHtml = `<div class="related-sentence">「${s}」</div>`;
-          } else {
-            sentenceHtml = `<div class="related-sentence">${wordInfo.sentence}</div>`;
-          }
-        }
-
-        let formattedPositionHtml = '';
-        let firstPitchCategory = '';
-        let fullCategoriesHtml = '';
-
-        if (wordInfo.pitchPosition) {
-          const numbers = Array.from(wordInfo.pitchPosition.matchAll(/\d+/g))
-            .map(match => parseInt(match[0], 10))
-            .filter((num, index, arr) => arr.indexOf(num) === index);
-
-          let tempRt = null;
-          if (wordInfo.reading) {
-            const tempReadingDiv = document.createElement('div');
-            tempReadingDiv.innerHTML = wordInfo.reading;
-            const readingTextContent = tempReadingDiv.textContent || tempReadingDiv.innerText || "";
-
-            if (readingTextContent) {
-              tempRt = document.createElement('rt');
-              tempRt.textContent = readingTextContent;
-            }
-          }
-
-          if (numbers.length > 0) {
-            const pitchTypesRaw = wordInfo.pitch ? wordInfo.pitch.split(',') : [];
-            const relevantPitchTypes = [];
-
-            formattedPositionHtml = numbers.map((num, index) => {
-              let pitchType = getPitchType(num, tempRt);
-              pitchType = pitchType.split(',')[0].trim();
-              relevantPitchTypes.push(pitchType);
-              return `<span class="pitch-number ${pitchType}">${num}</span>`;
-            }).join('・');
-
-            firstPitchCategory = relevantPitchTypes[0] || '';
-            fullCategoriesHtml = relevantPitchTypes.join('<br>');
-          } else {
-            firstPitchCategory = wordInfo.pitch ? wordInfo.pitch.split(',')[0].trim() : '';
-            fullCategoriesHtml = wordInfo.pitch ? wordInfo.pitch.replace(/,/g, '<br>') : '';
-          }
-        } else {
-          firstPitchCategory = wordInfo.pitch ? wordInfo.pitch.split(',')[0].trim() : '';
-          fullCategoriesHtml = wordInfo.pitch ? wordInfo.pitch.replace(/,/g, '<br>') : '';
-        }
-
-        const newClass = wordInfo.isNew ? 'is-new-card' : '';
-        const clickAction = `onclick="ankiConnectRequest('guiBrowse', { query: 'nid:${wordInfo.noteId}' })"`;
-        const itemHtml = `
-          <li class="${newClass} ${firstPitchCategory || ''}" style="${count >= maxInitialWords ? 'display: none;' : ''}">
-            <div class="related-word-container pitch card-a">
-              <span class="pitch-info ${firstPitchCategory || ''} ${wordInfo.tags || ''}">
-                <ruby>
-                  <span class="related-word clickable-word" ${clickAction}>${wordHtml}</span>
-                  ${wordInfo.reading ? `<rt>${wordInfo.reading}</rt>` : ''}
-                </ruby>
-                ${formattedPositionHtml ? `<div class="position">${formattedPositionHtml}</div>` : ''}
-                ${firstPitchCategory ? `<div class="categories" data-first-category="${firstPitchCategory}" data-full-categories="${fullCategoriesHtml}">${firstPitchCategory}</div>` : ''}
-              </span>
-            </div>
-            ${sentenceHtml}
-          </li>
-        `;
-
-        relatedWordsHtml += itemHtml;
-        count++;
-      }
-      relatedWordsHtml += "</ul>";
-
-      if (relatedWords.length > maxInitialWords) {
-        relatedWordsHtml += `<button class="show-more-btn">Show More (${relatedWords.length - maxInitialWords})</button>`;
-      }
-
-      tooltipElement.innerHTML = count === 0 ? "No words found." : relatedWordsHtml;
-      drawTooltipPitchLines(tooltipElement);
-      tooltipElement.classList.add('active');
-      tooltipElement.style.display = 'block';
-      positionTooltipNearElement(tooltipElement, element);
-
-      const showMoreBtn = tooltipElement.querySelector('.show-more-btn');
-      if (showMoreBtn) {
-        showMoreBtn.addEventListener('click', () => {
-          const hiddenItems = tooltipElement.querySelectorAll('li[style="display: none;"]');
-          hiddenItems.forEach(item => item.style.display = '');
-          showMoreBtn.remove();
-        });
-      }
-
-      tooltipElement.addEventListener('mouseover', () => clearTimeout(hideTooltipTimeout));
-      tooltipElement.addEventListener('mouseout', () => hideKanjiInfo());
-
-      tooltipElement.addEventListener('mouseover', (event) => {
-        const positionElement = event.target.closest('.position');
-        if (positionElement) {
-          const categoriesElement = positionElement.nextElementSibling;
-          if (categoriesElement && categoriesElement.classList.contains('categories') && categoriesElement.dataset.fullCategories) {
-            if (categoriesElement.innerHTML !== categoriesElement.dataset.fullCategories) {
-              categoriesElement.innerHTML = categoriesElement.dataset.fullCategories;
-            }
-          }
-        }
-      });
-    }
-  }
-
-  function positionTooltipNearElement(element, targetElement) {
-    if (!element || !targetElement) return;
-
-    const parent = element.offsetParent;
-    if (!parent) return;
-
-    const targetRect = targetElement.getBoundingClientRect();
-    const parentRect = parent.getBoundingClientRect();
-
-    const arrowSize = 7;
-    const defaultArrowLeft = 15;
-
-    const relativeTop = targetRect.top - parentRect.top;
-    const relativeLeft = targetRect.left - parentRect.left;
-
-    element.style.left = `${relativeLeft}px`;
-    element.style.top = `${relativeTop + targetRect.height}px`;
-    element.classList.remove('tooltip-above');
-
-    element.style.setProperty('--tooltip-arrow-left', `${targetRect.width / 2}px`);
-
-    const tooltipRect = element.getBoundingClientRect();
-
-    if (tooltipRect.right > window.innerWidth) {
-      element.style.left = `${relativeLeft + (window.innerWidth - tooltipRect.right - 10)}px`;
-    }
-
-    const finalLeft = parseFloat(element.style.left || '0');
-    if (finalLeft + parentRect.left < 0) {
-      element.style.left = `${-parentRect.left + 10}px`;
-    }
-
-    const bottomBuffer = 10;
-    if (tooltipRect.bottom > window.innerHeight - bottomBuffer) {
-      const potentialTopAbove = relativeTop - tooltipRect.height - arrowSize;
-      if (potentialTopAbove + parentRect.top > 0) {
-        element.style.top = `${potentialTopAbove}px`;
-        element.classList.add('tooltip-above');
-      } else {
-
-        element.classList.remove('tooltip-above');
-      }
-    } else {
-      element.classList.remove('tooltip-above');
-    }
-
-    const finalTop = parseFloat(element.style.top || '0');
-    if (element.classList.contains('tooltip-above') && (finalTop + parentRect.top < 0)) {
-      element.style.top = `${-parentRect.top + 10}px`;
-    }
-
-    const finalTooltipLeftRelative = parseFloat(element.style.left || '0');
-    let newArrowLeft = defaultArrowLeft;
-
-    const targetCenterRelativeX = relativeLeft + (targetRect.width / 2);
-    newArrowLeft = targetCenterRelativeX - finalTooltipLeftRelative;
-
-    const tooltipWidth = element.offsetWidth;
-    newArrowLeft = Math.max(arrowSize, Math.min(newArrowLeft, tooltipWidth - arrowSize));
-    element.style.setProperty('--tooltip-arrow-left', `${newArrowLeft}px`);
   }
 
   // Helper function to determine pitch type
@@ -1836,9 +944,9 @@
 
     const readingText = (targetElement.textContent || targetElement.innerText || "")
       .replace(/<[^>]+>/g, '')
-      .replace(/([ぁ-ゖァ-ヺ])[\u3099\u309A]/g, '$1゙')
+      .replace(REGEX.COMBINING_MARK, '$1゙')
       .normalize("NFC")
-      .replace(/[ぁぃぅぇぉゃゅょァィゥェォャュョ]/g, '')
+      .replace(REGEX.SMALL_KANA, '')
       .replace(/[・〜～]/g, '')
       .replace(/\s+/g, '');
 
@@ -1858,6 +966,7 @@
 
     return resultType;
   }
+  window.senrenGetPitchType = getPitchType;
 
   // Format pitch accent positions and categories 
   function cleanPitchPositions() {
@@ -1967,7 +1076,7 @@
     let sentenceFurigana = `{{furigana:sentenceFurigana}}`;
 
     if (!sentenceFurigana.trim()) {
-      document.getElementById("formattedSentence").innerHTML = sentence;
+      ELS.formattedSentence.innerHTML = sentence;
       return;
     }
 
@@ -1977,7 +1086,7 @@
     );
 
     sentenceFurigana = sentenceFurigana.replace(
-      /<ruby>([^<]+?)<rt>(.*?)<\/rt><\/ruby>/g,
+      REGEX.RUBY_RT,
       '<ruby><rb>$1</rb><rt>$2</rt></ruby>'
     );
 
@@ -1986,14 +1095,13 @@
       .replace(/<ruby>([。、！？！？])<rt>.*?<\/rt><\/ruby>/g, '$1');
 
     if (cleanedFurigana.includes('<span class="highlight">')) {
-      document.getElementById("formattedSentence").innerHTML = cleanedFurigana;
+      ELS.formattedSentence.innerHTML = cleanedFurigana;
       return;
     }
 
-    const highlightRegex = /<span class="highlight">(.*?)<\/span>/g;
     const highlightedWords = [];
     let match;
-    while ((match = highlightRegex.exec(sentence)) !== null) {
+    while ((match = REGEX.HIGHLIGHT.exec(sentence)) !== null) {
       highlightedWords.push(match[1]);
     }
 
@@ -2138,33 +1246,31 @@
       }
     });
 
-    document.getElementById("formattedSentence").innerHTML = tempDiv.innerHTML;
+    ELS.formattedSentence.innerHTML = tempDiv.innerHTML;
   }
 
   // Alternative pitch styling based on CSS variables
   function alternativePitchStyle() {
     const rootElement = document.documentElement;
-    const computedRootStyle = getComputedStyle(rootElement);
-
     const wordElement = document.getElementById('word');
     if (wordElement) {
-      const pitchStyleValue = computedRootStyle.getPropertyValue('--pitch-style').trim();
+      const pitchStyleValue = senrenConfig.pitchStyle;
       wordElement.classList.toggle('alt', pitchStyleValue === 'alt');
 
-      const pitchColorsValue = computedRootStyle.getPropertyValue('--pitch-colors').trim();
+      const pitchColorsValue = senrenConfig.pitchColors;
       wordElement.classList.toggle('colors', pitchColorsValue === 'false');
     }
 
     const sentenceElement = document.getElementById("formattedSentence");
     if (sentenceElement) {
-      const sentenceHighlightValue = computedRootStyle.getPropertyValue('--sentence-pitch-highlight').trim();
+      const sentenceHighlightValue = senrenConfig.sentencePitchHighlight;
       sentenceElement.classList.toggle('alt-highlight', sentenceHighlightValue === 'true');
     }
   }
 
-  // Generates a visual pitch accent line using Yomitan-style formatting
+  // Creates downstep notation for pitch accent
   function createDownstepNotation() {
-    const wordElement = document.getElementById('word');
+    const wordElement = ELS.word;
     if (!wordElement) return;
 
     const mainSpan = wordElement.querySelector(':scope > span');
@@ -2192,32 +1298,14 @@
     }
 
     const normalizedReading = readingText.normalize("NFC");
-    const moraRegexParts = [
-      '[きしちにひみりぎじぢびぴゔ][ゃゅょ]',
-      '[うくすつぬふむゆるぐずづぶゔ][ぁぃぅぇぉ]',
-      '[てで][ぃ]',
-      '[とど][ぅ]',
-      '[キシチニヒミリギジヂビピヴ][ャュョ]',
-      '[ウクスツヌフムユルグズヅブプヴ][ァィゥェォ]',
-      '[テデ][ィ]',
-      '[トド][ゥ]',
-      '[クグ][ヮ]',
-      '[フ][ォ]',
-      '[っッ]',
-      'ー',
-      '[んン]',
-      '[\u3041-\u3096\u30A1-\u30F6\u30FD\u30FE]',
-      '\\S'
-    ];
-    const moraRegex = new RegExp(moraRegexParts.join('|'), 'g');
-    const morae = normalizedReading.match(moraRegex) || [];
+    const morae = normalizedReading.match(REGEX.MORA) || [];
 
     const moraCount = morae.length;
     if (moraCount === 0) return;
 
     let pitchPosition = -1;
     let pitchClass = '';
-    const positionElement = document.getElementById('position');
+    const positionElement = ELS.position;
 
     const mainClasses = mainSpan.classList;
     const isOriginallyKifuku = mainClasses.contains('kifuku');
@@ -2276,10 +1364,8 @@
       container.classList.add(pitchClass);
     }
 
-    for (let i = 0; i < morae.length; i++) {
-      const mora = morae[i];
+    const moraeSpans = morae.map((mora, i) => {
       const currentPitch = pitchPattern[i];
-
       const moraSpan = document.createElement('span');
       moraSpan.className = 'pronunciation-mora';
       moraSpan.textContent = mora;
@@ -2297,12 +1383,11 @@
       const lineSpan = document.createElement('span');
       lineSpan.className = 'pronunciation-mora-line';
       moraSpan.appendChild(lineSpan);
+      return moraSpan;
+    });
 
-      container.appendChild(moraSpan);
-    }
-
-    rtElement.innerHTML = '';
-    rtElement.appendChild(container);
+    container.append(...moraSpans);
+    rtElement.replaceChildren(container);
     rtElement.style.paddingTop = '';
     rtElement.style.marginBottom = '';
     rtElement.style.position = '';
@@ -2311,7 +1396,7 @@
 
   // Merge entries from the same dictionary
   function consolidateYomitanGlossaryEntries() {
-    const glossaryOuterDiv = document.getElementById('glossary');
+    const glossaryOuterDiv = ELS.glossary;
     if (!glossaryOuterDiv) return;
 
     const glossaryBox = glossaryOuterDiv.querySelector('.glossary-box');
@@ -2350,15 +1435,21 @@
 
         if (items.length > 1) {
           const firstItem = items[0];
-
           const consolidatedLi = firstItem.cloneNode(false);
+          const fragment = document.createDocumentFragment();
 
-          const combinedHtml = items
-            .map(li => li.innerHTML.trim())
-            .join('<hr class="consolidated-entry-separator">');
+          items.forEach((li, index) => {
+            while (li.firstChild) {
+              fragment.appendChild(li.firstChild);
+            }
+            if (index < items.length - 1) {
+              const hr = document.createElement('hr');
+              hr.className = 'consolidated-entry-separator';
+              fragment.appendChild(hr);
+            }
+          });
 
-          consolidatedLi.innerHTML = combinedHtml;
-
+          consolidatedLi.appendChild(fragment);
           olElement.replaceChild(consolidatedLi, firstItem);
 
           for (let i = 1; i < items.length; i++) {
@@ -2377,13 +1468,13 @@
 
   // Replaces the word with its reading when the word is written only in kana
   function noDuplicateKana() {
-    const wordContainer = document.getElementById('word');
+    const wordContainer = ELS.word;
     if (!wordContainer) return;
 
     const rubyElement = wordContainer.querySelector("ruby");
     if (!rubyElement) return;
 
-    const substituteSetting = getComputedStyle(document.documentElement).getPropertyValue('--no-duplicate-kana').trim().toLowerCase();
+    const substituteSetting = senrenConfig.noDuplicateKana;
     const shouldBeEnabled = (substituteSetting === 'true');
     const isCurrentlyEnabled = wordContainer.classList.contains('reading-is-word');
 
@@ -2412,7 +1503,7 @@
 
     if (!fullWordText.trim()) return;
 
-    const hasKanji = /[\u4E00-\u9FFF\u3400-\u4DBF\u3005\u3007]/.test(fullWordText);
+    const hasKanji = REGEX.KANJI.test(fullWordText);
 
     if (!hasKanji) {
       const rtElement = rubyElement.querySelector("rt");
@@ -2440,9 +1531,7 @@
 
   // Collapses long dictionary entries and adds a clickable fade-out.
   function collapseDictionary(container) {
-    const isCollapsedEnabled = getComputedStyle(document.documentElement)
-      .getPropertyValue('--dictionary-collapse')
-      .trim();
+    const isCollapsedEnabled = senrenConfig.dictionaryCollapse;
     if (isCollapsedEnabled !== '1') {
       return;
     }
@@ -2451,8 +1540,7 @@
       return;
     }
 
-    const rootStyles = getComputedStyle(document.documentElement);
-    const maxHeight = parseInt(rootStyles.getPropertyValue('--dictionary-max-height').trim(), 10);
+    const maxHeight = parseInt(senrenConfig.dictionaryMaxHeight, 10);
 
     const oldFade = container.querySelector('.fade-to-show-more');
     if (oldFade) oldFade.remove();
@@ -2481,7 +1569,7 @@
       window.currentSceneKeyHandler = null;
     }
 
-    const audioContainer = document.querySelector('.sentenceaudio');
+    const audioContainer = ELS.audioContainer;
     const audioParts = audioContainer
       ? Array.from(audioContainer.children).filter(el => el.tagName !== 'BR')
       : [];
@@ -2493,7 +1581,7 @@
     const baseWaitTime = 100;
     const timePerChar = 150;
 
-    const wordEl = document.getElementById('word');
+    const wordEl = ELS.word;
     let charCount = 5;
 
     if (wordEl) {
@@ -2501,14 +1589,13 @@
       const targetElement = (rt && rt.querySelector('li')) ? rt.querySelector('li') : (rt || wordEl);
 
       let rawText = targetElement.textContent;
-      let cleanedText = rawText.replace(/[\s\u3099\u309A\u309B\u309C]/g, '');
+      let cleanedText = rawText.replace(REGEX.KANA_MODIFIERS, '');
 
       cleanedText = cleanedText.replace(/[ぁぃぅぇぉゃゅょゎァィゥェォャュョヮ]/g, '');
 
       let effectiveCount = cleanedText.length;
 
-      const narrowVowelRegex = /[いきしちにひみりぎじぢびぴイキシチニヒミリギジヂビピうくすつぬふむるぐずづぶぷウクスツヌフムルグズヅブプ]/g;
-      const narrowMatches = cleanedText.match(narrowVowelRegex);
+      const narrowMatches = cleanedText.match(REGEX.NARROW_VOWELS);
 
       if (narrowMatches) {
         effectiveCount -= (narrowMatches.length * 0.3);
@@ -2521,7 +1608,7 @@
 
     let SENTENCE_DELAY;
 
-    const hasWordAudio = !!document.querySelector('.audio .soundLink, .audio .replaybutton, .audio audio');
+    const hasWordAudio = !!ELS.wordAudioBtn;
 
     if (!hasWordAudio) {
       SENTENCE_DELAY = 0;
@@ -2538,17 +1625,24 @@
 
     let initialPlayTimeout;
 
-    const backContainer = document.querySelector('.back');
+    const backContainer = ELS.back;
     let newArrows = [];
 
     if (backContainer) {
-      const arrowLeft = document.createElement('div');
-      arrowLeft.className = 'sentence-nav left';
-      backContainer.appendChild(arrowLeft);
+      let arrowLeft = backContainer.querySelector('.sentence-nav.left');
+      let arrowRight = backContainer.querySelector('.sentence-nav.right');
 
-      const arrowRight = document.createElement('div');
-      arrowRight.className = 'sentence-nav right';
-      backContainer.appendChild(arrowRight);
+      if (!arrowLeft) {
+        arrowLeft = document.createElement('div');
+        arrowLeft.className = 'sentence-nav left';
+        backContainer.appendChild(arrowLeft);
+      }
+
+      if (!arrowRight) {
+        arrowRight = document.createElement('div');
+        arrowRight.className = 'sentence-nav right';
+        backContainer.appendChild(arrowRight);
+      }
 
       newArrows = [arrowLeft, arrowRight];
     } else {
@@ -2556,7 +1650,7 @@
     }
 
     // Sentence Group
-    const sentenceContainer = document.querySelector('.sentence-container #formattedSentence');
+    const sentenceContainer = ELS.formattedSentence;
     if (sentenceContainer && !sentenceContainer.getAttribute('data-split-done')) {
       const groupWrappers = Array.from(sentenceContainer.querySelectorAll('.group'))
         .filter(el => el.textContent.trim().length > 0);
@@ -2576,7 +1670,7 @@
     }
 
     // Sentence Eng Group
-    const engContainer = document.getElementById('sentenceEng');
+    const engContainer = ELS.sentenceEng;
     if (engContainer && !engContainer.getAttribute('data-split-done')) {
       const allSpans = Array.from(engContainer.querySelectorAll('span'));
       const groupWrappers = allSpans.filter(el => {
@@ -2604,7 +1698,7 @@
     }
 
     // Misc Info Group
-    const miscInfoContainer = document.querySelector('.misc-info');
+    const miscInfoContainer = ELS.miscInfo;
 
     if (miscInfoContainer && !miscInfoContainer.getAttribute('data-split-done')) {
       const allSpans = Array.from(miscInfoContainer.querySelectorAll('span'));
@@ -2632,9 +1726,9 @@
       }
     }
 
-    const sentenceParts = document.querySelectorAll('.sentence-container #formattedSentence .split-sentence');
-    const engParts = document.querySelectorAll('#sentenceEng .split-sentence-eng');
-    const miscInfoParts = document.querySelectorAll('.misc-info .split-misc-info');
+    const sentenceParts = ELS.formattedSentence?.querySelectorAll('.split-sentence') || [];
+    const engParts = ELS.sentenceEng?.querySelectorAll('.split-sentence-eng') || [];
+    const miscInfoParts = ELS.miscInfo?.querySelectorAll('.split-misc-info') || [];
 
     let totalSlides = 1;
     if (audioParts.length > 0) {
@@ -2667,8 +1761,7 @@
     const handleSceneShortcuts = (e) => {
       if (document.activeElement && ['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
 
-      const rootStyle = getComputedStyle(document.documentElement);
-      const cssVal = rootStyle.getPropertyValue('--scene-replay-shortcut-key').trim();
+      const cssVal = senrenConfig.sceneReplayShortcutKey;
 
       const replayConfig = parseKeyConfig(cssVal) || { key: 'w', ctrl: false, alt: false, shift: false, meta: false };
 
@@ -2683,7 +1776,7 @@
           try { a.pause(); a.currentTime = 0; } catch (e) { }
         });
 
-        const wordAudioBtn = document.querySelector('.audio .soundLink, .audio .replaybutton');
+        const wordAudioBtn = ELS.wordAudioBtn;
         if (wordAudioBtn) {
           wordAudioBtn.click();
         }
@@ -2722,9 +1815,14 @@
     document.addEventListener('keydown', handleSceneShortcuts);
 
     function updateDisplay(shouldPlayAudio = false) {
-      const pictureContainer = document.querySelector('.picture-container');
+      const pictureContainer = ELS.pictureContainer;
       if (pictureContainer) {
-        const pictureParts = Array.from(pictureContainer.children).filter(el => el.tagName !== 'BR');
+        const pictureParts = Array.from(pictureContainer.children).filter(el =>
+          el.tagName !== 'BR' &&
+          !el.classList.contains('nav-arrow') &&
+          !el.classList.contains('toggle-image-visibility')
+        );
+
         if (pictureParts.length > 0) {
           pictureParts.forEach((part, i) => {
             const shouldShow = (i === currentIndex);
@@ -2740,7 +1838,7 @@
         });
       }
 
-      const mainMiscContainer = document.querySelector('.misc-info');
+      const mainMiscContainer = ELS.miscInfo;
       if (miscInfoParts.length > 0) {
         let isAnyChildVisible = false;
 
@@ -2780,7 +1878,7 @@
         }
       }
 
-      const mainEngContainer = document.getElementById('sentenceEng');
+      const mainEngContainer = ELS.sentenceEng;
       if (engParts.length > 0) {
         engParts.forEach((part, i) => {
           let shouldShow = false;
@@ -2823,6 +1921,9 @@
     }
 
     newArrows.forEach(arrow => {
+      if (arrow.dataset.hasSceneListener) return;
+      arrow.dataset.hasSceneListener = 'true';
+
       arrow.addEventListener('click', (event) => {
         event.preventDefault();
         event.stopPropagation();
@@ -2842,148 +1943,23 @@
       });
     });
 
+    window.senrenRefreshScenes = () => updateDisplay(false);
     updateDisplay(false);
 
-    const muteNsfw = getComputedStyle(document.documentElement)
-      .getPropertyValue('--mute-nsfw-audio')
-      .trim()
-      .toLowerCase();
+    const muteNsfw = senrenConfig.muteNsfwAudio;
 
-    if (muteNsfw === 'true') {
-    } else {
+    if (muteNsfw !== 'true') {
       initialPlayTimeout = setTimeout(() => {
         playActiveAudio();
       }, SENTENCE_DELAY);
     }
   }
 
-  // Enables custom shortcuts
-  function enableCustomShortcuts() {
-    ['senrenFrontSettingsHandler', 'senrenBackKeyHandler'].forEach(h => {
-      if (window[h]) document.removeEventListener('keydown', window[h]);
-      window[h] = null;
-    });
-
-    const utils = {
-      isTyping: () => {
-        const active = document.activeElement;
-        return active && ['INPUT', 'TEXTAREA'].includes(active.tagName);
-      },
-
-      getVar: (name) => {
-        const el = document.querySelector('.card') || document.body || document.documentElement;
-        const val = getComputedStyle(el).getPropertyValue(name).trim();
-
-        return val.replace(/['"]/g, '');
-      }
-    };
-
-    const actions = {
-      settings: () => {
-        const modal = document.getElementById('senren-settings-modal');
-        const btn = document.querySelector('.toggle-settings-btn');
-
-        if (modal) {
-          modal.classList.toggle('active');
-        } else if (btn) {
-          btn.click();
-        }
-      },
-
-      lightboxGrid: () => {
-        const lb = document.getElementById("lightbox");
-        const btn = document.getElementById("show-all");
-
-        if (lb && !lb.classList.contains("active")) {
-          const img = document.querySelector('.picture-container img[style*="display: block"]') ||
-            document.querySelector('.picture-container img');
-
-          img?.click();
-          setTimeout(() => btn?.click(), 10);
-        } else if (btn) {
-          btn.click();
-        }
-      },
-
-      lightbox: () => {
-        const lb = document.getElementById("lightbox");
-
-        if (lb?.classList.contains("active")) {
-          lb.classList.remove("active");
-
-          const grid = document.querySelector(".lightbox-grid");
-          if (grid) grid.remove();
-
-          const showAll = document.getElementById("show-all");
-          if (showAll) showAll.textContent = "Show All";
-
-          const navs = document.querySelectorAll(".lightbox-nav");
-          navs.forEach(n => n.style.display = "");
-        } else {
-          const imgs = document.querySelectorAll('.picture-container img');
-          const visible = Array.from(imgs).find(i => getComputedStyle(i).display !== 'none') || imgs[0];
-
-          visible?.click();
-        }
-      },
-
-      customDarkMode: () => {
-        const dmBtn = document.querySelector(".toggle-custom-dark-mode");
-
-        if (dmBtn) dmBtn.click();
-      },
-
-      imageToggle: () => {
-        const wrap = document.querySelector('.back');
-        const btn = document.querySelector('.header .show-btn');
-
-        if (wrap && btn) {
-          const isHidden = wrap.classList.toggle('image-removed');
-
-          localStorage.setItem("senrenImageHidden", isHidden);
-          btn.style.setProperty('display', isHidden ? 'flex' : 'none', 'important');
-
-          dynamicCardHeight();
-        }
-      }
-    };
-
-    window.senrenBackKeyHandler = (e) => {
-      if (utils.isTyping()) return;
-
-      const shortcuts = [
-        { var: '--toggle-settings-key', action: actions.settings },
-        { var: '--toggle-picture-lightbox-grid-key', action: actions.lightboxGrid },
-        { var: '--toggle-picture-lightbox-key', action: actions.lightbox },
-        { var: '--toggle-custom-dark-mode-key', action: actions.customDarkMode },
-        { var: '--toggle-image-key', action: actions.imageToggle }
-      ];
-
-      for (const item of shortcuts) {
-        const keyStr = utils.getVar(item.var);
-
-        if (!keyStr) continue;
-
-        const config = parseKeyConfig(keyStr);
-
-        if (isKeyMatch(e, config)) {
-          e.preventDefault();
-          e.stopPropagation();
-
-          item.action();
-          break;
-        }
-      }
-    };
-
-    document.addEventListener('keydown', window.senrenBackKeyHandler);
-  }
-
   // Toggle Image
   function enableImageToggle() {
-    const hideBtn = document.querySelector('.picture-container .hide-btn');
+    const hideBtn = ELS.pictureContainer?.querySelector('.hide-btn');
     const showBtn = document.querySelector('.header .show-btn');
-    const backWrapper = document.querySelector('.back');
+    const backWrapper = ELS.back;
 
     if (!hideBtn || !showBtn || !backWrapper) return;
 
@@ -3027,8 +2003,8 @@
 
   // Adjusts the height of the card to match the picture in Backdrop Layout (BG Card mode)
   function dynamicCardHeight() {
-    const back = document.querySelector('.back');
-    const img = document.querySelector('.picture-container img');
+    const back = ELS.back;
+    const img = ELS.pictureContainer?.querySelector('img');
 
     if (!back || !img) return;
 
@@ -3038,10 +2014,9 @@
         return;
       }
 
-      const rootStyle = getComputedStyle(document.documentElement);
-      const enabled = rootStyle.getPropertyValue('--enable-backdrop-layout').trim();
-      const dynamicHeight = rootStyle.getPropertyValue('--backdrop-dynamic-height').trim();
-      const backdropStyle = rootStyle.getPropertyValue('--backdrop-style').trim();
+      const enabled = senrenConfig.enableBackdropLayout;
+      const dynamicHeight = senrenConfig.backdropDynamicHeight;
+      const backdropStyle = senrenConfig.backdropStyle;
 
       const isActive = (enabled === '1' && dynamicHeight === '1' && backdropStyle === '0');
 
@@ -3060,11 +2035,11 @@
 
         back.style.setProperty('min-height', targetHeight, 'important');
       } else if (img.complete) {
-        requestAnimationFrame(applyHeight);
+        requestAnimationFrame(() => applyHeight());
       }
     };
 
-    applyHeight();
+    requestAnimationFrame(() => applyHeight());
 
     if (!window._senren_height_init) {
       window.addEventListener('resize', dynamicCardHeight);
@@ -3073,17 +2048,108 @@
   }
 
   (function () {
-    const IS_MOBILE = document.documentElement.classList.contains('mobile') ||
-                      document.body.classList.contains('mobile');
+    window.senrenUpdateConfig = function (runLogic = false) {
+      // Regex Cache
+      window.REGEX = {
+        MORA: /[きしちにひみりぎじぢびぴゔ][ゃゅょ]|[うくすつぬふむゆるぐずづぶゔ][ぁぃぅぇぉ]|[てで][ぃ]|[とど][ぅ]|[キシチニヒミリギジヂビピヴ][ャュョ]|[ウクスツヌフムユルグズヅブプヴ][ァィゥェォ]|[テデ][ィ]|[トド][ぅ]|[クグ][ヮ]|[フ][ォ]|[っッ]|ー|[んン]|[\u3041-\u3096\u30A1-\u4DBF\u3005\u3007]|[\u3041-\u3096\u30A1-\u30F6\u30FD\u30FE]|\S/g,
+        KANJI: /[\u4E00-\u9FFF\u3400-\u4DBF\u3005\u3007]/,
+        KANA_MODIFIERS: /[\s\u3099\u309A\u309B\u309C]/g,
+        NARROW_VOWELS: /[いきしちにひみりぎじぢびぴイキシチニヒミリギジヂビピうくすつぬふむるぐずづぶぷウクスツヌフムルグズヅブプ]/g,
+        DIGITS: /\d+/g,
+        RUBY_RT: /<ruby>([^<]+?)<rt>(.*?)<\/rt><\/ruby>/g,
+        HIGHLIGHT: /<span class="highlight">(.*?)<\/span>/g,
+        KANA_ONLY: /^[ぁ-ゖァ-ヺ゙゚ー\s]+$/,
+        COMBINING_MARK: /([ぁ-ゖァ-ヺ])[\u3099\u309A]/g,
+        SMALL_KANA: /[ぁぃぅぇぉゃゅょゎァィゥェォャゅョヮ]/g
+      };
 
-    const delayedFunctions = window.requestIdleCallback || function (cb) { return setTimeout(cb, 1); };
+      // DOM Cache
+      window.ELS = {
+        back: document.querySelector('.back'),
+        word: document.getElementById('word'),
+        sentence: document.getElementById('sentence'),
+        formattedSentence: document.getElementById('formattedSentence'),
+        sentenceEng: document.getElementById('sentenceEng'),
+        glossary: document.getElementById('glossary'),
+        definition: document.getElementById('definition'),
+        selectionText: document.getElementById('selectionText'),
+        miscInfo: document.querySelector('.misc-info'),
+        pictureContainer: document.querySelector('.picture-container'),
+        tagsContainer: document.querySelector('.tags-container'),
+        audioContainer: document.querySelector('.sentenceaudio'),
+        position: document.getElementById('position'),
+        wordAudioBtn: document.querySelector('.audio .soundLink, .audio .replaybutton')
+      };
+
+      const style = getComputedStyle(document.documentElement);
+      const getVar = (prop) => style.getPropertyValue(prop).trim().toLowerCase();
+
+      // Notes
+      senrenConfig.notesDefaultExpanded = getVar('--notes-default-expanded');
+
+      // Translation
+      senrenConfig.translationDefaultExpanded = getVar('--translation-default-expanded');
+
+      // Collect Glossary Images
+      senrenConfig.collectGlossaryImages = getVar('--collect-glossary-images');
+
+      // Backdrop Layout
+      senrenConfig.enableBackdropLayout = getVar('--enable-backdrop-layout');
+      senrenConfig.backdropStyle = getVar('--backdrop-style');
+      senrenConfig.backdropDynamicHeight = getVar('--backdrop-dynamic-height');
+
+      // Misc Info
+      senrenConfig.miscInfoDefaultExpanded = getVar('--misc-info-default-expanded');
+
+      // Audio
+      senrenConfig.muteNsfwAudio = getVar('--mute-nsfw-audio');
+      senrenConfig.muteSentenceAudio = getVar('--mute-sentence-audio');
+      senrenConfig.blurNsfwPicture = getVar('--blur-nsfw-picture');
+
+      // Kanji
+      senrenConfig.enableKanjiHover = getVar('--enable-kanji-hover');
+      senrenConfig.kanjiHoverAutoQuote = getVar('--kanji-hover-auto-quote');
+      senrenConfig.noDuplicateKana = getVar('--no-duplicate-kana');
+
+      // Dictionary
+      senrenConfig.dictionaryCollapse = getVar('--dictionary-collapse');
+      senrenConfig.dictionaryMaxHeight = getVar('--dictionary-max-height');
+
+      // Keys
+      senrenConfig.sceneReplayShortcutKey = getVar('--scene-replay-shortcut-key');
+      senrenConfig.toggleSettingsKey = getVar('--toggle-settings-key');
+      senrenConfig.togglePictureLightboxGridKey = getVar('--toggle-picture-lightbox-grid-key');
+      senrenConfig.togglePictureLightboxKey = getVar('--toggle-picture-lightbox-key');
+      senrenConfig.toggleCustomDarkModeKey = getVar('--toggle-custom-dark-mode-key');
+      senrenConfig.toggleImageKey = getVar('--toggle-image-key');
+
+      // Pitch
+      senrenConfig.pitchStyle = getVar('--pitch-style');
+      senrenConfig.pitchColors = getVar('--pitch-colors');
+      senrenConfig.sentencePitchHighlight = getVar('--sentence-pitch-highlight');
+
+      if (!runLogic) return;
+
+      if (typeof window.dynamicCardHeight === 'function') {
+        window.dynamicCardHeight();
+      }
+      if (typeof window.alternativePitchStyle === 'function') {
+        window.alternativePitchStyle();
+      }
+    };
+
+    // Initial load
+    window.senrenUpdateConfig();
+
+    window.IS_MOBILE = document.documentElement.classList.contains('mobile') ||
+      document.body.classList.contains('mobile');
+
+    const delayedFunctions = window.requestIdleCallback ||
+      function (cb) { return setTimeout(cb, 200); };
 
     // Initializes immediate functions
     function init() {
-      if (!IS_MOBILE) {
-        dynamicCardHeight();
-      }
-
+      darkMode();
       nsfw();
       muteSentence();
       noDuplicateKana();
@@ -3100,30 +2166,51 @@
       enableInteractions();
       enableSceneSwitching();
       enableImageToggle();
+
+      if (!window.IS_MOBILE) {
+        dynamicCardHeight();
+      }
     }
 
     // initializes deferred functions
     function initDeferred() {
       delayedFunctions(() => {
-        jitendexHover();
-        enableImageSwitching();
-        enableLightbox();
+        collectGlossaryImages(true);
 
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            setTimeout(() => {
+              // External deferred functions
+              if (window.senrenInitDeferred) {
+                window.senrenInitDeferred();
+              } else {
+                const script = document.createElement('script');
+                script.src = "_senren_deferred_v4.7.0.js";
+                document.body.appendChild(script);
+              }
 
-        if (!IS_MOBILE) {
-          enableCustomShortcuts();
-          wrapKanjiInWordField();
-        }
+              // Kanji hover
+              if (!window.IS_MOBILE) {
+                if (window.senrenInitKanjiHover) {
+                  window.senrenInitKanjiHover();
+                } else {
+                  const script = document.createElement('script');
+                  script.src = "_senren_kanji_hover_v4.7.0.js";
+                  document.body.appendChild(script);
+                }
+              }
 
-        setTimeout(() => {
-          if (window.senrenBuildMenu) {
-            window.senrenBuildMenu();
-          } else {
-            const script = document.createElement('script');
-            script.src = "_senren_settings_v4.6.4.js";
-            document.body.appendChild(script);
-          }
-        }, 0);
+              // Settings
+              if (window.senrenBuildMenu) {
+                window.senrenBuildMenu();
+              } else {
+                const script = document.createElement('script');
+                script.src = "_senren_settings_v4.7.0.js";
+                document.body.appendChild(script);
+              }
+            }, 50);
+          });
+        });
       });
     }
 
