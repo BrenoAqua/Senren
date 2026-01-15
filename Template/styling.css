@@ -477,11 +477,11 @@ body {
   pointer-events: none;
   margin: 0;
   padding: 0;
+  box-sizing: content-box;
   transition: max-height 0.3s ease,
               opacity 0.3s ease,
               margin 0.3s ease,
               padding 0.3s ease;
-  box-sizing: content-box;
 }
 
 #word-wrapper.expanded,
@@ -542,7 +542,7 @@ body {
   padding: var(--spacing-ms) var(--spacing-lg);
   cursor: pointer;
   transition: box-shadow var(--fast-transition), 
-              background var(--fast-transition), 
+              background-color var(--fast-transition), 
               fill var(--fast-transition);
 }
 
@@ -696,7 +696,7 @@ b {
   z-index: var(--z-index-base);
   background: var(--buttons-bg-light); 
   transition: box-shadow var(--fast-transition), 
-              background var(--fast-transition), 
+              background-color var(--fast-transition), 
               color var(--fast-transition);
 }
 
@@ -749,7 +749,7 @@ b {
   z-index: var(--z-index-base);
   background: var(--buttons-bg-light); 
   transition: box-shadow var(--fast-transition), 
-              background var(--fast-transition), 
+              background-color var(--fast-transition), 
               color var(--fast-transition);
 }
 
@@ -804,7 +804,7 @@ b {
   align-items: center;
   z-index: var(--z-index-base);
   transition: box-shadow var(--fast-transition), 
-              background var(--fast-transition), 
+              background-color var(--fast-transition), 
               color var(--fast-transition);
 }
 
@@ -850,7 +850,7 @@ b {
   align-items: center;
   z-index: var(--z-index-base);
   transition: box-shadow var(--fast-transition), 
-              background var(--fast-transition), 
+              background-color var(--fast-transition), 
               color var(--fast-transition);
 }
 
@@ -1168,7 +1168,7 @@ img {
   border: none;
   cursor: pointer;
   z-index: 1001;
-  transition: background var(--base-transition), 
+  transition: background-color var(--base-transition), 
               color var(--base-transition);
 }
 
@@ -1198,7 +1198,7 @@ img {
   height: auto;
   object-fit: contain;
   cursor: pointer;
-  transition: transform 0.2s;
+  transition: transform var(--fast-transition);
 }
 
 .lightbox-grid img:hover {
@@ -1248,7 +1248,7 @@ img {
   align-items: center;
   z-index: var(--z-index-base);
   transition: box-shadow var(--fast-transition), 
-              background var(--fast-transition), 
+              background-color var(--fast-transition), 
               color var(--fast-transition);
 }
 
@@ -1451,7 +1451,10 @@ img {
   direction: ltr;
   unicode-bidi: normal;
   text-align: left;
-  transition: all var(--base-transition);
+  transition: max-height var(--base-transition), 
+              opacity var(--base-transition), 
+              margin var(--base-transition), 
+              padding var(--base-transition);
 }
 
 .notes.is-collapsed {
@@ -1514,17 +1517,17 @@ img {
   opacity: 1;
   border-radius: var(--border-radius-ms);
   cursor: pointer;
-  transition: background var(--base-transition);
+  transition: background-color var(--base-transition);
 }
 
 .toggle-area:hover {
-  background: rgba(0, 0, 0, 0.8);
+  background-color: rgba(0, 0, 0, 0.8);
 }
 
 :is(.card.nightMode, .custom-dark-mode) 
 .toggle-area:hover {
   background: rgba(255, 255, 255, 0.8);
-  transition: background var(--base-transition);
+  transition: background-color var(--base-transition);
 }
 
 .toggle-area.left { left: -20px; }
@@ -1542,27 +1545,27 @@ img {
   left: -20px;
   -webkit-mask-image: linear-gradient(to right, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
   mask-image: linear-gradient(to right, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
-  transition: background var(--base-transition);
+  transition: background-color var(--base-transition);
 }
 
 .toggle-area.right-larger {
   right: -20px;
   -webkit-mask-image: linear-gradient(to left, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
   mask-image: linear-gradient(to left, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
-  transition: background var(--base-transition);
+  transition: background-color var(--base-transition);
 }
 
 .toggle-area.left-larger:hover ~ .toggle-area.left:not(.left-larger):not(.right-larger),
 .toggle-area.right-larger:hover ~ .toggle-area.right:not(.left-larger):not(.right-larger) {
   background: rgba(0, 0, 0, 0.8);
-  transition: background var(--base-transition);
+  transition: background-color var(--base-transition);
 }
 
 :is(.card.nightMode, .custom-dark-mode)
 :is(.toggle-area.left-larger:hover ~ .toggle-area.left:not(.left-larger):not(.right-larger),
     .toggle-area.right-larger:hover ~ .toggle-area.right:not(.left-larger):not(.right-larger)) {
       background: rgba(255, 255, 255, 0.8);
-      transition: background var(--base-transition);
+      transition: background-color var(--base-transition);
 }
 
 /* Audio */
@@ -1579,7 +1582,7 @@ img {
   padding: var(--spacing-ms) var(--spacing-lg);
   cursor: pointer;
   transition: box-shadow var(--fast-transition), 
-              background var(--fast-transition), 
+              background-color var(--fast-transition), 
               fill var(--fast-transition);
 }
 
@@ -2051,7 +2054,7 @@ span[style*="display:inline"]:has(+ span[style*="border:1.5px dotted #c83c28"]) 
   transition: opacity var(--base-transition), 
               transform var(--base-transition), 
               visibility var(--base-transition), 
-              background var(--base-transition), 
+              background-color var(--base-transition), 
               color var(--base-transition);
 }
 
@@ -3203,7 +3206,7 @@ li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br)
   padding: var(--tag-padding);
   border-radius: var(--tag-border-radius);
   z-index: var(--z-index-base);
-  transition: background var(--fast-transition), 
+  transition: background-color var(--fast-transition), 
               color var(--fast-transition);
 }
 
@@ -3289,7 +3292,8 @@ li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br)
   display: flex;
   background: var(--external-links-bg-light);
   opacity: 0.3;
-  transition: background var(--fast-transition), opacity var(--fast-transition);
+  transition: background-color var(--fast-transition), 
+              opacity var(--fast-transition);
 }
 
 .external-links img {
@@ -3355,7 +3359,7 @@ li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br)
     opacity: 1 !important;
     transition: opacity var(--base-transition), 
                 color var(--base-transition),
-                background var(--base-transition) !important;
+                background-color var(--base-transition) !important;
   }
 
   :is(.card.nightMode, .custom-dark-mode)
@@ -3636,7 +3640,7 @@ li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br)
   margin: 0; 
   text-align: center; 
   box-sizing: border-box;
-  transition: background var(--base-transition);
+  transition: background-color var(--base-transition);
 }
 
 .show-more-btn:hover { 
@@ -3706,7 +3710,7 @@ li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br)
   transition: opacity var(--base-transition), 
               transform var(--base-transition), 
               visibility var(--base-transition), 
-              background var(--base-transition), 
+              background-color var(--base-transition), 
               color var(--base-transition);
 }
 
@@ -3768,7 +3772,8 @@ li.is-new-card .highlight,
 li.is-new-card .pitch-number,
 li.is-new-card .pronunciation-mora-line,
 li.is-new-card span[style*="border-color"] {
-  transition: color var(--base-transition), border-color var(--base-transition);
+  transition: color var(--base-transition), 
+              border-color var(--base-transition);
 }
 
 li.is-new-card:not(:hover) .related-word,
@@ -3794,7 +3799,8 @@ li.is-new-card:not(:hover) .related-word {
 .related-word.clickable-word {
   cursor: pointer;
   border-bottom: 1px dotted transparent; 
-  transition: color var(--base-transition), border-bottom-color var(--base-transition);
+  transition: color var(--base-transition), 
+              border-bottom-color var(--base-transition);
 }
 
 .related-word.clickable-word:hover {
@@ -4589,8 +4595,8 @@ li.is-new-card:not(:hover) .related-word {
   right: 0;
   bottom: 0;
   opacity: 0;
-  transition: var(--base-transition);
   background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.02));
+  transition: opacity var(--base-transition);
 }
 
 .card.nightMode .fade-to-show-more::before,
@@ -4614,7 +4620,7 @@ li.is-new-card:not(:hover) .related-word {
   border-radius: var(--border-radius-lg);
   z-index: 1;
   opacity: 0;
-  transition: var(--base-transition);
+  transition: opacity var(--base-transition);
 }
 
 .sentence-nav:hover {
@@ -5242,7 +5248,7 @@ li.is-new-card:not(:hover) .related-word {
                   opacity var(--base-transition),
                   color var(--base-transition),
                   margin-top var(--base-transition),
-                  background var(--base-transition);
+                  background-color var(--base-transition);
     }
 
     :is(.card.nightMode, .custom-dark-mode)
