@@ -87,7 +87,8 @@
   align-items: center;
   justify-content: center;
   color: #999;
-  transition: all 0.2s ease;
+  transition: background-color 0.2s ease, 
+              color 0.2s ease;
 }
 
 .senren-icon-btn i {
@@ -142,12 +143,13 @@
   font-size: 13px;
   font-weight: 500;
   color: #666;
-  transition: all 0.2s;
   border-left: none;
   border-radius: 6px;
   text-align: left;
   position: relative;
   margin-bottom: 2px;
+  transition: background-color 0.2s, 
+              color 0.2s;
 }
 
 .senren-nav-item::before {
@@ -160,8 +162,9 @@
   height: 16px;
   border-radius: 4px;
   background: var(--light-highlight);
-  transition: transform 0.2s ease, opacity 0.2s;
   opacity: 0;
+  transition: transform 0.2s ease, 
+              opacity 0.2s;
 }
 
 .card.nightMode .senren-nav-item::before,
@@ -530,7 +533,8 @@
   width: 160px;
   padding: 4px;
   border-radius: 4px;
-  transition: all 0.2s;
+  transition: border-bottom-color 0.2s, 
+              background-color 0.2s;
 }
 
 .senren-grid-card .senren-input {
@@ -618,8 +622,11 @@
   text-align: center;
   font-weight: 500;
   opacity: 0.7;
-  transition: 0.2s;
   white-space: nowrap;
+  transition: background-color 0.2s, 
+              color 0.2s, 
+              opacity 0.2s, 
+              box-shadow 0.2s;
 }
 
 .senren-segment-btn:hover {
@@ -659,8 +666,8 @@
   cursor: pointer;
   inset: 0;
   background-color: #ddd;
-  transition: .3s;
   border-radius: 20px;
+  transition: background-color 0.3s;
 }
 
 .card.nightMode .senren-slider,
@@ -676,9 +683,10 @@
   left: 2px;
   bottom: 2px;
   background-color: white;
-  transition: .3s;
   border-radius: 50%;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+  transition: background-color 0.3s, 
+              transform 0.3s;
 }
 
 input:checked+.senren-slider {
@@ -742,10 +750,12 @@ input:checked+.senren-slider:before {
   cursor: pointer;
   font-size: 13px;
   font-weight: 600;
-  transition: 0.2s;
   opacity: 0.8;
   margin-left: 0;
   margin-right: 0;
+  transition: opacity 0.2s, 
+              border-color 0.2s, 
+              background-color 0.2s;
 }
 
 .card.nightMode .senren-btn,
@@ -814,8 +824,10 @@ input:checked+.senren-slider:before {
   align-items: center;
   user-select: none;
   opacity: 0.8;
-  transition: 0.2s;
   font-weight: 600;
+  transition: opacity 0.2s, 
+              border-color 0.2s, 
+              background-color 0.2s;
 }
 
 .card.nightMode .senren-select-trigger,
@@ -925,24 +937,24 @@ input:checked+.senren-slider:before {
 .senren-option {
   padding: 8px 12px 8px 24px;
   cursor: pointer;
-  transition: background 0.1s;
   font-size: 13px;
   text-align: left;
   color: inherit;
   border-radius: 6px;
   position: relative;
+  transition: background-color 0.1s;
 }
 
 /* Menu Items (Add/Rename/Remove) */
 .senren-menu-item {
   padding: 6px 12px;
   cursor: pointer;
-  transition: background 0.1s;
   font-size: 13px;
   text-align: left;
   color: inherit;
   border-radius: 4px;
   white-space: nowrap;
+  transition: background-color 0.1s;
 }
 
 .senren-option::before {
@@ -966,7 +978,7 @@ input:checked+.senren-slider:before {
 .senren-menu-item {
   padding: 8px 12px;
   border-radius: 4px;
-  transition: background 0.1s;
+  transition: background-color 0.1s;
 }
 
 .senren-menu-item:hover {
@@ -1160,8 +1172,8 @@ input:checked+.senren-slider:before {
   justify-content: center;
   align-items: center;
   opacity: 0;
-  transition: opacity 0.2s ease;
   font-family: "Segoe UI", "Roboto", sans-serif;
+  transition: opacity 0.2s ease;
 }
 
 #senren-prompt-overlay.active {
@@ -1246,8 +1258,9 @@ input:checked+.senren-slider:before {
   border-radius: 12px;
   background: #fff;
   color: #333;
-  transition: all 0.2s;
   box-sizing: border-box !important;
+  transition: border-color 0.2s, 
+              box-shadow 0.2s;
 }
 
 .card.nightMode .senren-prompt-input,
@@ -1290,8 +1303,11 @@ input:checked+.senren-slider:before {
   border-radius: 12px;
   cursor: pointer;
   text-align: center;
-  transition: 0.2s;
   box-sizing: border-box !important;
+  transition: background-color 0.2s, 
+              border-color 0.2s, 
+              color 0.2s, 
+              opacity 0.2s;
 }
 
 /* Styles for Cancel/Save */
