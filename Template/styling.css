@@ -3126,6 +3126,26 @@ li[data-dictionary="漢検漢字辞典　第二版"] table th[lang="ja"]:has(br)
   background: rgba(255,255,255,0.15);
 }
 
+/* Manatan Settings */
+div[style="flex-shrink: 0; width: 24px; font-weight: bold;"] {
+  display: none !important;
+}
+
+[style="margin-bottom: 12px; display: block;"] {
+  margin-bottom: 0 !important;
+}
+
+[style*="margin-bottom: 12px"] ul[style*="list-style-type"] {
+  display: block !important;
+  list-style: disc !important;
+  padding-left: 20px !important;
+}
+
+[style*="margin-bottom: 12px"] ul[style*="list-style-type"] li {
+  display: list-item !important;
+  list-style: inherit !important;
+}
+
 /* Frequency */
 #frequency {
   position: fixed;
