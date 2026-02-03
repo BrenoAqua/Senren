@@ -129,7 +129,6 @@
     <div class="toggle-area left tappable"></div>
     <div class="toggle-area right tappable"></div>
     <div class="definition-box">
-
       <span>{{definition}}</span>
     </div>
   </div>
@@ -316,7 +315,10 @@
     const selectionText = ELS.selectionText;
     const definition = ELS.definition;
     const glossary = ELS.glossary;
-    const allGlossaryListItems = Array.from(document.querySelectorAll("#glossary > .glossary-box > span > div li[data-dictionary], #glossary > div > span > div > i"));
+    const allGlossaryListItems = [
+    ...document.querySelectorAll("#glossary > .glossary-box > span > div li[data-dictionary], #glossary > div > span > div > i"),
+    ...document.querySelectorAll('#glossary div[style*="margin-bottom: 12px"][style*="display: flex"]') 
+    ];
     const dictionaryPreference = document.getElementById('dictionaryPreference')?.textContent.trim() || '';
 
     function updateBackgroundColor(element) {
