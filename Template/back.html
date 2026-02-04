@@ -1739,6 +1739,7 @@
     let currentIndex = 0;
 
     function playActiveAudio() {
+      if (senrenConfig.muteSentenceAudio === 'true') return;
       if (audioParts.length === 0) return;
 
       document.querySelectorAll('audio').forEach(a => {
