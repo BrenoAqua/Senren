@@ -499,10 +499,15 @@ body {
 }
 
 /* Audio */
-.front:has(#wordAudio) .highlight,
-.front:has(#sentenceAudio) b {
+.front:is(:has(#wordAudio), :has(#sentenceAudio)) :is(.highlight, b) {
   filter: blur(20px);
   cursor: pointer;
+  transition: filter var(--base-transition);
+}
+
+.front:is(:has(#wordAudio), :has(#sentenceAudio)) :is(.highlight, b):active,
+.front:is(:has(#wordAudio), :has(#sentenceAudio)) :is(.highlight, b).unblurred {
+  filter: none;
 }
 
 .front:has(#wordAudio) > #sentence-wrapper-audio,
