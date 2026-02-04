@@ -553,6 +553,8 @@
       }
 
       if (playAudio && audioParts.length > 0) {
+        if (senrenConfig.muteSentenceAudio === 'true') return;
+        
         let target = audioParts[currentIndex];
         if (!target && audioParts.length === 1) target = audioParts[0];
 
@@ -647,6 +649,18 @@
     document.addEventListener('keydown', window.senrenFrontSettingsHandler);
   }
 
+  // Mutes the sentence audio playback based on CSS variables
+  function muteSentence() {
+    if (senrenConfig.muteSentenceAudio !== 'true') return;
+
+    const wordAudioContainer = ELS.wordAudio;
+    const wordAudioBtn = wordAudioContainer ? wordAudioContainer.querySelector('.soundLink, .replaybutton') : null;
+
+    if (wordAudioBtn) {
+      wordAudioBtn.click();
+    }
+  }
+  
   // Adjusts word size based on character length
   function dynamicWordSize() {
     const wordElements = ELS.words;
@@ -706,6 +720,7 @@
 
       // Audio
       senrenConfig.muteNsfwAudio = getVar('--mute-nsfw-audio');
+      senrenConfig.muteSentenceAudio = getVar('--mute-sentence-audio');
 
       // Keys
       senrenConfig.sceneReplayShortcutKey = getVar('--scene-replay-shortcut-key');
@@ -725,6 +740,7 @@
     // Initializes immediate functions
     function init() {
       darkMode();
+      muteSentence();
       dynamicWordSize();
       initializeAudioSentenceState();
       initializeSentenceState();
@@ -764,3 +780,4 @@
   void "_senren_deck_presets.js";
   void "_senren_presets.js";
 </script>
+
