@@ -1095,7 +1095,10 @@
       .replace(/<ruby><rb>([。、！？！？])<\/rb><rt>.*?<\/rt><\/ruby>/g, '$1')
       .replace(/<ruby>([。、！？！？])<rt>.*?<\/rt><\/ruby>/g, '$1');
 
-    if (cleanedFurigana.includes('<span class="highlight">')) {
+    if (
+    cleanedFurigana.includes('<span class="highlight">') ||
+    cleanedFurigana.includes('<b>')
+    ) {
       ELS.formattedSentence.innerHTML = cleanedFurigana;
       return;
     }
@@ -2059,7 +2062,7 @@
         NARROW_VOWELS: /[いきしちにひみりぎじぢびぴイキシチニヒミリギジヂビピうくすつぬふむるぐずづぶぷウクスツヌフムルグズヅブプ]/g,
         DIGITS: /\d+/g,
         RUBY_RT: /<ruby>([^<]+?)<rt>(.*?)<\/rt><\/ruby>/g,
-        HIGHLIGHT: /<span class="highlight">(.*?)<\/span>/g,
+        HIGHLIGHT: /<(?:span class="highlight"|b)>(.*?)<\/(?:span|b)>/g,
         KANA_ONLY: /^[ぁ-ゖァ-ヺ゙゚ー\s]+$/,
         COMBINING_MARK: /([ぁ-ゖァ-ヺ])[\u3099\u309A]/g,
         SMALL_KANA: /[ぁぃぅぇぉゃゅょゎァィゥェォャゅョヮ]/g
