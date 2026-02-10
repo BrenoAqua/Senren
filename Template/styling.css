@@ -3209,6 +3209,29 @@ div[style="flex-shrink: 0; width: 24px; font-weight: bold;"] {
   background: var(--frequency-bg);
 }
 
+.frequency-content ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.frequency-content li {
+  display: flex !important;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 4px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+:is(.card.nightMode, .custom-dark-mode) 
+.frequency-content li {
+  border-bottom-color: rgba(255, 255, 255, 0.05);
+}
+
+.frequency-content li:last-child {
+  border-bottom: none;
+}
+
 .frequency-box:hover .frequency-content {
   opacity: 1;
   max-height: var(--frequency-max-height);
