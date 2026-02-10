@@ -634,13 +634,13 @@ a {
 }
 
 /* Highlight Text */
-b {
+:is(b, strong) {
   color: var(--light-highlight);
   font-weight: normal;
 }
 
 :is(.card.nightMode, .custom-dark-mode) 
-b {
+:is(b, strong) {
   color: var(--dark-highlight);
 }
 
@@ -2166,7 +2166,7 @@ span[style*="display:inline"]:has(+ span[style*="border:1.5px dotted #c83c28"]) 
   }
 }
 
-.yomitan-glossary:has(.dictionary-title) i {
+.yomitan-glossary:has(.dictionary-title) :is(i, em) {
   display: none !important;
 }
 
