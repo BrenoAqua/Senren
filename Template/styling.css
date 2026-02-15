@@ -32,7 +32,6 @@
   -------------------------------------------- */
   --translation-default-expanded:     false;   /* Show translation immediately */
   --notes-default-expanded:           false;   /* Show notes immediately */
-  --collect-glossary-images:          false;   /* Enable glossary images to be collected into the picture box */
   --no-duplicate-kana:                false;   /* Replace kana-only word with its reading */
   --mute-sentence-audio:              false;   /* Mute any sentence audio */
 
@@ -165,6 +164,21 @@
   --kanji-hover-pitch-colors:         true;         /* "false" to disable pitch downstep coloring in Kanji Hover */
   --kanji-hover-pitch-highlight:      true;         /* "false" to make pitch colors stop overwriting word + sentence highlights in Kanji Hover */
 
+
+  /* PICTURE SETTINGS
+  ============================================ */
+  --collect-glossary-images:          false;   /* Enable glossary images to be collected into the picture box */
+
+  /* Picture Counter */
+  --picture-counter-visibility:       1;       /* "1" Always if >1, "2" Hover Only, "0" Hidden */
+  --picture-counter-bg-opacity:       0;       /* Background opacity of the counter */
+  --picture-counter-size:             0.5rem;  /* Font size of the counter */
+  --picture-counter-shadow-intensity: 0.8;     /* Opacity/Intensity of the shadow */
+
+  /* Dimensions */
+  --picture-height:                   220px;
+  --picture-height-small:             330px; /* Max picture container height */
+  
 
   /* RESPONSIVE GRID CONTROL
   ============================================ */
@@ -364,8 +378,6 @@
   --button-size:                      20px;
   --toggle-width-large:               60px;
   --toggle-width-medium:              20px;
-  --picture-height:                   220px;
-  --picture-height-small:             330px; /* Max picture container height */
   --picture-max-height-small:         100%;  /* Max picture img height */
   --lightbox-nav-width:               100px;
   --external-links-icon-size:         25px;
@@ -956,6 +968,23 @@ a {
   background: var(--word-bg);
 }
 
+/* Scene Indicator */
+.scene-indicator {
+  position: absolute;
+  bottom: 5px;
+  right: 11px;
+  font-size: 20px;
+  color: var(--svg-color-light);
+  opacity: 0.6;
+  pointer-events: none;
+  z-index: 5;
+  display: none;
+}
+
+:is(.card.nightMode, .custom-dark-mode) .scene-indicator {
+  color: var(--svg-color);
+}
+
 @container style(--reading-position: below) {
   #word ruby {
     ruby-position: under !important;
@@ -1345,6 +1374,10 @@ img {
   margin: 0.85rem 0;
   margin-left: 5px;
   margin-right: 5px;
+}
+
+.sentence-container .picture-counter {
+  display: none;
 }
 
 #sentence,
@@ -2086,6 +2119,49 @@ span[style*="display:inline"]:has(+ span[style*="border:1.5px dotted #c83c28"]) 
 
 #categories:empty {
   display: none;
+}
+
+/* Picture Counter */
+.picture-counter {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: var(--picture-counter-size);
+  font-weight: bold;
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 2px 0 1px rgba(0,0,0,0.1),
+               -2px 0 1px rgba(0,0,0,0.1),
+               0 2px 1px rgba(0,0,0,0.1),
+               0 -2px 1px rgba(0,0,0,0.1),
+               0 0 4px rgba(0, 0, 0, var(--picture-counter-shadow-intensity));
+  background-color: rgba(0, 0, 0, var(--picture-counter-bg-opacity));
+  padding: 4px 8px;
+  border-radius: var(--border-radius-ms);
+  pointer-events: none;
+  user-select: none;
+  z-index: 2;
+  opacity: 0;
+  transition: opacity var(--fast-transition);
+  margin-bottom: 10px;
+}
+
+.picture-container:hover .picture-counter {
+  opacity: 1;
+}
+
+/* Show if > 1 image AND visibility is set to 1 (Always) */
+@container style(--picture-counter-visibility: 1) {
+  .picture-container:has(img:nth-of-type(2)) .picture-counter {
+    opacity: 1;
+  }
+}
+
+/* Hide if visibility is set to 0 */
+@container style(--picture-counter-visibility: 0) {
+  .picture-counter {
+    display: none !important;
+  }
 }
 
 /* Dictionary Counter */
@@ -5228,6 +5304,10 @@ li.is-new-card:not(:hover) .related-word {
 
 /* Backdrop Layout */
 @container style(--enable-backdrop-layout: 1) {
+  .scene-indicator {
+    display: none !important;
+  }
+
   .grid-container {
     display: initial;
   }
@@ -5395,6 +5475,56 @@ li.is-new-card:not(:hover) .related-word {
     @media (max-width: 768px) {
       .picture-container, .picture-container img {
         border-radius: 0 0 var(--border-radius-lg) var(--border-radius-lg) !important;  
+      }
+    }
+
+    /* Picture Counter Repositioning */
+    .picture-container .picture-counter {
+      display: none !important;
+    }
+
+    .sentence-container .picture-counter {
+      display: block;
+      position: relative;
+      bottom: auto;
+      left: auto;
+      transform: none;
+      width: fit-content;
+      margin: 5px auto -5px auto;
+      padding: 4px 8px;
+      pointer-events: none;
+      user-select: none;
+      z-index: 2;
+      font-size: var(--picture-counter-size);
+      font-weight: bold;
+      border-radius: var(--border-radius-ms);
+      background-color: rgba(0, 0, 0, var(--picture-counter-bg-opacity));
+      color: rgba(255, 255, 255, 0.9);
+      text-shadow: 2px 0 1px rgba(0,0,0,0.1),
+                   -2px 0 1px rgba(0,0,0,0.1),
+                   0 2px 1px rgba(0,0,0,0.1),
+                   0 -2px 1px rgba(0,0,0,0.1),
+                   0 0 4px rgba(0, 0, 0, var(--picture-counter-shadow-intensity));
+      transition: opacity var(--fast-transition);
+      opacity: 0; 
+    }
+
+    .card:hover .sentence-container .picture-counter,
+    .sentence-container:hover .picture-counter {
+      opacity: 1;
+    }
+
+    /* Show if > 1 image AND visibility is set to 1 (Always) */
+    @container style(--picture-counter-visibility: 1) {
+      .card:has(.picture-container img:nth-of-type(2)) .sentence-container .picture-counter {
+        opacity: 1;
+      }
+    }
+
+    /* Hide if visibility is set to 0 */
+    @container style(--picture-counter-visibility: 0) {
+      .sentence-container .picture-counter {
+        display: none !important;
       }
     }
   }
