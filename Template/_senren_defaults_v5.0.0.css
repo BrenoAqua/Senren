@@ -1,4 +1,4 @@
-/* _senren_defaults_v4.7.0.css */
+/* _senren_defaults_v5.0.0.css */
 :root {
   /* CARD SETTINGS - Default States (true/false)
   ============================================ */
@@ -15,7 +15,6 @@
   -------------------------------------------- */
   --translation-default-expanded:     false;   /* Show translation immediately */
   --notes-default-expanded:           false;   /* Show notes immediately */
-  --collect-glossary-images:          false;   /* Enable glossary images to be collected into the picture box */
   --no-duplicate-kana:                false;   /* Replace kana-only word with its reading */
   --mute-sentence-audio:              false;   /* Mute any sentence audio */
 
@@ -148,6 +147,21 @@
   --kanji-hover-pitch-colors:         true;         /* "false" to disable pitch downstep coloring in Kanji Hover */
   --kanji-hover-pitch-highlight:      true;         /* "false" to make pitch colors stop overwriting word + sentence highlights in Kanji Hover */
 
+
+  /* PICTURE SETTINGS
+  ============================================ */
+  --collect-glossary-images:          false;   /* Enable glossary images to be collected into the picture box */
+
+  /* Picture Counter */
+  --picture-counter-visibility:       1;       /* "1" Always if >1, "2" Hover Only, "0" Hidden */
+  --picture-counter-bg-opacity:       0;       /* Background opacity of the counter */
+  --picture-counter-size:             0.5rem;  /* Font size of the counter */
+  --picture-counter-shadow-intensity: 0.8;     /* Opacity/Intensity of the shadow */
+
+  /* Dimensions */
+  --picture-height:                   220px;
+  --picture-height-small:             330px; /* Max picture container height */
+  
 
   /* RESPONSIVE GRID CONTROL
   ============================================ */
@@ -347,8 +361,6 @@
   --button-size:                      20px;
   --toggle-width-large:               60px;
   --toggle-width-medium:              20px;
-  --picture-height:                   220px;
-  --picture-height-small:             330px; /* Max picture container height */
   --picture-max-height-small:         100%;  /* Max picture img height */
   --lightbox-nav-width:               100px;
   --external-links-icon-size:         25px;

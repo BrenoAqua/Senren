@@ -1,4 +1,4 @@
-/* _senren_settings_v4.7.0.css */
+/* _senren_settings_v5.0.0.css */
 #senren-settings-modal * {
   box-sizing: border-box;
 }
@@ -249,6 +249,57 @@
   border-bottom-color: rgba(255, 255, 255, 0.06);
 }
 
+.senren-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  padding-bottom: 8px;
+}
+
+.card.nightMode .senren-panel-header,
+.custom-dark-mode .senren-panel-header {
+  border-bottom-color: rgba(255, 255, 255, 0.06);
+}
+
+.senren-panel-header h3 {
+  border-bottom: none !important;
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.senren-btn-browse {
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  color: #888;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.03);
+  transition: all 0.2s;
+}
+
+.card.nightMode .senren-btn-browse,
+.custom-dark-mode .senren-btn-browse {
+  background: rgba(255, 255, 255, 0.03);
+  color: #aaa;
+}
+
+.senren-btn-browse:hover {
+  background: var(--light-highlight);
+  color: #fff !important;
+}
+
+.card.nightMode .senren-btn-browse:hover,
+.custom-dark-mode .senren-btn-browse:hover {
+  background: var(--dark-highlight);
+  color: #1e1e1e !important;
+}
+
 /* GRID SYSTEM
 ========================================================================== */
 .senren-grid-wrapper {
@@ -289,7 +340,8 @@
 .senren-panel[data-group="Backdrop Layout"] .senren-grid-wrapper,
 .senren-panel[data-group="Kanji Hover"] .senren-grid-wrapper,
 .senren-panel[data-group="Card Behavior"] .senren-grid-wrapper,
-.senren-panel[data-group="Deck Links"] .senren-grid-wrapper {
+.senren-panel[data-group="Deck Links"] .senren-grid-wrapper,
+.senren-panel[data-group="Picture"] .senren-grid-wrapper {
   grid-template-columns: 1fr;
 }
 
@@ -369,7 +421,8 @@
 .senren-panel[data-group="Backdrop Layout"] .senren-grid-card .senren-row,
 .senren-panel[data-group="Kanji Hover"] .senren-grid-card .senren-row,
 .senren-panel[data-group="Card Behavior"] .senren-grid-card .senren-row,
-.senren-panel[data-group="Deck Links"] .senren-grid-card .senren-row {
+.senren-panel[data-group="Deck Links"] .senren-grid-card .senren-row,
+.senren-panel[data-group="Picture"] .senren-grid-card .senren-row {
   flex-direction: row;
   align-items: center;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
@@ -389,7 +442,9 @@
 .card.nightMode .senren-panel[data-group="Kanji Hover"] .senren-grid-card .senren-row,
 .custom-dark-mode .senren-panel[data-group="Kanji Hover"] .senren-grid-card .senren-row,
 .card.nightMode .senren-panel[data-group="Deck Links"] .senren-grid-card .senren-row,
-.custom-dark-mode .senren-panel[data-group="Deck Links"] .senren-grid-card .senren-row {
+.custom-dark-mode .senren-panel[data-group="Deck Links"] .senren-grid-card .senren-row,
+.card.nightMode .senren-panel[data-group="Picture"] .senren-grid-card .senren-row,
+.custom-dark-mode .senren-panel[data-group="Picture"] .senren-grid-card .senren-row {
   border-bottom-color: rgba(255, 255, 255, 0.05);
 }
 
@@ -400,7 +455,8 @@
 .senren-panel[data-group="Backdrop Layout"] .senren-grid-card .senren-row:last-child,
 .senren-panel[data-group="Kanji Hover"] .senren-grid-card .senren-row:last-child,
 .senren-panel[data-group="Card Behavior"] .senren-grid-card .senren-row:last-child,
-.senren-panel[data-group="Deck Links"] .senren-grid-card .senren-row:last-child {
+.senren-panel[data-group="Deck Links"] .senren-grid-card .senren-row:last-child,
+.senren-panel[data-group="Picture"] .senren-grid-card .senren-row:last-child {
   border-bottom: none;
 }
 
@@ -410,7 +466,8 @@
 .senren-panel[data-group="Typography"] .senren-grid-card .senren-input,
 .senren-panel[data-group="Backdrop Layout"] .senren-grid-card .senren-input,
 .senren-panel[data-group="Kanji Hover"] .senren-grid-card .senren-input,
-.senren-panel[data-group="Card Behavior"] .senren-grid-card .senren-input {
+.senren-panel[data-group="Card Behavior"] .senren-grid-card .senren-input,
+.senren-panel[data-group="Picture"] .senren-grid-card .senren-input {
   width: 160px !important;
   text-align: center;
   padding: 4px;
@@ -422,7 +479,8 @@
 .senren-panel[data-group="Typography"] .senren-grid-card .senren-label-main,
 .senren-panel[data-group="Backdrop Layout"] .senren-grid-card .senren-label-main,
 .senren-panel[data-group="Kanji Hover"] .senren-grid-card .senren-label-main,
-.senren-panel[data-group="Card Behavior"] .senren-grid-card .senren-label-main {
+.senren-panel[data-group="Card Behavior"] .senren-grid-card .senren-label-main,
+.senren-panel[data-group="Picture"] .senren-grid-card .senren-label-main {
   margin-bottom: 0;
 }
 
@@ -1027,14 +1085,17 @@ input:checked+.senren-slider:before {
   color: white;
 }
 
-.senren-menu-divider {
+.senren-menu-divider,
+.senren-menu-spacer {
   height: 1px;
   background: rgba(0, 0, 0, 0.1);
   margin: 4px 6px;
 }
 
 .card.nightMode .senren-menu-divider,
-.custom-dark-mode .senren-menu-divider {
+.custom-dark-mode .senren-menu-divider,
+.card.nightMode .senren-menu-spacer,
+.custom-dark-mode .senren-menu-spacer {
   background: rgba(255, 255, 255, 0.1);
 }
 

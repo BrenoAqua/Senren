@@ -1,4 +1,4 @@
-/* _senren_deferred_v4.7.0.js */
+/* _senren_deferred_v5.0.0.js */
 (function () {
   // Adds hover effects to Jitendex dictionary content 
   function jitendexHover() {
@@ -175,17 +175,21 @@
       }
 
       images[currentImageIndex].style.setProperty('display', 'block', 'important');
+      updatePictureCounter();
+    }
+
+    function refreshImageNavigation() {
+      const arrows = document.querySelectorAll('.nav-arrow');
+      const images = document.querySelectorAll('.picture-container img');
+
+      if (images.length <= 1) {
+        arrows.forEach(arrow => arrow.classList.add('hidden'));
+      } else {
+        arrows.forEach(arrow => arrow.classList.remove('hidden'));
+      }
     }
 
     const arrows = document.querySelectorAll('.nav-arrow');
-    const images = document.querySelectorAll('.picture-container img');
-
-    if (images.length <= 1) {
-      arrows.forEach(arrow => arrow.classList.add('hidden'));
-    } else {
-      arrows.forEach(arrow => arrow.classList.remove('hidden'));
-    }
-
     arrows.forEach(arrow => {
       if (!arrow.dataset.hasClickListener) {
         arrow.addEventListener('click', (event) => {
@@ -195,6 +199,9 @@
         arrow.dataset.hasClickListener = 'true';
       }
     });
+
+    refreshImageNavigation();
+    window.senrenRefreshImageNavigation = refreshImageNavigation;
   }
 
   // Creates lightbox for image viewing

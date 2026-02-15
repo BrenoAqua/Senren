@@ -1,4 +1,4 @@
-/* _senren_kanji_hover_v4.7.0.js */
+/* _senren_kanji_hover_v5.0.0.js */
 (function () {
   if (window.senrenConfig && window.senrenConfig.enableKanjiHover === 'false') {
     return;
@@ -404,7 +404,7 @@
           const wordValue = tempDiv.textContent || tempDiv.innerText || "";
 
           if (wordValue.trim() !== wordText && !uniqueWords.has(wordValue.trim())) {
-            const readingValueFull = fields.reading ? fields.reading.value : '';
+            const readingValueFull = (fields.pitchAccents ? fields.pitchAccents.value : (fields.reading ? fields.reading.value : ''));
             const sentenceValue = fields.sentence ? fields.sentence.value : '';
             let readingHtml = '';
 
@@ -421,8 +421,8 @@
               readingHtml = readingValueFull.split(/[,、・]/)[0].trim();
             }
 
-            const pitchValue = fields.pitch ? fields.pitch.value : '';
-            const pitchPositionValue = fields.pitchPosition ? fields.pitchPosition.value : '';
+            const pitchValue = (fields.pitchCategories ? fields.pitchCategories.value : (fields.pitch ? fields.pitch.value : ''));
+            const pitchPositionValue = (fields.pitchPositions ? fields.pitchPositions.value : (fields.pitchPosition ? fields.pitchPosition.value : ''));
             const tagsValue = fields.Tags ? fields.Tags.value : '';
             const isNewCard = !note.cards.some(cid => cardTypeMap[cid] > 0);
 

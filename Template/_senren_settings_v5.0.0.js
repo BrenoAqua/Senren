@@ -1,4 +1,4 @@
-/* _senren_settings_v4.7.0.js */
+/* _senren_settings_v5.0.0.js */
 (function () {
   const ANKI_CONNECT_URL = "http://127.0.0.1:8765";
   const PRESET_FILENAME = "_senren_presets.js";
@@ -39,7 +39,6 @@
       { type: "header", label: "Back" },
       { label: "Expand Translation", var: "--translation-default-expanded", type: "switch-bool", desc: "Show translation immediately." },
       { label: "Expand Notes", var: "--notes-default-expanded", type: "switch-bool", desc: "Show notes immediately." },
-      { label: "Collect Glossary Images", var: "--collect-glossary-images", type: "switch-bool", desc: "Automatically collect glossary images into the picture container." },
       { label: "No Duplicate Kana", var: "--no-duplicate-kana", type: "switch-bool", desc: "Hide the reading for words written entirely in kana." },
       { label: "Mute Sentence Audio", var: "--mute-sentence-audio", type: "switch-bool", desc: "Disable automatic sentence audio playback." }
     ],
@@ -104,18 +103,6 @@
       { label: "Front Offset", var: "--front-top-offset", type: "text", desc: "Vertical positioning for the front card." },
       { label: "Back Offset", var: "--back-top-offset", type: "text", desc: "Vertical positioning for the back card." },
 
-      { type: "header", label: "UI & Effects" },
-      { label: "Button Size", var: "--button-size", type: "text" },
-      { label: "Max Picture Height", var: "--picture-height", type: "text", desc: "Maximum picture container height." },
-      { label: "Max Picture Height (≤ 624px)", var: "--picture-height-small", type: "text", desc: "Maximum picture container height on small screens." },
-      { label: "Lightbox Nav", var: "--lightbox-nav-width", type: "text" },
-      { label: "External Links Icon", var: "--external-links-icon-size", type: "text" },
-      { label: "Freq List Height", var: "--frequency-max-height", type: "text" },
-
-      { type: "sub-header", label: "Transitions" },
-      { label: "Base", var: "--base-transition", type: "text" },
-      { label: "Fast", var: "--fast-transition", type: "text" },
-
       { type: "header", label: "Spacing Scale" },
       { label: "XS", var: "--spacing-xs", type: "text" },
       { label: "SM", var: "--spacing-sm", type: "text" },
@@ -125,7 +112,17 @@
       { label: "XL", var: "--spacing-xl", type: "text" },
       { label: "XXL", var: "--spacing-xxl", type: "text" },
       { label: "XXXL", var: "--spacing-xxxl", type: "text" },
-      { label: "Base Padding", var: "--base-padding", type: "text", desc: "Padding inside the main card container." }
+      { label: "Base Padding", var: "--base-padding", type: "text", desc: "Padding inside the main card container." },
+
+      { type: "header", label: "UI & Effects" },
+      { label: "Button Size", var: "--button-size", type: "text" },
+      { label: "Lightbox Nav", var: "--lightbox-nav-width", type: "text" },
+      { label: "External Links Icon", var: "--external-links-icon-size", type: "text" },
+      { label: "Freq List Height", var: "--frequency-max-height", type: "text" },
+
+      { type: "sub-header", label: "Transitions" },
+      { label: "Base", var: "--base-transition", type: "text" },
+      { label: "Fast", var: "--fast-transition", type: "text" }
     ],
     "Dictionary": [
       { type: "header", label: "General" },
@@ -238,6 +235,22 @@
       { label: "Word BG Word Offset (≤ 1050px)", var: "--bd-word-bg-front-offset-1050", type: "text", desc: "Front word offset for Word BG mode at 1050px max width.", mobileHidden: true },
       { label: "Card BG Word Offset (≤ 1050px)", var: "--bd-card-bg-front-offset-1050", type: "text", desc: "Front word offset for Card BG mode at 1050px max width." },
       { label: "Word BG Word Offset (Mobile)", var: "--bd-word-bg-front-offset-mobile", type: "text", desc: "Front word offset for Word BG mode on mobile devices." }
+    ],
+    "Picture": [
+      { type: "header", label: "General" },
+      { label: "Collect Glossary Images", var: "--collect-glossary-images", type: "switch-bool", desc: "Automatically collect glossary images into the picture container." },
+      { type: "header", label: "Picture Counter" },
+      { label: "Visibility", var: "--picture-counter-visibility", type: "segment", options: [
+        { val: "1", label: "Always" }, 
+        { val: "2", label: "Hover" }, 
+        { val: "0", label: "Hidden" }
+      ], desc: "Show always if more than one image exists, only on hover, or never." },
+      { label: "Font Size", var: "--picture-counter-size", type: "slider", min: "0.3", max: "1.2", step: "0.05", unit: "rem", desc: "Adjust the counter's font size." },
+      { label: "Background Opacity", var: "--picture-counter-bg-opacity", type: "slider", min: "0", max: "1", step: "0.1", desc: "Opacity of the background box." },
+      { label: "Shadow Intensity", var: "--picture-counter-shadow-intensity", type: "slider", min: "0", max: "1", step: "0.1", desc: "Adjust the shadow intensity." },
+      { type: "header", label: "Dimensions" },
+      { label: "Max Picture Height", var: "--picture-height", type: "text", desc: "Maximum picture container height." },
+      { label: "Max Picture Height (≤ 624px)", var: "--picture-height-small", type: "text", desc: "Maximum picture container height on small screens." }
     ],
     "Misc Info": [
       { label: "Expand Misc Info", var: "--misc-info-default-expanded", type: "switch-bool", desc: "Show misc info immediately." },
@@ -446,7 +459,7 @@
     link.id = 'senren-styles-injected';
     link.rel = 'stylesheet';
     link.type = 'text/css';
-    link.href = '_senren_settings_v4.7.0.css';
+    link.href = '_senren_settings_v5.0.0.css';
 
     link.onload = function () {
       const temp = document.getElementById('senren-anti-flash');
@@ -1136,6 +1149,65 @@
     }
   };
 
+  window.senrenExportTheme = async function () {
+    const themeSettings = {};
+    const themeVars = groups["Theme"].map(i => i.var);
+    const current = getCurrentSettings();
+
+    themeVars.forEach(v => {
+      if (current[v] !== undefined) themeSettings[v] = current[v];
+    });
+
+    if (current["user-custom-css"]) {
+      themeSettings["user-custom-css"] = current["user-custom-css"];
+    }
+
+    const jsonStr = JSON.stringify(themeSettings, null, 2);
+
+    try {
+      const handle = await window.showSaveFilePicker({
+        suggestedName: 'senren_theme.json',
+        types: [{
+          description: 'JSON File',
+          accept: { 'application/json': ['.json'] },
+        }],
+      });
+      const writable = await handle.createWritable();
+      await writable.write(jsonStr);
+      await writable.close();
+    } catch (err) {
+      if (err.name !== 'AbortError') {
+        alert("Error saving theme: " + err.message);
+      }
+    }
+  };
+
+  window.senrenImportTheme = function () {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.json';
+
+    input.onchange = e => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = readerEvent => {
+        try {
+          const content = readerEvent.target.result;
+          const themeSettings = JSON.parse(content);
+          applyPreset(themeSettings);
+          alert("Theme imported and applied successfully.");
+        } catch (err) {
+          alert("Error importing theme: Invalid JSON file.");
+        }
+      };
+      reader.readAsText(file, 'UTF-8');
+    };
+
+    input.click();
+  };
+
   // UI LOGIC
   // =========================================================================
   function triggerUpdates() {
@@ -1268,7 +1340,18 @@
         });
       }
 
-      contentHtml += `<div id="${panelId}" data-group="${groupName}" class="senren-panel ${isActive}"><h3>${groupName}</h3>${rowsHtml}</div>`;
+      let panelHeader = `<h3>${groupName}</h3>`;
+      if (groupName === 'Theme') {
+        panelHeader = `
+          <div class="senren-panel-header">
+            <h3>${groupName}</h3>
+            <a href="https://github.com/BrenoAqua/Senren/tree/main/themes" target="_blank" class="senren-btn-browse">
+              <i class="fab fa-github"></i> Browse Themes
+            </a>
+          </div>`;
+      }
+
+      contentHtml += `<div id="${panelId}" data-group="${groupName}" class="senren-panel ${isActive}">${panelHeader}${rowsHtml}</div>`;
       groupIndex++;
     }
 
@@ -1318,6 +1401,10 @@
                         <div id="senren-preset-menu" class="senren-popup-menu">
                             <div class="senren-menu-item" onclick="window.senrenAddPreset()">Add Preset</div>
                             <div class="senren-menu-item" onclick="window.senrenRenamePreset()">Rename Preset</div>
+                            <div class="senren-menu-spacer"></div>
+                            <div class="senren-menu-item" onclick="window.senrenExportTheme()">Share Theme</div>
+                            <div class="senren-menu-item" onclick="window.senrenImportTheme()">Import Theme</div>
+                            <div class="senren-menu-spacer"></div>
                             <div class="senren-menu-item danger" onclick="window.senrenRemovePreset()">Remove Preset</div>
                         </div>
                     </div>
@@ -1627,8 +1714,8 @@
     statusBtn.disabled = true;
 
     try {
-      const response = await fetch('_senren_defaults_v4.7.0.css');
-      if (!response.ok) throw new Error("File '_senren_defaults_v4.7.0.css' not found in media folder.");
+      const response = await fetch('_senren_defaults_v5.0.0.css');
+      if (!response.ok) throw new Error("File '_senren_defaults_v5.0.0.css' not found in media folder.");
       const defaultsCss = await response.text();
 
       const cardInfo = await invokeAnkiConnect('guiCurrentCard');
