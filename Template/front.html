@@ -96,7 +96,7 @@
 <!-- /FRONT -->
 
 <!-- Hidden field to let JS calculate audio delay based on reading length -->
-<div id="hiddenReading" style="display: none !important;">{{reading}}</div>
+<div id="hiddenReading" style="display: none;">{{#pitchAccents}}{{pitchAccents}}{{/pitchAccents}}{{^pitchAccents}}{{reading}}{{/pitchAccents}}</div>
 
 <script>
   var senrenConfig = {};
@@ -353,17 +353,18 @@
     let initialPlayTimeout;
     let replayTimeout;
 
+    const isPartEmptyGroup = (part) => {
+      if (!part || part.tagName !== 'SPAN') return false;
+      const isGroup = part.className.split(/\s+/).some(c => /^group\d*$/.test(c));
+      return isGroup && part.textContent.trim().length === 0;
+    };
+
     const textContainers = [ELS.sentence, ELS.sentenceAudio].filter(Boolean);
 
     const audioWrapper = ELS.sentenceAudioContainer;
-    let audioParts = [];
-    if (audioWrapper) {
-      audioParts = Array.from(audioWrapper.children).filter(el => {
-        return el.classList.contains('soundLink') ||
-          el.classList.contains('replay-button') ||
-          el.tagName === 'AUDIO';
-      });
-    }
+    let audioParts = audioWrapper
+      ? Array.from(audioWrapper.children).filter(el => el.tagName !== 'BR')
+      : [];
 
     let hasSplitText = false;
     let textSlideCount = 0;
@@ -442,20 +443,20 @@
       const targetEl = readingEl.querySelector('li') || readingEl;
       let rawText = targetEl.textContent || "";
 
-      let cleanedText = rawText.replace(REGEX.KANA_MODIFIERS, '');
+      const kanaModifiers = window.REGEX?.KANA_MODIFIERS || /[\s\u3099\u309A\u309B\u309C]/g;
+      const narrowVowels = window.REGEX?.NARROW_VOWELS || /[いきしちにひみりぎじぢびぴイキシチニヒミリギジヂビピうくすつぬふむるぐずづぶぷウクスツヌフムルグズヅブプ]/g;
 
+      let cleanedText = rawText.replace(kanaModifiers, '');
       cleanedText = cleanedText.replace(/[ぁぃぅぇぉゃゅょゎァィゥェォャュョヮ]/g, '');
 
       let effectiveCount = cleanedText.length;
-
-      const narrowMatches = cleanedText.match(REGEX.NARROW_VOWELS);
+      const narrowMatches = cleanedText.match(narrowVowels);
 
       if (narrowMatches) {
         effectiveCount -= (narrowMatches.length * 0.3);
       }
 
       charCount = Math.round(effectiveCount);
-
       if (charCount < 1) charCount = 1;
     }
 
@@ -499,8 +500,11 @@
           wordAudioBtn.click();
         }
 
+        const currentPart = (audioParts.length === 1) ? audioParts[0] : audioParts[currentIndex];
+        const isEmpty = isPartEmptyGroup(currentPart);
+
         const replayLoadOffset = 200;
-        const delay = wordAudioBtn ? (SENTENCE_DELAY + replayLoadOffset) : 0;
+        const delay = (wordAudioBtn && !isEmpty) ? (SENTENCE_DELAY + replayLoadOffset) : 0;
 
         replayTimeout = setTimeout(() => {
           updateDisplay(true);
@@ -572,10 +576,17 @@
 
     const muteNsfw = senrenConfig.muteNsfwAudio;
 
-    if (muteNsfw !== 'true') {
-      initialPlayTimeout = setTimeout(() => {
+    if (muteNsfw !== 'true' || !window.IS_NSFW) {
+      if (isPartEmptyGroup(audioParts[0])) {
+        if (senrenConfig.muteSentenceAudio !== 'true' && ELS.wordAudioBtn) {
+          ELS.wordAudioBtn.click();
+        }
         updateDisplay(true);
-      }, SENTENCE_DELAY);
+      } else {
+        initialPlayTimeout = setTimeout(() => {
+          updateDisplay(true);
+        }, SENTENCE_DELAY);
+      }
     }
   }
 
@@ -660,7 +671,7 @@
       wordAudioBtn.click();
     }
   }
-  
+
   // Adjusts word size based on character length
   function dynamicWordSize() {
     const wordElements = ELS.words;
@@ -692,6 +703,9 @@
         NARROW_VOWELS: /[いきしちにひみりぎじぢびぴイキシチニヒミリギジヂビピうくすつぬふむるぐずづぶぷウクスツヌフムルグズヅブプ]/g
       };
 
+      // NSFW Cache
+      window.IS_NSFW = `{{Tags}}`.toLowerCase().includes('nsfw');
+
       // DOM Cache
       window.ELS = {
         word: document.getElementById('word'),
@@ -706,6 +720,7 @@
         front: document.querySelector('.front'),
         hintWrapper: document.getElementById('hint-wrapper'),
         hintContent: document.getElementById('hint-content'),
+        wordAudioBtn: document.querySelector('.audio .soundLink, .audio .replaybutton')
       };
 
       const style = getComputedStyle(document.documentElement);
@@ -762,7 +777,7 @@
                 window.senrenBuildMenu();
               } else {
                 const script = document.createElement('script');
-                script.src = "_senren_settings_v4.7.0.js";
+                script.src = "_senren_settings_v5.0.0.js";
                 document.body.appendChild(script);
               }
             }, 50);
@@ -775,9 +790,8 @@
     initDeferred();
   })();
 
-  void "_senren_settings_v4.7.0.css";
-  void "_senren_defaults_v4.7.0.css";
+  void "_senren_settings_v5.0.0.css";
+  void "_senren_defaults_v5.0.0.css";
   void "_senren_deck_presets.js";
   void "_senren_presets.js";
 </script>
-
