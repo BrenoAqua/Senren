@@ -9,10 +9,10 @@ In JL Preferencces -> Anki:
 | Field | Selected Value |
 | :--- | :--- |
 | **word** | Primary Spelling |
+| **reading** | Readings |
 | **sentence** | Sentence |
 | **sentenceFurigana** | Nothing |
-| **sentenceEng** | Nothing |
-| **reading** | Readings |
+| **sentenceTranslation** | Nothing |
 | **sentenceCard** | Nothing |
 | **audioCard** | Nothing |
 | **notes** | Nothing |
@@ -22,9 +22,10 @@ In JL Preferencces -> Anki:
 | **sentenceAudio** | Nothing |
 | **picture** | Image (Clipboard) |
 | **glossary** | Nothing |
-| **pitchPosition** | Pitch Accents (Numeric) |
-| **pitch** | Nothing |
-| **frequency** | Frequencies |
+| **pitchAccents** | Nothing |
+| **pitchPositions** | Pitch Accents (Numeric) |
+| **pitchCategories** | Nothing |
+| **frequencies** | Frequencies |
 | **freqSort** | Frequency (Harmonic Mean) |
 | **miscInfo** | Nothing |
 | **dictionaryPreference** | Nothing |
