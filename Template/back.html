@@ -44,11 +44,11 @@
         <label class="freqbt" data-freq="{{freqSort}}">
           {{freqSort}} <i class="fas fa-chevron-down arrow"></i>
         </label>
-        {{#frequency}}
+        {{#frequencies}}
         <div class="frequency-content">
-          {{frequency}}
+          {{frequencies}}
         </div>
-        {{/frequency}}
+        {{/frequencies}}
       </div>
     </div>
   </div>
@@ -60,12 +60,13 @@
     <!-- Word -->
     <div class="background-box tappable">
       <div id="word" class="pitch card-a">
-        <span class="{{pitch}} {{Tags}}">
-          <ruby>{{word}}<rt>{{reading}}</rt></ruby>
-          <div id="position">{{pitchPosition}}</div>
-          <div id="categories" class="tappable">{{pitch}}</div>
+        <span class="{{pitchCategories}} {{Tags}}">
+          <ruby>{{word}}<rt>{{#pitchAccents}}{{pitchAccents}}{{/pitchAccents}}{{^pitchAccents}}{{reading}}{{/pitchAccents}}</rt></ruby>
+          <div id="position">{{pitchPositions}}</div>
+          <div id="categories" class="tappable">{{pitchCategories}}</div>
         </span>
       </div>
+      <div class="scene-indicator"><i class="fas fa-clone"></i></div>
     </div>
 
     <!-- Picture -->
@@ -78,6 +79,7 @@
 
       <div class="nav-arrow left tappable"></div>
       <div class="nav-arrow right tappable"></div>
+      <div class="picture-counter"></div>
     </div>
   </div>
   <!-- /GRID LAYOUT -->
@@ -94,11 +96,12 @@
   <!-- Sentence -->
   <div class="sentence-container">
     <div id="sentence">
-      <span id="formattedSentence" class="{{pitch}} tappable"></span>
+      <span id="formattedSentence" class="{{pitchCategories}} tappable"></span>
     </div>
     <div id="sentenceEng" class="is-collapsed">
-      {{sentenceEng}}
+      {{sentenceTranslation}}
     </div>
+    <div class="picture-counter"></div>
   </div>
 
   <!-- Notes -->
@@ -193,6 +196,9 @@
   <div id="kanji-tooltip"></div>
 </div>
 <!-- /BACK -->
+
+<!-- Hidden field to let JS calculate audio delay based on reading length -->
+<div id="hiddenReading" style="display: none;">{{#pitchAccents}}{{pitchAccents}}{{/pitchAccents}}{{^pitchAccents}}{{reading}}{{/pitchAccents}}</div>
 
 <script>
   var senrenConfig = {};
@@ -306,6 +312,9 @@
 
     if (addedCount > 0) {
       pictureContainer.appendChild(fragment);
+      if (window.senrenRefreshImageNavigation) {
+        window.senrenRefreshImageNavigation();
+      }
     }
   }
 
@@ -319,6 +328,7 @@
     ...document.querySelectorAll("#glossary > .glossary-box > span > div li[data-dictionary], #glossary > div > span > div > i"),
     ...document.querySelectorAll('#glossary div[style*="margin-bottom: 12px"][style*="display: flex"]') 
     ];
+
     const dictionaryPreference = document.getElementById('dictionaryPreference')?.textContent.trim() || '';
 
     function updateBackgroundColor(element) {
@@ -1585,28 +1595,27 @@
     const baseWaitTime = 100;
     const timePerChar = 150;
 
-    const wordEl = ELS.word;
+    const readingEl = ELS.hiddenReading;
     let charCount = 5;
 
-    if (wordEl) {
-      const rt = wordEl.querySelector('rt');
-      const targetElement = (rt && rt.querySelector('li')) ? rt.querySelector('li') : (rt || wordEl);
+    if (readingEl) {
+      const targetEl = readingEl.querySelector('li') || readingEl;
+      let rawText = targetEl.textContent || "";
 
-      let rawText = targetElement.textContent;
-      let cleanedText = rawText.replace(REGEX.KANA_MODIFIERS, '');
+      const kanaModifiers = window.REGEX?.KANA_MODIFIERS || /[\s\u3099\u309A\u309B\u309C]/g;
+      const narrowVowels = window.REGEX?.NARROW_VOWELS || /[いきしちにひみりぎじぢびぴイキシチニヒミリギジヂビピうくすつぬふむるぐずづぶぷウクスツヌフムルグズヅブプ]/g;
 
+      let cleanedText = rawText.replace(kanaModifiers, '');
       cleanedText = cleanedText.replace(/[ぁぃぅぇぉゃゅょゎァィゥェォャュョヮ]/g, '');
 
       let effectiveCount = cleanedText.length;
-
-      const narrowMatches = cleanedText.match(REGEX.NARROW_VOWELS);
+      const narrowMatches = cleanedText.match(narrowVowels);
 
       if (narrowMatches) {
         effectiveCount -= (narrowMatches.length * 0.3);
       }
 
       charCount = Math.round(effectiveCount);
-
       if (charCount < 1) charCount = 1;
     }
 
@@ -1741,6 +1750,12 @@
 
     let currentIndex = 0;
 
+    const isPartEmptyGroup = (part) => {
+      if (!part || part.tagName !== 'SPAN') return false;
+      const isGroup = part.className.split(/\s+/).some(c => /^group\d*$/.test(c));
+      return isGroup && part.textContent.trim().length === 0;
+    };
+
     function playActiveAudio() {
       if (senrenConfig.muteSentenceAudio === 'true') return;
       if (audioParts.length === 0) return;
@@ -1786,8 +1801,11 @@
           wordAudioBtn.click();
         }
 
+        const currentPart = (audioParts.length === 1) ? audioParts[0] : audioParts[currentIndex];
+        const isEmpty = isPartEmptyGroup(currentPart);
+
         const replayLoadOffset = 200;
-        const delay = wordAudioBtn ? (SENTENCE_DELAY + replayLoadOffset) : 0;
+        const delay = (wordAudioBtn && !isEmpty) ? (SENTENCE_DELAY + replayLoadOffset) : 0;
 
         replayTimeout = setTimeout(() => {
           updateDisplay(true);
@@ -1814,6 +1832,8 @@
           updateDisplay(true);
         }
       }
+      updatePictureCounter();
+      updateSceneIndicator();
     };
 
     window.currentSceneKeyHandler = handleSceneShortcuts;
@@ -1923,6 +1943,9 @@
       if (shouldPlayAudio) {
         playActiveAudio();
       }
+
+      updatePictureCounter();
+      updateSceneIndicator();
     }
 
     newArrows.forEach(arrow => {
@@ -1949,14 +1972,29 @@
     });
 
     window.senrenRefreshScenes = () => updateDisplay(false);
+
+    function updateSceneIndicator() {
+      const indicator = ELS.sceneIndicator;
+      if (!indicator) return;
+
+      indicator.style.display = (totalSlides > 1) ? 'block' : 'none';
+    }
+
     updateDisplay(false);
 
     const muteNsfw = senrenConfig.muteNsfwAudio;
 
     if (muteNsfw !== 'true' || !window.IS_NSFW) {
-      initialPlayTimeout = setTimeout(() => {
-        playActiveAudio();
-      }, SENTENCE_DELAY);
+      if (isPartEmptyGroup(audioParts[0])) {
+        if (senrenConfig.muteSentenceAudio !== 'true' && ELS.wordAudioBtn) {
+          ELS.wordAudioBtn.click();
+        }
+        updateDisplay(true);
+      } else {
+        initialPlayTimeout = setTimeout(() => {
+          updateDisplay(true);
+        }, SENTENCE_DELAY);
+      }
     }
   }
 
@@ -2052,6 +2090,30 @@
     }
   }
 
+  function updatePictureCounter() {
+    const images = document.querySelectorAll('.picture-container img');
+    const counters = document.querySelectorAll('.picture-counter');
+    if (counters.length === 0) return;
+
+    if (images.length <= 1) {
+      counters.forEach(counter => {
+        counter.textContent = '';
+        counter.style.display = 'none';
+      });
+      return;
+    }
+
+    const visibleIndex = Array.from(images).findIndex(img => {
+      return window.getComputedStyle(img).display !== 'none';
+    });
+
+    const actualIndex = visibleIndex !== -1 ? visibleIndex : 0;
+    counters.forEach(counter => {
+      counter.textContent = `${actualIndex + 1} / ${images.length}`;
+      counter.style.display = 'block';
+    });
+  }
+
   (function () {
     window.senrenUpdateConfig = function (runLogic = false) {
       // Regex Cache
@@ -2085,8 +2147,10 @@
         pictureContainer: document.querySelector('.picture-container'),
         tagsContainer: document.querySelector('.tags-container'),
         audioContainer: document.querySelector('.sentenceaudio'),
+        hiddenReading: document.getElementById('hiddenReading'),
         position: document.getElementById('position'),
-        wordAudioBtn: document.querySelector('.audio .soundLink, .audio .replaybutton')
+        wordAudioBtn: document.querySelector('.audio .soundLink, .audio .replaybutton'),
+        sceneIndicator: document.querySelector('.scene-indicator')
       };
 
       const style = getComputedStyle(document.documentElement);
@@ -2136,6 +2200,9 @@
       senrenConfig.pitchColors = getVar('--pitch-colors');
       senrenConfig.sentencePitchHighlight = getVar('--sentence-pitch-highlight');
 
+      // Picture Counter
+      senrenConfig.pictureCounterVisibility = getVar('--picture-counter-visibility');
+
       if (!runLogic) return;
 
       if (typeof window.dynamicCardHeight === 'function') {
@@ -2143,6 +2210,9 @@
       }
       if (typeof window.alternativePitchStyle === 'function') {
         window.alternativePitchStyle();
+      }
+      if (typeof window.updatePictureCounter === 'function') {
+        window.updatePictureCounter();
       }
     };
 
@@ -2174,6 +2244,7 @@
       enableInteractions();
       enableSceneSwitching();
       enableImageToggle();
+      updatePictureCounter();
 
       if (!window.IS_MOBILE) {
         dynamicCardHeight();
@@ -2193,7 +2264,7 @@
                 window.senrenInitDeferred();
               } else {
                 const script = document.createElement('script');
-                script.src = "_senren_deferred_v4.7.0.js";
+                script.src = "_senren_deferred_v5.0.0.js";
                 document.body.appendChild(script);
               }
 
@@ -2203,7 +2274,7 @@
                   window.senrenInitKanjiHover();
                 } else {
                   const script = document.createElement('script');
-                  script.src = "_senren_kanji_hover_v4.7.0.js";
+                  script.src = "_senren_kanji_hover_v5.0.0.js";
                   document.body.appendChild(script);
                 }
               }
@@ -2213,7 +2284,7 @@
                 window.senrenBuildMenu();
               } else {
                 const script = document.createElement('script');
-                script.src = "_senren_settings_v4.7.0.js";
+                script.src = "_senren_settings_v5.0.0.js";
                 document.body.appendChild(script);
               }
             }, 50);
