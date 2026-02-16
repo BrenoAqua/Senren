@@ -17,7 +17,6 @@
       { label: "Frequency", var: "--freq-visibility", type: "switch-int", desc: "Show the frequency rank indicator.", mobileHidden: true },
       { label: "Tags", var: "--tag-visibility", type: "switch-int", desc: "Show tags in the bottom-left area of the card footer." },
       { label: "External Links", var: "--external-links-visibility", type: "switch-int", desc: "Show icons for external links such as Jisho, JPDB, Immersion Kit, etc." },
-      { label: "Pitch Position", var: "--pitch-position-visibility", type: "switch-int", desc: "Show pitch downstep position." },
 
       { type: "header", label: "Smaller Screens (≤ 1050px)" },
       { label: "Settings Toggle", var: "--settings-visibility-header", type: "switch-int", desc: "Show the gear icon in the header to open the settings." },
@@ -130,6 +129,7 @@
       { label: "Max Height", var: "--dictionary-max-height", type: "text", desc: "Maximum height before entries collapse." },
       { label: "Show Definition Titles", var: "--definition-title-visibility", type: "switch-int", desc: "Show dictionary titles (e.g., 'Jitendex', '大辞泉') in the definition box." },
       { label: "Show Glossary Titles", var: "--glossary-title-visibility", type: "switch-int", desc: "Show dictionary titles (e.g., 'Jitendex', '大辞泉') in the glossary box." },
+      { label: "Dictionary Counter", var: "--dictionary-counter-visibility", type: "segment", options: [{ val: "1", label: "Always" }, { val: "0", label: "Toggle" }], desc: "Show always or only after toggling." },
 
       { type: "header", label: "Colorizer" },
       { label: "Enable Colorizer", var: "--dictionary-colorizer", type: "switch-int", desc: "Automatically applies a unique color to each dictionary entry." },
@@ -151,6 +151,7 @@
     "Pitch Accent": [
       { type: "header", label: "Word" },
       { label: "Pitch Style", var: "--pitch-style", type: "segment", options: [{ val: "default", label: "Default" }, { val: "alt", label: "Alt" }], desc: "Determines whether only the pitch downstep or the entire word is colored according to its pitch pattern." },
+      { label: "Pitch Position", var: "--pitch-position-visibility", type: "switch-int", desc: "Show pitch downstep position." },
       { label: "Pitch Colors", var: "--pitch-colors", type: "switch-bool", desc: "Enables pitch downstep coloring." },
       { label: "Sentence Highlight", var: "--sentence-pitch-highlight", type: "switch-bool", desc: "Highlights the target word in the sentence using pitch colors." },
       { label: "Kana-Only Pitch Size", var: "--only-kana-pitch-size", type: "text", desc: "Border thickness for kana-only words." }
