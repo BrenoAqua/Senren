@@ -56,7 +56,6 @@
   --glossary-title-visibility:        1; /* Dict title in the glossary box */
   --tag-visibility:                   1; /* Tags */
   --external-links-visibility:        1; /* External links */
-  --pitch-position-visibility:        1; /* Pitch downstep position */
   --misc-info-bg-visibility:          1; /* Misc info background */
 
   /* Header/Mobile Visibility (≤ 1050px) */
@@ -149,6 +148,7 @@
   /* PITCH ACCENT SETTINGS
   ============================================ */
   --pitch-style:                      default; /* "alt" to color the entire word + reading instead of only the downstep */
+  --pitch-position-visibility:        1;       /* Pitch downstep position */
   --pitch-colors:                     true;    /* "false" to disable pitch downstep coloring */
   --sentence-pitch-highlight:         false;   /* "true" to make pitch colors overwrite sentence highlights */
   --only-kana-pitch-size:             0.08em;  /* Border thickness for kana-only words */
