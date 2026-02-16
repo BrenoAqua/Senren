@@ -5,21 +5,27 @@ Use Yomipv to create cards without leaving MPV or breaking immersion.
 ![type:video](assets/yomipv_demo.mp4)
 
 1. **Clone the repository** to your MPV directory and install dependencies:
-   - Windows: `%APPDATA%/mpv/`
-     ```
-     git clone https://github.com/BrenoAqua/Yomipv && xcopy /e /i /y Yomipv . && rd /s /q Yomipv && cd scripts\yomipv\lookup-app && npm install
-     ```
-   
-   - Linux: `~/.config/mpv/`
-     ```
-     git clone https://github.com/BrenoAqua/Yomipv && cp -rn Yomipv/* . && rm -rf Yomipv && cd scripts/yomipv/lookup-app && npm install
-     ```
-3. **Configure Settings**:
-   - Open `script-opts/yomipv.conf` and update your Anki deck/note type names and field mappings (usually not necessary, as everything is preconfigured for Senren).
 
-4. **External Services**:
-   - Ensure Anki is running with AnkiConnect enabled.
-   - Ensure Yomitan Api is running and the browser where the Yomitan extension is installed is open, and you have dictionaries installed.
+    - **Windows:** `%APPDATA%/mpv/`
+
+        ```
+        git clone https://github.com/BrenoAqua/Yomipv && xcopy /e /i /y Yomipv . && rd /s /q Yomipv && cd scripts\yomipv\lookup-app && npm install
+        ```
+
+    - **Linux:** `~/.config/mpv/`
+
+        ```
+        git clone https://github.com/BrenoAqua/Yomipv && cp -rn Yomipv/* . && rm -rf Yomipv && cd scripts/yomipv/lookup-app && npm install
+        ```
+
+2. **Configure Settings**
+
+    - Open `script-opts/yomipv.conf` and update your Anki deck/note type names and field mappings (usually not necessary, as everything is preconfigured for Senren).
+
+3. **External Services**
+
+    - Ensure Anki is running with AnkiConnect enabled.
+    - Ensure Yomitan API is running and the browser with the Yomitan extension is open and has dictionaries installed.
 
 ## Requirements
 
