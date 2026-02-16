@@ -128,6 +128,9 @@
   --light-dict-color:                 rgba(0, 0, 0, 0.4);
   --dict-color-dark:                  rgba(255, 255, 255, 0.4);
 
+  /* Dictionary Counter */
+  --dictionary-counter-visibility:    1;       /* "1" to always, "0" to show after toggle */
+
   /* Collapse Settings */
   --dictionary-collapse:              0;       /* "1" to enable */
   --dictionary-max-height:            390px;   /* Max height before collapse */
@@ -2165,6 +2168,14 @@ span[style*="display:inline"]:has(+ span[style*="border:1.5px dotted #c83c28"]) 
 }
 
 /* Dictionary Counter */
+@container style(--dictionary-counter-visibility: 1) {
+  #selectionText.show .dictionary-counter,
+  #definition.show .dictionary-counter,
+  #glossary.show .dictionary-counter {
+    opacity: 1;
+  }
+}
+
 .dictionary-counter {
   position: absolute;
   display: var(--dict-display);
