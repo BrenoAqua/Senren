@@ -61,4 +61,8 @@ Use Yomipv to create cards without leaving MPV or breaking immersion.
 - **History Panel (`a`)**: Toggle subtitle history panel
   - Click on previous/next lines to select them to expand the subtitle lines (when selector is open) or seek to that timestamp (when selector is closed).
 
-There are demos for all features [here](https://github.com/BrenoAqua/Yomipv/tree/main/features).
+=== "Subtitle Expansion"
+    ![type:video](assets/yomipv_expand_subtitle.mp4) }
+
+=== "Word Selection Split and Expansion"
+    ![type:video](assets/yomipv_split_and_expand_selection.mp4) }
