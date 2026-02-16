@@ -15,7 +15,7 @@ Use Yomipv to create cards without leaving mpv and losing immersion.
      git clone https://github.com/BrenoAqua/Yomipv && cp -rn Yomipv/* . && rm -rf Yomipv && cd scripts/yomipv/lookup-app && npm install
      ```
 3. **Configure Settings**:
-   - Open `script-opts/yomipv.conf` and update your Anki deck/note type names and field mappings.
+   - Open `script-opts/yomipv.conf` and update your Anki deck/note type names and field mappings (usually not necessary, as everything is preconfigured for Senren).
 
 4. **External Services**:
    - Ensure Anki is running with AnkiConnect enabled.
