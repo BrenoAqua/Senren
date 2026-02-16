@@ -1,6 +1,6 @@
 # Setting Up Yomipv
 
-Use Yomipv to create cards without leaving mpv and losing immersion.
+Use Yomipv to create cards without leaving MPV or breaking immersion.
 
 ![type:video](assets/yomipv_demo.mp4)
 
