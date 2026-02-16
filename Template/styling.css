@@ -2156,7 +2156,7 @@ span[style*="display:inline"]:has(+ span[style*="border:1.5px dotted #c83c28"]) 
 /* Show if > 1 image AND visibility is set to 1 (Always) */
 @container style(--picture-counter-visibility: 1) {
   .picture-container:has(img:nth-of-type(2)) .picture-counter {
-    opacity: 1;
+    opacity: 1 !important;
   }
 }
 
@@ -5528,7 +5528,7 @@ li.is-new-card:not(:hover) .related-word {
     /* Show if > 1 image AND visibility is set to 1 (Always) */
     @container style(--picture-counter-visibility: 1) {
       .card:has(.picture-container img:nth-of-type(2)) .sentence-container .picture-counter {
-        opacity: 1;
+        opacity: 1 !important;
       }
     }
 
