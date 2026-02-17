@@ -242,10 +242,11 @@
       { label: "Collect Glossary Images", var: "--collect-glossary-images", type: "switch-bool", desc: "Automatically collect glossary images into the picture container." },
       { type: "header", label: "Picture Counter" },
       { label: "Visibility", var: "--picture-counter-visibility", type: "segment", options: [
-        { val: "1", label: "Always" }, 
-        { val: "2", label: "Hover" }, 
+        { val: "1", label: "Always" },
+        { val: "3", label: "More than 1" },
+        { val: "2", label: "Hover" },
         { val: "0", label: "Hidden" }
-      ], desc: "Show always if more than one image exists, only on hover, or never." },
+      ], desc: "Show always, only when there are multiple images, only on hover, or never." },
       { label: "Font Size", var: "--picture-counter-size", type: "slider", min: "0.3", max: "1.2", step: "0.05", unit: "rem", desc: "Adjust the counter's font size." },
       { label: "Background Opacity", var: "--picture-counter-bg-opacity", type: "slider", min: "0", max: "1", step: "0.1", desc: "Opacity of the background box." },
       { label: "Shadow Intensity", var: "--picture-counter-shadow-intensity", type: "slider", min: "0", max: "1", step: "0.1", desc: "Adjust the shadow intensity." },
