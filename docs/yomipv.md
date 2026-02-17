@@ -4,7 +4,16 @@ Use Yomipv to create cards without leaving MPV or breaking immersion.
 
 ![type:video](assets/yomipv_demo.mp4)
 
-1. **Clone the repository** to your MPV directory and install dependencies:
+## Requirements
+
+- **[MPV](https://mpv.io/)** (0.33.0 or higher)
+- **[FFmpeg](https://ffmpeg.org/)** (Required for media extraction, but fallbacks to mpv's internal encoder if not found)
+- **[Anki](https://apps.ankiweb.net/)** with **[AnkiConnect](https://ankiweb.net/shared/info/2055492159)**
+- **[Yomitan](https://yomitan.wiki/)** and **[Yomitan Api](https://github.com/yomidevs/yomitan-api)**
+- **[Node.js](https://nodejs.org/)** (Required for the lookup app)
+- **curl** (Usually pre-installed on Windows, used for API requests)
+
+1. **Clone the repository** to your MPV directory and install dependencies **(make sure you have Node.js installed)**:
 
     - **Windows:** `%APPDATA%/mpv/`
 
@@ -26,15 +35,6 @@ Use Yomipv to create cards without leaving MPV or breaking immersion.
 
     - Ensure Anki is running with AnkiConnect enabled.
     - Ensure Yomitan API is running and the browser with the Yomitan extension is open and has dictionaries installed.
-
-## Requirements
-
-- **[MPV](https://mpv.io/)** (0.33.0 or higher)
-- **[FFmpeg](https://ffmpeg.org/)** (Required for media extraction, but fallbacks to mpv's internal encoder if not found)
-- **[Anki](https://apps.ankiweb.net/)** with **[AnkiConnect](https://ankiweb.net/shared/info/2055492159)**
-- **[Yomitan](https://yomitan.wiki/)** and **[Yomitan Api](https://github.com/yomidevs/yomitan-api)**
-- **[Node.js](https://nodejs.org/)** (Required for the lookup app)
-- **curl** (Usually pre-installed on Windows, used for API requests)
 
 ## Usage
 
