@@ -2090,17 +2090,27 @@
     }
   }
 
+  // Updates the picture counter
   function updatePictureCounter() {
     const images = document.querySelectorAll('.picture-container img');
     const counters = document.querySelectorAll('.picture-counter');
+    const back = document.querySelector('.back');
+    const visibility = senrenConfig.pictureCounterVisibility;
+
     if (counters.length === 0) return;
 
-    if (images.length <= 1) {
+    if (images.length === 0 || (images.length === 1 && visibility === '3')) {
       counters.forEach(counter => {
         counter.textContent = '';
         counter.style.display = 'none';
       });
+      if (back) back.classList.remove('has-multiple-images');
       return;
+    }
+    
+    if (back) {
+      if (images.length > 1) back.classList.add('has-multiple-images');
+      else back.classList.remove('has-multiple-images');
     }
 
     const visibleIndex = Array.from(images).findIndex(img => {
