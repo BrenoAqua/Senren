@@ -156,7 +156,7 @@
   --collect-glossary-images:          false;   /* Enable glossary images to be collected into the picture box */
 
   /* Picture Counter */
-  --picture-counter-visibility:       1;       /* "1" Always if >1, "2" Hover Only, "0" Hidden */
+  --picture-counter-visibility:       3;       /* "1" Always, "2" Hover Only, "3" More than 1, "0" Hidden */
   --picture-counter-bg-opacity:       0;       /* Background opacity of the counter */
   --picture-counter-size:             0.5rem;  /* Font size of the counter */
   --picture-counter-shadow-intensity: 0.8;     /* Opacity/Intensity of the shadow */
