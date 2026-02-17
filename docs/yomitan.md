@@ -20,7 +20,7 @@ In Yomitan Settings -> Anki -> Configure Anki Flashcards:
 |  definition           | `{single-glossary-jitendexorg-2026-01-04}`                                  | Set your primary dictionary here, or leave it empty. The primary dictionary can be set in the `dictionaryPreference` field. |
 |  wordAudio            | `{audio}`                                                                   |              |
 |  sentenceAudio        |                                                                             | Leave empty. |
-|  picture              | `{clipboard-image}`                                                         |              |
+|  picture              |                                                                             | Leave empty. |
 |  glossary             | `{glossary}`                                                                | There are two ways to use this field. The first is by setting it to `{glossary}`, this will extract definitions from all your dictionaries. <br> The second is by setting it to specific dictionaries (e.g. `{single-glossary-新選国語辞典-第十版}{single-glossary-デジタル大辞泉}{single-glossary-漢検漢字辞典-第二版}`), which will include only the selected ones. <br><br> This requires "Group term-reading pairs" or "Group related terms" to be enabled in Result Display [(see below)](#result-display-setting). |
 |  pitchAccents         | `{pitch-accents}`                                                           | Requires pitch accent dictionaries. |
 |  pitchPositions       | `{pitch-accent-positions}`                                                  | Requires pitch accent dictionaries. |
