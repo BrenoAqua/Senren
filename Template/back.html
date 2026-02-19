@@ -312,6 +312,9 @@
 
     if (addedCount > 0) {
       pictureContainer.appendChild(fragment);
+
+      updatePictureCounter();
+
       if (window.senrenRefreshImageNavigation) {
         window.senrenRefreshImageNavigation();
       }
