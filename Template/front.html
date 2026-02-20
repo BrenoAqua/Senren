@@ -696,7 +696,18 @@
   }
 
   (function () {
-    window.senrenUpdateConfig = function () {
+    // Auto Show Answer Logic
+    window.senrenAutoShowAnswer = function() {
+      if (window.autoShowAnswerTimer) clearTimeout(window.autoShowAnswerTimer);
+      if (senrenConfig.autoShowAnswer === 'true' && typeof pycmd !== 'undefined') {
+        const delay = (senrenConfig.showAnswerDelay || 0) * 1000;
+        window.autoShowAnswerTimer = setTimeout(() => {
+          pycmd('ans');
+        }, delay);
+      }
+    };
+
+    window.senrenUpdateConfig = function (runLogic = false) {
       // Regex Cache
       window.REGEX = {
         KANA_MODIFIERS: /[\s\u3099\u309A\u309B\u309C]/g,
@@ -741,6 +752,24 @@
       senrenConfig.sceneReplayShortcutKey = getVar('--scene-replay-shortcut-key');
       senrenConfig.toggleSettingsKey = getVar('--toggle-settings-key');
       senrenConfig.toggleCustomDarkModeKey = getVar('--toggle-custom-dark-mode-key');
+
+      // Auto Advance
+      senrenConfig.autoShowAnswer = getVar('--auto-show-answer');
+      senrenConfig.showAnswerDelay = parseFloat(getVar('--show-answer-delay')) || 0;
+      senrenConfig.enableFadeIn = getVar('--enable-fade-in');
+
+      // Apply Fade-in class
+      if (ELS.front) {
+        if (senrenConfig.enableFadeIn === 'true') {
+          ELS.front.classList.add('fade-in');
+        } else {
+          ELS.front.classList.remove('fade-in');
+        }
+      }
+
+      if (!runLogic) return;
+
+      senrenAutoShowAnswer();
     };
 
     // Initial load
@@ -761,6 +790,7 @@
       initializeSentenceState();
       initializeHintState();
       enableFrontSceneSwitching();
+      senrenAutoShowAnswer();
     }
 
     // initializes deferred functions
