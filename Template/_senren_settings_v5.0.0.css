@@ -322,7 +322,8 @@
   grid-column: span 2;
 }
 
-.senren-panel[data-group="Typography"] .senren-grid-wrapper {
+.senren-panel[data-group="Typography"] .senren-grid-wrapper,
+.senren-panel[data-group="Advanced"] .senren-grid-wrapper {
   grid-template-columns: repeat(2, 1fr);
 }
 
