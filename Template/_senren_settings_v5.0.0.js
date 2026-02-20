@@ -354,11 +354,21 @@
       { label: "Freq List Box BG", var: "--frequency-bg", type: "color", theme: "dark" }
     ],
     "Advanced": [
+      { label: "Custom CSS", var: "user-custom-css", type: "textarea", },
+
+      { type: "header", label: "Auto Advance" },
+      { label: "Auto Show Answer", var: "--auto-show-answer", type: "switch-bool", desc: "Automatically show the answer after a delay." },
+      { label: "Show Answer Delay", var: "--show-answer-delay", type: "slider", min: "0", max: "15", step: "0.5", unit: "s", desc: "Delay before showing the answer." },
+      { label: "Auto Advance", var: "--auto-advance", type: "switch-bool", desc: "Automatically advance to the next card after a delay." },
+      { label: "Auto Advance Delay", var: "--auto-advance-delay", type: "slider", min: "0", max: "15", step: "0.5", unit: "s", desc: "Delay before advancing to the next card." },
       {
-        label: "Custom CSS",
-        var: "user-custom-css",
-        type: "textarea",
-      }
+        label: "Auto Advance Ease", var: "--auto-advance-ease", type: "segment", desc: "The ease button to automatically click.", options: [
+          { label: "Again", val: "1" },
+          { label: "Hard", val: "2" },
+          { label: "Good", val: "3" }
+        ]
+      },
+      { label: "Enable Fade-in", var: "--enable-fade-in", type: "switch-bool", desc: "Adds a smooth fade-in effect when flipping the card." }
     ]
   };
 
