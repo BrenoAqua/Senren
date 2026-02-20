@@ -209,6 +209,7 @@
      Note: You cannot enable the horizontal grid while the vertical grid is enabled.
   ================================================================================== */ 
 
+
   /* BACKDROP LAYOUT
   ============================================ */
   --enable-backdrop-layout:           0;       /* "1" to enable backdrop layout */
@@ -257,6 +258,17 @@
   --toggle-picture-lightbox-key:      q;       /* Set the key to toggle lightbox */
   --toggle-picture-lightbox-grid-key: shift+q; /* Set the key to toggle lightbox grid */
   --toggle-image-key:                 l;       /* Set the key to show or hide the image */
+
+
+  /* AUTO ADVANCE SETTINGS
+  ============================================ */
+  --auto-show-answer:                 false;   /* Automatically reveal the back */
+  --show-answer-delay:                3s;      /* Delay before revealing */
+  --auto-advance:                     false;   /* Automatically go to next card */
+  --auto-advance-delay:               5s;      /* Delay before advancing */
+  --auto-advance-ease:                3;       /* Button to click (1=Again, 2=Hard, 3=Good) */
+  --enable-fade-in:                   false;   /* Adds a smooth fade-in effect when flipping the card */
+
 
   /* COLOR PALETTE
   ============================================ */
@@ -413,6 +425,16 @@
   --z-index-toggle:                   2;
   --z-index-lightbox:                 1000;
 }
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+:is(.front, .back).fade-in {
+  animation: fadeIn 0.4s ease-out !important;
+}
+
 
 /* Card Layout */
 :root {
@@ -2336,7 +2358,6 @@ ul > li:has(> span[data-sc-code] + ol) > ol > li {
   padding-top: 0;
   padding-bottom: 0;
 }
-
 
 .yomitan-glossary [data-dictionary*="Jitendex.org"] div[data-sc-class="extra-box"] {
   width: auto !important;
