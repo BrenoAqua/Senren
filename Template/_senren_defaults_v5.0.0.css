@@ -192,6 +192,7 @@
      Note: You cannot enable the horizontal grid while the vertical grid is enabled.
   ================================================================================== */ 
 
+  
   /* BACKDROP LAYOUT
   ============================================ */
   --enable-backdrop-layout:           0;       /* "1" to enable backdrop layout */
@@ -241,6 +242,17 @@
   --toggle-picture-lightbox-grid-key: shift+q; /* Set the key to toggle lightbox grid */
   --toggle-image-key:                 l;       /* Set the key to show or hide the image */
 
+
+  /* AUTO ADVANCE SETTINGS
+  ============================================ */
+  --auto-show-answer:                 false;   /* Automatically reveal the back */
+  --show-answer-delay:                2s;      /* Delay before revealing */
+  --auto-advance:                     false;   /* Automatically go to next card */
+  --auto-advance-delay:               5s;      /* Delay before advancing */
+  --auto-advance-ease:                3;       /* Button to click (1=Again, 2=Hard, 3=Good) */
+  --enable-fade-in:                   false;   /* Adds a smooth fade-in effect when flipping the card */
+
+  
   /* COLOR PALETTE
   ============================================ */
   /* Light Theme
@@ -395,4 +407,13 @@
   --z-index-base:                     3;
   --z-index-toggle:                   2;
   --z-index-lightbox:                 1000;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.back.fade-in {
+  animation: fadeIn 0.4s ease-out;
 }
