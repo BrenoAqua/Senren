@@ -2128,6 +2128,18 @@
   }
 
   (function () {
+    // Auto Advance Logic
+    window.senrenAutoAdvance = function() {
+      if (window.autoAdvanceTimer) clearTimeout(window.autoAdvanceTimer);
+      if (senrenConfig.autoAdvance === 'true' && typeof pycmd !== 'undefined') {
+        const delay = (senrenConfig.autoAdvanceDelay || 0) * 1000;
+        const ease = senrenConfig.autoAdvanceEase || '3';
+        window.autoAdvanceTimer = setTimeout(() => {
+          pycmd(`ease${ease}`);
+        }, delay);
+      }
+    };
+
     window.senrenUpdateConfig = function (runLogic = false) {
       // Regex Cache
       window.REGEX = {
@@ -2216,7 +2228,24 @@
       // Picture Counter
       senrenConfig.pictureCounterVisibility = getVar('--picture-counter-visibility');
 
+      // Auto Advance
+      senrenConfig.autoAdvance = getVar('--auto-advance');
+      senrenConfig.autoAdvanceDelay = parseFloat(getVar('--auto-advance-delay')) || 0;
+      senrenConfig.autoAdvanceEase = getVar('--auto-advance-ease');
+      senrenConfig.enableFadeIn = getVar('--enable-fade-in');
+
+      // Apply Fade-in class
+      if (ELS.back) {
+        if (senrenConfig.enableFadeIn === 'true') {
+          ELS.back.classList.add('fade-in');
+        } else {
+          ELS.back.classList.remove('fade-in');
+        }
+      }
+
       if (!runLogic) return;
+
+      senrenAutoAdvance();
 
       if (typeof window.dynamicCardHeight === 'function') {
         window.dynamicCardHeight();
@@ -2268,6 +2297,8 @@
     function initDeferred() {
       delayedFunctions(() => {
         collectGlossaryImages(true);
+
+        senrenAutoAdvance();
 
         requestAnimationFrame(() => {
           requestAnimationFrame(() => {
