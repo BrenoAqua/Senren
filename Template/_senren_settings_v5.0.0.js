@@ -274,7 +274,10 @@
         { label: "Toggle Dark Mode", var: "--toggle-custom-dark-mode-key", type: "keybind", desc: "Key to toggle the custom dark mode." },
         { label: "Toggle Lightbox", var: "--toggle-picture-lightbox-key", type: "keybind", desc: "Key to open the image viewer." },
         { label: "Toggle Grid", var: "--toggle-picture-lightbox-grid-key", type: "keybind", desc: "Key to toggle the image grid view." },
-        { label: "Toggle Image", var: "--toggle-image-key", type: "keybind", desc: "key to show or hide the image." }
+        { label: "Toggle Image Visibility", var: "--toggle-image-key", type: "keybind", desc: "key to show or hide the image." },
+        { label: "Toggle Image Switch", var: "--toggle-image-switch-key", type: "keybind", isPair: true, desc: "Key to switch between images." },
+        { label: "Toggle Scene Switch", var: "--toggle-scene-switch-key", type: "keybind", isPair: true, desc: "Key to switch between scenes." },
+        { label: "Toggle Dictionary Switch", var: "--toggle-dictionary-switch-key", type: "keybind", isPair: true, desc: "Key to switch between dictionary entries." }
       ]
     },
     "Theme": [
@@ -1469,6 +1472,7 @@
 
           if (['Control', 'Alt', 'Shift', 'Meta'].includes(e.key)) return;
 
+          const isPair = input.getAttribute('data-pair') === 'true';
           const parts = [];
           if (e.ctrlKey) parts.push('Ctrl');
           if (e.altKey) parts.push('Alt');
@@ -1477,11 +1481,18 @@
 
           let key = e.key;
           if (key === ' ') key = 'Space';
-          if (key.length === 1) key = key.toUpperCase();
+          
+          if (isPair) {
+            if (key === 'ArrowLeft') key = 'Left/Right';
+            else if (key === 'ArrowRight') key = 'Left/Right';
+            else if (key.length === 1) key = key.toUpperCase();
+          } else {
+            if (key.length === 1) key = key.toUpperCase();
+          }
 
-          parts.push(key);
+          const combo = parts.length > 0 ? parts.join('+') + '+' + key : key;
 
-          input.value = parts.join('+');
+          input.value = combo;
           input.classList.remove('listening');
           input.blur();
 
@@ -1649,9 +1660,10 @@
       controlHtml = `<input type="text" class="senren-input senren-keybind" 
                 data-var="${item.var}" 
                 data-type="keybind" 
+                data-pair="${item.isPair || false}"
                 value="${currentVal}" 
                 readonly 
-                style="cursor: pointer; text-align: center; font-family: "Segoe UI"; font-weight: bold;" 
+                style="cursor: pointer; text-align: center; font-family: 'Segoe UI'; font-weight: bold;" 
                 placeholder="Click to Set">`;
 
     } else if (item.type === 'slider') {
