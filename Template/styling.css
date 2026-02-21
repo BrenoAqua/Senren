@@ -174,7 +174,7 @@
   --collect-glossary-images:          false;   /* Enable glossary images to be collected into the picture box */
 
   /* Picture Counter */
-  --picture-counter-visibility:       1;       /* "1" Always, "2" Hover Only, "3" More than 1, "0" Hidden */
+  --picture-counter-visibility:       3;       /* "1" Always, "2" Hover Only, "3" More than 1, "0" Hidden */
   --picture-counter-bg-opacity:       0;       /* Background opacity of the counter */
   --picture-counter-size:             0.5rem;  /* Font size of the counter */
   --picture-counter-shadow-intensity: 0.8;     /* Opacity/Intensity of the shadow */
@@ -253,18 +253,20 @@
 
   /* CUSTOM SHORTCUTS
   ============================================ */
-  --toggle-settings-key:              p;       /* Set the key to toggle settings */
-  --scene-replay-shortcut-key:        w;       /* Set the key to replay active scene */
-  --toggle-custom-dark-mode-key:      c;       /* Set the key to toggle custom dark mode */
-  --toggle-picture-lightbox-key:      q;       /* Set the key to toggle lightbox */
-  --toggle-picture-lightbox-grid-key: shift+q; /* Set the key to toggle lightbox grid */
-  --toggle-image-key:                 l;       /* Set the key to show or hide the image */
-
+  --toggle-settings-key:              p;                /* Set the key to toggle settings */
+  --scene-replay-shortcut-key:        w;                /* Set the key to replay active scene */
+  --toggle-custom-dark-mode-key:      c;                /* Set the key to toggle custom dark mode */
+  --toggle-picture-lightbox-key:      q;                /* Set the key to toggle lightbox */
+  --toggle-picture-lightbox-grid-key: shift+q;          /* Set the key to toggle lightbox grid */
+  --toggle-image-key:                 l;                /* Set the key to show or hide the image */
+  --toggle-image-switch-key:          Shift+Left/Right; /* Set the key to switch images */
+  --toggle-scene-switch-key:          Ctrl+Left/Right;  /* Set the key to switch scenes */
+  --toggle-dictionary-switch-key:     Left/Right;       /* Set the key to switch dictionaries */
 
   /* AUTO ADVANCE SETTINGS
   ============================================ */
   --auto-show-answer:                 false;   /* Automatically reveal the back */
-  --show-answer-delay:                3s;      /* Delay before revealing */
+  --show-answer-delay:                2s;      /* Delay before revealing */
   --auto-advance:                     false;   /* Automatically go to next card */
   --auto-advance-delay:               5s;      /* Delay before advancing */
   --auto-advance-ease:                3;       /* Button to click (1=Again, 2=Hard, 3=Good) */
