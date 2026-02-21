@@ -139,6 +139,7 @@
       { label: "Border Width", var: "--dict-border-width", type: "text" },
 
       { type: "header", label: "Jitendex" },
+      { label: "Enable POS Header", var: "--pos-header", type: "switch-int", desc: "Extracts Jitendex POS tags into a centered sticky header." },
       { label: "Hide Example Sentences", var: "--jitendex-hide-examples", type: "switch-int" },
       { label: "Hide Explanations", var: "--jitendex-hide-info-gloss", type: "switch-int" },
       { label: "Hide Cross References", var: "--jitendex-hide-xref", type: "switch-int" },
@@ -1254,6 +1255,7 @@
     if (typeof window.dynamicCardHeight === 'function') window.dynamicCardHeight();
     if (typeof window.enableInteractions === 'function') window.enableInteractions();
     if (typeof window.senrenRefreshScenes === 'function') window.senrenRefreshScenes();
+    if (typeof window.initPOSHeader === 'function') window.initPOSHeader();
 
     updateBackdropState();
   }
