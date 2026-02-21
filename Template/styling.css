@@ -135,6 +135,7 @@
   --dictionary-max-height:            390px;   /* Max height before collapse */
 
   /* Jitendex Settings */
+  --pos-header:                       0;       /* "1" to extract Jitendex POS tags into a centered sticky header. */
   --jitendex-hide-examples:           0;       /* Hide Example Sentences */
   --jitendex-hide-info-gloss:         0;       /* Hide Explanations */
   --jitendex-hide-xref:               0;       /* Hide Cross References */
@@ -1568,6 +1569,38 @@ img {
 :is(.card.nightMode, .custom-dark-mode) 
 :is(.glossary-box, .definition-box) {
   background: var(--definition-bg);
+}
+
+/* POS header */
+.pos-info-header {
+  position: absolute;
+  top: 10px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 5px;
+  pointer-events: none;
+}
+
+.pos-info-header [data-sc-content="part-of-speech-info"] {
+  display: inline-block;
+  font-size: 0.5rem;
+  padding: 2px 4px;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  font-weight: bold;
+}
+
+:is(.card.nightMode, .custom-dark-mode) .pos-info-header [data-sc-content="part-of-speech-info"] {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.definition-box:has([data-dictionary*="Jitendex"][style*="display: block"]) .pos-info-header,
+.glossary-box:has([data-dictionary*="Jitendex"][style*="display: block"]) .pos-info-header {
+  display: none !important;
 }
 
 /* Toggle Areas */
