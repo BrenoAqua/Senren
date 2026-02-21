@@ -1,4 +1,4 @@
-/* _senren_deferred_v5.0.0.js */
+/* _senren_deferred_v5.1.0.js */
 (function () {
   // Adds hover effects to Jitendex dictionary content 
   function jitendexHover() {
@@ -681,3 +681,4 @@
   window.senrenInitDeferred = senrenInitDeferred;
   senrenInitDeferred();
 })();
+
