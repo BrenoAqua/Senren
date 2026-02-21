@@ -178,6 +178,10 @@
       updatePictureCounter();
     }
 
+    window.senrenToggleImage = (direction, e) => {
+      switchImage(direction, e);
+    };
+
     function refreshImageNavigation() {
       const arrows = document.querySelectorAll('.nav-arrow');
       const images = document.querySelectorAll('.picture-container img');
@@ -618,6 +622,23 @@
 
     window.senrenBackKeyHandler = (e) => {
       if (utils.isTyping()) return;
+
+      const pairShortcuts = [
+        { key: senrenConfig.toggleDictionarySwitchKey, action: (dir) => window.senrenToggleDictionary && window.senrenToggleDictionary(dir) },
+        { key: senrenConfig.toggleSceneSwitchKey, action: (dir) => window.senrenToggleScene && window.senrenToggleScene(dir) },
+        { key: senrenConfig.toggleImageSwitchKey, action: (dir) => window.senrenToggleImage && window.senrenToggleImage(dir === 'left' ? -1 : 1, e) }
+      ];
+
+      for (const item of pairShortcuts) {
+        if (!item.key) continue;
+        const matchData = isKeyMatchPair(e, item.key);
+        if (matchData.match) {
+          e.preventDefault();
+          e.stopPropagation();
+          item.action(matchData.direction);
+          return;
+        }
+      }
 
       const shortcuts = [
         { key: senrenConfig.toggleSettingsKey, action: actions.settings },
