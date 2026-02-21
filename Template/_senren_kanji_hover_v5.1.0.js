@@ -1,4 +1,4 @@
-/* _senren_kanji_hover_v5.0.0.js */
+/* _senren_kanji_hover_v5.1.0.js */
 (function () {
   if (window.senrenConfig && window.senrenConfig.enableKanjiHover === 'false') {
     return;
@@ -481,4 +481,5 @@
   };
 
   window.senrenInitKanjiHover();
+
 })();
