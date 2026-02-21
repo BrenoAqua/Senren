@@ -230,6 +230,36 @@
     );
   }
 
+  window.isKeyMatchPair = function (event, configStr) {
+    if (!configStr) return { match: false };
+    const parts = configStr.toLowerCase().split(/[\s+]+/).filter(p => p);
+    if (parts.length === 0) return { match: false };
+
+    const keyConfig = parts.pop();
+    const ctrl = parts.includes('ctrl') || parts.includes('control');
+    const alt = parts.includes('alt');
+    const shift = parts.includes('shift');
+    const meta = parts.includes('meta') || parts.includes('cmd');
+
+    if (event.ctrlKey !== ctrl || event.altKey !== alt || event.shiftKey !== shift || event.metaKey !== meta) {
+      return { match: false };
+    }
+
+    const eventKey = event.key.toLowerCase();
+    if (keyConfig.includes('/')) {
+      const pair = keyConfig.split('/');
+      const leftKey = pair[0] === 'left' ? 'arrowleft' : pair[0];
+      const rightKey = pair[1] === 'right' ? 'arrowright' : pair[1];
+
+      if (eventKey === leftKey) return { match: true, direction: 'left' };
+      if (eventKey === rightKey) return { match: true, direction: 'right' };
+    }
+
+    if (eventKey === (keyConfig === 'right' ? 'arrowright' : keyConfig)) return { match: true, direction: 'right' };
+    if (eventKey === (keyConfig === 'left' ? 'arrowleft' : keyConfig)) return { match: true, direction: 'left' };
+    return { match: false };
+  }
+
   // Custom dark mode
   function darkMode() {
     const button = document.querySelector(".toggle-custom-dark-mode");
@@ -644,28 +674,7 @@
       };
     });
 
-    if (window.senrenDefinitionKeyHandler) {
-      document.removeEventListener('keydown', window.senrenDefinitionKeyHandler);
-    }
-
-    window.senrenDefinitionKeyHandler = (e) => {
-      if (totalVisibleItemsCount <= 1) return;
-      if (e.ctrlKey) return;
-      if (typeof lightbox !== 'undefined' && lightbox.classList.contains('active')) return;
-      if (document.activeElement && (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA')) {
-        return;
-      }
-      if (e.key === 'ArrowLeft') {
-        e.preventDefault();
-        handleToggle('left');
-      }
-      if (e.key === 'ArrowRight') {
-        e.preventDefault();
-        handleToggle('right');
-      }
-    };
-
-    document.addEventListener('keydown', window.senrenDefinitionKeyHandler);
+    window.senrenToggleDictionary = handleToggle;
   }
 
   // Enables interaction effects
@@ -1781,6 +1790,21 @@
 
     let replayTimeout;
 
+    window.senrenToggleScene = (direction) => {
+      if (typeof initialPlayTimeout !== 'undefined') clearTimeout(initialPlayTimeout);
+
+      if (direction === 'left') {
+        currentIndex--;
+        if (currentIndex < 0) currentIndex = totalSlides - 1;
+      } else {
+        currentIndex++;
+        if (currentIndex >= totalSlides) currentIndex = 0;
+      }
+      updateDisplay(true);
+      updatePictureCounter();
+      updateSceneIndicator();
+    };
+
     const handleSceneShortcuts = (e) => {
       if (document.activeElement && ['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
 
@@ -1814,29 +1838,6 @@
           updateDisplay(true);
         }, delay);
       }
-
-      if (e.ctrlKey) {
-        if (e.key === 'ArrowLeft') {
-          e.preventDefault();
-          e.stopPropagation();
-          if (typeof initialPlayTimeout !== 'undefined') clearTimeout(initialPlayTimeout);
-
-          currentIndex--;
-          if (currentIndex < 0) currentIndex = totalSlides - 1;
-          updateDisplay(true);
-        }
-        else if (e.key === 'ArrowRight') {
-          e.preventDefault();
-          e.stopPropagation();
-          if (typeof initialPlayTimeout !== 'undefined') clearTimeout(initialPlayTimeout);
-
-          currentIndex++;
-          if (currentIndex >= totalSlides) currentIndex = 0;
-          updateDisplay(true);
-        }
-      }
-      updatePictureCounter();
-      updateSceneIndicator();
     };
 
     window.currentSceneKeyHandler = handleSceneShortcuts;
@@ -2127,7 +2128,6 @@
     });
   }
 
-  // Extracts Jitendex's POS tags as a sticky header at the top of definition entries
   function initPOSHeader() {
     const enabled = senrenConfig.posHeader === '1';
     
@@ -2262,6 +2262,9 @@
       senrenConfig.togglePictureLightboxKey = getVar('--toggle-picture-lightbox-key');
       senrenConfig.toggleCustomDarkModeKey = getVar('--toggle-custom-dark-mode-key');
       senrenConfig.toggleImageKey = getVar('--toggle-image-key');
+      senrenConfig.toggleImageSwitchKey = getVar('--toggle-image-switch-key');
+      senrenConfig.toggleSceneSwitchKey = getVar('--toggle-scene-switch-key');
+      senrenConfig.toggleDictionarySwitchKey = getVar('--toggle-dictionary-switch-key');
 
       // Pitch
       senrenConfig.pitchStyle = getVar('--pitch-style');
