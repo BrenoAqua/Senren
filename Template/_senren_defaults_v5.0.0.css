@@ -118,6 +118,7 @@
   --dictionary-max-height:            390px;   /* Max height before collapse */
 
   /* Jitendex Settings */
+  --pos-header:                       0;       /* "1" to extract Jitendex POS tags into a centered sticky header. */
   --jitendex-hide-examples:           0;       /* Hide Example Sentences */
   --jitendex-hide-info-gloss:         0;       /* Hide Explanations */
   --jitendex-hide-xref:               0;       /* Hide Cross References */
