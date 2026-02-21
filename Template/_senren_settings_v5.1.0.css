@@ -1,4 +1,4 @@
-/* _senren_settings_v5.0.0.css */
+/* _senren_settings_v5.1.0.css */
 #senren-settings-modal * {
   box-sizing: border-box;
 }
@@ -1777,3 +1777,4 @@ body.senren-docked-mode .back {
     display: none !important;
   }
 }
+
