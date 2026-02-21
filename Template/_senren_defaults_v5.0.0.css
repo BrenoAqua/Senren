@@ -236,13 +236,15 @@
 
   /* CUSTOM SHORTCUTS
   ============================================ */
-  --toggle-settings-key:              p;       /* Set the key to toggle settings */
-  --scene-replay-shortcut-key:        w;       /* Set the key to replay active scene */
-  --toggle-custom-dark-mode-key:      c;       /* Set the key to toggle custom dark mode */
-  --toggle-picture-lightbox-key:      q;       /* Set the key to toggle lightbox */
-  --toggle-picture-lightbox-grid-key: shift+q; /* Set the key to toggle lightbox grid */
-  --toggle-image-key:                 l;       /* Set the key to show or hide the image */
-
+  --toggle-settings-key:              p;                /* Set the key to toggle settings */
+  --scene-replay-shortcut-key:        w;                /* Set the key to replay active scene */
+  --toggle-custom-dark-mode-key:      c;                /* Set the key to toggle custom dark mode */
+  --toggle-picture-lightbox-key:      q;                /* Set the key to toggle lightbox */
+  --toggle-picture-lightbox-grid-key: shift+q;          /* Set the key to toggle lightbox grid */
+  --toggle-image-key:                 l;                /* Set the key to show or hide the image */
+  --toggle-image-switch-key:          Shift+Left/Right; /* Set the key to switch images */
+  --toggle-scene-switch-key:          Ctrl+Left/Right;  /* Set the key to switch scenes */
+  --toggle-dictionary-switch-key:     Left/Right;       /* Set the key to switch dictionaries */
 
   /* AUTO ADVANCE SETTINGS
   ============================================ */
