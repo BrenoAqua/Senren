@@ -2127,6 +2127,48 @@
     });
   }
 
+  // Extracts Jitendex's POS tags as a sticky header at the top of definition entries
+  function initPOSHeader() {
+    const enabled = senrenConfig.posHeader === '1';
+    
+    if (!enabled) {
+      const existing = document.querySelectorAll('.pos-info-header');
+      if (existing.length > 0) existing.forEach(h => h.remove());
+      return;
+    }
+
+    const boxes = document.querySelectorAll('.glossary-box, .definition-box');
+    boxes.forEach(box => {
+      const posInfoSpans = box.querySelectorAll('span [data-sc-content="part-of-speech-info"]');
+      let header = box.querySelector('.pos-info-header');
+
+      if (posInfoSpans.length === 0) {
+        if (header) header.remove();
+        return;
+      }
+
+      if (!header) {
+        header = document.createElement('div');
+        header.className = 'pos-info-header';
+        box.prepend(header);
+      } else {
+        header.replaceChildren();
+      }
+
+      const uniqueTags = new Map();
+      posInfoSpans.forEach(span => {
+        const text = span.textContent.trim();
+        if (text && !uniqueTags.has(text)) {
+          uniqueTags.set(text, span.cloneNode(true));
+        }
+      });
+
+      uniqueTags.forEach(clone => {
+        header.appendChild(clone);
+      });
+    });
+  }
+
   (function () {
     // Auto Advance Logic
     window.senrenAutoAdvance = function() {
@@ -2211,6 +2253,7 @@
       // Dictionary
       senrenConfig.dictionaryCollapse = getVar('--dictionary-collapse');
       senrenConfig.dictionaryMaxHeight = getVar('--dictionary-max-height');
+      senrenConfig.posHeader = getVar('--pos-header');
 
       // Keys
       senrenConfig.sceneReplayShortcutKey = getVar('--scene-replay-shortcut-key');
@@ -2297,7 +2340,7 @@
     function initDeferred() {
       delayedFunctions(() => {
         collectGlossaryImages(true);
-
+        initPOSHeader()
         senrenAutoAdvance();
 
         requestAnimationFrame(() => {
