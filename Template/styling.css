@@ -1584,7 +1584,6 @@ img {
   flex-wrap: wrap;
   gap: 5px !important;
   pointer-events: none;
-
 }
 
 #selectionText .pos-info-header [data-sc-class="tag"] {
