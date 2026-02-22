@@ -2130,42 +2130,32 @@
 
   function initPOSHeader() {
     const enabled = senrenConfig.posHeader === '1';
-    
+
+    const existing = document.querySelectorAll('.pos-info-header');
     if (!enabled) {
-      const existing = document.querySelectorAll('.pos-info-header');
-      if (existing.length > 0) existing.forEach(h => h.remove());
+      existing.forEach(h => h.remove());
       return;
     }
 
-    const boxes = document.querySelectorAll('.glossary-box, .definition-box');
-    boxes.forEach(box => {
-      const posInfoSpans = box.querySelectorAll('span [data-sc-content="part-of-speech-info"]');
-      let header = box.querySelector('.pos-info-header');
+    const allPosSpans = document.querySelectorAll('[data-sc-content="part-of-speech-info"]');
 
-      if (posInfoSpans.length === 0) {
-        if (header) header.remove();
-        return;
+    existing.forEach(h => h.remove());
+
+    if (allPosSpans.length === 0) return;
+
+    const uniqueTags = new Map();
+    allPosSpans.forEach(span => {
+      const text = span.textContent.trim();
+      if (text && !uniqueTags.has(text)) {
+        uniqueTags.set(text, span.cloneNode(true));
       }
+    });
 
-      if (!header) {
-        header = document.createElement('div');
-        header.className = 'pos-info-header';
-        box.prepend(header);
-      } else {
-        header.replaceChildren();
-      }
-
-      const uniqueTags = new Map();
-      posInfoSpans.forEach(span => {
-        const text = span.textContent.trim();
-        if (text && !uniqueTags.has(text)) {
-          uniqueTags.set(text, span.cloneNode(true));
-        }
-      });
-
-      uniqueTags.forEach(clone => {
-        header.appendChild(clone);
-      });
+    document.querySelectorAll('.glossary-box, .definition-box').forEach(box => {
+      const header = document.createElement('div');
+      header.className = 'pos-info-header';
+      uniqueTags.forEach(clone => header.appendChild(clone.cloneNode(true)));
+      box.prepend(header);
     });
   }
 
