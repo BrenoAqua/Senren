@@ -1574,7 +1574,7 @@ img {
 }
 
 /* POS header */
-.pos-info-header {
+.pos-info-header  {
   position: absolute;
   top: 10px;
   left: 0;
@@ -1582,14 +1582,19 @@ img {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 5px;
+  gap: 5px !important;
   pointer-events: none;
+
+}
+
+#selectionText .pos-info-header [data-sc-class="tag"] {
+  margin-right: 0 !important;
 }
 
 .pos-info-header [data-sc-content="part-of-speech-info"] {
   display: inline-block;
-  font-size: 0.5rem;
-  padding: 2px 4px;
+  font-size: 0.5rem !important;
+  padding: 2px 4px !important;;
   border-radius: 4px;
   background: rgba(0, 0, 0, 0.6);
   color: white;
@@ -1600,8 +1605,8 @@ img {
   background: rgba(255, 255, 255, 0.15);
 }
 
-.definition-box:has([data-dictionary*="Jitendex"][style*="display: block"]) .pos-info-header,
-.glossary-box:has([data-dictionary*="Jitendex"][style*="display: block"]) .pos-info-header {
+.glossary-box:has([data-dictionary*="Jitendex"][style*="display: block"]) .pos-info-header,
+.definition-box:has([data-dictionary*="Jitendex"]) .pos-info-header {
   display: none !important;
 }
 
