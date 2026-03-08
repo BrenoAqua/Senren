@@ -5915,14 +5915,14 @@ li.is-new-card:not(:hover) .related-word {
   --donna-toki-dou-tsukau-color-rgb-light:  92, 132, 192;
   --donna-toki-dou-tsukau-color-dark:       #7EA8E8;
   --donna-toki-dou-tsukau-color-dark-rgb:   126, 168, 232;
-  --e-de-wakaru-nihongo-color-light:        #A93D58;
-  --e-de-wakaru-nihongo-color-rgb-light:    169, 61, 88;
-  --e-de-wakaru-nihongo-color-dark:         #CF4C6E;
-  --e-de-wakaru-nihongo-color-dark-rgb:     207, 76, 110;
   --e-de-wakaru-kanyouku-color-light:        #3DA98E;
   --e-de-wakaru-kanyouku-color-rgb-light:    61, 169, 142;
   --e-de-wakaru-kanyouku-color-dark:         #4CCFAD;
   --e-de-wakaru-kanyouku-color-dark-rgb:     76, 207, 173;
+  --e-de-wakaru-nihongo-color-light:        #A93D58;
+  --e-de-wakaru-nihongo-color-rgb-light:    169, 61, 88;
+  --e-de-wakaru-nihongo-color-dark:         #CF4C6E;
+  --e-de-wakaru-nihongo-color-dark-rgb:     207, 76, 110;
   --jlpt-bunpou-kaisetsu-color-light:       #D32F2F;
   --jlpt-bunpou-kaisetsu-color-rgb-light:   211, 47, 47;
   --jlpt-bunpou-kaisetsu-color-dark:        #F44236;
