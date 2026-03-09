@@ -396,6 +396,10 @@ Go to **Yomitan Settings** -> **Appearance** -> **Result Display** and select ei
       --dict-bg-opacity: 0.05;
     }
 
+    .definition-item[data-dictionary^="絵でわかる慣用句"] {
+    --dict-color: #4CCFAD;
+    }
+
     .definition-item[data-dictionary="絵でわかる日本語"] {
       --dict-color: rgb(207, 76, 110);
       --dict-bg-opacity: 0.05;
