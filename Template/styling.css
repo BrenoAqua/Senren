@@ -2698,6 +2698,15 @@ span[data-sc-content="example-keyword"], span[style*="color-mix(in srgb, lime"] 
   font-size: var(--dict-size);
 }
 
+/* 絵でわかる慣用句 */
+[data-dictionary^="絵でわかる慣用句"] .dictionary-title {
+  font-size: 0;
+}
+[data-dictionary^="絵でわかる慣用句"] .dictionary-title::after {
+  content: "絵でわかる慣用句";
+  font-size: var(--dict-size);
+}
+
 /* Other Dictionaries */
 #glossary.yomitan-glossary .example a {
   color: var(--light-highlight);
@@ -4413,6 +4422,8 @@ li.is-new-card:not(:hover) .related-word {
   --shingo-jiji-yougo-color-rgb: var(--shingo-jiji-yougo-color-rgb-light);
   --donna-toki-dou-tsukau-color: var(--donna-toki-dou-tsukau-color-light);
   --donna-toki-dou-tsukau-color-rgb: var(--donna-toki-dou-tsukau-color-rgb-light);
+  --e-de-wakaru-kanyouku-color: var(--e-de-wakaru-kanyouku-color-light);
+  --e-de-wakaru-kanyouku-color-rgb: var(--e-de-wakaru-kanyouku-color-rgb-light);
   --e-de-wakaru-nihongo-color: var(--e-de-wakaru-nihongo-color-light);
   --e-de-wakaru-nihongo-color-rgb: var(--e-de-wakaru-nihongo-color-rgb-light);
   --jlpt-bunpou-kaisetsu-color: var(--jlpt-bunpou-kaisetsu-color-light);
@@ -4500,6 +4511,8 @@ li.is-new-card:not(:hover) .related-word {
   --shingo-jiji-yougo-color-rgb: var(--shingo-jiji-yougo-color-dark-rgb);
   --donna-toki-dou-tsukau-color: var(--donna-toki-dou-tsukau-color-dark);
   --donna-toki-dou-tsukau-color-rgb: var(--donna-toki-dou-tsukau-color-dark-rgb);
+  --e-de-wakaru-kanyouku-color: var(--e-de-wakaru-kanyouku-color-dark);
+  --e-de-wakaru-kanyouku-color-rgb: var(--e-de-wakaru-kanyouku-color-dark-rgb);
   --e-de-wakaru-nihongo-color: var(--e-de-wakaru-nihongo-color-dark);
   --e-de-wakaru-nihongo-color-rgb: var(--e-de-wakaru-nihongo-color-dark-rgb);
   --jlpt-bunpou-kaisetsu-color: var(--jlpt-bunpou-kaisetsu-color-dark);
@@ -4661,6 +4674,11 @@ li.is-new-card:not(:hover) .related-word {
 :is(.definition-box, .glossary-box) li[data-dictionary^="日本語文法辞典"] {
   --dict-color: var(--nihongo-bunpou-jiten-color);
   --dict-color-rgb: var(--nihongo-bunpou-jiten-color-rgb);
+}
+
+:is(.definition-box, .glossary-box) li[data-dictionary^="絵でわかる慣用句"] {
+  --dict-color: var(--e-de-wakaru-kanyouku-color);
+  --dict-color-rgb: var(--e-de-wakaru-kanyouku-color-rgb);
 }
 
 :is(.definition-box, .glossary-box) li[data-dictionary="絵でわかる日本語"] {
@@ -5897,6 +5915,10 @@ li.is-new-card:not(:hover) .related-word {
   --donna-toki-dou-tsukau-color-rgb-light:  92, 132, 192;
   --donna-toki-dou-tsukau-color-dark:       #7EA8E8;
   --donna-toki-dou-tsukau-color-dark-rgb:   126, 168, 232;
+  --e-de-wakaru-kanyouku-color-light:        #3DA98E;
+  --e-de-wakaru-kanyouku-color-rgb-light:    61, 169, 142;
+  --e-de-wakaru-kanyouku-color-dark:         #4CCFAD;
+  --e-de-wakaru-kanyouku-color-dark-rgb:     76, 207, 173;
   --e-de-wakaru-nihongo-color-light:        #A93D58;
   --e-de-wakaru-nihongo-color-rgb-light:    169, 61, 88;
   --e-de-wakaru-nihongo-color-dark:         #CF4C6E;
