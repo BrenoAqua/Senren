@@ -1512,7 +1512,7 @@ img {
   max-height: 0;
   overflow: hidden;
   font-size: var(--definition-size);
-  display: flex;
+  display: block;
   justify-content: center;
   direction: ltr;
   unicode-bidi: normal;
