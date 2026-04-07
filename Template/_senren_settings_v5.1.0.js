@@ -46,19 +46,22 @@
       { label: "Base Size", var: "--base-size", type: "text", desc: "Controls the font size of all text." },
       { label: "Definition / Glossary Line Height", var: "--base-line-height", type: "text", desc: "Line spacing within definition and glossary entries." },
       { label: "Bold Highlights", var: "--bold-highlight", type: "switch-int", desc: "Make highlighted text bold." },
+      { label: "Custom Font", var: "--custom-font", type: "text", desc: "Custom font family name." },
       {
         label: "Serif", var: "--serif", type: "segment", desc: "Target word font family.", options: [
           { label: "Klee", val: '"Klee One", klee, "Hiragino Mincho ProN", "Noto Serif CJK JP", notoserifjp, "Yu Mincho", serif' },
           { label: "Hiragino", val: '"Hiragino Mincho ProN", "Klee One", klee, "Noto Serif CJK JP", notoserifjp, "Yu Mincho", serif' },
           { label: "Noto", val: '"Noto Serif CJK JP", notoserifjp, "Klee One", klee, "Hiragino Mincho ProN", "Yu Mincho", serif' },
-          { label: "Yu", val: '"Yu Mincho", "Klee One", klee, "Hiragino Mincho ProN", "Noto Serif CJK JP", notoserifjp, serif' }
+          { label: "Yu", val: '"Yu Mincho", "Klee One", klee, "Hiragino Mincho ProN", "Noto Serif CJK JP", notoserifjp, serif' },
+          { label: "Custom", val: "var(--custom-font)" }
         ]
       },
       {
         label: "Sans", var: "--sans", type: "segment", desc: "General font family.", options: [
           { label: "Hiragino", val: '"Hiragino Kaku Gothic ProN", "Noto Sans CJK JP", notosansjp, "Segoe UI", sans-serif' },
           { label: "Noto", val: '"Noto Sans CJK JP", notosansjp, "Hiragino Kaku Gothic ProN", "Segoe UI", sans-serif' },
-          { label: "Segoe", val: '"Segoe UI", "Hiragino Kaku Gothic ProN", "Noto Sans CJK JP", notosansjp, sans-serif' }
+          { label: "Segoe", val: '"Segoe UI", "Hiragino Kaku Gothic ProN", "Noto Sans CJK JP", notosansjp, sans-serif' },
+          { label: "Custom", val: "var(--custom-font)" }
         ]
       },
       { label: "Wrapped Sentence Alignment", var: "--sentence-alignment", type: "segment", options: [{ val: "left", label: "Left" }, { val: "center", label: "Center" }, { val: "right", label: "Right" }], desc: "Alignment for multi-line sentences." },
@@ -164,7 +167,7 @@
         { label: "Enable Kanji Hover", var: "--enable-kanji-hover", type: "switch-bool", desc: "Enable Kanji Hover." },
         { label: "Show Example Sentences", var: "--kanji-hover-sentence-visibility", type: "switch-int", desc: "Display context sentences within the hover tooltip." },
         { label: "Auto-Quote Example Sentences", var: "--kanji-hover-auto-quote", type: "switch-bool", desc: "Wrap the example sentences in quotation marks." },
-        { label: "Word Font", var: "--kanji-hover-word-font", type: "segment", options: [{ val: "var(--serif)", label: "Serif" }, { val: "var(--sans)", label: "Sans" }], desc: "Select the font style for the word." },
+        { label: "Word Font", var: "--kanji-hover-word-font", type: "segment", options: [{ val: "var(--serif)", label: "Serif" }, { val: "var(--sans)", label: "Sans" }, { val: "var(--custom-font)", label: "Custom" }], desc: "Select the font style for the word." },
         { label: "Word Size", var: "--kanji-hover-word-size", type: "slider", min: "1", max: "2", step: "0.1", unit: "rem", desc: "Adjust the scale of the word." },
         { label: "Reading Size", var: "--kanji-hover-word-reading-size", type: "slider", min: "0.65", max: "1.25", step: "0.1", unit: "rem", desc: "Adjust the scale of the reading." },
 

@@ -55,10 +55,11 @@
   /* Global Settings */
   --base-size:                        clamp(19px, 3vw, 24px);
   --base-line-height:                 1.5;
-  --bold-highlight:                   0;       /* "1" to bold highlights */
-  --bold-misc-info:                   0;       /* "1" to bold misc info text */
+  --bold-highlight:                   0; /* "1" to bold highlights */
+  --bold-misc-info:                   0; /* "1" to bold misc info text */
   
   /* Font Families */
+  --custom-font:                      ;  /* Type your custom font name here */
   --serif:                            "Klee One", klee, "Hiragino Mincho ProN", "Noto Serif CJK JP", notoserifjp, "Yu Mincho", serif;
   --sans:                             "Hiragino Kaku Gothic ProN", "Noto Sans CJK JP", notosansjp, "Segoe UI", sans-serif;
 
@@ -420,4 +421,3 @@
 .back.fade-in {
   animation: fadeIn 0.4s ease-out;
 }
-

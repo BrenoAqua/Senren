@@ -681,4 +681,3 @@
   window.senrenInitDeferred = senrenInitDeferred;
   senrenInitDeferred();
 })();
-
