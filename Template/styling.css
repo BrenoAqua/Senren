@@ -1422,7 +1422,7 @@ img {
 }
 
 #sentence rb {
-  display: inline-block;
+  display: inline;
   white-space: nowrap;
   line-height: 1;
 }
