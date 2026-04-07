@@ -1382,10 +1382,6 @@ img {
 }
 
 /* Sentence */
-#formattedSentence {
-  user-select: none;
-}
-
 .sentence-container {
   margin: 0.85rem 0;
   margin-left: 5px;
