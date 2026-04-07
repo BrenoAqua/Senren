@@ -143,6 +143,7 @@
 
       { type: "header", label: "Jitendex" },
       { label: "Enable POS Header", var: "--pos-header", type: "switch-int", desc: "Extracts Jitendex POS tags into a centered sticky header." },
+      { label: "Numbered Definitions", var: "--jitendex-hide-numbers", type: "switch-int" },
       { label: "Hide Example Sentences", var: "--jitendex-hide-examples", type: "switch-int" },
       { label: "Hide Explanations", var: "--jitendex-hide-info-gloss", type: "switch-int" },
       { label: "Hide Cross References", var: "--jitendex-hide-xref", type: "switch-int" },
