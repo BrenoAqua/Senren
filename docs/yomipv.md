@@ -99,7 +99,7 @@ Use Yomipv to create cards without leaving MPV or breaking immersion.
   - **`Alt+LEFT`** / **`Alt+RIGHT`**: Seek to the previous/next subtitle
 
 - **AniList Tracking (`Ctrl+A`)**: Integrates AniList with Yomipv, enabling automatic episode progress updates.
-  - See [docs/anilist_tracking.md](docs/anilist_tracking.md) for setup and full details.
+  - See [docs/anilist_tracking.md](docs/anilist_tracking.md) for setup and full details
 
 - **Auto-Updater (`U`)**: Keeps Yomipv updated to the latest version
   - Press **`U`** in MPV to trigger the update, or:
